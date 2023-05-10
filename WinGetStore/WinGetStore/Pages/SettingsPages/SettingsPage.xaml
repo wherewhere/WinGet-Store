@@ -5,6 +5,7 @@
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
         <ScrollViewer>
@@ -33,7 +34,7 @@
                     <controls:SettingsGroup>
                         <controls:Setting />
                     </controls:SettingsGroup>
-                    <Viewbox Height="100" Width="100">
+                    <Viewbox Width="100" Height="100">
                         <Image Source="ms-appx:///Assets/Logos/Exe.svg" />
                     </Viewbox>
                 </controls:StackPanel>

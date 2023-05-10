@@ -72,6 +72,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         IsTabStop="True"
+                        PlaceholderText="Searching Apps..."
                         QuerySubmitted="AutoSuggestBox_QuerySubmitted">
                         <AutoSuggestBox.QueryIcon>
                             <muxc:AnimatedIcon>

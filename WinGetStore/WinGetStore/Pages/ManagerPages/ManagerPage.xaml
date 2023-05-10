@@ -13,37 +13,29 @@
     mc:Ignorable="d">
     <Grid>
         <muxc:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
-            <muxc:ItemsRepeaterScrollHost>
-                <ScrollViewer x:Name="ScrollViewer" Padding="36,0">
-                    <Grid x:Name="RootGird">
-                        <Grid.ChildrenTransitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition />
-                            </TransitionCollection>
-                        </Grid.ChildrenTransitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Margin="0,24"
-                            AutomationProperties.HeadingLevel="Level1"
-                            FontWeight="SemiBold"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="Installed App" />
-                        <muxc:ItemsRepeater Grid.Row="1" ItemsSource="{Binding MatchResults}">
-                            <muxc:ItemsRepeater.Layout>
-                                <muxc:StackLayout Spacing="2" />
-                            </muxc:ItemsRepeater.Layout>
-                            <muxc:ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="deployment:MatchResult">
-                                    <controls:PackageControl CatalogPackage="{x:Bind CatalogPackage}" />
-                                </DataTemplate>
-                            </muxc:ItemsRepeater.ItemTemplate>
-                        </muxc:ItemsRepeater>
-                    </Grid>
-                </ScrollViewer>
-            </muxc:ItemsRepeaterScrollHost>
+            <ListView
+                x:Name="ListView"
+                Padding="36,3"
+                ItemsSource="{Binding MatchResults}">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource TransparentCardItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,3" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="deployment:MatchResult">
+                        <controls:PackageControl CatalogPackage="{x:Bind CatalogPackage}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Header>
+                    <TextBlock
+                        Margin="0,21"
+                        AutomationProperties.HeadingLevel="Level1"
+                        FontWeight="SemiBold"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="Installed App" />
+                </ListView.Header>
+            </ListView>
         </muxc:RefreshContainer>
         <muxc:ProgressRing
             Width="60"
@@ -59,7 +51,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ScrollViewer.Padding" Value="24,0" />
+                        <Setter Target="ListView.Padding" Value="24,3" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -67,7 +59,7 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ScrollViewer.Padding" Value="36,0" />
+                        <Setter Target="ListView.Padding" Value="36,3" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
