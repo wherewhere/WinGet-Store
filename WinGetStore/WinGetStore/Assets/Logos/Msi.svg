@@ -1,0 +1,67 @@
+<svg width="auto" height="auto" viewBox="0 0 261 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="44" y="34" width="212" height="150" rx="5" fill="url(#paint0_linear_106_103)" />
+    <rect x="44" y="34" width="212" height="150" rx="5" fill="#00A5EF" fill-opacity="0.4" />
+    <rect x="44" y="34" width="212" height="150" rx="5" stroke="url(#paint1_linear_106_103)"
+        stroke-width="4" />
+    <rect x="44" y="34" width="212" height="150" rx="5" stroke="url(#paint2_linear_106_103)"
+        stroke-opacity="0.04" stroke-width="4" />
+    <rect x="44" y="34" width="212" height="150" rx="5" stroke="black" stroke-opacity="0.51"
+        stroke-width="4" />
+    <path d="M101 216H206V223C206 224.105 205.105 225 204 225H101V216Z" fill="#A0AAB2" />
+    <path
+        d="M101 210C101 209.448 101.448 209 102 209H196.662C196.881 209 197.094 209.072 197.268 209.205L205.143 215.205C205.905 215.785 205.495 217 204.537 217H102C101.448 217 101 216.552 101 216V210Z"
+        fill="#BAC1CC" />
+    <rect x="128" y="186" width="38" height="27" fill="url(#paint3_linear_106_103)" />
+    <circle cx="79.5" cy="160.5" r="40" stroke="white" stroke-opacity="0.28" stroke-width="63" />
+    <g filter="url(#filter0_dd_106_103)">
+        <circle cx="79.5" cy="160.5" r="39.5" stroke="white" stroke-opacity="0.08" stroke-width="62"
+            shape-rendering="crispEdges" />
+    </g>
+    <circle cx="79.5" cy="160.5" r="46" stroke="#DDE4E4" stroke-width="49" />
+    <circle cx="79.5" cy="160.5" r="9" stroke="white" stroke-opacity="0.3" />
+    <circle cx="79.5" cy="160.5" r="21" stroke="white" stroke-opacity="0.3" />
+    <circle cx="79.5" cy="160.5" r="71" stroke="white" stroke-opacity="0.3" />
+    <circle cx="79.5" cy="160.5" r="18" stroke="white" stroke-opacity="0.3" />
+    <defs>
+        <filter id="filter0_dd_106_103" x="0" y="80" width="159" height="159"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+            <feOffset dy="4" />
+            <feGaussianBlur stdDeviation="2" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_106_103" />
+            <feColorMatrix in="SourceAlpha" type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+            <feOffset dy="-1" />
+            <feGaussianBlur stdDeviation="4.5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+            <feBlend mode="normal" in2="effect1_dropShadow_106_103"
+                result="effect2_dropShadow_106_103" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_106_103"
+                result="shape" />
+        </filter>
+        <linearGradient id="paint0_linear_106_103" x1="42" y1="32" x2="258" y2="186"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00DBF9" />
+            <stop offset="1" stop-color="#00A4EF" />
+        </linearGradient>
+        <linearGradient id="paint1_linear_106_103" x1="150" y1="32" x2="150" y2="186"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#BAC1CC" />
+            <stop offset="1" stop-color="#A0AAB2" />
+        </linearGradient>
+        <linearGradient id="paint2_linear_106_103" x1="150" y1="32" x2="150" y2="186"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-opacity="0" />
+            <stop offset="1" />
+        </linearGradient>
+        <linearGradient id="paint3_linear_106_103" x1="147" y1="186" x2="147" y2="213"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#7C8990" />
+            <stop offset="1" stop-color="#A0AAB2" />
+        </linearGradient>
+    </defs>
+</svg>

@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Styles/ListView.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/AutoSuggestBox.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationView.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/Setting/Setting.ThemeResources.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationBackButton.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationView.Themeresources.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/SettingExpander/SettingExpander.ThemeResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

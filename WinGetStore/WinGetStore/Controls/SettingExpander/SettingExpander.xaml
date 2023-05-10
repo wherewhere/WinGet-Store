@@ -1,0 +1,70 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:WinGetStore.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="SettingExpander.ThemeResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  Implicitly applied default style  -->
+    <Style BasedOn="{StaticResource DefaultSettingExpanderStyle}" TargetType="controls:SettingExpander" />
+
+    <Style x:Key="DefaultSettingExpanderStyle" TargetType="controls:SettingExpander">
+        <Style.Setters>
+            <Setter Property="Background" Value="{ThemeResource SettingCardBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource SettingCardForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SettingCardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource SettingCardBorderThickness}" />
+            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+            <Setter Property="MinHeight" Value="{ThemeResource SettingCardMinHeight}" />
+            <Setter Property="MinWidth" Value="{ThemeResource SettingCardMinWidth}" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+            <Setter Property="Padding" Value="{ThemeResource SettingExpanderHeaderPadding}" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:SettingExpander">
+                        <muxc:Expander
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            AutomationProperties.HelpText="{TemplateBinding AutomationProperties.HelpText}"
+                            AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
+                            IsExpanded="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            Style="{StaticResource SettingExpanderExpanderStyle}">
+                            <muxc:Expander.Header>
+                                <controls:Setting
+                                    Padding="{StaticResource SettingExpanderHeaderPadding}"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Content="{TemplateBinding ActionContent}"
+                                    Description="{TemplateBinding Description}"
+                                    Header="{TemplateBinding Header}"
+                                    Icon="{TemplateBinding Icon}"
+                                    IsClickEnabled="False"
+                                    WrapNoIconThreshold="{StaticResource SettingExpanderWrapNoIconThreshold}"
+                                    WrapThreshold="{StaticResource SettingExpanderWrapThreshold}" />
+                            </muxc:Expander.Header>
+                            <muxc:Expander.Content>
+                                <ItemsPresenter
+                                    Footer="{TemplateBinding ItemsFooter}"
+                                    Header="{TemplateBinding ItemsHeader}"
+                                    TabFocusNavigation="Local" />
+                            </muxc:Expander.Content>
+                        </muxc:Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

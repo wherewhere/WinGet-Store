@@ -1,0 +1,18 @@
+namespace WinGetStore.WinRT
+{
+    [default_interface]
+    runtimeclass WinGetProjectionFactory
+    {
+        WinGetProjectionFactory();
+
+        static WinGetStore.WinRT.WinGetProjectionFactory Instance{ get; };
+
+        Microsoft.Management.Deployment.PackageManager CreatePackageManager(Boolean useDev);
+        Microsoft.Management.Deployment.InstallOptions CreateInstallOptions(Boolean useDev);
+        Microsoft.Management.Deployment.UninstallOptions CreateUninstallOptions(Boolean useDev);
+        Microsoft.Management.Deployment.FindPackagesOptions CreateFindPackagesOptions(Boolean useDev);
+        Microsoft.Management.Deployment.CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions(Boolean useDev);
+        Microsoft.Management.Deployment.PackageMatchFilter CreatePackageMatchFilter(Boolean useDev);
+        Microsoft.Management.Deployment.PackageManagerSettings CreatePackageManagerSettings();
+    }
+}
