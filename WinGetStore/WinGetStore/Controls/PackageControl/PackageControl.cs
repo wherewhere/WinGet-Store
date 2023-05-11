@@ -32,6 +32,29 @@ namespace WinGetStore.Controls
             SetValue(TemplateSettingsProperty, new PackageControlTemplateSettings());
         }
 
+        #region Flyout
+
+        /// <summary>
+        /// Identifies the <see cref="Flyout"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty FlyoutProperty =
+            DependencyProperty.Register(
+                nameof(Flyout),
+                typeof(FlyoutBase),
+                typeof(PackageControl),
+                null);
+
+        /// <summary>
+        /// Gets or sets the Flyout.
+        /// </summary>
+        public FlyoutBase Flyout
+        {
+            get => (FlyoutBase)GetValue(FlyoutProperty);
+            set => SetValue(FlyoutProperty, value);
+        }
+
+        #endregion
+
         #region CatalogPackage
 
         /// <summary>

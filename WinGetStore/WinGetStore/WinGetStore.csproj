@@ -130,6 +130,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ExceptionHandling.cs" />
+    <Compile Include="Controls\Dialogs\VersionsDialog.xaml.cs">
+      <DependentUpon>VersionsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PackageControl\PackageControl.cs" />
     <Compile Include="Controls\PackageControl\PackageControlTemplateSettings.cs" />
     <Compile Include="Controls\SettingExpander\SettingExpander.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="Controls\Setting\SettingAutomationPeer.cs" />
     <Compile Include="Controls\Slot.cs" />
     <Compile Include="Controls\StackPanel.cs" />
+    <Compile Include="Helpers\AttributesHelper.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="ViewModels\ManagerPages\ManagerViewModel.cs" />
     <Compile Include="ViewModels\ManagerPages\SearchingViewModel.cs" />
     <Compile Include="ViewModels\SettingsPages\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\VersionsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -244,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\Dialogs\VersionsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\NavigationView\NavigationBackButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

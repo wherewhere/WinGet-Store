@@ -24,7 +24,17 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="deployment:CatalogPackage">
-                        <controls:PackageControl CatalogPackage="{x:Bind}" />
+                        <controls:PackageControl CatalogPackage="{x:Bind}">
+                            <controls:PackageControl.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        x:Name="Versions"
+                                        Click="MenuFlyoutItem_Click"
+                                        Tag="{x:Bind}"
+                                        Text="Versions" />
+                                </MenuFlyout>
+                            </controls:PackageControl.Flyout>
+                        </controls:PackageControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Header>

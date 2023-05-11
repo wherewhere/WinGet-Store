@@ -45,5 +45,21 @@ namespace WinGetStore.Helpers
             TResult taskResult = task.Result;
             return taskResult;
         }
+
+        public static Uri ValidateAndGetUri(this string url)
+        {
+            if (string.IsNullOrWhiteSpace(url)) { return null; }
+            Uri uri = null;
+            try
+            {
+                uri = url.Contains("://") ? new Uri(url)
+                    : new Uri($"https://{url}");
+            }
+            catch (FormatException ex)
+            {
+                SettingsHelper.LogManager.GetLogger(nameof(UIHelper)).Warn(ex.ExceptionToMessage(), ex);
+            }
+            return uri;
+        }
     }
 }

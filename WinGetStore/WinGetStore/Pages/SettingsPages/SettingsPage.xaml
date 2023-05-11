@@ -47,7 +47,10 @@
                                     </Grid>
                                 </controls:Setting.Description>
                             </controls:Setting>
-                            <controls:Setting Header="WinGet Dev" Style="{StaticResource DefaultSettingExpanderItemStyle}">
+                            <controls:Setting
+                                CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+                                Header="WinGet Dev"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <Grid>
                                         <TextBlock Text="Installed" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />

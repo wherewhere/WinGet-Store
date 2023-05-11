@@ -1,5 +1,8 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Microsoft.Management.Deployment;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using WinGetStore.Controls.Dialogs;
 using WinGetStore.ViewModels.ManagerPages;
 using muxc = Microsoft.UI.Xaml.Controls;
 
@@ -19,11 +22,24 @@ namespace WinGetStore.Pages.ManagerPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is SearchingViewModel ViewModel)
+            if (e.Parameter is SearchingViewModel ViewModel
+                && Provider?.IsEqual(ViewModel) != true)
             {
                 Provider = ViewModel;
                 DataContext = Provider;
                 _ = Provider.Refresh();
+            }
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
+            {
+                case "Versions":
+                    VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
+                    _ = dialog.ShowAsync();
+                    break;
             }
         }
 

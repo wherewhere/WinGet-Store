@@ -129,5 +129,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             findPackagesOptions.Filters.Add(filter);
             return await catalog.FindPackagesAsync(findPackagesOptions);
         }
+
+        public bool IsEqual(SearchingViewModel other) => other is SearchingViewModel model && IsEqual(model);
     }
 }
