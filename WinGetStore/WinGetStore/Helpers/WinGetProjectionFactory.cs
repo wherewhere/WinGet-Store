@@ -11,7 +11,7 @@ namespace WinGetStore.Helpers
         private static Guid CLSID_IUnknown = new("00000000-0000-0000-C000-000000000046");
 
         // CLSIDs for WinGet package
-        private static Guid CLSID_PackageManager = new(0xC53A4F16, 0x787E, 0x42A4, 0xB3, 0x04, 0x29, 0xEF, 0xFB, 0x4B, 0xF5, 0x97);                     //C53A4F16-787E-42A4-B304-29EFFB4BF597
+        private static Guid CLSID_PackageManager = new(0xC53A4F16, 0x787E, 0x42A4, 0xB3, 0x04, 0x29, 0xEF, 0xFB, 0x4B, 0xF5, 0x97);                         //C53A4F16-787E-42A4-B304-29EFFB4BF597
         private static Guid CLSID_InstallOptions = new(0x1095f097, 0xEB96, 0x453B, 0xB4, 0xE6, 0x16, 0x13, 0x63, 0x7F, 0x3B, 0x14);                         //1095F097-EB96-453B-B4E6-1613637F3B14
         private static Guid CLSID_UninstallOptions = new(0xE1D9A11E, 0x9F85, 0x4D87, 0x9C, 0x17, 0x2B, 0x93, 0x14, 0x3A, 0xDB, 0x8D);                       //E1D9A11E-9F85-4D87-9C17-2B93143ADB8D
         private static Guid CLSID_FindPackagesOptions = new(0x572DED96, 0x9C60, 0x4526, 0x8F, 0x92, 0xEE, 0x7D, 0x91, 0xD3, 0x8C, 0x1A);                    //572DED96-9C60-4526-8F92-EE7D91D38C1A
@@ -25,6 +25,38 @@ namespace WinGetStore.Helpers
         private static Guid CLSID_FindPackagesOptions2 = new(0x1BD8FF3A, 0xEC50, 0x4F69, 0xAE, 0xEE, 0xDF, 0x4C, 0x9D, 0x3B, 0xAA, 0x96);                   //1BD8FF3A-EC50-4F69-AEEE-DF4C9D3BAA96
         private static Guid CLSID_PackageMatchFilter2 = new(0x3F85B9F4, 0x487A, 0x4C48, 0x90, 0x35, 0x29, 0x03, 0xF8, 0xA6, 0xD9, 0xE8);                    //3F85B9F4-487A-4C48-9035-2903F8A6D9E8
         private static Guid CLSID_CreateCompositePackageCatalogOptions2 = new(0xEE160901, 0xB317, 0x4EA7, 0x9C, 0xC6, 0x53, 0x55, 0xC6, 0xD7, 0xD8, 0xA7);  //EE160901-B317-4EA7-9CC6-5355C6D7D8A7
+
+        public static bool IsWinGetInstalled
+        {
+            get
+            {
+                try
+                {
+                    uint hresult = CoCreateInstance(ref CLSID_PackageManager, IntPtr.Zero, CLSCTX_ALL, ref CLSID_IUnknown, out IntPtr results);
+                    return results != IntPtr.Zero;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool IsWinGetDevInstalled
+        {
+            get
+            {
+                try
+                {
+                    uint hresult = CoCreateInstance(ref CLSID_PackageManager2, IntPtr.Zero, CLSCTX_ALL, ref CLSID_IUnknown, out IntPtr results);
+                    return results != IntPtr.Zero;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
 
         public static PackageManager CreatePackageManager(bool useDev = false)
         {

@@ -5,6 +5,9 @@
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settingspages="using:WinGetStore.ViewModels.SettingsPages"
+    d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
@@ -32,11 +35,28 @@
                         </TransitionCollection>
                     </controls:StackPanel.ChildrenTransitions>
                     <controls:SettingsGroup>
-                        <controls:Setting />
+                        <controls:SettingExpander Description="{Binding WinGetVersion}" Header="WinGet Version">
+                            <controls:SettingExpander.Icon>
+                                <muxc:ImageIcon Source="ms-appx:///Assets/Square44x44Logo.png" />
+                            </controls:SettingExpander.Icon>
+                            <controls:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
+                                <controls:Setting.Description>
+                                    <Grid>
+                                        <TextBlock Text="Installed" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <TextBlock Text="Unavailable" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                                    </Grid>
+                                </controls:Setting.Description>
+                            </controls:Setting>
+                            <controls:Setting Header="WinGet Dev" Style="{StaticResource DefaultSettingExpanderItemStyle}">
+                                <controls:Setting.Description>
+                                    <Grid>
+                                        <TextBlock Text="Installed" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <TextBlock Text="Unavailable" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                                    </Grid>
+                                </controls:Setting.Description>
+                            </controls:Setting>
+                        </controls:SettingExpander>
                     </controls:SettingsGroup>
-                    <Viewbox Width="100" Height="100">
-                        <Image Source="ms-appx:///Assets/Logos/Exe.svg" />
-                    </Viewbox>
                 </controls:StackPanel>
             </Grid>
         </ScrollViewer>

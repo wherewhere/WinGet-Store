@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
@@ -28,8 +29,22 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        private ObservableCollection<MatchResult> matchResults = new();
-        public ObservableCollection<MatchResult> MatchResults
+        private string waitProgressText = "Searching...";
+        public string WaitProgressText
+        {
+            get => waitProgressText;
+            set
+            {
+                if (waitProgressText != value)
+                {
+                    waitProgressText = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
+        private ObservableCollection<CatalogPackage> matchResults = new();
+        public ObservableCollection<CatalogPackage> MatchResults
         {
             get => matchResults;
             set
@@ -46,34 +61,47 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
-            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+            if (name != null)
+            {
+                if (!Dispatcher.HasThreadAccess)
+                {
+                    await Dispatcher.ResumeForegroundAsync();
+                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         public async Task Refresh()
         {
+            WaitProgressText = "Searching...";
             IsLoading = true;
             MatchResults.Clear();
             await ThreadSwitcher.ResumeBackgroundAsync();
+            WaitProgressText = "Connect to WinGet...";
             PackageCatalog packageCatalog = await CreatePackageCatalogAsync();
+            WaitProgressText = "Getting results...";
             FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog);
+            WaitProgressText = "Processing results...";
             PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
             List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().ToList();
-            await Dispatcher.ResumeForegroundAsync();
             packagesResult.Matches.ToList()
-                .ForEach((x) =>
+                .ForEach(async (x) =>
                 {
                     foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
                     {
                         IAsyncOperationWithProgress<InstallResult, InstallProgress> installOperation = packageManager.GetInstallProgress(x.CatalogPackage, catalogReference.Info);
                         if (installOperation != null)
                         {
-                            MatchResults.Add(x);
+                            CatalogPackage package = await GetPackageByID(x.CatalogPackage.Id);
+                            await Dispatcher.ResumeForegroundAsync();
+                            MatchResults.Add(package ?? x.CatalogPackage);
                             break;
                         }
                     }
                 });
+            WaitProgressText = "Finnish";
             IsLoading = false;
         }
 
@@ -89,6 +117,29 @@ namespace WinGetStore.ViewModels.ManagerPages
         {
             FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
             return await catalog.FindPackagesAsync(findPackagesOptions);
+        }
+
+        private async Task<CatalogPackage> GetPackageByID(string packageID)
+        {
+            await ThreadSwitcher.ResumeBackgroundAsync();
+            PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
+            List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().ToList();
+            CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
+            foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
+            {
+                createCompositePackageCatalogOptions.Catalogs.Add(catalogReference);
+            }
+            PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
+            ConnectResult connectResult = await catalogRef.ConnectAsync();
+            PackageCatalog catalog = connectResult.PackageCatalog;
+            FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
+            PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
+            filter.Field = PackageMatchField.Id;
+            filter.Option = PackageFieldMatchOption.Equals;
+            filter.Value = packageID;
+            findPackagesOptions.Filters.Add(filter);
+            FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
+            return packagesResult.Matches.ToList().FirstOrDefault()?.CatalogPackage;
         }
     }
 }

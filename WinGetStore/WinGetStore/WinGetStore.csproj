@@ -143,6 +143,7 @@
     <Compile Include="Controls\Setting\SettingAutomationPeer.cs" />
     <Compile Include="Controls\Slot.cs" />
     <Compile Include="Controls\StackPanel.cs" />
+    <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\ThreadSwitcher.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="ViewModels\ManagerPages\InstallingViewModel.cs" />
     <Compile Include="ViewModels\ManagerPages\ManagerViewModel.cs" />
     <Compile Include="ViewModels\ManagerPages\SearchingViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPages\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -345,9 +347,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\SettingsPages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
 using WinGetStore.Helpers;
@@ -40,8 +41,22 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        private ObservableCollection<MatchResult> matchResults = new();
-        public ObservableCollection<MatchResult> MatchResults
+        private string waitProgressText = "Searching...";
+        public string WaitProgressText
+        {
+            get => waitProgressText;
+            set
+            {
+                if (waitProgressText != value)
+                {
+                    waitProgressText = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
+        private ObservableCollection<CatalogPackage> matchResults = new();
+        public ObservableCollection<CatalogPackage> MatchResults
         {
             get => matchResults;
             set
@@ -56,9 +71,16 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
-            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+            if (name != null)
+            {
+                if (!Dispatcher.HasThreadAccess)
+                {
+                    await Dispatcher.ResumeForegroundAsync();
+                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         public SearchingViewModel(string keyword)
@@ -68,13 +90,18 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public async Task Refresh()
         {
+            WaitProgressText = "Searching...";
             IsLoading = true;
             MatchResults.Clear();
             await ThreadSwitcher.ResumeBackgroundAsync();
+            WaitProgressText = "Connect to WinGet...";
             PackageCatalog packageCatalog = await CreatePackageCatalogAsync();
+            WaitProgressText = "Getting results...";
             FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog, title);
+            WaitProgressText = "Processing results...";
             await Dispatcher.ResumeForegroundAsync();
-            packagesResult.Matches.ToList().ForEach(MatchResults.Add);
+            packagesResult.Matches.ToList().ForEach((x) => MatchResults.Add(x.CatalogPackage));
+            WaitProgressText = "Finnish";
             IsLoading = false;
         }
 

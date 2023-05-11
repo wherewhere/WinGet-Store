@@ -23,8 +23,8 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="deployment:MatchResult">
-                        <controls:PackageControl CatalogPackage="{x:Bind CatalogPackage}" />
+                    <DataTemplate x:DataType="deployment:CatalogPackage">
+                        <controls:PackageControl CatalogPackage="{x:Bind}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Header>
@@ -37,13 +37,31 @@
                 </ListView.Header>
             </ListView>
         </muxc:RefreshContainer>
-        <muxc:ProgressRing
-            Width="60"
-            Height="60"
+        <Grid
+            x:Name="InitialLoadingUI"
+            Padding="{Binding Padding, ElementName=ListView}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsActive="{Binding IsLoading}"
-            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
+            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <muxc:ProgressRing
+                x:Name="WaitProgressRing"
+                Width="50"
+                Height="50"
+                HorizontalAlignment="Center"
+                IsActive="True"
+                IsIndeterminate="True" />
+            <TextBlock
+                x:Name="WaitProgressText"
+                Grid.Row="1"
+                Margin="0,6,0,0"
+                Text="{Binding WaitProgressText}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
