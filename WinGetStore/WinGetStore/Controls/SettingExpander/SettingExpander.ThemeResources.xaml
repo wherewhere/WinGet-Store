@@ -9,6 +9,7 @@
 
     <x:String x:Key="SettingExpanderChevronToolTip">Show all settings</x:String>
     <Thickness x:Key="SettingExpanderHeaderPadding">0,16,0,16</Thickness>
+    <Thickness x:Key="SettingExpanderItemHeaderPadding">40,16,0,16</Thickness>
     <Thickness x:Key="SettingExpanderItemPadding">58,8,44,8</Thickness>
     <Thickness x:Key="SettingExpanderItemBorderThickness">0,1,0,0</Thickness>
     <Thickness x:Key="ClickableSettingExpanderItemPadding">58,8,16,8</Thickness>
@@ -27,6 +28,16 @@
             <Setter Property="Padding" Value="{ThemeResource SettingExpanderItemPadding}" />
             <Setter Property="WrapThreshold" Value="{StaticResource SettingExpanderItemWrapThreshold}" />
             <Setter Property="WrapNoIconThreshold" Value="{StaticResource SettingExpanderItemWrapNoIconThreshold}" />
+            <Setter Property="CornerRadius" Value="0" />
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="SettingExpanderExpanderItemStyle" TargetType="controls:SettingExpander">
+        <Style.Setters>
+            <Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource SettingExpanderItemBorderThickness}" />
+            <Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
+            <Setter Property="Padding" Value="{ThemeResource SettingExpanderItemHeaderPadding}" />
             <Setter Property="CornerRadius" Value="0" />
         </Style.Setters>
     </Style>

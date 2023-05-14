@@ -147,6 +147,7 @@
     <Compile Include="Controls\Slot.cs" />
     <Compile Include="Controls\StackPanel.cs" />
     <Compile Include="Helpers\AttributesHelper.cs" />
+    <Compile Include="Helpers\Converters\ConverterTools.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />

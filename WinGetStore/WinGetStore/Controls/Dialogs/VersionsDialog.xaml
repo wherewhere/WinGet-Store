@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:deployment="using:Microsoft.Management.Deployment"
+    xmlns:local="using:WinGetStore.Controls.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
@@ -24,6 +26,31 @@
                 <controls:SettingsGroup.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:CatalogPackageVersion">
                         <controls:SettingExpander Header="{x:Bind Version}" Icon="&#xECAA;">
+                            <controls:SettingExpander
+                                Header="Agreements"
+                                ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
+                                Style="{StaticResource SettingExpanderExpanderItemStyle}"
+                                Tag="{x:Bind local:VersionsDialog.PackageAgreementsToList(PackageMetadata.Agreements)}"
+                                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                                <controls:SettingExpander.ItemTemplate>
+                                    <DataTemplate x:DataType="deployment:PackageAgreement">
+                                        <controls:Setting
+                                            ActionIcon="&#xE8A7;"
+                                            Click="HyperlinkButton_Click"
+                                            Header="{x:Bind Label}"
+                                            IsClickEnabled="True"
+                                            Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                            Tag="{x:Bind Url}">
+                                            <controls:Setting.Description>
+                                                <TextBlock
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind Text}"
+                                                    ToolTipService.ToolTip="{x:Bind Url}" />
+                                            </controls:Setting.Description>
+                                        </controls:Setting>
+                                    </DataTemplate>
+                                </controls:SettingExpander.ItemTemplate>
+                            </controls:SettingExpander>
                             <controls:Setting
                                 Header="Author"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
@@ -60,6 +87,28 @@
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Description}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
+                            <controls:SettingExpander
+                                Header="Documentations"
+                                ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
+                                Style="{StaticResource SettingExpanderExpanderItemStyle}"
+                                Tag="{x:Bind local:VersionsDialog.DocumentationsToList(PackageMetadata.Documentations)}"
+                                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                                <controls:SettingExpander.ItemTemplate>
+                                    <DataTemplate x:DataType="deployment:Documentation">
+                                        <controls:Setting
+                                            ActionIcon="&#xE8A7;"
+                                            Click="HyperlinkButton_Click"
+                                            Header="{x:Bind DocumentLabel}"
+                                            IsClickEnabled="True"
+                                            Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                            Tag="{x:Bind DocumentUrl}">
+                                            <controls:Setting.Description>
+                                                <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind DocumentUrl}" />
+                                            </controls:Setting.Description>
+                                        </controls:Setting>
+                                    </DataTemplate>
+                                </controls:SettingExpander.ItemTemplate>
+                            </controls:SettingExpander>
                             <controls:Setting
                                 Header="Installation Notes"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
@@ -193,12 +242,21 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
                                 Header="Short Description"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ShortDescription}" />
+                                </controls:Setting.Description>
+                            </controls:Setting>
+                            <controls:Setting
+                                CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+                                Header="Tags"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
+                                Tag="{x:Bind local:VersionsDialog.TagsToList(PackageMetadata.Tags)}"
+                                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                                <controls:Setting.Description>
+                                    <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind local:VersionsDialog.JoinTags(', ', PackageMetadata.Tags)}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                         </controls:SettingExpander>

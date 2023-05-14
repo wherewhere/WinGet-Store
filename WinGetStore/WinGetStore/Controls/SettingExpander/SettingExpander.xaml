@@ -39,11 +39,14 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             AutomationProperties.HelpText="{TemplateBinding AutomationProperties.HelpText}"
                             AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}"
-                            IsExpanded="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                            Style="{StaticResource SettingExpanderExpanderStyle}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            IsExpanded="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <muxc:Expander.Header>
                                 <controls:Setting
-                                    Padding="{StaticResource SettingExpanderHeaderPadding}"
+                                    Padding="{TemplateBinding Padding}"
                                     VerticalAlignment="Center"
                                     Background="Transparent"
                                     BorderThickness="0"

@@ -27,6 +27,7 @@
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+            <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

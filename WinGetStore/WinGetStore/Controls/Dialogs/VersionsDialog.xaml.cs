@@ -1,5 +1,8 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
+﻿using Microsoft.Management.Deployment;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,5 +43,13 @@ namespace WinGetStore.Controls.Dialogs
                 BackgroundElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
         }
+
+        internal static List<PackageAgreement> PackageAgreementsToList(IReadOnlyList<PackageAgreement> values) => values.ToList();
+
+        internal static List<Documentation> DocumentationsToList(IReadOnlyList<Documentation> values) => values.ToList();
+
+        internal static List<string> TagsToList(IReadOnlyList<string> values) => values.ToList();
+
+        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values.ToList());
     }
 }
