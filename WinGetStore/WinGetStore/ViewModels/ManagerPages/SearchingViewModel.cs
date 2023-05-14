@@ -27,7 +27,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        private bool isLoading = true;
+        private bool isLoading;
         public bool IsLoading
         {
             get => isLoading;
@@ -90,6 +90,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public async Task Refresh()
         {
+            if (IsLoading) { return; }
             WaitProgressText = "Searching...";
             IsLoading = true;
             MatchResults.Clear();

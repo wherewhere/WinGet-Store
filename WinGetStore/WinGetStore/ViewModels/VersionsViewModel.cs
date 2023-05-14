@@ -13,6 +13,20 @@ namespace WinGetStore.ViewModels
     {
         public CatalogPackage CatalogPackage { get; }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                if (isLoading != value)
+                {
+                    isLoading = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         private ObservableCollection<CatalogPackageVersion> packageVersions = new();
         public ObservableCollection<CatalogPackageVersion> PackageVersions
         {
@@ -50,6 +64,7 @@ namespace WinGetStore.ViewModels
 
         public async Task Refresh()
         {
+            IsLoading = true;
             await ThreadSwitcher.ResumeBackgroundAsync();
             CatalogPackage.AvailableVersions.ToList().ForEach(async (x) =>
             {
@@ -58,6 +73,7 @@ namespace WinGetStore.ViewModels
                 await Dispatcher.ResumeForegroundAsync();
                 PackageVersions.Add(new(versionInfo.Version, packageMetadata));
             });
+            IsLoading = false;
         }
     }
 

@@ -93,6 +93,7 @@
 
                                 <ContentPresenter
                                     x:Name="PART_DescriptionPresenter"
+                                    HorizontalAlignment="Left"
                                     Content="{TemplateBinding Description}"
                                     FontSize="{ThemeResource SettingCardDescriptionFontSize}"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"

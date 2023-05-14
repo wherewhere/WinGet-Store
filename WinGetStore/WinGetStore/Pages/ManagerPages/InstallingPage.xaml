@@ -38,12 +38,18 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Header>
-                    <TextBlock
-                        Margin="0,21"
-                        AutomationProperties.HeadingLevel="Level1"
-                        FontWeight="SemiBold"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="Installing App" />
+                    <Border
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{ThemeResource SystemControlTransparentBrush}"
+                        DoubleTapped="Border_DoubleTapped">
+                        <TextBlock
+                            Margin="0,21"
+                            AutomationProperties.HeadingLevel="Level1"
+                            FontWeight="SemiBold"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="Installing App" />
+                    </Border>
                 </ListView.Header>
             </ListView>
         </muxc:RefreshContainer>

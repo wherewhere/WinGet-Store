@@ -1,6 +1,7 @@
 ﻿using Microsoft.Management.Deployment;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WinGetStore.Controls.Dialogs;
 using WinGetStore.ViewModels.ManagerPages;
@@ -40,6 +41,8 @@ namespace WinGetStore.Pages.ManagerPages
                     break;
             }
         }
+
+        private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => _ = Provider?.Refresh();
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
     }

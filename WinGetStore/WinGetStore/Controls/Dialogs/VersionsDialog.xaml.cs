@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,6 +29,15 @@ namespace WinGetStore.Controls.Dialogs
             if (url != null)
             {
                 _ = Launcher.LaunchUriAsync(url);
+            }
+        }
+
+        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement BackgroundElement = this.FindDescendant("BackgroundElement");
+            if (BackgroundElement != null)
+            {
+                BackgroundElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
         }
     }

@@ -105,17 +105,20 @@
                                 <TextBlock
                                     x:Name="ProductTitle"
                                     Grid.Column="1"
+                                    HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     IsTextSelectionEnabled="True"
                                     MaxLines="1"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding CatalogPackage.Name, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
+                                    TextWrapping="NoWrap"
+                                    ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}" />
                                 <TextBlock
                                     x:Name="PublisherTitle"
                                     Grid.Row="1"
                                     Grid.Column="1"
+                                    HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     FontSize="12"
                                     FontWeight="Normal"
@@ -125,7 +128,8 @@
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding CatalogPackage.Id, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
+                                    TextWrapping="NoWrap"
+                                    ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}" />
                             </Grid>
                             <Grid
                                 x:Name="StatusTextBlockGrid"
@@ -238,7 +242,8 @@
                                 Content="&#xE712;"
                                 Flyout="{TemplateBinding Flyout}"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                FontSize="20" />
+                                FontSize="20"
+                                ToolTipService.ToolTip="More" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="OrientationStates">
                                     <VisualState x:Name="Horizontal" />

@@ -482,6 +482,23 @@ namespace WinGetStore.Controls
             return packagesResult.Matches.ToList().FirstOrDefault()?.CatalogPackage;
         }
 
+        private async void CheckToUninstall()
+        {
+            ContentDialog dialog = new()
+            {
+                Title = $"Uninstall {CatalogPackage.Name}",
+                Content = $"Are you sure you want to uninstall {CatalogPackage.Name}?",
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No",
+                DefaultButton = ContentDialogButton.Primary
+            };
+
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            {
+                UninstallPackageAsync(CatalogPackage);
+            }
+        }
+
         private void ActionButton_Click(object sender, RoutedEventArgs e)
         {
             PackageControlTemplateSettings templateSettings = TemplateSettings;
@@ -491,7 +508,7 @@ namespace WinGetStore.Controls
                     InstallPackageAsync(CatalogPackage);
                     break;
                 case PackageState.Installed:
-                    UninstallPackageAsync(CatalogPackage);
+                    CheckToUninstall();
                     break;
                 case PackageState.Installing:
                     Progress?.Cancel();
@@ -509,7 +526,7 @@ namespace WinGetStore.Controls
                     UpgradePackageAsync(CatalogPackage);
                     break;
                 case PackageState.UninstallError:
-                    UninstallPackageAsync(CatalogPackage);
+                    CheckToUninstall();
                     break;
                 default:
                     break;

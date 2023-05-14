@@ -14,7 +14,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 {
     public class ManagerViewModel : INotifyPropertyChanged
     {
-        private bool isLoading = true;
+        private bool isLoading;
         public bool IsLoading
         {
             get => isLoading;
@@ -74,6 +74,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public async Task Refresh()
         {
+            if (IsLoading) { return; }
             WaitProgressText = "Loading...";
             IsLoading = true;
             MatchResults.Clear();
