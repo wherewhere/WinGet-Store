@@ -69,6 +69,8 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
+        public IList<PackageMatchFilter> PackageMatchFilters { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
@@ -83,10 +85,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        public SearchingViewModel(string keyword)
-        {
-            Title = keyword;
-        }
+        public SearchingViewModel(string keyword) => Title = keyword;
 
         public async Task Refresh()
         {
@@ -123,11 +122,28 @@ namespace WinGetStore.ViewModels.ManagerPages
         private async Task<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog, string packageId)
         {
             FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
-            PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
-            filter.Field = PackageMatchField.Id;
-            filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
-            filter.Value = packageId;
-            findPackagesOptions.Filters.Add(filter);
+
+            bool isEmpty = true;
+            if (PackageMatchFilters != null)
+            {
+                List<PackageMatchFilter> filters = PackageMatchFilters.ToList();
+                if (filters.Any())
+                {
+                    filters.ForEach(findPackagesOptions.Filters.Add);
+                    isEmpty = false;
+                }
+            }
+
+            if (isEmpty)
+            {
+                PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
+                filter.Field = PackageMatchField.Id;
+                filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
+                filter.Value = packageId;
+                findPackagesOptions.Filters.Add(filter);
+                PackageMatchFilters = findPackagesOptions.Filters;
+            }
+
             return await catalog.FindPackagesAsync(findPackagesOptions);
         }
 

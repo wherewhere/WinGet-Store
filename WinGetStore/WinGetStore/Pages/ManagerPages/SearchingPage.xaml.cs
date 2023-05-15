@@ -1,4 +1,5 @@
 ﻿using Microsoft.Management.Deployment;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -29,6 +30,22 @@ namespace WinGetStore.Pages.ManagerPages
                 Provider = ViewModel;
                 DataContext = Provider;
                 _ = Provider.Refresh();
+            }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            switch ((sender as FrameworkElement).Tag.ToString())
+            {
+                case "Filters":
+                    FiltersDialog dialog = new(new(Provider.PackageMatchFilters));
+                    ContentDialogResult result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        Provider.PackageMatchFilters = dialog.PackageMatchFilters;
+                        _ = Provider.Refresh();
+                    }
+                    break;
             }
         }
 
