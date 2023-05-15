@@ -33,7 +33,7 @@ namespace WinGetStore.Pages.ManagerPages
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
-            switch(element.Name)
+            switch (element.Name)
             {
                 case "Versions":
                     VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
@@ -45,5 +45,7 @@ namespace WinGetStore.Pages.ManagerPages
         private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => _ = Provider?.Refresh();
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
+
+        private void Button_Click(object sender, RoutedEventArgs e) => _ = Provider?.Refresh();
     }
 }

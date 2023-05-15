@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.System;
 using WinGetStore.Helpers;
 
@@ -28,6 +29,13 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
+        private bool isError;
+        public bool IsError
+        {
+            get => isError;
+            set => SetProperty(ref isError, value);
+        }
+
         private string waitProgressText = "Loading...";
         public string WaitProgressText
         {
@@ -40,6 +48,14 @@ namespace WinGetStore.ViewModels.ManagerPages
                     RaisePropertyChangedEvent();
                 }
             }
+        }
+
+
+        private string errorText = "Loading...";
+        public string ErrorText
+        {
+            get => errorText;
+            set => SetProperty(ref errorText, value);
         }
 
         private ObservableCollection<CatalogPackage> matchResults = new();
@@ -72,17 +88,49 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
+        protected void SetProperty<T>(ref T property, T value, [CallerMemberName] string name = null)
+        {
+            if (name == null || property.Equals(value)) { return; }
+            property = value;
+            Dispatcher.TryEnqueue(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            });
+        }
+
+        private void SetError(string errorText)
+        {
+            IsError = true;
+            IsLoading = false;
+            ErrorText = errorText;
+        }
+
         public async Task Refresh()
         {
             if (IsLoading) { return; }
+            IsError = false;
+            ErrorText = string.Empty;
             WaitProgressText = "Loading...";
             IsLoading = true;
             MatchResults.Clear();
+
             await ThreadSwitcher.ResumeBackgroundAsync();
             WaitProgressText = "Connect to WinGet...";
             PackageCatalog packageCatalog = await CreatePackageCatalogAsync();
+            if (packageCatalog is null)
+            {
+                SetError("Fail to connect to WinGet.");
+                return;
+            }
+
             WaitProgressText = "Getting results...";
             FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog);
+            if (packagesResult is null)
+            {
+                SetError("Fail to get result.");
+                return;
+            }
+
             WaitProgressText = "Processing results...";
             await Dispatcher.ResumeForegroundAsync();
             packagesResult.Matches.ToList()
