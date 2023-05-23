@@ -42,10 +42,19 @@ namespace WinGetStore.Pages.ManagerPages
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
+            {
+                case "ActionButtonOne":
+                    _ = Provider?.Refresh();
+                    break;
+            }
+        }
+
         private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => _ = Provider?.Refresh();
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
-
-        private void Button_Click(object sender, RoutedEventArgs e) => _ = Provider?.Refresh();
     }
 }
