@@ -1,5 +1,6 @@
 ﻿using AppInstallerCaller;
 using Microsoft.Management.Deployment;
+using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,44 +12,29 @@ namespace WinGetStore.ViewModels
 {
     public class FiltersViewModel : INotifyPropertyChanged
     {
+        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+
         private ObservableCollection<PackageMatchFilter> packageMatchFilter = new();
         public ObservableCollection<PackageMatchFilter> PackageMatchFilters
         {
             get => packageMatchFilter;
-            set
-            {
-                if (packageMatchFilter != value)
-                {
-                    packageMatchFilter = value;
-                    RaisePropertyChangedEvent();
-                }
-            }
+            set => SetProperty(ref packageMatchFilter, value);
         }
 
         public string Value { get; set; }
         public PackageMatchField Field { get; set; } = PackageMatchField.Id;
         public PackageFieldMatchOption Option { get; set; } = PackageFieldMatchOption.ContainsCaseInsensitive;
 
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        protected void SetProperty<T>(ref T property, T value, [CallerMemberName] string name = null)
         {
-            if (name != null)
-            {
-                if (!Dispatcher.HasThreadAccess)
-                {
-                    await Dispatcher.ResumeForegroundAsync();
-                }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
+            if (name == null || property is null ? value is null : property.Equals(value)) { return; }
+            property = value;
+            _ = Dispatcher.EnqueueAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
         }
 
-        public FiltersViewModel(IList<PackageMatchFilter> packageMatchFilters)
-        {
-            PackageMatchFilters = new(packageMatchFilters);
-        }
+        public FiltersViewModel(IList<PackageMatchFilter> packageMatchFilters) => PackageMatchFilters = new(packageMatchFilters);
 
         public void AddField()
         {

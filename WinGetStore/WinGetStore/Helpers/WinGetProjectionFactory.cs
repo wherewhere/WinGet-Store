@@ -35,8 +35,9 @@ namespace WinGetStore.Helpers
                     uint hresult = CoCreateInstance(ref CLSID_PackageManager, IntPtr.Zero, CLSCTX_ALL, ref CLSID_IUnknown, out IntPtr results);
                     return results != IntPtr.Zero;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    SettingsHelper.LogManager.GetLogger(nameof(WinGetProjectionFactory)).Warn(ex.ExceptionToMessage());
                     return false;
                 }
             }
@@ -51,8 +52,9 @@ namespace WinGetStore.Helpers
                     uint hresult = CoCreateInstance(ref CLSID_PackageManager2, IntPtr.Zero, CLSCTX_ALL, ref CLSID_IUnknown, out IntPtr results);
                     return results != IntPtr.Zero;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    SettingsHelper.LogManager.GetLogger(nameof(WinGetProjectionFactory)).Warn(ex.ExceptionToMessage());
                     return false;
                 }
             }

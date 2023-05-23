@@ -1,8 +1,11 @@
 ﻿using AppInstallerCaller;
+using Microsoft.Management.Deployment;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.System;
@@ -12,55 +15,36 @@ namespace WinGetStore.ViewModels.SettingsPages
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
+        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+
         private string wingetVersion = "Loading...";
         public string WinGetVersion
         {
             get => wingetVersion;
-            set
-            {
-                if (wingetVersion != value)
-                {
-                    wingetVersion = value;
-                    RaisePropertyChangedEvent();
-                }
-            }
+            set => SetProperty(ref wingetVersion, value);
         }
 
         private bool isWinGetInstalled = false;
         public bool IsWinGetInstalled
         {
             get => isWinGetInstalled;
-            set
-            {
-                if (isWinGetInstalled != value)
-                {
-                    isWinGetInstalled = value;
-                    RaisePropertyChangedEvent();
-                }
-            }
+            set => SetProperty(ref isWinGetInstalled, value);
         }
 
         private bool isWinGetDevInstalled = false;
         public bool IsWinGetDevInstalled
         {
             get => isWinGetDevInstalled;
-            set
-            {
-                if (isWinGetDevInstalled != value)
-                {
-                    isWinGetDevInstalled = value;
-                    RaisePropertyChangedEvent();
-                }
-            }
+            set => SetProperty(ref isWinGetDevInstalled, value);
         }
-
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        protected void SetProperty<T>(ref T property, T value, [CallerMemberName] string name = null)
         {
-            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+            if (name == null || property is null ? value is null : property.Equals(value)) { return; }
+            property = value;
+            _ = Dispatcher.EnqueueAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
         }
 
         public async Task Refresh()

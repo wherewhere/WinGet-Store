@@ -35,7 +35,8 @@ namespace WinGetStore.Pages.ManagerPages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            switch ((sender as FrameworkElement).Tag.ToString())
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
             {
                 case "Filters":
                     FiltersDialog dialog = new(new(Provider.PackageMatchFilters));
@@ -45,6 +46,9 @@ namespace WinGetStore.Pages.ManagerPages
                         Provider.PackageMatchFilters = dialog.PackageMatchFilters;
                         _ = Provider.Refresh();
                     }
+                    break;
+                case "ActionButtonOne":
+                    _ = Provider?.Refresh();
                     break;
             }
         }

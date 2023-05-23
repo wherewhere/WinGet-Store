@@ -30,6 +30,17 @@ namespace WinGetStore.Pages.ManagerPages
             _ = Provider.Refresh();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
+            {
+                case "ActionButtonOne":
+                    _ = Provider?.Refresh();
+                    break;
+            }
+        }
+
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;

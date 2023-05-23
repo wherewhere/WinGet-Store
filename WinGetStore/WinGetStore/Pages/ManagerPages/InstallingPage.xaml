@@ -12,7 +12,10 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
-        <muxc:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+        <muxc:RefreshContainer
+            x:Name="RefreshContainer"
+            RefreshRequested="RefreshContainer_RefreshRequested"
+            Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}">
             <ListView
                 x:Name="ListView"
                 Padding="36,3"
@@ -77,6 +80,73 @@
                 Text="{Binding WaitProgressText}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
+        </Grid>
+        <Grid
+            MaxWidth="480"
+            Margin="0,16,0,0"
+            Padding="0,24,0,24"
+            HorizontalAlignment="Center"
+            Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0,0,0,35" VerticalAlignment="Center">
+                <TextBlock
+                    x:Name="ErrorDescription"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource SubheaderTextBlockStyle}"
+                    Text="{Binding ErrorDescription}"
+                    TextAlignment="Center"
+                    Visibility="{Binding ErrorDescription, Converter={StaticResource StringVisibilityConverter}}" />
+                <TextBlock
+                    x:Name="ErrorLongDescription"
+                    Margin="0,7,0,0"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="{Binding ErrorLongDescription}"
+                    TextAlignment="Center"
+                    Visibility="{Binding ErrorLongDescription, Converter={StaticResource StringVisibilityConverter}}" />
+                <StackPanel
+                    x:Name="ButtonContainer"
+                    Margin="0,19,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="ActionButtonOne"
+                        Margin="2,0,2,0"
+                        Click="Button_Click"
+                        Content="Refresh"
+                        Style="{StaticResource AccentButtonStyle}" />
+                    <HyperlinkButton
+                        x:Name="ActionButtonTwo"
+                        Margin="2,0,2,0"
+                        x:Load="False"
+                        NavigateUri="ms-settings:network" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <TextBlock
+                    x:Name="ErrorCode"
+                    IsTextSelectionEnabled="True"
+                    Opacity="0.6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    TextAlignment="Center"
+                    Visibility="{Binding ErrorCode, Converter={StaticResource StringVisibilityConverter}}">
+                    <Run Text="Code: " />
+                    <Run Text="{Binding ErrorCode}" />
+                </TextBlock>
+                <TextBlock
+                    x:Name="CorrelationErrorCode"
+                    Margin="0,7,0,0"
+                    x:Load="False"
+                    IsTextSelectionEnabled="True"
+                    Opacity="0.6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    TextAlignment="Center">
+                    <Run Text="CV: " />
+                </TextBlock>
+            </StackPanel>
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
+using WinGetStore.Controls;
 
 namespace WinGetStore.Helpers
 {
-    public class PackageHelper
+    public static class PackageHelper
     {
         public static async Task<IEnumerable<Package>> FindPackagesByName(string PackageName)
         {
@@ -20,8 +21,9 @@ namespace WinGetStore.Helpers
                 IEnumerable<Package> results = packages?.Where((x) => x.Id.FamilyName.StartsWith(PackageName));
                 return results ?? Array.Empty<Package>();
             }
-            catch
+            catch (Exception ex)
             {
+                SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
                 return Array.Empty<Package>();
             }
         }
@@ -34,8 +36,9 @@ namespace WinGetStore.Helpers
             {
                 return manager.FindPackageForUser("", PackageFamilyName);
             }
-            catch
+            catch (Exception ex)
             {
+                SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
                 return null;
             }
         }

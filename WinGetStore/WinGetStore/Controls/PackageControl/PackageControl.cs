@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using WinGetStore.Helpers;
+using WinGetStore.ViewModels.ManagerPages;
 
 namespace WinGetStore.Controls
 {
@@ -150,73 +151,83 @@ namespace WinGetStore.Controls
 
         private async void UpdateCatalogPackage()
         {
-            CatalogPackage package = CatalogPackage;
-
-            if (package.DefaultInstallVersion == null)
+            try
             {
-                CatalogPackage catalogPackage = await GetPackageByID(package.Id);
-                if (catalogPackage != null)
+                CatalogPackage package = CatalogPackage;
+
+                if (package.DefaultInstallVersion == null)
                 {
-                    CatalogPackage = catalogPackage;
-                    return;
+                    CatalogPackage catalogPackage = await GetPackageByID(package.Id);
+                    if (catalogPackage != null)
+                    {
+                        CatalogPackage = catalogPackage;
+                        return;
+                    }
                 }
-            }
 
-            PackageControlTemplateSettings templateSettings = TemplateSettings;
-            if (package.InstalledVersion != null)
-            {
-                if (package.IsUpdateAvailable)
-                {
-                    templateSettings.PackageState = PackageState.UpdateAvailable;
-                }
-                else
-                {
-                    templateSettings.PackageState = PackageState.Installed;
-                }
-            }
-            else
-            {
-                templateSettings.PackageState = PackageState.Nominal;
-            }
-
-            await ThreadSwitcher.ResumeBackgroundAsync();
-
-            InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
-            PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-
-            PackageInstallerInfo installerInfo = package.DefaultInstallVersion.GetApplicableInstaller(installOptions);
-
-            if (package.DefaultInstallVersion != null)
-            {
-                PackageCatalogInfo info = package.DefaultInstallVersion.PackageCatalog.Info;
-                IAsyncOperationWithProgress<InstallResult, InstallProgress> InstallProgress = packageManager.GetInstallProgress(package, info);
-                if (InstallProgress != null)
+                PackageControlTemplateSettings templateSettings = TemplateSettings;
+                if (package.InstalledVersion != null)
                 {
                     if (package.IsUpdateAvailable)
                     {
-                        RegisterUpgradeProgress(InstallProgress);
+                        templateSettings.PackageState = PackageState.UpdateAvailable;
                     }
                     else
                     {
-                        RegisterInstallProgress(InstallProgress);
+                        templateSettings.PackageState = PackageState.Installed;
                     }
-                    await Dispatcher.ResumeForegroundAsync();
-                    templateSettings.PackageState = PackageState.Installing;
                 }
                 else
                 {
-                    IAsyncOperationWithProgress<UninstallResult, UninstallProgress> UninstallProgress = packageManager.GetUninstallProgress(package, info);
-                    if (UninstallProgress != null)
+                    templateSettings.PackageState = PackageState.Nominal;
+                }
+
+                await ThreadSwitcher.ResumeBackgroundAsync();
+
+                InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
+                PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
+
+                PackageInstallerInfo installerInfo = package.DefaultInstallVersion.GetApplicableInstaller(installOptions);
+
+                if (package.DefaultInstallVersion != null)
+                {
+                    PackageCatalogInfo info = package.DefaultInstallVersion.PackageCatalog.Info;
+                    IAsyncOperationWithProgress<InstallResult, InstallProgress> InstallProgress = packageManager.GetInstallProgress(package, info);
+                    if (InstallProgress != null)
                     {
-                        RegisterUninstallProgress(UninstallProgress);
+                        if (package.IsUpdateAvailable)
+                        {
+                            RegisterUpgradeProgress(InstallProgress);
+                        }
+                        else
+                        {
+                            RegisterInstallProgress(InstallProgress);
+                        }
                         await Dispatcher.ResumeForegroundAsync();
-                        templateSettings.PackageState = PackageState.Uninstalling;
+                        templateSettings.PackageState = PackageState.Installing;
+                    }
+                    else
+                    {
+                        IAsyncOperationWithProgress<UninstallResult, UninstallProgress> UninstallProgress = packageManager.GetUninstallProgress(package, info);
+                        if (UninstallProgress != null)
+                        {
+                            RegisterUninstallProgress(UninstallProgress);
+                            await Dispatcher.ResumeForegroundAsync();
+                            templateSettings.PackageState = PackageState.Uninstalling;
+                        }
                     }
                 }
-            }
 
-            await Dispatcher.ResumeForegroundAsync();
-            templateSettings.InstallerType = installerInfo.InstallerType;
+                await Dispatcher.ResumeForegroundAsync();
+                templateSettings.InstallerType = installerInfo.InstallerType;
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Error(ex.ExceptionToMessage());
+#if DEBUG && !DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
+                if (System.Diagnostics.Debugger.IsAttached) { System.Diagnostics.Debugger.Break(); }
+#endif
+            }
         }
 
         private async void InstallPackageAsync(CatalogPackage package)
@@ -252,6 +263,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
+                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
             }
             finally
             {
@@ -332,6 +344,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
+                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
             }
             finally
             {
@@ -412,6 +425,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
+                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
             }
             finally
             {
@@ -461,25 +475,33 @@ namespace WinGetStore.Controls
 
         private async Task<CatalogPackage> GetPackageByID(string packageID)
         {
-            await ThreadSwitcher.ResumeBackgroundAsync();
-            PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-            List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().ToList();
-            CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-            foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
+            try
             {
-                createCompositePackageCatalogOptions.Catalogs.Add(catalogReference);
+                await ThreadSwitcher.ResumeBackgroundAsync();
+                PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
+                List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().ToList();
+                CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
+                foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
+                {
+                    createCompositePackageCatalogOptions.Catalogs.Add(catalogReference);
+                }
+                PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
+                ConnectResult connectResult = await catalogRef.ConnectAsync();
+                PackageCatalog catalog = connectResult.PackageCatalog;
+                FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
+                PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
+                filter.Field = PackageMatchField.Id;
+                filter.Option = PackageFieldMatchOption.Equals;
+                filter.Value = packageID;
+                findPackagesOptions.Filters.Add(filter);
+                FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
+                return packagesResult.Matches.ToList().FirstOrDefault()?.CatalogPackage;
             }
-            PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
-            ConnectResult connectResult = await catalogRef.ConnectAsync();
-            PackageCatalog catalog = connectResult.PackageCatalog;
-            FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
-            PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
-            filter.Field = PackageMatchField.Id;
-            filter.Option = PackageFieldMatchOption.Equals;
-            filter.Value = packageID;
-            findPackagesOptions.Filters.Add(filter);
-            FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
-            return packagesResult.Matches.ToList().FirstOrDefault()?.CatalogPackage;
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Error(ex.ExceptionToMessage());
+                return null;
+            }
         }
 
         private async void CheckToUninstall()

@@ -30,6 +30,17 @@ namespace WinGetStore.Pages.ManagerPages
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Name)
+            {
+                case "ActionButtonOne":
+                    _ = Provider?.Refresh();
+                    break;
+            }
+        }
+
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
@@ -38,17 +49,6 @@ namespace WinGetStore.Pages.ManagerPages
                 case "Versions":
                     VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
                     _ = dialog.ShowAsync();
-                    break;
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            FrameworkElement element = sender as FrameworkElement;
-            switch (element.Name)
-            {
-                case "ActionButtonOne":
-                    _ = Provider?.Refresh();
                     break;
             }
         }

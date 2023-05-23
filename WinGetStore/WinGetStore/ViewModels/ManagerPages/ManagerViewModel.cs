@@ -140,7 +140,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
-                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16)}");
+                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
                 return;
             }
         }
@@ -176,7 +176,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
-                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16)}");
+                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
                 return null;
             }
         }
