@@ -64,6 +64,7 @@ A GUI tool of winget for manage apps based on UWP
 ## 使用到的模块
 - [Windows UI](https://github.com/microsoft/microsoft-ui-xaml "Windows UI")
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit "Windows Community Toolkit")
+- [Microsoft Management Deployment](https://github.com/microsoft/winget-cli "Microsoft Management Deployment")
 
 ## 参与人员
 [![Contributors](https://contrib.rocks/image?repo=wherewhere/WinGet-Store)](https://github.com/wherewhere/WinGet-Store/graphs/contributors "Contributors")

@@ -1,6 +1,6 @@
-﻿using Windows.UI.Xaml;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Windows.UI.Xaml;
 
 namespace WinGetStore.Controls
 {

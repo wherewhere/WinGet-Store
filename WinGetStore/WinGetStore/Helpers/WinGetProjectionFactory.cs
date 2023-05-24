@@ -62,110 +62,86 @@ namespace WinGetStore.Helpers
 
         public static PackageManager CreatePackageManager(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<PackageManager>(CLSID_PackageManager2, CLSCTX_ALL);
-            }
-            return CreateInstance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<PackageManager>(CLSID_PackageManager2, CLSCTX_ALL)
+                : CreateInstance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
         }
 
         public static InstallOptions CreateInstallOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<InstallOptions>(CLSID_InstallOptions2, CLSCTX_ALL);
-            }
-            return CreateInstance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<InstallOptions>(CLSID_InstallOptions2, CLSCTX_ALL)
+                : CreateInstance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
         }
 
         public static UninstallOptions CreateUninstallOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<UninstallOptions>(CLSID_UninstallOptions2, CLSCTX_ALL);
-            }
-            return CreateInstance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<UninstallOptions>(CLSID_UninstallOptions2, CLSCTX_ALL)
+                : CreateInstance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
         }
 
         public static FindPackagesOptions CreateFindPackagesOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions2, CLSCTX_ALL);
-            }
-            return CreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions2, CLSCTX_ALL)
+                : CreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
         }
 
         public static CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions2, CLSCTX_ALL);
-            }
-            return CreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions2, CLSCTX_ALL)
+                : CreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
         }
 
         public static PackageMatchFilter CreatePackageMatchFilter(bool useDev = false)
         {
-            if (useDev)
-            {
-                return CreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter2, CLSCTX_ALL);
-            }
-            return CreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
+            return useDev
+                ? CreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter2, CLSCTX_ALL)
+                : CreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
         }
 
         public static PackageManager TryCreatePackageManager(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<PackageManager>(CLSID_PackageManager2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<PackageManager>(CLSID_PackageManager2, CLSCTX_ALL)
+                : TryCreateInstance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
         }
 
         public static InstallOptions TryCreateInstallOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<InstallOptions>(CLSID_InstallOptions2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<InstallOptions>(CLSID_InstallOptions2, CLSCTX_ALL)
+                : TryCreateInstance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
         }
 
         public static UninstallOptions TryCreateUninstallOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<UninstallOptions>(CLSID_UninstallOptions2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<UninstallOptions>(CLSID_UninstallOptions2, CLSCTX_ALL)
+                : TryCreateInstance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
         }
 
         public static FindPackagesOptions TryCreateFindPackagesOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions2, CLSCTX_ALL)
+                : TryCreateInstance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
         }
 
         public static CreateCompositePackageCatalogOptions TryCreateCreateCompositePackageCatalogOptions(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions2, CLSCTX_ALL)
+                : TryCreateInstance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
         }
 
         public static PackageMatchFilter TryCreatePackageMatchFilter(bool useDev = false)
         {
-            if (useDev)
-            {
-                return TryCreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter2, CLSCTX_ALL);
-            }
-            return TryCreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
+            return useDev
+                ? TryCreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter2, CLSCTX_ALL)
+                : TryCreateInstance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
         }
 
         public static T CreateInstance<T>(Guid rclsid, uint dwClsContext = 0x1)
@@ -183,11 +159,7 @@ namespace WinGetStore.Helpers
         {
             Guid riid = CLSID_IUnknown;
             _ = CoCreateInstance(ref rclsid, IntPtr.Zero, dwClsContext, ref riid, out IntPtr results);
-            if (results == IntPtr.Zero)
-            {
-                return null;
-            }
-            return (T)Marshal.GetObjectForIUnknown(results);
+            return results == IntPtr.Zero ? null : (T)Marshal.GetObjectForIUnknown(results);
         }
 
         [DllImport("ole32", EntryPoint = "CoCreateInstance", ExactSpelling = true)]

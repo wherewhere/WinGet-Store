@@ -74,7 +74,7 @@ namespace WinGetStore.Controls
             UIElementCollection children = Children;
             if (isStretch)
             {
-                Rect rcChild = new Rect(0, 0, arrangeSize.Width, arrangeSize.Height);
+                Rect rcChild = new(0, 0, arrangeSize.Width, arrangeSize.Height);
                 foreach (UIElement child in children)
                 {
                     child?.Arrange(rcChild);
@@ -99,7 +99,7 @@ namespace WinGetStore.Controls
                     if (leftPadding > rightPadding)
                     {
                         double padding = leftPadding - rightPadding;
-                        Rect rcChild = new Rect(0, 0, arrangeSize.Width - padding, arrangeSize.Height);
+                        Rect rcChild = new(0, 0, arrangeSize.Width - padding, arrangeSize.Height);
                         foreach (UIElement child in children)
                         {
                             child?.Arrange(rcChild);
@@ -112,7 +112,7 @@ namespace WinGetStore.Controls
                     else
                     {
                         double padding = rightPadding - leftPadding;
-                        Rect rcChild = new Rect(padding, 0, arrangeSize.Width - padding, arrangeSize.Height);
+                        Rect rcChild = new(padding, 0, arrangeSize.Width - padding, arrangeSize.Height);
                         foreach (UIElement child in children)
                         {
                             child?.Arrange(rcChild);
@@ -135,7 +135,7 @@ namespace WinGetStore.Controls
                     if (topPadding > buttonPadding)
                     {
                         double padding = topPadding - buttonPadding;
-                        Rect rcChild = new Rect(0, 0, arrangeSize.Width, arrangeSize.Height - padding);
+                        Rect rcChild = new(0, 0, arrangeSize.Width, arrangeSize.Height - padding);
                         foreach (UIElement child in children)
                         {
                             child?.Arrange(rcChild);
@@ -144,7 +144,7 @@ namespace WinGetStore.Controls
                     else
                     {
                         double padding = buttonPadding - topPadding;
-                        Rect rcChild = new Rect(0, padding, arrangeSize.Width, arrangeSize.Height - padding);
+                        Rect rcChild = new(0, padding, arrangeSize.Width, arrangeSize.Height - padding);
                         foreach (UIElement child in children)
                         {
                             child?.Arrange(rcChild);

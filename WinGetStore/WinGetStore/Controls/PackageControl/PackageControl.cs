@@ -10,7 +10,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using WinGetStore.Helpers;
-using WinGetStore.ViewModels.ManagerPages;
 
 namespace WinGetStore.Controls
 {
@@ -166,21 +165,9 @@ namespace WinGetStore.Controls
                 }
 
                 PackageControlTemplateSettings templateSettings = TemplateSettings;
-                if (package.InstalledVersion != null)
-                {
-                    if (package.IsUpdateAvailable)
-                    {
-                        templateSettings.PackageState = PackageState.UpdateAvailable;
-                    }
-                    else
-                    {
-                        templateSettings.PackageState = PackageState.Installed;
-                    }
-                }
-                else
-                {
-                    templateSettings.PackageState = PackageState.Nominal;
-                }
+                templateSettings.PackageState = package.InstalledVersion != null
+                    ? package.IsUpdateAvailable ? PackageState.UpdateAvailable : PackageState.Installed
+                    : PackageState.Nominal;
 
                 await ThreadSwitcher.ResumeBackgroundAsync();
 

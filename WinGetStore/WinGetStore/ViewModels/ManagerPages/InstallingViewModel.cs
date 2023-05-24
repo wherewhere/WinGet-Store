@@ -180,7 +180,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
                 return null;
             }
-}
+        }
 
         private async Task<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog)
         {

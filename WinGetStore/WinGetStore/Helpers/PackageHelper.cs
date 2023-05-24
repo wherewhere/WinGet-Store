@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
-using WinGetStore.Controls;
 
 namespace WinGetStore.Helpers
 {

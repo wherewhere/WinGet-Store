@@ -1,5 +1,4 @@
-﻿using AppInstallerCaller;
-using Microsoft.Management.Deployment;
+﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

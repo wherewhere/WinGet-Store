@@ -282,7 +282,7 @@ namespace WinGetStore.Controls
                         ProgressValue = InstallProgress.DownloadProgress * 100;
                         ProgressStatusText = InstallProgress.BytesRequired == 0
                             ? "Downloading..."
-                            : $"{Converters.ToFileSizeString((long)InstallProgress.BytesDownloaded)} downloaded, {Converters.ToFileSizeString((long)InstallProgress.BytesRequired)} in all...";
+                            : $"{Converters.ToFileSizeString((long)InstallProgress.BytesDownloaded)} of {Converters.ToFileSizeString((long)InstallProgress.BytesRequired)}...";
                         ActionButtonText = $"{ProgressStatusText} • {ProgressValue:0.##}%";
                         break;
                     case PackageInstallProgressState.Installing:

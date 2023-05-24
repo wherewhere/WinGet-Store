@@ -1,5 +1,6 @@
 ﻿using AppInstallerCaller;
 using Microsoft.Management.Deployment;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,10 +8,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
 using Windows.System;
-using WinGetStore.Helpers;
 using WinGetStore.Common;
+using WinGetStore.Helpers;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
