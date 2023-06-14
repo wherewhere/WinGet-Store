@@ -1,5 +1,4 @@
-﻿using AppInstallerCaller;
-using Microsoft.Management.Deployment;
+﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -14,7 +13,7 @@ namespace WinGetStore.ViewModels
 {
     public class VersionsViewModel : INotifyPropertyChanged
     {
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
         public CatalogPackage CatalogPackage { get; }
 

@@ -1,10 +1,10 @@
-﻿using AppInstallerCaller;
-using Microsoft.Management.Deployment;
+﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,8 +15,10 @@ namespace WinGetStore.Controls
 {
     public class PackageControl : Control
     {
-        internal const string ActionButtonName = "ActionButton";
-        internal const string InstallProgressControlName = "InstallProgressControl";
+        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
+
+        private const string ActionButtonName = "ActionButton";
+        private const string InstallProgressControlName = "InstallProgressControl";
 
         private ButtonBase ActionButton;
         private ButtonBase InstallProgressControl;
@@ -233,7 +235,7 @@ namespace WinGetStore.Controls
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
 
             long installOperationHr = 0L;
-            string errorMessage = "Unknown Error";
+            string errorMessage = _loader.GetString("UnknownError");
             InstallResult installResult = null;
             try
             {
@@ -241,7 +243,7 @@ namespace WinGetStore.Controls
             }
             catch (OperationCanceledException)
             {
-                errorMessage = "Cancelled";
+                errorMessage = _loader.GetString("Cancelled");
             }
             catch (Exception ex)
             {
@@ -264,12 +266,12 @@ namespace WinGetStore.Controls
 
             if (progress.Status == AsyncStatus.Canceled)
             {
-                templateSettings.ProgressStatusText = "Install cancelled";
+                templateSettings.ProgressStatusText = _loader.GetString("InstallCancelled");
                 templateSettings.PackageState = PackageState.Nominal;
             }
             else if (progress.Status == AsyncStatus.Error || installResult == null)
             {
-                templateSettings.ActionButtonText = "Retry";
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = errorMessage;
                 templateSettings.PackageState = PackageState.InstallError;
             }
@@ -279,8 +281,8 @@ namespace WinGetStore.Controls
             }
             else
             {
-                string failText = $"Install failed ({installResult.Status}): {installResult.ExtendedErrorCode} [{installResult.InstallerErrorCode}]";
-                templateSettings.ActionButtonText = "Retry";
+                string failText = string.Format(_loader.GetString("InstallFailed"), installResult.Status, installResult.ExtendedErrorCode, installResult.InstallerErrorCode);
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = failText;
                 templateSettings.PackageState = PackageState.InstallError;
             }
@@ -313,7 +315,7 @@ namespace WinGetStore.Controls
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
 
             long installOperationHr = 0L;
-            string errorMessage = "Unknown Error";
+            string errorMessage = _loader.GetString("UnknownError");
             InstallResult installResult = null;
             try
             {
@@ -322,7 +324,7 @@ namespace WinGetStore.Controls
             }
             catch (OperationCanceledException)
             {
-                errorMessage = "Cancelled";
+                errorMessage = _loader.GetString("Cancelled");
             }
             catch (Exception ex)
             {
@@ -345,12 +347,12 @@ namespace WinGetStore.Controls
 
             if (progress.Status == AsyncStatus.Canceled)
             {
-                templateSettings.ProgressStatusText = "Upgrade cancelled";
+                templateSettings.ProgressStatusText = _loader.GetString("UpgradeCancelled");
                 templateSettings.PackageState = PackageState.UpdateAvailable;
             }
             else if (progress.Status == AsyncStatus.Error || installResult == null)
             {
-                templateSettings.ActionButtonText = "Retry";
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = errorMessage;
                 templateSettings.PackageState = PackageState.UpdateError;
             }
@@ -360,8 +362,8 @@ namespace WinGetStore.Controls
             }
             else
             {
-                string failText = $"Upgrade failed ({installResult.Status}): {installResult.ExtendedErrorCode} [{installResult.InstallerErrorCode}]";
-                templateSettings.ActionButtonText = "Retry";
+                string failText = string.Format(_loader.GetString("UpgradeFailed"), installResult.Status, installResult.ExtendedErrorCode, installResult.InstallerErrorCode);
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = failText;
                 templateSettings.PackageState = PackageState.UpdateError;
             }
@@ -394,7 +396,7 @@ namespace WinGetStore.Controls
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.UninstallProgress = args);
 
             long installOperationHr = 0L;
-            string errorMessage = "Unknown Error";
+            string errorMessage = _loader.GetString("UnknownError");
             UninstallResult installResult = null;
             try
             {
@@ -403,7 +405,7 @@ namespace WinGetStore.Controls
             }
             catch (OperationCanceledException)
             {
-                errorMessage = "Cancelled";
+                errorMessage = _loader.GetString("Cancelled");
             }
             catch (Exception ex)
             {
@@ -426,12 +428,12 @@ namespace WinGetStore.Controls
 
             if (progress.Status == AsyncStatus.Canceled)
             {
-                templateSettings.ProgressStatusText = "Uninstall cancelled";
+                templateSettings.ProgressStatusText = _loader.GetString("UninstallCancelled");
                 templateSettings.PackageState = PackageState.Installed;
             }
             else if (progress.Status == AsyncStatus.Error || installResult == null)
             {
-                templateSettings.ActionButtonText = "Retry";
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = errorMessage;
                 templateSettings.PackageState = PackageState.UninstallError;
             }
@@ -441,8 +443,8 @@ namespace WinGetStore.Controls
             }
             else
             {
-                string failText = $"Uninstall failed ({installResult.Status}): {installResult.ExtendedErrorCode} [{installResult.UninstallerErrorCode}]";
-                templateSettings.ActionButtonText = "Retry";
+                string failText = string.Format(_loader.GetString("UninstallFailed"), installResult.Status, installResult.ExtendedErrorCode, installResult.UninstallerErrorCode);
+                templateSettings.ActionButtonText = _loader.GetString("Retry");
                 templateSettings.ProgressStatusText = failText;
                 templateSettings.PackageState = PackageState.UninstallError;
             }
@@ -495,10 +497,10 @@ namespace WinGetStore.Controls
         {
             ContentDialog dialog = new()
             {
-                Title = $"Uninstall {CatalogPackage.Name}",
-                Content = $"Are you sure you want to uninstall {CatalogPackage.Name}?",
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No",
+                Title = string.Format(_loader.GetString("UninstallTitle"), CatalogPackage.Name),
+                Content = string.Format(_loader.GetString("UninstallContent"), CatalogPackage.Name),
+                PrimaryButtonText = ResourceLoader.GetForViewIndependentUse().GetString("Yes"),
+                CloseButtonText = ResourceLoader.GetForViewIndependentUse().GetString("No"),
                 DefaultButton = ContentDialogButton.Primary
             };
 

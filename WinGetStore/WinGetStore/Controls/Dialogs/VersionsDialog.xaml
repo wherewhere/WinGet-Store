@@ -9,9 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
-    Title="Package Versions"
+    x:Uid="/VersionsDialog/VersionsDialog"
     d:DataContext="{d:DesignInstance Type=viewmodels:VersionsViewModel}"
-    CloseButtonText="Close"
     DefaultButton="Close"
     FullSizeDesired="True"
     Loaded="ContentDialog_Loaded"
@@ -27,7 +26,8 @@
                     <DataTemplate x:DataType="viewmodels:CatalogPackageVersion">
                         <controls:SettingExpander Header="{x:Bind Version}" Icon="&#xECAA;">
                             <controls:SettingExpander
-                                Header="Agreements"
+                                x:Uid="/VersionsDialog/Agreements"
+                                Description="{x:Bind local:VersionsDialog.PackageAgreementsToDescription(PackageMetadata.Agreements)}"
                                 ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                                 Style="{StaticResource SettingExpanderExpanderItemStyle}"
                                 Tag="{x:Bind local:VersionsDialog.PackageAgreementsToList(PackageMetadata.Agreements)}"
@@ -52,7 +52,7 @@
                                 </controls:SettingExpander.ItemTemplate>
                             </controls:SettingExpander>
                             <controls:Setting
-                                Header="Author"
+                                x:Uid="/VersionsDialog/Author"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.Author, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -60,7 +60,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Copyright"
+                                x:Uid="/VersionsDialog/Copyright"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.Copyright, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -68,9 +68,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/CopyrightUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Copyright Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.CopyrightUrl}"
@@ -80,7 +80,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Description"
+                                x:Uid="/VersionsDialog/Description"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.Description, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -88,7 +88,8 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:SettingExpander
-                                Header="Documentations"
+                                x:Uid="/VersionsDialog/Documentations"
+                                Description="{x:Bind local:VersionsDialog.DocumentationsToDescription(PackageMetadata.Documentations)}"
                                 ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                                 Style="{StaticResource SettingExpanderExpanderItemStyle}"
                                 Tag="{x:Bind local:VersionsDialog.DocumentationsToList(PackageMetadata.Documentations)}"
@@ -109,8 +110,35 @@
                                     </DataTemplate>
                                 </controls:SettingExpander.ItemTemplate>
                             </controls:SettingExpander>
+                            <controls:SettingExpander
+                                x:Uid="/VersionsDialog/Icons"
+                                Description="{x:Bind local:VersionsDialog.IconsToDescription(PackageMetadata.Icons)}"
+                                ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
+                                Style="{StaticResource SettingExpanderExpanderItemStyle}"
+                                Tag="{x:Bind local:VersionsDialog.IconsToList(PackageMetadata.Icons)}"
+                                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                                <controls:SettingExpander.ItemTemplate>
+                                    <DataTemplate x:DataType="deployment:Icon">
+                                        <controls:Setting
+                                            ActionIcon="&#xE8A7;"
+                                            Click="HyperlinkButton_Click"
+                                            Header="{x:Bind FileType}"
+                                            IsClickEnabled="True"
+                                            Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                            Tag="{x:Bind Url}">
+                                            <controls:Setting.Description>
+                                                <TextBlock IsTextSelectionEnabled="True">
+                                                    <Run Text="{x:Bind Theme}" />
+                                                    <Run Text="•" />
+                                                    <Run Text="{x:Bind Resolution}" />
+                                                </TextBlock>
+                                            </controls:Setting.Description>
+                                        </controls:Setting>
+                                    </DataTemplate>
+                                </controls:SettingExpander.ItemTemplate>
+                            </controls:SettingExpander>
                             <controls:Setting
-                                Header="Installation Notes"
+                                x:Uid="/VersionsDialog/InstallationNotes"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.InstallationNotes, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -118,7 +146,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="License"
+                                x:Uid="/VersionsDialog/License"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.License, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -126,9 +154,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/LicenseUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="License Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.LicenseUrl}"
@@ -138,7 +166,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Locale"
+                                x:Uid="/VersionsDialog/Locale"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.Locale, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -146,7 +174,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Package Name"
+                                x:Uid="/VersionsDialog/PackageName"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.PackageName, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -154,9 +182,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/PackageUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Package Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.PackageUrl}"
@@ -166,9 +194,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/PrivacyUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Privacy Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.PrivacyUrl}"
@@ -178,7 +206,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Publisher"
+                                x:Uid="/VersionsDialog/Publisher"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.Publisher, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -186,9 +214,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/PublisherSupportUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Publisher Support Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.PublisherSupportUrl}"
@@ -198,9 +226,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/PublisherUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Publisher Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.PublisherUrl}"
@@ -210,9 +238,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/PurchaseUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Purchase Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.PurchaseUrl}"
@@ -222,7 +250,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Release Notes"
+                                x:Uid="/VersionsDialog/ReleaseNotes"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.ReleaseNotes, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -230,9 +258,9 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/ReleaseNotesUrl"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
-                                Header="Release Notes Url"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="{x:Bind PackageMetadata.ReleaseNotesUrl}"
@@ -242,7 +270,7 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
-                                Header="Short Description"
+                                x:Uid="/VersionsDialog/ShortDescription"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Visibility="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringVisibilityConverter}}">
                                 <controls:Setting.Description>
@@ -250,8 +278,8 @@
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Uid="/VersionsDialog/Tags"
                                 CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
-                                Header="Tags"
                                 Style="{StaticResource DefaultSettingExpanderItemStyle}"
                                 Tag="{x:Bind local:VersionsDialog.TagsToList(PackageMetadata.Tags)}"
                                 Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">

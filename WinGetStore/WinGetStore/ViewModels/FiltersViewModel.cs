@@ -11,7 +11,7 @@ namespace WinGetStore.ViewModels
 {
     public class FiltersViewModel : INotifyPropertyChanged
     {
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
         private ObservableCollection<PackageMatchFilter> packageMatchFilter = new();
         public ObservableCollection<PackageMatchFilter> PackageMatchFilters

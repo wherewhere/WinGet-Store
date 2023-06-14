@@ -1,5 +1,4 @@
-﻿using AppInstallerCaller;
-using Microsoft.Management.Deployment;
+﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.System;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
@@ -16,7 +16,9 @@ namespace WinGetStore.ViewModels.ManagerPages
 {
     public class ManagerViewModel : INotifyPropertyChanged
     {
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
+
+        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
         private bool isLoading;
         public bool IsLoading
@@ -76,6 +78,8 @@ namespace WinGetStore.ViewModels.ManagerPages
             _ = Dispatcher.EnqueueAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
         }
 
+        public ManagerViewModel() => waitProgressText = _loader.GetString("Loading");
+
         private void SetError(string title, string description, string code = "")
         {
             if (IsError) { return; }
@@ -100,30 +104,30 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 if (IsLoading) { return; }
 
-                WaitProgressText = "Loading...";
+                WaitProgressText = _loader.GetString("Loading");
                 IsLoading = true;
 
                 RemoveError();
                 MatchResults.Clear();
 
                 await ThreadSwitcher.ResumeBackgroundAsync();
-                WaitProgressText = "Connect to WinGet...";
+                WaitProgressText = _loader.GetString("ConnectWinGet");
                 PackageCatalog packageCatalog = await CreatePackageCatalogAsync();
                 if (packageCatalog is null)
                 {
-                    SetError("Please check your connection", "Fail to connect to WinGet. It seems you are not connect to network.");
+                    SetError(_loader.GetString("ConnectWinGetFailedTitle"), _loader.GetString("ConnectWinGetFailedDescription"));
                     return;
                 }
 
-                WaitProgressText = "Getting results...";
+                WaitProgressText = _loader.GetString("GettingResults");
                 FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog);
                 if (packagesResult is null)
                 {
-                    SetError("Fail to get result", "There are something wrong with WinGet.");
+                    SetError(_loader.GetString("GettingResultsFailedTitle"), _loader.GetString("GettingResultsFailedDescription"));
                     return;
                 }
 
-                WaitProgressText = "Processing results...";
+                WaitProgressText = _loader.GetString("ProcessingResults");
                 await Dispatcher.ResumeForegroundAsync();
                 packagesResult.Matches.ToList()
                     .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
@@ -134,13 +138,13 @@ namespace WinGetStore.ViewModels.ManagerPages
                             MatchResults.Add(x.CatalogPackage);
                         }
                     });
-                WaitProgressText = "Finnish";
+                WaitProgressText = _loader.GetString("Finnish");
                 IsLoading = false;
             }
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
-                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
                 return;
             }
         }
@@ -152,14 +156,14 @@ namespace WinGetStore.ViewModels.ManagerPages
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
                 if (packageManager is null)
                 {
-                    SetError("WinGet is not installed", "Cannot connect to WinGet. It seems that you are not installed WinGet or the installed version is out of date.");
+                    SetError(_loader.GetString("WinGetNotInstalledTitle"), _loader.GetString("WinGetNotInstalledDescription"));
                     return null;
                 }
 
                 List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToList();
                 if (packageCatalogReferences is null || !packageCatalogReferences.Any())
                 {
-                    SetError("There are no catalog set in WinGet", "Please make sure you have opened WinGet in console and agreed the license, or you have not delete all catalog in WinGet.");
+                    SetError(_loader.GetString("NoCatalogTitle"), _loader.GetString("NoCatalogDescription"));
                     return null;
                 }
 
@@ -176,7 +180,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
-                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
                 return null;
             }
         }
@@ -191,7 +195,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
-                SetError("Something is wrong.", ex.Message, $"0x{Convert.ToString(ex.HResult, 16)}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16)}");
                 return null;
             }
         }

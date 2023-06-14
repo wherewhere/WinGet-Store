@@ -66,13 +66,13 @@
                 <Border x:Name="SearchBoxBorder">
                     <AutoSuggestBox
                         x:Name="SearchTextBox"
+                        x:Uid="/MainPage/SearchTextBox"
                         Height="33"
                         MaxWidth="600"
                         Margin="40,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         IsTabStop="True"
-                        PlaceholderText="Searching Apps..."
                         QuerySubmitted="AutoSuggestBox_QuerySubmitted">
                         <AutoSuggestBox.QueryIcon>
                             <muxc:AnimatedIcon>
@@ -99,23 +99,23 @@
             IsBackEnabled="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
+            ItemInvoked="NavigationView_ItemInvoked"
             PaneClosing="NavigationViewControl_PaneClosing"
-            PaneOpening="NavigationViewControl_PaneOpening"
-            SelectionChanged="NavigationView_SelectionChanged">
+            PaneOpening="NavigationViewControl_PaneOpening">
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="Home" Tag="Home">
+                <muxc:NavigationViewItem x:Uid="/MainPage/Home" Tag="Home">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE80F;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="Library" Tag="Library">
+                <muxc:NavigationViewItem x:Uid="/MainPage/Library" Tag="Library">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8F1;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Settings" Tag="Settings">
+                <muxc:NavigationViewItem x:Uid="/MainPage/Settings" Tag="Settings">
                     <muxc:NavigationViewItem.Icon>
                         <muxc:AnimatedIcon>
                             <muxc:AnimatedIcon.Source>

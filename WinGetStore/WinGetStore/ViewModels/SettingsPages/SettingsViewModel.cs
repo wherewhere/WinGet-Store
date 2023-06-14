@@ -1,5 +1,4 @@
-﻿using AppInstallerCaller;
-using Microsoft.Toolkit.Uwp;
+﻿using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +13,7 @@ namespace WinGetStore.ViewModels.SettingsPages
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        private readonly DispatcherQueue Dispatcher = DispatcherQueue.GetForCurrentThread();
+        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
         private string wingetVersion = "Loading...";
         public string WinGetVersion

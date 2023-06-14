@@ -3,6 +3,8 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Resources;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,6 +17,8 @@ namespace WinGetStore.Controls.Dialogs
 {
     public sealed partial class VersionsDialog : ContentDialog
     {
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("VersionsDialog");
+
         private readonly VersionsViewModel Provider;
 
         public VersionsDialog(VersionsViewModel provider)
@@ -46,7 +50,15 @@ namespace WinGetStore.Controls.Dialogs
 
         internal static List<PackageAgreement> PackageAgreementsToList(IReadOnlyList<PackageAgreement> values) => values.ToList();
 
+        internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
+
         internal static List<Documentation> DocumentationsToList(IReadOnlyList<Documentation> values) => values.ToList();
+
+        internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
+
+        internal static List<Icon> IconsToList(IReadOnlyList<Icon> values) => values.ToList();
+
+        internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
 
         internal static List<string> TagsToList(IReadOnlyList<string> values) => values.ToList();
 

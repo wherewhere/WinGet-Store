@@ -32,9 +32,9 @@
                                 <MenuFlyout>
                                     <MenuFlyoutItem
                                         x:Name="Versions"
+                                        x:Uid="/MainPage/Versions"
                                         Click="MenuFlyoutItem_Click"
-                                        Tag="{x:Bind}"
-                                        Text="Versions" />
+                                        Tag="{x:Bind}" />
                                 </MenuFlyout>
                             </controls:PackageControl.Flyout>
                         </controls:PackageControl>
@@ -47,11 +47,11 @@
                         Background="{ThemeResource SystemControlTransparentBrush}"
                         DoubleTapped="Border_DoubleTapped">
                         <TextBlock
+                            x:Uid="/MainPage/InstallingPage"
                             Margin="0,21"
                             AutomationProperties.HeadingLevel="Level1"
                             FontWeight="SemiBold"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="Installing App" />
+                            Style="{StaticResource TitleTextBlockStyle}" />
                     </Border>
                 </ListView.Header>
             </ListView>
@@ -114,9 +114,9 @@
                     Orientation="Horizontal">
                     <Button
                         x:Name="ActionButtonOne"
+                        x:Uid="/MainPage/Refresh"
                         Margin="2,0,2,0"
                         Click="Button_Click"
-                        Content="Refresh"
                         Style="{StaticResource AccentButtonStyle}" />
                     <HyperlinkButton
                         x:Name="ActionButtonTwo"
@@ -133,7 +133,7 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     TextAlignment="Center"
                     Visibility="{Binding ErrorCode, Converter={StaticResource StringVisibilityConverter}}">
-                    <Run Text="Code: " />
+                    <Run x:Uid="/MainPage/Code" />
                     <Run Text="{Binding ErrorCode}" />
                 </TextBlock>
                 <TextBlock
@@ -144,7 +144,7 @@
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     TextAlignment="Center">
-                    <Run Text="CV: " />
+                    <Run Text="CV:" />
                 </TextBlock>
             </StackPanel>
         </Grid>

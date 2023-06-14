@@ -8,20 +8,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
+    x:Uid="/FiltersDialog/FiltersDialog"
     Title="Filters"
-    Closing="ContentDialog_Closing"
     d:DataContext="{d:DesignInstance Type=viewmodels:FiltersViewModel}"
-    CloseButtonText="Close"
+    Closing="ContentDialog_Closing"
     DefaultButton="Primary"
     FullSizeDesired="True"
     Loaded="ContentDialog_Loaded"
-    PrimaryButtonText="Apply"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <Pivot x:Name="Pivot" Padding="0">
         <Pivot.RightHeader>
             <Button
                 x:Name="Add"
+                x:Uid="/FiltersDialog/Add"
                 Width="32"
                 Height="32"
                 Padding="0"
@@ -29,10 +29,9 @@
                 BorderThickness="0"
                 Click="Button_Click"
                 Content="&#xE710;"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                ToolTipService.ToolTip="Add" />
+                FontFamily="{StaticResource SymbolThemeFontFamily}" />
         </Pivot.RightHeader>
-        <PivotItem Header="All">
+        <PivotItem x:Uid="/FiltersDialog/AllItem">
             <ScrollViewer
                 HorizontalScrollMode="Disabled"
                 VerticalScrollBarVisibility="Auto"
@@ -54,6 +53,7 @@
                                 </controls:Setting.Description>
                                 <Button
                                     x:Name="Delete"
+                                    x:Uid="/FiltersDialog/Delete"
                                     Width="32"
                                     Height="32"
                                     Padding="0"
@@ -62,39 +62,32 @@
                                     Click="Button_Click"
                                     Content="&#xE74D;"
                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                    Tag="{x:Bind}"
-                                    ToolTipService.ToolTip="Delete" />
+                                    Tag="{x:Bind}" />
                             </controls:Setting>
                         </DataTemplate>
                     </controls:SettingsGroup.ItemTemplate>
                 </controls:SettingsGroup>
             </ScrollViewer>
         </PivotItem>
-        <PivotItem Header="Add">
+        <PivotItem x:Uid="/FiltersDialog/AddItem">
             <ScrollViewer
                 HorizontalScrollMode="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Auto">
                 <controls:SettingsGroup>
-                    <controls:Setting Header="Value" Icon="&#xE932;">
+                    <controls:Setting x:Uid="/FiltersDialog/Value" Icon="&#xE932;">
                         <TextBox
                             MaxWidth="{StaticResource SettingCardContentMinWidth}"
                             PlaceholderText="Input Search Word..."
                             Text="{Binding Value, Mode=TwoWay}" />
                     </controls:Setting>
-                    <controls:Setting
-                        Description="Package Match Field"
-                        Header="Field"
-                        Icon="&#xE71C;">
+                    <controls:Setting x:Uid="/FiltersDialog/Field" Icon="&#xE71C;">
                         <ComboBox
+                            x:Uid="/FiltersDialog/MatchField"
                             ItemsSource="{ui:EnumValues Type=deployment:PackageMatchField}"
-                            PlaceholderText="Match Field"
                             SelectedItem="{Binding Field, Mode=TwoWay}" />
                     </controls:Setting>
-                    <controls:Setting
-                        Description="Package Field Match Option"
-                        Header="Option"
-                        Icon="&#xE933;">
+                    <controls:Setting x:Uid="/FiltersDialog/Option" Icon="&#xE933;">
                         <ComboBox
                             ItemsSource="{ui:EnumValues Type=deployment:PackageFieldMatchOption}"
                             PlaceholderText="Match Option"

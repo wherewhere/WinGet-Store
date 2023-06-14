@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
@@ -45,12 +46,12 @@ namespace WinGetStore.Pages
         {
             base.OnNavigatedTo(e);
             Window.Current?.SetTitleBar(DragRegion);
-            NavigationView.SelectedItem = NavigationView.MenuItems[0];
+            NavigationView_Navigate("Home", new EntranceNavigationTransitionInfo());
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
             { HardwareButtons.BackPressed += System_BackPressed; }
             SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
-            //AppTitleText.Text = ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? "酷安";
             CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            AppTitleText.Text = ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? "WinGet Store";
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -91,7 +92,7 @@ namespace WinGetStore.Pages
             (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Tag.Equals(NavItemTag, StringComparison.Ordinal));
             _page = item.Page;
             // Get the page type before navigation so you can prevent duplicate
-            // entries in the backstack.
+            // entries in the back stack.
             Type PreNavPageType = NavigationViewFrame.CurrentSourcePageType;
 
             // Only navigate if the selected page isn't currently loaded.
@@ -103,11 +104,11 @@ namespace WinGetStore.Pages
 
         private void NavigationView_BackRequested(muxc.NavigationView sender, muxc.NavigationViewBackRequestedEventArgs args) => _ = TryGoBack();
 
-        private void NavigationView_SelectionChanged(muxc.NavigationView sender, muxc.NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_ItemInvoked(muxc.NavigationView sender, muxc.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.SelectedItemContainer != null)
+            if (args.InvokedItemContainer != null)
             {
-                string NavItemTag = args.SelectedItemContainer.Tag.ToString();
+                string NavItemTag = args.InvokedItemContainer.Tag.ToString();
                 NavigationView_Navigate(NavItemTag, args.RecommendedNavigationTransitionInfo);
             }
         }

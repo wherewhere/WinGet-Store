@@ -24,10 +24,21 @@
 
             <FontFamily x:Key="SymbolThemeFontFamily">Segoe Fluent Icons,Segoe MDL2 Assets,Segoe UI Symbol</FontFamily>
 
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
+
+            <Style TargetType="Frame">
+                <Setter Property="ContentTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <NavigationThemeTransition />
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
