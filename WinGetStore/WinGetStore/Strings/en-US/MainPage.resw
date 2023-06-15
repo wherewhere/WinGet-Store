@@ -153,8 +153,8 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+  <data name="Finnish" xml:space="preserve">
+    <value>Finnish</value>
   </data>
   <data name="GettingResults" xml:space="preserve">
     <value>Getting results...</value>
@@ -165,8 +165,8 @@
   <data name="GettingResultsFailedTitle" xml:space="preserve">
     <value>Fail to get result</value>
   </data>
-  <data name="ConnectingWinGet" xml:space="preserve">
-    <value>Connecting to WinGet...</value>
+  <data name="ConnectWinGet" xml:space="preserve">
+    <value>Connect to WinGet...</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
     <value>Fail to connect to WinGet. It seems you are not connect to network.</value>
