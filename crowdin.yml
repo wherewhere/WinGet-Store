@@ -1,0 +1,3 @@
+files:
+  - source: /WinGetStore/WinGetStore/Strings/en-US
+    translation: /WinGetStore/WinGetStore/Strings/%locale%/%original_file_name%
