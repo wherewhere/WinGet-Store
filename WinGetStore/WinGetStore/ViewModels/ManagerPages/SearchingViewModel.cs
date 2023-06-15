@@ -123,7 +123,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 MatchResults.Clear();
 
                 await ThreadSwitcher.ResumeBackgroundAsync();
-                WaitProgressText = _loader.GetString("ConnectWinGet");
+                WaitProgressText = _loader.GetString("ConnectingWinGet");
                 PackageCatalog packageCatalog = await CreatePackageCatalogAsync();
                 if (packageCatalog is null)
                 {
@@ -142,7 +142,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 await Dispatcher.ResumeForegroundAsync();
                 packagesResult.Matches.ToList().ForEach((x) => MatchResults.Add(x.CatalogPackage));
-                WaitProgressText = _loader.GetString("Finnish");
+                WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
             catch (Exception ex)
