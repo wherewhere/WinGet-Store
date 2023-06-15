@@ -118,72 +118,72 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Home.Content" xml:space="preserve">
-    <value>Home</value>
+    <value>主頁</value>
   </data>
   <data name="Library.Content" xml:space="preserve">
-    <value>Library</value>
+    <value>庫</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Searching Apps...</value>
+    <value>正在搜索應用……</value>
   </data>
   <data name="Settings.Content" xml:space="preserve">
-    <value>Settings</value>
+    <value>設定</value>
   </data>
   <data name="ProcessingResults" xml:space="preserve">
-    <value>Processing results...</value>
+    <value>正在處理結果……</value>
   </data>
   <data name="Searching" xml:space="preserve">
-    <value>Searching...</value>
+    <value>正在搜索……</value>
   </data>
   <data name="SomethingWrong" xml:space="preserve">
-    <value>Something is wrong</value>
+    <value>有什麼不對勁</value>
   </data>
   <data name="WinGetNotInstalledDescription" xml:space="preserve">
-    <value>Cannot connect to WinGet. It seems that you are not installed WinGet or the installed version is out of date.</value>
+    <value>無法連接到 WinGet。 您可能沒有安裝 WinGet 或者安裝的 WinGet 已過時。</value>
   </data>
   <data name="WinGetNotInstalledTitle" xml:space="preserve">
-    <value>WinGet is not installed</value>
+    <value>WinGet 未安裝</value>
   </data>
   <data name="NoCatalogDescription" xml:space="preserve">
-    <value>Please make sure you have opened WinGet in console and agreed the license, or you have not delete all catalog in WinGet.</value>
+    <value>請確保您曾經在控制台中打開過 WinGet 並同意了協定，或者您沒有刪除所有 WinGet 源。</value>
   </data>
   <data name="NoCatalogTitle" xml:space="preserve">
-    <value>There are no catalog set in WinGet</value>
+    <value>WinGet 中沒有安裝源</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>正在載入……</value>
   </data>
   <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>完成</value>
   </data>
   <data name="GettingResults" xml:space="preserve">
-    <value>Getting results...</value>
+    <value>取得結果……</value>
   </data>
   <data name="GettingResultsFailedDescription" xml:space="preserve">
-    <value>There are something wrong with WinGet.</value>
+    <value>WinGet 出了一些問題。</value>
   </data>
   <data name="GettingResultsFailedTitle" xml:space="preserve">
-    <value>Fail to get result</value>
+    <value>獲取結果失敗</value>
   </data>
   <data name="ConnectingWinGet" xml:space="preserve">
-    <value>Connecting to WinGet...</value>
+    <value>正在連接 WinGet……</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
-    <value>Fail to connect to WinGet. It seems you are not connect to network.</value>
+    <value>無法連接到 WinGet。 您可能沒有連接到網路。</value>
   </data>
   <data name="ConnectWinGetFailedTitle" xml:space="preserve">
-    <value>Please check your connection</value>
+    <value>請檢查網路連接</value>
   </data>
   <data name="ManagerPages.Text" xml:space="preserve">
-    <value>Installed App</value>
+    <value>已安裝的應用</value>
   </data>
   <data name="Versions.Text" xml:space="preserve">
-    <value>Versions</value>
+    <value>版本</value>
   </data>
   <data name="Filters.Content" xml:space="preserve">
-    <value>Filters</value>
+    <value>篩選器</value>
   </data>
   <data name="InstallingPage.Text" xml:space="preserve">
-    <value>Installing App</value>
+    <value>正在安裝的應用</value>
   </data>
 </root>
