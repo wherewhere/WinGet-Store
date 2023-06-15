@@ -117,84 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlmostDone" xml:space="preserve">
-    <value>Almost done</value>
+  <data name="Agreements.Header" xml:space="preserve">
+    <value>用户协议</value>
   </data>
-  <data name="AvailableVersion.Text" xml:space="preserve">
-    <value>Available Version:</value>
+  <data name="Author.Header" xml:space="preserve">
+    <value>作者</value>
   </data>
-  <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+  <data name="Copyright.Header" xml:space="preserve">
+    <value>版权</value>
   </data>
-  <data name="Downloading" xml:space="preserve">
-    <value>Downloading...</value>
+  <data name="CopyrightUrl.Header" xml:space="preserve">
+    <value>版权链接</value>
   </data>
-  <data name="DownloadingProgress" xml:space="preserve">
-    <value>Downloaded {0} of {1}...</value>
+  <data name="Description.Header" xml:space="preserve">
+    <value>简介</value>
   </data>
-  <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+  <data name="Documentations.Header" xml:space="preserve">
+    <value>文档</value>
   </data>
-  <data name="Install" xml:space="preserve">
-    <value>Install</value>
+  <data name="Icons.Header" xml:space="preserve">
+    <value>图标</value>
   </data>
-  <data name="InstallCancelled" xml:space="preserve">
-    <value>Install cancelled</value>
+  <data name="InstallationNotes.Header" xml:space="preserve">
+    <value>安装说明</value>
   </data>
-  <data name="InstalledVersion.Text" xml:space="preserve">
-    <value>Installed Version:</value>
+  <data name="InTotal" xml:space="preserve">
+    <value>总计 {0} 个</value>
   </data>
-  <data name="InstallFailed" xml:space="preserve">
-    <value>Install failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
+  <data name="License.Header" xml:space="preserve">
+    <value>许可协议</value>
   </data>
-  <data name="Installing" xml:space="preserve">
-    <value>Installing</value>
+  <data name="LicenseUrl.Header" xml:space="preserve">
+    <value>许可证链接</value>
   </data>
-  <data name="InstallingText" xml:space="preserve">
-    <value>Installing...</value>
+  <data name="Locale.Header" xml:space="preserve">
+    <value>本地化</value>
   </data>
-  <data name="Queued" xml:space="preserve">
-    <value>Queued...</value>
+  <data name="PackageName.Header" xml:space="preserve">
+    <value>程序包名称</value>
   </data>
-  <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+  <data name="PackageUrl.Header" xml:space="preserve">
+    <value>程序包链接</value>
   </data>
-  <data name="Uninstall" xml:space="preserve">
-    <value>Uninstall</value>
+  <data name="PrivacyUrl.Header" xml:space="preserve">
+    <value>隐私链接</value>
   </data>
-  <data name="UninstallCancelled" xml:space="preserve">
-    <value>Uninstall cancelled</value>
+  <data name="Publisher.Header" xml:space="preserve">
+    <value>发布者</value>
   </data>
-  <data name="UninstallContent" xml:space="preserve">
-    <value>Are you sure you want to uninstall {0}?</value>
-    <comment>{0} - Name.</comment>
+  <data name="PublisherSupportUrl.Header" xml:space="preserve">
+    <value>发布者支持链接</value>
   </data>
-  <data name="UninstallFailed" xml:space="preserve">
-    <value>Uninstall failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - UninstallErrorCode.</comment>
+  <data name="PublisherUrl.Header" xml:space="preserve">
+    <value>发布者链接</value>
   </data>
-  <data name="Uninstalling" xml:space="preserve">
-    <value>Uninstalling</value>
+  <data name="PurchaseUrl.Header" xml:space="preserve">
+    <value>购买链接</value>
   </data>
-  <data name="UninstallingText" xml:space="preserve">
-    <value>Uninstalling...</value>
+  <data name="ReleaseNotes.Header" xml:space="preserve">
+    <value>更新日志</value>
   </data>
-  <data name="UninstallTitle" xml:space="preserve">
-    <value>Uninstall {0}</value>
-    <comment>{0} - Name.</comment>
+  <data name="ReleaseNotesUrl.Header" xml:space="preserve">
+    <value>更新日志链接</value>
   </data>
-  <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+  <data name="ShortDescription.Header" xml:space="preserve">
+    <value>简短说明</value>
   </data>
-  <data name="Upgrade" xml:space="preserve">
-    <value>Upgrade</value>
+  <data name="Tags.Header" xml:space="preserve">
+    <value>标签</value>
   </data>
-  <data name="UpgradeCancelled" xml:space="preserve">
-    <value>Upgrade cancelled</value>
+  <data name="VersionsDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
   </data>
-  <data name="UpgradeFailed" xml:space="preserve">
-    <value>Upgrade failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
+  <data name="VersionsDialog.Title" xml:space="preserve">
+    <value>软件包版本</value>
   </data>
 </root>

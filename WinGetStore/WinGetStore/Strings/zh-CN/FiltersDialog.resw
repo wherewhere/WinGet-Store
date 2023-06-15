@@ -117,84 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlmostDone" xml:space="preserve">
-    <value>Almost done</value>
+  <data name="Add.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>添加</value>
   </data>
-  <data name="AvailableVersion.Text" xml:space="preserve">
-    <value>Available Version:</value>
+  <data name="AddItem.Header" xml:space="preserve">
+    <value>添加</value>
   </data>
-  <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+  <data name="AllItem.Header" xml:space="preserve">
+    <value>全部</value>
   </data>
-  <data name="Downloading" xml:space="preserve">
-    <value>Downloading...</value>
+  <data name="Code.Text" xml:space="preserve">
+    <value>代码</value>
   </data>
-  <data name="DownloadingProgress" xml:space="preserve">
-    <value>Downloaded {0} of {1}...</value>
+  <data name="Delete.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>删除</value>
   </data>
-  <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+  <data name="Field.Description" xml:space="preserve">
+    <value>软件包匹配项</value>
   </data>
-  <data name="Install" xml:space="preserve">
-    <value>Install</value>
+  <data name="Field.Header" xml:space="preserve">
+    <value>项目</value>
   </data>
-  <data name="InstallCancelled" xml:space="preserve">
-    <value>Install cancelled</value>
+  <data name="Filters.Content" xml:space="preserve">
+    <value>筛选器</value>
   </data>
-  <data name="InstalledVersion.Text" xml:space="preserve">
-    <value>Installed Version:</value>
+  <data name="FiltersDialog.CloseButtonText" xml:space="preserve">
+    <value>关闭</value>
   </data>
-  <data name="InstallFailed" xml:space="preserve">
-    <value>Install failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
+  <data name="FiltersDialog.PrimaryButtonText" xml:space="preserve">
+    <value>应用</value>
   </data>
-  <data name="Installing" xml:space="preserve">
-    <value>Installing</value>
+  <data name="FiltersDialog.Title" xml:space="preserve">
+    <value>筛选器</value>
   </data>
-  <data name="InstallingText" xml:space="preserve">
-    <value>Installing...</value>
+  <data name="InstallingPage" xml:space="preserve">
+    <value>正在安装应用</value>
   </data>
-  <data name="Queued" xml:space="preserve">
-    <value>Queued...</value>
+  <data name="MatchField.PlaceholderText" xml:space="preserve">
+    <value>匹配项</value>
   </data>
-  <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+  <data name="Option.Description" xml:space="preserve">
+    <value>软件包项匹配选项</value>
   </data>
-  <data name="Uninstall" xml:space="preserve">
-    <value>Uninstall</value>
+  <data name="Option.Header" xml:space="preserve">
+    <value>选项</value>
   </data>
-  <data name="UninstallCancelled" xml:space="preserve">
-    <value>Uninstall cancelled</value>
+  <data name="Refresh.Content" xml:space="preserve">
+    <value>刷新</value>
   </data>
-  <data name="UninstallContent" xml:space="preserve">
-    <value>Are you sure you want to uninstall {0}?</value>
-    <comment>{0} - Name.</comment>
-  </data>
-  <data name="UninstallFailed" xml:space="preserve">
-    <value>Uninstall failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - UninstallErrorCode.</comment>
-  </data>
-  <data name="Uninstalling" xml:space="preserve">
-    <value>Uninstalling</value>
-  </data>
-  <data name="UninstallingText" xml:space="preserve">
-    <value>Uninstalling...</value>
-  </data>
-  <data name="UninstallTitle" xml:space="preserve">
-    <value>Uninstall {0}</value>
-    <comment>{0} - Name.</comment>
-  </data>
-  <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
-  </data>
-  <data name="Upgrade" xml:space="preserve">
-    <value>Upgrade</value>
-  </data>
-  <data name="UpgradeCancelled" xml:space="preserve">
-    <value>Upgrade cancelled</value>
-  </data>
-  <data name="UpgradeFailed" xml:space="preserve">
-    <value>Upgrade failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
+  <data name="Value.Header" xml:space="preserve">
+    <value>值</value>
   </data>
 </root>

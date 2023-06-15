@@ -117,84 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlmostDone" xml:space="preserve">
-    <value>Almost done</value>
+  <data name="AppDescription" xml:space="preserve">
+    <value>一个基于 UWP 平台的 winget GUI 应用管理工具</value>
   </data>
-  <data name="AvailableVersion.Text" xml:space="preserve">
-    <value>Available Version:</value>
+  <data name="AppName" xml:space="preserve">
+    <value>WinGet 商店</value>
   </data>
-  <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+  <data name="ExceptionThrown" xml:space="preserve">
+    <value>程序出现了错误……</value>
   </data>
-  <data name="Downloading" xml:space="preserve">
-    <value>Downloading...</value>
+  <data name="GotoGithub" xml:space="preserve">
+    <value>前往 Github</value>
   </data>
-  <data name="DownloadingProgress" xml:space="preserve">
-    <value>Downloaded {0} of {1}...</value>
+  <data name="HasUpdate" xml:space="preserve">
+    <value>程序更新了 v({0}.{1}.{2} -&gt; {3})。</value>
+    <comment>{0}.{1}.{2}和{3} 表示版本号</comment>
   </data>
-  <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+  <data name="HasUpdateTitle" xml:space="preserve">
+    <value>检查到了更新</value>
   </data>
-  <data name="Install" xml:space="preserve">
-    <value>Install</value>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
   </data>
-  <data name="InstallCancelled" xml:space="preserve">
-    <value>Install cancelled</value>
+  <data name="NoUpdate" xml:space="preserve">
+    <value>当前无可用更新。</value>
   </data>
-  <data name="InstalledVersion.Text" xml:space="preserve">
-    <value>Installed Version:</value>
-  </data>
-  <data name="InstallFailed" xml:space="preserve">
-    <value>Install failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
-  </data>
-  <data name="Installing" xml:space="preserve">
-    <value>Installing</value>
-  </data>
-  <data name="InstallingText" xml:space="preserve">
-    <value>Installing...</value>
-  </data>
-  <data name="Queued" xml:space="preserve">
-    <value>Queued...</value>
-  </data>
-  <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
-  </data>
-  <data name="Uninstall" xml:space="preserve">
-    <value>Uninstall</value>
-  </data>
-  <data name="UninstallCancelled" xml:space="preserve">
-    <value>Uninstall cancelled</value>
-  </data>
-  <data name="UninstallContent" xml:space="preserve">
-    <value>Are you sure you want to uninstall {0}?</value>
-    <comment>{0} - Name.</comment>
-  </data>
-  <data name="UninstallFailed" xml:space="preserve">
-    <value>Uninstall failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - UninstallErrorCode.</comment>
-  </data>
-  <data name="Uninstalling" xml:space="preserve">
-    <value>Uninstalling</value>
-  </data>
-  <data name="UninstallingText" xml:space="preserve">
-    <value>Uninstalling...</value>
-  </data>
-  <data name="UninstallTitle" xml:space="preserve">
-    <value>Uninstall {0}</value>
-    <comment>{0} - Name.</comment>
-  </data>
-  <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
-  </data>
-  <data name="Upgrade" xml:space="preserve">
-    <value>Upgrade</value>
-  </data>
-  <data name="UpgradeCancelled" xml:space="preserve">
-    <value>Upgrade cancelled</value>
-  </data>
-  <data name="UpgradeFailed" xml:space="preserve">
-    <value>Upgrade failed ({0}): {1} [{2}]</value>
-    <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
   </data>
 </root>
