@@ -166,7 +166,7 @@
     <value>获取结果失败</value>
   </data>
   <data name="ConnectingWinGet" xml:space="preserve">
-    <value>Connecting to WinGet...</value>
+    <value>正在连接 WinGet……</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
     <value>无法连接到 WinGet。您可能没有连接到网络。</value>
