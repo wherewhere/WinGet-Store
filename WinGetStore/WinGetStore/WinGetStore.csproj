@@ -371,19 +371,21 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-US\MainPage.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\PackageControl.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\VersionsDialog.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\en-US\FiltersDialog.resw" />
+    <PRIResource Include="Strings\en-US\MainPage.resw" />
+    <PRIResource Include="Strings\en-US\PackageControl.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\en-US\VersionsDialog.resw" />
+    <PRIResource Include="Strings\zh-CN\FiltersDialog.resw" />
+    <PRIResource Include="Strings\zh-CN\MainPage.resw" />
+    <PRIResource Include="Strings\zh-CN\PackageControl.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\VersionsDialog.resw" />
+    <PRIResource Include="Strings\zh-TW\FiltersDialog.resw" />
+    <PRIResource Include="Strings\zh-TW\MainPage.resw" />
+    <PRIResource Include="Strings\zh-TW\PackageControl.resw" />
+    <PRIResource Include="Strings\zh-TW\Resources.resw" />
+    <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

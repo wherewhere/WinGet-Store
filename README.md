@@ -4,6 +4,7 @@
 A GUI tool of winget for manage apps based on UWP
 
 [![Build Status](https://github.com/wherewhere/WinGet-Store/actions/workflows/build-and-package.yml/badge.svg)](https://github.com/wherewhere/WinGet-Store/actions/workflows/build-and-package.yml "Build Status")
+[![Crowdin](https://badges.crowdin.net/winget-store/localized.svg)](https://crowdin.com/project/winget-store "Crowdin")
 
 [![LICENSE](https://img.shields.io/github/license/wherewhere/WinGet-Store.svg?label=License&style=flat-square)](https://github.com/wherewhere/WinGet-Store/blob/master/LICENSE "LICENSE")
 [![Issues](https://img.shields.io/github/issues/wherewhere/WinGet-Store.svg?label=Issues&style=flat-square)](https://github.com/wherewhere/WinGet-Store/issues "Issues")

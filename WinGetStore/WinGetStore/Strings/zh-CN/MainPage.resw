@@ -153,7 +153,7 @@
   <data name="Loading" xml:space="preserve">
     <value>正在加载……</value>
   </data>
-  <data name="Finnish" xml:space="preserve">
+  <data name="Finished" xml:space="preserve">
     <value>已完成</value>
   </data>
   <data name="GettingResults" xml:space="preserve">
@@ -165,7 +165,7 @@
   <data name="GettingResultsFailedTitle" xml:space="preserve">
     <value>获取结果失败</value>
   </data>
-  <data name="ConnectWinGet" xml:space="preserve">
+  <data name="ConnectingWinGet" xml:space="preserve">
     <value>正在连接 WinGet……</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
