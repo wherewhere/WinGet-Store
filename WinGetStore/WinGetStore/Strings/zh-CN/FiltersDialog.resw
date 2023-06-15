@@ -150,9 +150,6 @@
   <data name="FiltersDialog.Title" xml:space="preserve">
     <value>筛选器</value>
   </data>
-  <data name="InstallingPage" xml:space="preserve">
-    <value>正在安装应用</value>
-  </data>
   <data name="MatchField.PlaceholderText" xml:space="preserve">
     <value>匹配项</value>
   </data>
