@@ -36,12 +36,13 @@ jobs:
       uses: microsoft/setup-msbuild@v1
       with:
         msbuild-architecture: x64
-
+        
+    - name: Setup NuGet.exe
+      uses: NuGet/setup-nuget@v1
+    
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: Release
+      run: nuget restore $env:Solution_Name
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
