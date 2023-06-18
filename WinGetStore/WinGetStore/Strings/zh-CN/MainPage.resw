@@ -124,7 +124,7 @@
     <value>库</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>正在搜索应用……</value>
+    <value>搜索应用……</value>
   </data>
   <data name="Settings.Content" xml:space="preserve">
     <value>设置</value>
@@ -175,7 +175,7 @@
     <value>请检查网络连接</value>
   </data>
   <data name="ManagerPages.Text" xml:space="preserve">
-    <value>已安装应用</value>
+    <value>已安装的应用</value>
   </data>
   <data name="Versions.Text" xml:space="preserve">
     <value>版本</value>
@@ -184,6 +184,6 @@
     <value>筛选器</value>
   </data>
   <data name="InstallingPage.Text" xml:space="preserve">
-    <value>正在安装应用</value>
+    <value>正在安装的应用</value>
   </data>
 </root>

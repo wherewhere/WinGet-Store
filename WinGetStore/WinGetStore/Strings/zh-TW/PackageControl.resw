@@ -118,83 +118,83 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlmostDone" xml:space="preserve">
-    <value>Almost done</value>
+    <value>即將完成</value>
   </data>
   <data name="AvailableVersion.Text" xml:space="preserve">
-    <value>Available Version:</value>
+    <value>可用版本：</value>
   </data>
   <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+    <value>已取消</value>
   </data>
   <data name="Downloading" xml:space="preserve">
-    <value>Downloading...</value>
+    <value>正在下載……</value>
   </data>
   <data name="DownloadingProgress" xml:space="preserve">
-    <value>Downloaded {0} of {1}...</value>
+    <value>已下載 {0}，總共 {1}……</value>
   </data>
   <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>已完成</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>安裝</value>
   </data>
   <data name="InstallCancelled" xml:space="preserve">
-    <value>Install cancelled</value>
+    <value>安裝已取消</value>
   </data>
   <data name="InstalledVersion.Text" xml:space="preserve">
-    <value>Installed Version:</value>
+    <value>已安裝的版本：</value>
   </data>
   <data name="InstallFailed" xml:space="preserve">
-    <value>Install failed ({0}): {1} [{2}]</value>
+    <value>安裝失敗 ({0})：{1} [{2}]</value>
     <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
   </data>
   <data name="Installing" xml:space="preserve">
-    <value>Installing</value>
+    <value>正在安裝</value>
   </data>
   <data name="InstallingText" xml:space="preserve">
-    <value>Installing...</value>
+    <value>正在安裝……</value>
   </data>
   <data name="Queued" xml:space="preserve">
-    <value>Queued...</value>
+    <value>已匹配……</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>重試</value>
   </data>
   <data name="Uninstall" xml:space="preserve">
-    <value>Uninstall</value>
+    <value>解除安裝</value>
   </data>
   <data name="UninstallCancelled" xml:space="preserve">
-    <value>Uninstall cancelled</value>
+    <value>卸載已取消</value>
   </data>
   <data name="UninstallContent" xml:space="preserve">
-    <value>Are you sure you want to uninstall {0}?</value>
+    <value>您確定要解除安裝 {0} 嗎？</value>
     <comment>{0} - Name.</comment>
   </data>
   <data name="UninstallFailed" xml:space="preserve">
-    <value>Uninstall failed ({0}): {1} [{2}]</value>
+    <value>卸載失敗 ({0})：{1} [{2}]</value>
     <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - UninstallErrorCode.</comment>
   </data>
   <data name="Uninstalling" xml:space="preserve">
-    <value>Uninstalling</value>
+    <value>正在解除安裝</value>
   </data>
   <data name="UninstallingText" xml:space="preserve">
-    <value>Uninstalling...</value>
+    <value>正在解除安裝……</value>
   </data>
   <data name="UninstallTitle" xml:space="preserve">
-    <value>Uninstall {0}</value>
+    <value>解除安裝 {0}</value>
     <comment>{0} - Name.</comment>
   </data>
   <data name="UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+    <value>未知錯誤</value>
   </data>
   <data name="Upgrade" xml:space="preserve">
-    <value>Upgrade</value>
+    <value>更新</value>
   </data>
   <data name="UpgradeCancelled" xml:space="preserve">
-    <value>Upgrade cancelled</value>
+    <value>更新已取消</value>
   </data>
   <data name="UpgradeFailed" xml:space="preserve">
-    <value>Upgrade failed ({0}): {1} [{2}]</value>
+    <value>更新失敗 ({0})：{1} [{2}]</value>
     <comment>{0} - Status. {1} - ExtendedErrorCode. {2} - InstallerErrorCode.</comment>
   </data>
 </root>

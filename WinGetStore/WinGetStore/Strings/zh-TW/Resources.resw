@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDescription" xml:space="preserve">
-    <value>A GUI tool of winget for manage apps based on UWP</value>
+    <value>一個基於 UWP 平臺的 winget GUI 應用管理工具</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>WinGet Store</value>
+    <value>WinGet 商店</value>
   </data>
   <data name="ExceptionThrown" xml:space="preserve">
-    <value>There was an error with the program…</value>
+    <value>程式出現了錯誤......</value>
   </data>
   <data name="GotoGithub" xml:space="preserve">
-    <value>Go to Github</value>
+    <value>前往 Github</value>
   </data>
   <data name="HasUpdate" xml:space="preserve">
-    <value>Update to v({0}.{1}.{2} -&gt; {3})。</value>
+    <value>程式更新了 v({0}.{1}.{2} -&gt; {3})。</value>
     <comment>{0}.{1}.{2}和{3} 表示版本号</comment>
   </data>
   <data name="HasUpdateTitle" xml:space="preserve">
-    <value>Update Checked</value>
+    <value>檢查到了更新</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>否</value>
   </data>
   <data name="NoUpdate" xml:space="preserve">
-    <value>No update</value>
+    <value>當前無可用更新。</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>是</value>
   </data>
 </root>

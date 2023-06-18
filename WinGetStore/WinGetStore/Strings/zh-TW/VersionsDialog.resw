@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Agreements.Header" xml:space="preserve">
-    <value>Agreements</value>
+    <value>用戶協定</value>
   </data>
   <data name="Author.Header" xml:space="preserve">
-    <value>Author</value>
+    <value>作者</value>
   </data>
   <data name="Copyright.Header" xml:space="preserve">
-    <value>Copyright</value>
+    <value>版權</value>
   </data>
   <data name="CopyrightUrl.Header" xml:space="preserve">
-    <value>Copyright Url</value>
+    <value>版權連結</value>
   </data>
   <data name="Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>簡介</value>
   </data>
   <data name="Documentations.Header" xml:space="preserve">
-    <value>Documentations</value>
+    <value>文檔</value>
   </data>
   <data name="Icons.Header" xml:space="preserve">
-    <value>Icons</value>
+    <value>圖標</value>
   </data>
   <data name="InstallationNotes.Header" xml:space="preserve">
-    <value>Installation Notes</value>
+    <value>安裝註解</value>
   </data>
   <data name="InTotal" xml:space="preserve">
-    <value>{0} in total</value>
+    <value>共計 {0} 個</value>
   </data>
   <data name="License.Header" xml:space="preserve">
-    <value>License</value>
+    <value>許可協定</value>
   </data>
   <data name="LicenseUrl.Header" xml:space="preserve">
-    <value>License Url</value>
+    <value>許可證連結</value>
   </data>
   <data name="Locale.Header" xml:space="preserve">
-    <value>Locale</value>
+    <value>當地語系化</value>
   </data>
   <data name="PackageName.Header" xml:space="preserve">
-    <value>Package Name</value>
+    <value>程式包名稱</value>
   </data>
   <data name="PackageUrl.Header" xml:space="preserve">
-    <value>Package Url</value>
+    <value>程式包連結</value>
   </data>
   <data name="PrivacyUrl.Header" xml:space="preserve">
-    <value>Privacy Url</value>
+    <value>隱私連結</value>
   </data>
   <data name="Publisher.Header" xml:space="preserve">
-    <value>Publisher</value>
+    <value>發行者</value>
   </data>
   <data name="PublisherSupportUrl.Header" xml:space="preserve">
-    <value>Publisher Support Url</value>
+    <value>發行者支持連結</value>
   </data>
   <data name="PublisherUrl.Header" xml:space="preserve">
-    <value>Publisher Url</value>
+    <value>發行者連結</value>
   </data>
   <data name="PurchaseUrl.Header" xml:space="preserve">
-    <value>Purchase Url</value>
+    <value>購買連結</value>
   </data>
   <data name="ReleaseNotes.Header" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>更新日誌</value>
   </data>
   <data name="ReleaseNotesUrl.Header" xml:space="preserve">
-    <value>Release Notes Url</value>
+    <value>更新日誌連結</value>
   </data>
   <data name="ShortDescription.Header" xml:space="preserve">
-    <value>Short Description</value>
+    <value>簡短說明</value>
   </data>
   <data name="Tags.Header" xml:space="preserve">
-    <value>Tags</value>
+    <value>標籤</value>
   </data>
   <data name="VersionsDialog.CloseButtonText" xml:space="preserve">
-    <value>Close</value>
+    <value>關閉</value>
   </data>
   <data name="VersionsDialog.Title" xml:space="preserve">
-    <value>Package Versions</value>
+    <value>軟體包版本</value>
   </data>
 </root>
