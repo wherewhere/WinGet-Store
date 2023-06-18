@@ -9,20 +9,32 @@ namespace winrt::WinGetStore::WinRT::implementation
 {
     struct WinGetProjectionFactory : WinGetProjectionFactoryT<WinGetProjectionFactory>
     {
-        static WinGetStore::WinRT::WinGetProjectionFactory WinGetProjectionFactory::Instance();
-
         WinGetProjectionFactory() = default;
 
-        PackageManager CreatePackageManager(bool useDev);
-        InstallOptions CreateInstallOptions(bool useDev);
-        UninstallOptions CreateUninstallOptions(bool useDev);
-        FindPackagesOptions CreateFindPackagesOptions(bool useDev);
-        CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions(bool useDev);
-        PackageMatchFilter CreatePackageMatchFilter(bool useDev);
-        PackageManagerSettings CreatePackageManagerSettings();
+        static bool IsUseDev() { return useDev; }
+        static void IsUseDev(bool value) { useDev = value; }
+
+        static bool IsWinGetInstalled();
+        static bool IsWinGetDevInstalled();
+
+        static PackageManager CreatePackageManager();
+        static InstallOptions CreateInstallOptions();
+        static UninstallOptions CreateUninstallOptions();
+        static FindPackagesOptions CreateFindPackagesOptions();
+        static CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions();
+        static PackageMatchFilter CreatePackageMatchFilter();
+        static PackageManagerSettings CreatePackageManagerSettings();
+
+        static PackageManager TryCreatePackageManager();
+        static InstallOptions TryCreateInstallOptions();
+        static UninstallOptions TryCreateUninstallOptions();
+        static FindPackagesOptions TryCreateFindPackagesOptions();
+        static CreateCompositePackageCatalogOptions TryCreateCreateCompositePackageCatalogOptions();
+        static PackageMatchFilter TryCreatePackageMatchFilter();
+        static PackageManagerSettings TryCreatePackageManagerSettings();
 
     private:
-        static WinGetStore::WinRT::WinGetProjectionFactory instance;
+        static bool useDev;
     };
 }
 

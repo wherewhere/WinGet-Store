@@ -11,6 +11,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.System;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
+using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {

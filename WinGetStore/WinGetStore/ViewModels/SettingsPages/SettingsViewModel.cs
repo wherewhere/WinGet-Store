@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.System;
 using WinGetStore.Helpers;
+using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels.SettingsPages
 {

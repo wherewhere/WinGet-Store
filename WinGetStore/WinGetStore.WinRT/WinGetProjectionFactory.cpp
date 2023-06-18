@@ -22,18 +22,82 @@ namespace winrt::WinGetStore::WinRT::implementation
     const CLSID CLSID_PackageMatchFilter2 = { 0x3F85B9F4, 0x487A, 0x4C48, { 0x90, 0x35, 0x29, 0x03, 0xF8, 0xA6, 0xD9, 0xE8 } };  //3F85B9F4-487A-4C48-9035-2903F8A6D9E8
     const CLSID CLSID_CreateCompositePackageCatalogOptions2 = { 0xEE160901, 0xB317, 0x4EA7, { 0x9C, 0xC6, 0x53, 0x55, 0xC6, 0xD7, 0xD8, 0xA7 } };  //EE160901-B317-4EA7-9CC6-5355C6D7D8A7
 
-    WinGetStore::WinRT::WinGetProjectionFactory WinGetProjectionFactory::instance{ nullptr };
+    bool WinGetProjectionFactory::useDev = false;
 
-    WinGetStore::WinRT::WinGetProjectionFactory WinGetProjectionFactory::Instance()
+    bool WinGetProjectionFactory::IsWinGetInstalled()
     {
-        if (!instance)
-        {
-            instance = WinGetStore::WinRT::WinGetProjectionFactory::WinGetProjectionFactory();
-        }
-        return instance;
+        void* result = nullptr;
+        int32_t hresult = WINRT_IMPL_CoCreateInstance(CLSID_PackageManager, nullptr, CLSCTX_ALL, guid_of<PackageManager>(), &result);
+        return hresult == S_OK && result != nullptr;
     }
 
-    PackageManager WinGetProjectionFactory::CreatePackageManager(bool useDev)
+    bool WinGetProjectionFactory::IsWinGetDevInstalled()
+    {
+        void* result = nullptr;
+        int32_t hresult = WINRT_IMPL_CoCreateInstance(CLSID_PackageManager2, nullptr, CLSCTX_ALL, guid_of<PackageManager>(), &result);
+        return hresult == S_OK && result != nullptr;
+    }
+
+    PackageManager WinGetProjectionFactory::CreatePackageManager()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<PackageManager>(CLSID_PackageManager2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
+    }
+
+    InstallOptions WinGetProjectionFactory::CreateInstallOptions()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<InstallOptions>(CLSID_InstallOptions2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
+    }
+
+    UninstallOptions WinGetProjectionFactory::CreateUninstallOptions()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<UninstallOptions>(CLSID_UninstallOptions2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
+    }
+
+    FindPackagesOptions WinGetProjectionFactory::CreateFindPackagesOptions()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<FindPackagesOptions>(CLSID_FindPackagesOptions2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
+    }
+
+    CreateCompositePackageCatalogOptions WinGetProjectionFactory::CreateCreateCompositePackageCatalogOptions()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
+    }
+
+    PackageMatchFilter WinGetProjectionFactory::CreatePackageMatchFilter()
+    {
+        if (useDev)
+        {
+            return winrt::create_instance<PackageMatchFilter>(CLSID_PackageMatchFilter2, CLSCTX_ALL);
+        }
+        return winrt::create_instance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
+    }
+
+    PackageManagerSettings WinGetProjectionFactory::CreatePackageManagerSettings()
+    {
+        return winrt::create_instance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
+    }
+
+    PackageManager WinGetProjectionFactory::TryCreatePackageManager()
     {
         if (useDev)
         {
@@ -42,7 +106,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<PackageManager>(CLSID_PackageManager, CLSCTX_ALL);
     }
 
-    InstallOptions WinGetProjectionFactory::CreateInstallOptions(bool useDev)
+    InstallOptions WinGetProjectionFactory::TryCreateInstallOptions()
     {
         if (useDev)
         {
@@ -51,7 +115,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<InstallOptions>(CLSID_InstallOptions, CLSCTX_ALL);
     }
 
-    UninstallOptions WinGetProjectionFactory::CreateUninstallOptions(bool useDev)
+    UninstallOptions WinGetProjectionFactory::TryCreateUninstallOptions()
     {
         if (useDev)
         {
@@ -60,7 +124,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<UninstallOptions>(CLSID_UninstallOptions, CLSCTX_ALL);
     }
 
-    FindPackagesOptions WinGetProjectionFactory::CreateFindPackagesOptions(bool useDev)
+    FindPackagesOptions WinGetProjectionFactory::TryCreateFindPackagesOptions()
     {
         if (useDev)
         {
@@ -69,7 +133,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<FindPackagesOptions>(CLSID_FindPackagesOptions, CLSCTX_ALL);
     }
 
-    CreateCompositePackageCatalogOptions WinGetProjectionFactory::CreateCreateCompositePackageCatalogOptions(bool useDev)
+    CreateCompositePackageCatalogOptions WinGetProjectionFactory::TryCreateCreateCompositePackageCatalogOptions()
     {
         if (useDev)
         {
@@ -78,7 +142,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<CreateCompositePackageCatalogOptions>(CLSID_CreateCompositePackageCatalogOptions, CLSCTX_ALL);
     }
 
-    PackageMatchFilter WinGetProjectionFactory::CreatePackageMatchFilter(bool useDev)
+    PackageMatchFilter WinGetProjectionFactory::TryCreatePackageMatchFilter()
     {
         if (useDev)
         {
@@ -87,7 +151,7 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::try_create_instance<PackageMatchFilter>(CLSID_PackageMatchFilter, CLSCTX_ALL);
     }
 
-    PackageManagerSettings WinGetProjectionFactory::CreatePackageManagerSettings()
+    PackageManagerSettings WinGetProjectionFactory::TryCreatePackageManagerSettings()
     {
         return winrt::try_create_instance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
     }

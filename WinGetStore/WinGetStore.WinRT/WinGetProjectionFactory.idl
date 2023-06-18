@@ -5,14 +5,24 @@ namespace WinGetStore.WinRT
     {
         WinGetProjectionFactory();
 
-        static WinGetStore.WinRT.WinGetProjectionFactory Instance{ get; };
+        static Boolean IsUseDev{ get; set; };
+        static Boolean IsWinGetInstalled{ get; };
+        static Boolean IsWinGetDevInstalled{ get; };
 
-        Microsoft.Management.Deployment.PackageManager CreatePackageManager(Boolean useDev);
-        Microsoft.Management.Deployment.InstallOptions CreateInstallOptions(Boolean useDev);
-        Microsoft.Management.Deployment.UninstallOptions CreateUninstallOptions(Boolean useDev);
-        Microsoft.Management.Deployment.FindPackagesOptions CreateFindPackagesOptions(Boolean useDev);
-        Microsoft.Management.Deployment.CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions(Boolean useDev);
-        Microsoft.Management.Deployment.PackageMatchFilter CreatePackageMatchFilter(Boolean useDev);
-        Microsoft.Management.Deployment.PackageManagerSettings CreatePackageManagerSettings();
+        static Microsoft.Management.Deployment.PackageManager CreatePackageManager();
+        static Microsoft.Management.Deployment.InstallOptions CreateInstallOptions();
+        static Microsoft.Management.Deployment.UninstallOptions CreateUninstallOptions();
+        static Microsoft.Management.Deployment.FindPackagesOptions CreateFindPackagesOptions();
+        static Microsoft.Management.Deployment.CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions();
+        static Microsoft.Management.Deployment.PackageMatchFilter CreatePackageMatchFilter();
+        static Microsoft.Management.Deployment.PackageManagerSettings CreatePackageManagerSettings();
+
+        static Microsoft.Management.Deployment.PackageManager TryCreatePackageManager();
+        static Microsoft.Management.Deployment.InstallOptions TryCreateInstallOptions();
+        static Microsoft.Management.Deployment.UninstallOptions TryCreateUninstallOptions();
+        static Microsoft.Management.Deployment.FindPackagesOptions TryCreateFindPackagesOptions();
+        static Microsoft.Management.Deployment.CreateCompositePackageCatalogOptions TryCreateCreateCompositePackageCatalogOptions();
+        static Microsoft.Management.Deployment.PackageMatchFilter TryCreatePackageMatchFilter();
+        static Microsoft.Management.Deployment.PackageManagerSettings TryCreatePackageManagerSettings();
     }
 }

@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using WinGetStore.Helpers;
+using WinGetStore.WinRT;
 
 namespace WinGetStore.Controls
 {

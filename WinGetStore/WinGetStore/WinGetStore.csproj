@@ -158,7 +158,6 @@
     <Compile Include="Helpers\ThreadSwitcher.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />
-    <Compile Include="Helpers\WinGetProjectionFactory.cs" />
     <Compile Include="Pages\ManagerPages\InstallingPage.xaml.cs">
       <DependentUpon>InstallingPage.xaml</DependentUpon>
     </Compile>
@@ -386,6 +385,12 @@
     <PRIResource Include="Strings\zh-TW\PackageControl.resw" />
     <PRIResource Include="Strings\zh-TW\Resources.resw" />
     <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinGetStore.WinRT\WinGetStore.WinRT.vcxproj">
+      <Project>{d1aa1ed0-6224-400b-a47f-48ee1134b65d}</Project>
+      <Name>WinGetStore.WinRT</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
