@@ -158,10 +158,10 @@
     <value>正在安装</value>
   </data>
   <data name="PreparingInstall" xml:space="preserve">
-    <value>Preparing to install</value>
+    <value>正在准备安装</value>
   </data>
   <data name="PreparingUninstall" xml:space="preserve">
-    <value>Preparing to uninstall</value>
+    <value>正在准备卸载</value>
   </data>
   <data name="Queued" xml:space="preserve">
     <value>队列中</value>
