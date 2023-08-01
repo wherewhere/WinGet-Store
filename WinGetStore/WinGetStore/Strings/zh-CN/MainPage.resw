@@ -186,4 +186,7 @@
   <data name="InstallingPage.Text" xml:space="preserve">
     <value>正在安装的应用</value>
   </data>
+  <data name="Refresh.Content" xml:space="preserve">
+    <value>刷新</value>
+  </data>
 </root>

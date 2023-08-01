@@ -120,6 +120,9 @@
   <data name="AlmostDone" xml:space="preserve">
     <value>即将完成</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>可用</value>
+  </data>
   <data name="AvailableVersion.Text" xml:space="preserve">
     <value>可用版本：</value>
   </data>
@@ -127,10 +130,10 @@
     <value>已取消</value>
   </data>
   <data name="Downloading" xml:space="preserve">
-    <value>正在下载……</value>
+    <value>正在下载</value>
   </data>
   <data name="DownloadingProgress" xml:space="preserve">
-    <value>已下载 {0}，总共 {1}……</value>
+    <value>已下载 {0}，总共 {1}</value>
   </data>
   <data name="Finished" xml:space="preserve">
     <value>已完成</value>
@@ -140,6 +143,9 @@
   </data>
   <data name="InstallCancelled" xml:space="preserve">
     <value>安装已取消</value>
+  </data>
+  <data name="Installed" xml:space="preserve">
+    <value>已安装</value>
   </data>
   <data name="InstalledVersion.Text" xml:space="preserve">
     <value>已安装的版本：</value>
@@ -151,11 +157,14 @@
   <data name="Installing" xml:space="preserve">
     <value>正在安装</value>
   </data>
-  <data name="InstallingText" xml:space="preserve">
-    <value>正在安装……</value>
+  <data name="PreparingInstall" xml:space="preserve">
+    <value>正在准备安装</value>
+  </data>
+  <data name="PreparingUninstall" xml:space="preserve">
+    <value>正在准备卸载</value>
   </data>
   <data name="Queued" xml:space="preserve">
-    <value>已匹配……</value>
+    <value>队列中</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>重试</value>
@@ -176,9 +185,6 @@
   </data>
   <data name="Uninstalling" xml:space="preserve">
     <value>正在卸载</value>
-  </data>
-  <data name="UninstallingText" xml:space="preserve">
-    <value>正在卸载……</value>
   </data>
   <data name="UninstallTitle" xml:space="preserve">
     <value>卸载 {0}</value>
