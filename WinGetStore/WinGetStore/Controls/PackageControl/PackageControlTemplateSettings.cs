@@ -250,19 +250,24 @@ namespace WinGetStore.Controls
             switch (PackageState)
             {
                 case PackageState.Nominal:
-                    ActionButtonText = ProgressStatusText = _loader.GetString("Install");
+                    ActionButtonText = _loader.GetString("Install");
+                    ProgressStatusText = _loader.GetString("Available");
                     break;
                 case PackageState.Installed:
-                    ActionButtonText = ProgressStatusText = _loader.GetString("Uninstall");
+                    ActionButtonText = _loader.GetString("Uninstall");
+                    ProgressStatusText = _loader.GetString("Installed");
                     break;
                 case PackageState.Installing:
-                    ActionButtonText = ProgressStatusText = _loader.GetString("Installing");
+                    ActionButtonText  = _loader.GetString("Installing");
+                    ProgressStatusText = _loader.GetString("PreparingInstall");
                     break;
                 case PackageState.UpdateAvailable:
-                    ActionButtonText = ProgressStatusText = _loader.GetString("Upgrade");
+                    ActionButtonText = _loader.GetString("Upgrade");
+                    ProgressStatusText = _loader.GetString("Available");
                     break;
                 case PackageState.Uninstalling:
-                    ActionButtonText = ProgressStatusText = _loader.GetString("Uninstalling");
+                    ActionButtonText = _loader.GetString("Uninstalling");
+                    ProgressStatusText = _loader.GetString("PreparingUninstall");
                     break;
                 default:
                     break;
@@ -291,7 +296,7 @@ namespace WinGetStore.Controls
                     case PackageInstallProgressState.Installing:
                         IsIndeterminate = false;
                         ProgressValue = InstallProgress.InstallationProgress * 100;
-                        ProgressStatusText = _loader.GetString("InstallingText");
+                        ProgressStatusText = _loader.GetString("Installing");
                         ActionButtonText = $"{ProgressStatusText} • {ProgressValue:0.##}%";
                         break;
                     case PackageInstallProgressState.PostInstall:
@@ -315,11 +320,11 @@ namespace WinGetStore.Controls
                     case PackageUninstallProgressState.Queued:
                         ProgressValue = 0;
                         IsIndeterminate = true;
-                        ActionButtonText = ProgressStatusText = _loader.GetString("Queued...");
+                        ActionButtonText = ProgressStatusText = _loader.GetString("Queued");
                         break;
                     case PackageUninstallProgressState.Uninstalling:
                         IsIndeterminate = false;
-                        ProgressStatusText = _loader.GetString("UninstallingText");
+                        ProgressStatusText = _loader.GetString("Uninstalling");
                         ProgressValue = UninstallProgress.UninstallationProgress * 100;
                         ActionButtonText = $"{ProgressStatusText} • {ProgressValue}%";
                         break;
