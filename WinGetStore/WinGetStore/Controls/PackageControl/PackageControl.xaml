@@ -142,19 +142,21 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     IsTextSelectionEnabled="True"
+                                    MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding TemplateSettings.ProgressStatusText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap"
+                                    TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}" />
                                 <TextBlock
                                     x:Name="AvailableVersionTextBlock"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     IsTextSelectionEnabled="True"
+                                    MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap"
+                                    TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <Run x:Uid="/PackageControl/AvailableVersion" />
                                     <Run Text="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
@@ -164,9 +166,10 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     IsTextSelectionEnabled="True"
+                                    MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap"
+                                    TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <Run x:Uid="/PackageControl/InstalledVersion" />
                                     <Run Text="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
