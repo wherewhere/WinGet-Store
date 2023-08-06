@@ -1,19 +1,19 @@
-#### Welcome to the WinGet Store!
+#### 欢迎使用 WinGet 商店！
 
-##### Declaration
-1. This program is a third-party client of [WinGet](https://github.com/microsoft/winget-cli) which is used only for learning exchanges, and is forbidden for commercial use.
-2. This program is open source software, so please make sure the program is from this [Github repository](https://github.com/wherewhere/WinGet-Store) to ensure your data security.
-3. If the source of the program is not abnormal, all your data will only be used to communicate with [WinGet](https://github.com/microsoft/winget-cli) or stored locally during the program running, and the developer will not steal any of your data.Still, please pay attention to the security of the environment.
-4. If you have doubts about how to process your data in [WinGet](https://github.com/microsoft/winget-cli) please visit the [Microsoft Windows Privacy Statement](https://support.microsoft.com/help/4468236/diagnostics-feedback-and-privacy-in-windows-10-microsoft-privacy) and [WinGet Privacy Statement](https://github.com/microsoft/winget-cli/blob/master/PRIVACY.md).
+##### 声明
+1. 本程序是 [WinGet](https://github.com/microsoft/winget-cli) 的第三方客户端，仅用作学习交流使用，禁止用于商业用途。
+2. 本程序是开源软件，因此，在使用时请确保程序是来自[本 Github 仓库](https://github.com/wherewhere/WinGet-Store)，以确保您的数据安全。
+3. 若程序来源无异常，程序运行过程中您的所有数据都仅用于与 [WinGet](https://github.com/microsoft/winget-cli) 的服务器交流或储存于本地，开发者不会窃取您的任何数据。 但即便如此，也请注意使用环境的安全性。
+4. 若您对 [WinGet](https://github.com/microsoft/winget-cli) 如何处理您的数据存在疑虑，请访问 [Microsoft Windows 隐私声明](https://support.microsoft.com/help/4468236/diagnostics-feedback-and-privacy-in-windows-10-microsoft-privacy) 和 [WinGet 隐私声明](https://github.com/microsoft/winget-cli/blob/master/PRIVACY.md)。
 
-##### Translate
-Thanks to [Crowdin](https://crowdin.com/project/winget-store "Crowdin") translators for their support. If there is any problem with the translation, please come and correct it. And please take translation seriously. Your words will be read all over the world.
+##### 翻译
+感谢 [Crowdin](https://crowdin.com/project/CoolapkUWP "Crowdin") 翻译者的支持。 如果翻译出现了什么问题，欢迎前来纠正。 并且请认真对待翻译。 您所写的一切将会被全世界阅读。
 
-##### Contributors
+##### 参与人员
 - [wherewhere](https://github.com/wherewhere)
 - [Tangent-90](https://github.com/Tangent-90)
 
-##### Citations and References
+##### 引用及参考
 - [MetroLog](https://github.com/novotnyllc/MetroLog "MetroLog")
 - [Windows UI](https://github.com/microsoft/microsoft-ui-xaml "Windows UI")
 - [Newtonsoft Json](https://www.newtonsoft.com/json "Newtonsoft Json")
