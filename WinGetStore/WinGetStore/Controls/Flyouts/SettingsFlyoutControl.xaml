@@ -57,7 +57,7 @@
         <local:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
             <local:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{Binding WinGetVersion}">
                 <local:SettingExpander.Icon>
-                    <muxc:ImageIcon Source="ms-appx:///Assets/Square44x44Logo.png" />
+                    <muxc:ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                 </local:SettingExpander.Icon>
                 <local:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
                     <local:Setting.Description>

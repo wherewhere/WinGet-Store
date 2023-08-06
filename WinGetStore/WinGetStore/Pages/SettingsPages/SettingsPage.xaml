@@ -72,7 +72,7 @@
                     <controls:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
                         <controls:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{Binding WinGetVersion}">
                             <controls:SettingExpander.Icon>
-                                <muxc:ImageIcon Source="ms-appx:///Assets/Square44x44Logo.png" />
+                                <muxc:ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                             </controls:SettingExpander.Icon>
                             <controls:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>

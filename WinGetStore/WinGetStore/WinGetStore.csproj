@@ -195,6 +195,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\About\About.en-US.md" />
+    <Content Include="Assets\About\About.zh-CN.md" />
+    <Content Include="Assets\About\About.zh-TW.md" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -218,10 +221,12 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
@@ -235,10 +240,14 @@
     <Content Include="Assets\Square44x44Logo.scale-100.png" />
     <Content Include="Assets\Square44x44Logo.scale-125.png" />
     <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-20.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-30.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
@@ -249,13 +258,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -394,38 +399,33 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-US\FiltersDialog.resw" />
-    <PRIResource Include="Strings\en-US\MainPage.resw" />
-    <PRIResource Include="Strings\en-US\PackageControl.resw" />
-    <PRIResource Include="Strings\en-US\Resources.resw" />
-    <PRIResource Include="Strings\en-US\VersionsDialog.resw" />
-    <PRIResource Include="Strings\zh-CN\FiltersDialog.resw" />
-    <PRIResource Include="Strings\zh-CN\MainPage.resw" />
-    <PRIResource Include="Strings\zh-CN\PackageControl.resw" />
-    <PRIResource Include="Strings\zh-CN\Resources.resw" />
-    <PRIResource Include="Strings\zh-CN\VersionsDialog.resw" />
-    <PRIResource Include="Strings\zh-TW\FiltersDialog.resw" />
-    <PRIResource Include="Strings\zh-TW\MainPage.resw" />
-    <PRIResource Include="Strings\zh-TW\PackageControl.resw" />
-    <PRIResource Include="Strings\zh-TW\Resources.resw" />
-    <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\WinGetStore.WinRT\WinGetStore.WinRT.vcxproj">
       <Project>{d1aa1ed0-6224-400b-a47f-48ee1134b65d}</Project>
       <Name>WinGetStore.WinRT</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Include="Strings\en-US\FiltersDialog.resw" />
+    <PRIResource Include="Strings\en-US\MainPage.resw" />
+    <PRIResource Include="Strings\en-US\PackageControl.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\en-US\SettingsPage.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\en-US\SettingsPane.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\About\About.en-US.md" />
-    <Content Include="Assets\About\About.zh-CN.md" />
-    <Content Include="Assets\About\About.zh-TW.md" />
+    <PRIResource Include="Strings\en-US\VersionsDialog.resw" />
+    <PRIResource Include="Strings\zh-CN\FiltersDialog.resw" />
+    <PRIResource Include="Strings\zh-CN\MainPage.resw" />
+    <PRIResource Include="Strings\zh-CN\PackageControl.resw" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
+    <PRIResource Include="Strings\zh-CN\SettingsPage.resw" />
+    <PRIResource Include="Strings\zh-CN\SettingsPane.resw" />
+    <PRIResource Include="Strings\zh-CN\VersionsDialog.resw" />
+    <PRIResource Include="Strings\zh-TW\FiltersDialog.resw" />
+    <PRIResource Include="Strings\zh-TW\MainPage.resw" />
+    <PRIResource Include="Strings\zh-TW\PackageControl.resw" />
+    <PRIResource Include="Strings\zh-TW\Resources.resw" />
+    <PRIResource Include="Strings\zh-TW\SettingsPage.resw" />
+    <PRIResource Include="Strings\zh-TW\SettingsPane.resw" />
+    <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
