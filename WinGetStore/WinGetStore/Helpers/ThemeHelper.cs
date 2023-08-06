@@ -4,6 +4,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using WinGetStore.Common;
 
 namespace WinGetStore.Helpers
 {
@@ -16,6 +17,8 @@ namespace WinGetStore.Helpers
 
         // Keep reference so it does not get optimized/garbage collected
         public static UISettings UISettings;
+
+        public static WeakEvent<bool> UISettingChanged { get; } = new WeakEvent<bool>();
 
         /// <summary>
         /// Gets the current actual theme of the app based on the requested theme of the
@@ -68,6 +71,7 @@ namespace WinGetStore.Helpers
                 value.UpdateWindowRequestedTheme();
                 value.UpdateSystemCaptionButtonColors();
                 SettingsHelper.Set(SettingsHelper.SelectedAppTheme, value);
+                UISettingChanged.Invoke(value.IsDarkTheme());
             }
         }
 
@@ -87,6 +91,7 @@ namespace WinGetStore.Helpers
         private static void UISettings_ColorValuesChanged(UISettings sender, object args)
         {
             UpdateSystemCaptionButtonColors();
+            UISettingChanged.Invoke(IsDarkTheme());
         }
 
         public static bool IsDarkTheme()

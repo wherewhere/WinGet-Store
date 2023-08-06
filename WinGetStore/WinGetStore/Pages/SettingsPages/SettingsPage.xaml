@@ -28,17 +28,17 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="/SettingsPage/Titlebar"
                     Margin="0,24"
                     AutomationProperties.HeadingLevel="Level1"
                     FontWeight="SemiBold"
-                    Style="{StaticResource TitleTextBlockStyle}" />
-                <controls:StackPanel Grid.Row="1" Margin="0,0,0,24">
-                    <controls:StackPanel.ChildrenTransitions>
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="{Binding Title}" />
+                <StackPanel Grid.Row="1" Margin="0,0,0,24">
+                    <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <ReorderThemeTransition />
                         </TransitionCollection>
-                    </controls:StackPanel.ChildrenTransitions>
+                    </StackPanel.ChildrenTransitions>
                     <controls:SettingsGroup x:Uid="/SettingsPage/DisplaySettingsHeader" Margin="0,-28,0,0">
                         <controls:Setting x:Uid="/SettingsPage/ThemeSettings" Icon="&#xE790;">
                             <controls:Setting.Description>
@@ -103,7 +103,9 @@
                                         Margin="0,0,0,-8"
                                         Padding="0,0,0,8"
                                         HorizontalScrollBarVisibility="Auto"
-                                        VerticalScrollBarVisibility="Disabled">
+                                        HorizontalScrollMode="Auto"
+                                        VerticalScrollBarVisibility="Disabled"
+                                        VerticalScrollMode="Disabled">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
                                                 Content="Microsoft Store"
@@ -238,7 +240,9 @@
                                         Margin="0,0,0,-8"
                                         Padding="0,2,0,8"
                                         HorizontalScrollBarVisibility="Auto"
-                                        VerticalScrollBarVisibility="Disabled">
+                                        HorizontalScrollMode="Auto"
+                                        VerticalScrollBarVisibility="Disabled"
+                                        VerticalScrollMode="Disabled">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
                                                 x:Uid="/SettingsPage/FeedbackLink"
@@ -322,7 +326,9 @@
                                         Margin="0,0,0,-8"
                                         Padding="0,2,0,8"
                                         HorizontalScrollBarVisibility="Auto"
-                                        VerticalScrollBarVisibility="Disabled">
+                                        HorizontalScrollMode="Auto"
+                                        VerticalScrollBarVisibility="Disabled"
+                                        VerticalScrollMode="Disabled">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
                                                 Content="Github"
@@ -360,7 +366,9 @@
                                         Margin="0,0,0,-8"
                                         Padding="0,2,0,8"
                                         HorizontalScrollBarVisibility="Auto"
-                                        VerticalScrollBarVisibility="Disabled">
+                                        HorizontalScrollMode="Auto"
+                                        VerticalScrollBarVisibility="Disabled"
+                                        VerticalScrollMode="Disabled">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
                                                 Content="爱发电"
@@ -380,7 +388,7 @@
                                 Tag="Rate" />
                         </controls:Setting>
                     </controls:SettingsGroup>
-                </controls:StackPanel>
+                </StackPanel>
             </Grid>
         </ScrollViewer>
         <VisualStateManager.VisualStateGroups>

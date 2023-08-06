@@ -1,0 +1,377 @@
+﻿<SettingsFlyout
+    x:Class="WinGetStore.Controls.SettingsFlyoutControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwuc="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:globalization="using:System.Globalization"
+    xmlns:helper="using:WinGetStore.Helpers"
+    xmlns:interopservices="using:System.Runtime.InteropServices"
+    xmlns:local="using:WinGetStore.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settingspages="using:WinGetStore.ViewModels.SettingsPages"
+    xmlns:sys="using:System"
+    Title="{Binding Title}"
+    d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
+    Loaded="SettingsFlyout_Loaded"
+    Style="{StaticResource DefaultSettingsFlyoutStyle}"
+    Unloaded="SettingsFlyout_Unloaded"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel.ChildrenTransitions>
+            <TransitionCollection>
+                <ReorderThemeTransition />
+            </TransitionCollection>
+        </StackPanel.ChildrenTransitions>
+        <local:SettingsGroup x:Uid="/SettingsPage/DisplaySettingsHeader" Margin="0,-28,0,0">
+            <local:Setting x:Uid="/SettingsPage/ThemeSettings" Icon="&#xE790;">
+                <local:Setting.Description>
+                    <HyperlinkButton
+                        x:Uid="/SettingsPage/WindowsColorButton"
+                        Click="HyperlinkButton_Click"
+                        Tag="WindowsColor" />
+                </local:Setting.Description>
+                <ComboBox SelectedIndex="{Binding SelectedTheme, Mode=TwoWay}">
+                    <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDark" />
+                    <ComboBoxItem x:Uid="/SettingsPage/RadioThemeLight" />
+                    <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDefault" />
+                </ComboBox>
+            </local:Setting>
+            <local:Setting x:Uid="/SettingsPage/LanguageSettings" Icon="&#xF2B7;">
+                <ComboBox
+                    ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}"
+                    Loaded="ComboBox_Loaded"
+                    SelectionChanged="ComboBox_SelectionChanged"
+                    Tag="Language">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="globalization:CultureInfo">
+                            <TextBlock>
+                                <Run Text="{x:Bind DisplayName}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </local:Setting>
+        </local:SettingsGroup>
+        <local:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
+            <local:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{Binding WinGetVersion}">
+                <local:SettingExpander.Icon>
+                    <muxc:ImageIcon Source="ms-appx:///Assets/Square44x44Logo.png" />
+                </local:SettingExpander.Icon>
+                <local:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
+                    <local:Setting.Description>
+                        <Grid>
+                            <TextBlock x:Uid="/SettingsPage/InstalledTextBlock" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock x:Uid="/SettingsPage/UnavailableTextBlock" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                        </Grid>
+                    </local:Setting.Description>
+                </local:Setting>
+                <local:Setting Header="WinGet Dev" Style="{StaticResource DefaultSettingExpanderItemStyle}">
+                    <local:Setting.Description>
+                        <Grid>
+                            <TextBlock x:Uid="/SettingsPage/InstalledTextBlock" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock x:Uid="/SettingsPage/UnavailableTextBlock" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                        </Grid>
+                    </local:Setting.Description>
+                </local:Setting>
+                <local:Setting
+                    x:Uid="/SettingsPage/WinGetDownloadSettings"
+                    ActionIcon="&#xE8A7;"
+                    Click="Button_Click"
+                    CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
+                    IsClickEnabled="True"
+                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                    Tag="WinGetDownloadSettings">
+                    <local:Setting.Description>
+                        <ScrollViewer
+                            Margin="0,0,0,-8"
+                            Padding="0,0,0,8"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollBarVisibility="Disabled"
+                            VerticalScrollMode="Disabled">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <HyperlinkButton
+                                    Content="Microsoft Store"
+                                    NavigateUri="https://www.microsoft.com/store/productid/9NBLGGH4NNS1"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Github"
+                                    NavigateUri="https://github.com/microsoft/winget-cli/releases/latest"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Insider Program"
+                                    NavigateUri="http://aka.ms/winget-InsiderProgram"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </local:Setting.Description>
+                </local:Setting>
+            </local:SettingExpander>
+            <local:Setting x:Uid="/SettingsPage/ResetSettings" Icon="&#xE777;">
+                <Button Name="Reset" x:Uid="/SettingsPage/ResetSettingsButton">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBlock
+                                    x:Uid="/SettingsPage/ResetSettingsTitle"
+                                    Margin="0,0,0,12"
+                                    Style="{ThemeResource BaseTextBlockStyle}" />
+                                <Button
+                                    x:Uid="/SettingsPage/ResetSettingsConfirm"
+                                    Click="Button_Click"
+                                    Tag="Reset" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </local:Setting>
+            <local:SettingExpander x:Uid="/SettingsPage/FrameworkSettings" Icon="&#xE950;">
+                <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+                        x:Uid="/SettingsPage/FrameworkTextBlock"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="0,0,0,8"
+                        Foreground="{ThemeResource SettingCardForeground}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="32,0,0,8"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{x:Bind interopservices:RuntimeInformation.FrameworkDescription}"
+                        TextWrapping="WrapWholeWords" />
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="0,0,0,8"
+                        Foreground="{ThemeResource SettingCardForeground}"
+                        Text="Community Toolkit" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="32,0,0,8"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{Binding ToolkitVersion}"
+                        TextWrapping="WrapWholeWords" />
+
+                    <TextBlock
+                        x:Uid="/SettingsPage/DeviceFamilyTextBlock"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Padding="0,0,0,8"
+                        Foreground="{ThemeResource SettingCardForeground}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Padding="32,0,0,8"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{Binding DeviceFamily}"
+                        TextWrapping="WrapWholeWords" />
+
+                    <TextBlock
+                        x:Uid="/SettingsPage/OSPlatformTextBlock"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Padding="0,0,0,8"
+                        Foreground="{ThemeResource SettingCardForeground}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Padding="32,0,0,8"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{x:Bind sys:Environment.OSVersion}"
+                        TextWrapping="WrapWholeWords" />
+
+                    <TextBlock
+                        x:Uid="/SettingsPage/OSArchitectureTextBlock"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Padding="0,0,0,8"
+                        Foreground="{ThemeResource SettingCardForeground}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Padding="32,0,0,8"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Text="{x:Bind interopservices:RuntimeInformation.OSArchitecture}"
+                        TextWrapping="WrapWholeWords" />
+                </Grid>
+            </local:SettingExpander>
+        </local:SettingsGroup>
+        <local:SettingsGroup x:Uid="/SettingsPage/AboutSettingsHeader">
+            <local:SettingExpander Header="{Binding VersionTextBlockText}" Icon="&#xE117;">
+                <local:SettingExpander.Description>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">
+                            <Run x:Uid="/SettingsPage/LastChecked" />
+                            <Run Text="{Binding UpdateDate}" />
+                        </TextBlock>
+                        <ScrollViewer
+                            Margin="0,0,0,-8"
+                            Padding="0,2,0,8"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollBarVisibility="Disabled"
+                            VerticalScrollMode="Disabled">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <HyperlinkButton
+                                    x:Uid="/SettingsPage/FeedbackLink"
+                                    NavigateUri="https://github.com/wherewhere/WinGet-Store/issues"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    x:Uid="/SettingsPage/LogFolderLink"
+                                    Click="HyperlinkButton_Click"
+                                    Tag="LogFolder" />
+                                <HyperlinkButton
+                                    x:Uid="/SettingsPage/TranslateLink"
+                                    NavigateUri="https://crowdin.com/project/winget-store"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    x:Uid="/SettingsPage/ReleaseNotes"
+                                    NavigateUri="https://github.com/wherewhere/WinGet-Store/releases/latest"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </local:SettingExpander.Description>
+                <local:SettingExpander.ActionContent>
+                    <local:StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="18">
+                        <muxc:ProgressRing
+                            Width="24"
+                            Height="24"
+                            IsActive="{Binding CheckingUpdate}"
+                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            x:Uid="/SettingsPage/CheckingUpdates"
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Button
+                            x:Uid="/SettingsPage/CheckUpdates"
+                            HorizontalAlignment="Right"
+                            Click="Button_Click"
+                            Tag="CheckUpdate"
+                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                    </local:StackPanel>
+                </local:SettingExpander.ActionContent>
+                <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
+                    <cwuc:MarkdownTextBlock
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        Text="{Binding AboutTextBlockText}" />
+                </Grid>
+            </local:SettingExpander>
+            <muxc:InfoBar
+                x:Name="UpdateState"
+                Title="{Binding UpdateStateTitle}"
+                IsClosable="True"
+                IsOpen="{Binding UpdateStateIsOpen, Mode=TwoWay}"
+                Loaded="InfoBar_Loaded"
+                Message="{Binding UpdateStateMessage}"
+                Severity="{Binding UpdateStateSeverity}"
+                Visibility="{Binding UpdateStateIsOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                <muxc:InfoBar.ActionButton>
+                    <Button
+                        x:Name="GotoUpdate"
+                        x:Uid="/SettingsPage/GoToUpdate"
+                        HorizontalAlignment="Right"
+                        Click="GotoUpdate_Click"
+                        Tag="{Binding GotoUpdateTag}"
+                        Visibility="{Binding GotoUpdateVisibility}" />
+                </muxc:InfoBar.ActionButton>
+            </muxc:InfoBar>
+            <local:Setting x:Uid="/SettingsPage/ContactMeSettings" Icon="&#xE779;">
+                <local:Setting.Description>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                            x:Uid="/SettingsPage/ContactMeTextBlock"
+                            Style="{StaticResource SecondaryTextStyle}"
+                            TextWrapping="WrapWholeWords" />
+                        <ScrollViewer
+                            Margin="0,0,0,-8"
+                            Padding="0,2,0,8"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollBarVisibility="Disabled"
+                            VerticalScrollMode="Disabled">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <HyperlinkButton
+                                    Content="Github"
+                                    NavigateUri="https://github.com/wherewhere"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Coolapk"
+                                    NavigateUri="http://www.coolapk.com/u/536381"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Twitter"
+                                    NavigateUri="https://twitter.com/wherewhere7"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Bilibili"
+                                    NavigateUri="https://space.bilibili.com/266112738"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </local:Setting.Description>
+                <Button
+                    x:Uid="/SettingsPage/Group"
+                    Click="Button_Click"
+                    Tag="Group" />
+            </local:Setting>
+            <local:Setting x:Uid="/SettingsPage/DonateSettings" Icon="&#xEB51;">
+                <local:Setting.Description>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                            x:Uid="/SettingsPage/DonateTextBlock"
+                            Style="{StaticResource SecondaryTextStyle}"
+                            TextWrapping="WrapWholeWords" />
+                        <ScrollViewer
+                            Margin="0,0,0,-8"
+                            Padding="0,2,0,8"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalScrollMode="Auto"
+                            VerticalScrollBarVisibility="Disabled"
+                            VerticalScrollMode="Disabled">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <HyperlinkButton
+                                    Content="爱发电"
+                                    NavigateUri="http://afdian.net/@wherewhere"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                <HyperlinkButton
+                                    Content="Patreon"
+                                    NavigateUri="https://patreon.com/wherewhere"
+                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </local:Setting.Description>
+                <Button
+                    x:Uid="/SettingsPage/Rate"
+                    Click="Button_Click"
+                    Tag="Rate" />
+            </local:Setting>
+        </local:SettingsGroup>
+    </StackPanel>
+</SettingsFlyout>

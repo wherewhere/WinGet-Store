@@ -31,6 +31,8 @@ namespace WinGetStore.ViewModels.SettingsPages
 
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
+        public string Title => _loader.GetString("Title");
+
         public DateTime UpdateDate
         {
             get => SettingsHelper.Get<DateTime>(SettingsHelper.UpdateDate);
@@ -161,6 +163,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             {
                 string ver = Package.Current.Id.Version.ToFormattedString(3);
                 string name = ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? Package.Current.DisplayName;
+                GetAboutTextBlockText();
                 return $"{name} v{ver}";
             }
         }
@@ -168,7 +171,6 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async Task Refresh()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            GetAboutTextBlockText();
             IEnumerable<Package> packages = await PackageHelper.FindPackagesByName("Microsoft.DesktopAppInstaller");
             if (packages.Any())
             {

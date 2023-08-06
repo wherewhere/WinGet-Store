@@ -131,11 +131,15 @@
     </Compile>
     <Compile Include="Common\Enumerable.cs" />
     <Compile Include="Common\ExceptionHandling.cs" />
+    <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Controls\Dialogs\FiltersDialog.xaml.cs">
       <DependentUpon>FiltersDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\VersionsDialog.xaml.cs">
       <DependentUpon>VersionsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Flyouts\SettingsFlyoutControl.xaml.cs">
+      <DependentUpon>SettingsFlyoutControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PackageControl\PackageControl.cs" />
     <Compile Include="Controls\PackageControl\PackageControlTemplateSettings.cs" />
@@ -266,6 +270,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Flyouts\SettingsFlyoutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\NavigationView\NavigationBackButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -338,6 +346,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\SettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\TextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -407,7 +419,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\en-US\SettingsPage.resw" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\SettingsPane.resw" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\About\About.en-US.md" />
     <Content Include="Assets\About\About.zh-CN.md" />
