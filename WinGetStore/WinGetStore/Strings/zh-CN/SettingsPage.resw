@@ -151,7 +151,7 @@
     <value>WinGet 商店是一个为爱发电的开源软件。如果你喜欢这个应用，不要忘了在商店里打上好评哦，当然如果可以捐赠一点点就更好了。感谢大家的支持💕！</value>
   </data>
   <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>反馈</value>
+    <value>Feedback</value>
   </data>
   <data name="FindUpdate" xml:space="preserve">
     <value>找到新的更新</value>
