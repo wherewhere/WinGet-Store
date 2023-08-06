@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BackButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back</value>
+    <value>返回</value>
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>反馈</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
-    <value>View Logs</value>
+    <value>查看日志</value>
   </data>
   <data name="Repository" xml:space="preserve">
-    <value>Repository</value>
+    <value>项目仓库</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>App Settings</value>
+    <value>应用设置</value>
   </data>
   <data name="Translate" xml:space="preserve">
-    <value>Translations</value>
+    <value>贡献翻译</value>
   </data>
 </root>
