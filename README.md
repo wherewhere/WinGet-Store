@@ -63,7 +63,9 @@ A GUI tool of winget for manage apps based on UWP
 ![主页](Images/Screenshots/Snipaste_2023-05-10_14-37-07.png)
 
 ## 使用到的模块
+- [MetroLog](https://github.com/novotnyllc/MetroLog "MetroLog")
 - [Windows UI](https://github.com/microsoft/microsoft-ui-xaml "Windows UI")
+- [Newtonsoft Json](https://www.newtonsoft.com/json "Newtonsoft Json")
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit "Windows Community Toolkit")
 - [Microsoft Management Deployment](https://github.com/microsoft/winget-cli "Microsoft Management Deployment")
 
