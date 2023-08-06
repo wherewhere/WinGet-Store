@@ -124,7 +124,7 @@
     <value>库</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>搜索应用……</value>
+    <value>Searching Apps, Games, etc</value>
   </data>
   <data name="Settings.Content" xml:space="preserve">
     <value>设置</value>
