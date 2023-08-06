@@ -118,132 +118,132 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutSettingsHeader.Header" xml:space="preserve">
-    <value>About</value>
+    <value>關於</value>
   </data>
   <data name="CheckFailed" xml:space="preserve">
-    <value>Check Failed</value>
+    <value>檢查失敗</value>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Checking For Updates...</value>
+    <value>正在檢查更新……</value>
   </data>
   <data name="CheckUpdates.Content" xml:space="preserve">
-    <value>Check For Updates</value>
+    <value>檢查更新</value>
   </data>
   <data name="ConfigsSettingsHeader.Header" xml:space="preserve">
-    <value>Configs</value>
+    <value>組態</value>
   </data>
   <data name="ContactMeSettings.Header" xml:space="preserve">
-    <value>Contact Me</value>
+    <value>與我聯絡</value>
   </data>
   <data name="ContactMeTextBlock.Text" xml:space="preserve">
-    <value>Follow me on social apps for the latest developments. If you find any bugs, please report them to me by PM. I will try my best to solve it. If you have Telegram account, feel free to chat in Paving Base Group 😊!</value>
+    <value>在社交軟體上關注我來獲取最新地開發動向。 如果你發現了什麼 Bug，請通過私信告訴我。 我會盡最大可能來解決這些問題。 如果你有電報賬號，歡迎來鋪路根據地群組聊天😊！</value>
   </data>
   <data name="DeviceFamilyTextBlock.Text" xml:space="preserve">
-    <value>Device Family</value>
+    <value>設備類型</value>
   </data>
   <data name="DisplaySettingsHeader.Header" xml:space="preserve">
-    <value>Display</value>
+    <value>顯示</value>
   </data>
   <data name="DonateSettings.Header" xml:space="preserve">
-    <value>Supports</value>
+    <value>支援</value>
   </data>
   <data name="DonateTextBlock.Text" xml:space="preserve">
-    <value>WinGet Store is an open-source application which is build for love. If you like this app, don't forget to rate it in the store. Of course, it would be great if you could donate a little. Thank you for your support.💕</value>
+    <value>WinGet 商店是一個為愛發電的開源軟體，它不會內置任何廣告來盈利。 如果你喜歡這個應用，不要忘了在商店裡打上好評哦，當然如果可以捐贈一點點就更好了。 感謝大家的支援💕！</value>
   </data>
   <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>Feedback</value>
+    <value>意見回饋</value>
   </data>
   <data name="FindUpdate" xml:space="preserve">
-    <value>Find Update</value>
+    <value>找到新的更新</value>
   </data>
   <data name="FrameworkSettings.Description" xml:space="preserve">
-    <value>Information about the frameworks of this app.</value>
+    <value>關於此應用程式架構的資訊。</value>
   </data>
   <data name="FrameworkSettings.Header" xml:space="preserve">
-    <value>Framework Information</value>
+    <value>架構資訊</value>
   </data>
   <data name="FrameworkTextBlock.Text" xml:space="preserve">
-    <value>Framework</value>
+    <value>架構</value>
   </data>
   <data name="GoToUpdate.Content" xml:space="preserve">
-    <value>Go to Update</value>
+    <value>前往更新</value>
   </data>
   <data name="Group.Content" xml:space="preserve">
-    <value>Join Our Chat</value>
+    <value>加入電報聊天</value>
   </data>
   <data name="InstalledTextBlock.Text" xml:space="preserve">
     <value>已安裝</value>
   </data>
   <data name="LanguageSettings.Description" xml:space="preserve">
-    <value>Select language and restart to change language</value>
+    <value>選擇語言並重啟應用來更改語言</value>
   </data>
   <data name="LanguageSettings.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>語言</value>
   </data>
   <data name="LastChecked.Text" xml:space="preserve">
-    <value>Last Checked:</value>
+    <value>上次檢查時間:</value>
   </data>
   <data name="LogFolderLink.Content" xml:space="preserve">
-    <value>Logs</value>
+    <value>記錄</value>
   </data>
   <data name="OSArchitectureTextBlock.Text" xml:space="preserve">
-    <value>OS Architecture</value>
+    <value>作業系統架構</value>
   </data>
   <data name="OSPlatformTextBlock.Text" xml:space="preserve">
-    <value>OS Platform</value>
+    <value>作業系統平台</value>
   </data>
   <data name="RadioThemeDark.Content" xml:space="preserve">
-    <value>Dark</value>
+    <value>深色</value>
   </data>
   <data name="RadioThemeDefault.Content" xml:space="preserve">
-    <value>Windows Default</value>
+    <value>Windows 預設</value>
   </data>
   <data name="RadioThemeLight.Content" xml:space="preserve">
-    <value>Light</value>
+    <value>淺色</value>
   </data>
   <data name="Rate.Content" xml:space="preserve">
-    <value>Support me</value>
+    <value>贊助作者</value>
   </data>
   <data name="ReleaseNotes.Content" xml:space="preserve">
-    <value>Release notes</value>
+    <value>版本資訊</value>
   </data>
   <data name="ResetSettings.Description" xml:space="preserve">
-    <value>Reset settings of this application.</value>
+    <value>重設此應用程式的設定。</value>
   </data>
   <data name="ResetSettings.Header" xml:space="preserve">
-    <value>Reset application</value>
+    <value>重設應用</value>
   </data>
   <data name="ResetSettingsButton.Content" xml:space="preserve">
-    <value>Reset</value>
+    <value>重設</value>
   </data>
   <data name="ResetSettingsConfirm.Content" xml:space="preserve">
     <value>是</value>
   </data>
   <data name="ResetSettingsTitle.Text" xml:space="preserve">
-    <value>Are you sure you want to reset the app?</value>
+    <value>你確定要重設應用嗎？</value>
   </data>
   <data name="ThemeSettings.Header" xml:space="preserve">
-    <value>App Theme</value>
+    <value>應用主題</value>
   </data>
   <data name="Titlebar.Text" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="TranslateLink.Content" xml:space="preserve">
-    <value>Translate</value>
+    <value>翻譯</value>
   </data>
   <data name="UnavailableTextBlock.Text" xml:space="preserve">
-    <value>Unavailable</value>
+    <value>不可用</value>
   </data>
   <data name="UpToDate" xml:space="preserve">
-    <value>Up To Date</value>
+    <value>最新</value>
   </data>
   <data name="WindowsColorButton.Content" xml:space="preserve">
-    <value>Windows Color Settings</value>
+    <value>Windows 色彩設定</value>
   </data>
   <data name="WinGetDownloadSettings.Header" xml:space="preserve">
-    <value>Download WinGet</value>
+    <value>下載 WinGet</value>
   </data>
   <data name="WinGetVersionSettings.Header" xml:space="preserve">
-    <value>WinGet Version</value>
+    <value>WinGet 版本</value>
   </data>
 </root>
