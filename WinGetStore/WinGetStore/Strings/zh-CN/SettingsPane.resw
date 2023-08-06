@@ -121,7 +121,7 @@
     <value>返回</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>反馈</value>
+    <value>问题反馈</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
     <value>查看日志</value>
