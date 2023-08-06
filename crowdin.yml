@@ -1,3 +1,5 @@
 files:
   - source: /WinGetStore/WinGetStore/Strings/en-US
     translation: /WinGetStore/WinGetStore/Strings/%locale%/%original_file_name%
+  - source: /WinGetStore/WinGetStore/Assets/About/About.en-US.md
+    translation: /WinGetStore/WinGetStore/Assets/About/About.%locale%.md
