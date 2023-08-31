@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="Common\Enumerable.cs" />
     <Compile Include="Common\ExceptionHandling.cs" />
+    <Compile Include="Common\SettingsPaneRegister.cs" />
     <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Controls\Dialogs\FiltersDialog.xaml.cs">
       <DependentUpon>FiltersDialog.xaml</DependentUpon>

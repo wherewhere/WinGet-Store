@@ -71,13 +71,6 @@ namespace WinGetStore
                 // 创建要充当导航上下文的框架，并导航到第一页
                 rootFrame = new Frame();
 
-                if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
-                {
-                    SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
-                    rootFrame.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-                    Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("ms-appx:///Styles/SettingsFlyout.xaml") });
-                }
-
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -88,7 +81,7 @@ namespace WinGetStore
                 // 将框架放在当前窗口中
                 window.Content = rootFrame;
 
-                ThemeHelper.Initialize(window);
+                ThemeHelper.Initialize();
             }
 
             if (e is LaunchActivatedEventArgs args)
@@ -134,58 +127,6 @@ namespace WinGetStore
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
-        }
-
-        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
-        {
-            ResourceLoader loader = ResourceLoader.GetForViewIndependentUse("SettingsPane");
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(
-                    "Settings",
-                    loader.GetString("Settings"),
-                    (handler) => new SettingsFlyoutControl { RequestedTheme = ThemeHelper.ActualTheme }.Show()));
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(
-                    "Feedback",
-                    loader.GetString("Feedback"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/wherewhere/WinGet-Store/issues"))));
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(
-                    "LogFolder",
-                    loader.GetString("LogFolder"),
-                    async (handler) => _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists))));
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(
-                    "Translate",
-                    loader.GetString("Translate"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/winget-store"))));
-            args.Request.ApplicationCommands.Add(
-                new SettingsCommand(
-                    "Repository",
-                    loader.GetString("Repository"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/wherewhere/WinGet-Store"))));
-        }
-
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
-        {
-            if (args.EventType.ToString().Contains("Down"))
-            {
-                CoreVirtualKeyStates ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-                if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-                {
-                    CoreVirtualKeyStates shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
-                    if (shift.HasFlag(CoreVirtualKeyStates.Down))
-                    {
-                        switch (args.VirtualKey)
-                        {
-                            case VirtualKey.X:
-                                SettingsPane.Show();
-                                args.Handled = true;
-                                break;
-                        }
-                    }
-                }
-            }
         }
 
         private void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)

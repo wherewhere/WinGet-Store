@@ -15,7 +15,6 @@
     Title="{Binding Title}"
     d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
     Loaded="SettingsFlyout_Loaded"
-    Style="{StaticResource DefaultSettingsFlyoutStyle}"
     Unloaded="SettingsFlyout_Unloaded"
     mc:Ignorable="d">
     <StackPanel>

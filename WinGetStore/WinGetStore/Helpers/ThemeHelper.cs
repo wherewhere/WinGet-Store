@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using WinGetStore.Common;
 
@@ -31,31 +32,37 @@ namespace WinGetStore.Helpers
         public static ElementTheme ActualTheme => GetActualTheme();
 
         public static ElementTheme GetActualTheme() =>
-            CurrentApplicationWindow == null
+            GetActualTheme(Window.Current ?? CurrentApplicationWindow);
+
+        public static ElementTheme GetActualTheme(Window window) =>
+            window == null
                 ? SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                : CurrentApplicationWindow.Dispatcher.HasThreadAccess
-                    ? CurrentApplicationWindow.Content is FrameworkElement rootElement
+                : window.Dispatcher.HasThreadAccess
+                    ? window.Content is FrameworkElement rootElement
                         && rootElement.RequestedTheme != ElementTheme.Default
                             ? rootElement.RequestedTheme
                             : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
                     : UIHelper.AwaitByTaskCompleteSource(() =>
-                        CurrentApplicationWindow.Dispatcher.AwaitableRunAsync(() =>
-                            CurrentApplicationWindow.Content is FrameworkElement _rootElement
+                        window.Dispatcher.AwaitableRunAsync(() =>
+                            window.Content is FrameworkElement _rootElement
                                 && _rootElement.RequestedTheme != ElementTheme.Default
                                     ? _rootElement.RequestedTheme
                                     : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme),
                             CoreDispatcherPriority.High));
 
-        public static async Task<ElementTheme> GetActualThemeAsync() =>
-            CurrentApplicationWindow == null
+        public static Task<ElementTheme> GetActualThemeAsync() =>
+            GetActualThemeAsync(Window.Current ?? CurrentApplicationWindow);
+
+        public static async Task<ElementTheme> GetActualThemeAsync(Window window) =>
+            window == null
                 ? SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                : CurrentApplicationWindow.Dispatcher.HasThreadAccess
-                    ? CurrentApplicationWindow.Content is FrameworkElement rootElement
+                : window.Dispatcher.HasThreadAccess
+                    ? window.Content is FrameworkElement rootElement
                         && rootElement.RequestedTheme != ElementTheme.Default
                             ? rootElement.RequestedTheme
                             : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                    : await CurrentApplicationWindow.Dispatcher.AwaitableRunAsync(() =>
-                        CurrentApplicationWindow.Content is FrameworkElement _rootElement
+                    : await window.Dispatcher.AwaitableRunAsync(() =>
+                        window.Content is FrameworkElement _rootElement
                             && _rootElement.RequestedTheme != ElementTheme.Default
                                 ? _rootElement.RequestedTheme
                                 : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme),
@@ -75,40 +82,58 @@ namespace WinGetStore.Helpers
         }
 
         public static ElementTheme GetRootTheme() =>
-            CurrentApplicationWindow == null
+            GetRootTheme(Window.Current ?? CurrentApplicationWindow);
+
+        public static ElementTheme GetRootTheme(Window window) =>
+            window == null
                 ? ElementTheme.Default
-                : CurrentApplicationWindow.Dispatcher.HasThreadAccess
-                    ? CurrentApplicationWindow.Content is FrameworkElement rootElement
+                : window.Dispatcher.HasThreadAccess
+                    ? window.Content is FrameworkElement rootElement
                         ? rootElement.RequestedTheme
                         : ElementTheme.Default
                     : UIHelper.AwaitByTaskCompleteSource(() =>
-                        CurrentApplicationWindow.Dispatcher.AwaitableRunAsync(() =>
-                            CurrentApplicationWindow.Content is FrameworkElement _rootElement
+                        window.Dispatcher.AwaitableRunAsync(() =>
+                            window.Content is FrameworkElement _rootElement
                                 ? _rootElement.RequestedTheme
                                 : ElementTheme.Default,
                             CoreDispatcherPriority.High));
 
-        public static async Task<ElementTheme> GetRootThemeAsync() =>
-            CurrentApplicationWindow == null
+        public static Task<ElementTheme> GetRootThemeAsync() =>
+            GetRootThemeAsync(Window.Current ?? CurrentApplicationWindow);
+
+        public static async Task<ElementTheme> GetRootThemeAsync(Window window) =>
+            window == null
                 ? ElementTheme.Default
-                : CurrentApplicationWindow.Dispatcher.HasThreadAccess
-                    ? CurrentApplicationWindow.Content is FrameworkElement rootElement
+                : window.Dispatcher.HasThreadAccess
+                    ? window.Content is FrameworkElement rootElement
                         ? rootElement.RequestedTheme
                         : ElementTheme.Default
-                    : await CurrentApplicationWindow.Dispatcher.AwaitableRunAsync(() =>
-                        CurrentApplicationWindow.Content is FrameworkElement _rootElement
+                    : await window.Dispatcher.AwaitableRunAsync(() =>
+                        window.Content is FrameworkElement _rootElement
                             ? _rootElement.RequestedTheme
                             : ElementTheme.Default,
                         CoreDispatcherPriority.High);
 
         public static async void SetRootTheme(ElementTheme value)
         {
-            WindowHelper.ActiveWindows.ForEach(async (window) =>
+            WindowHelper.ActiveWindows.Values.ForEach(async (window) =>
             {
-                await window.Dispatcher.ResumeForegroundAsync();
+                if (!window.Dispatcher.HasThreadAccess)
+                {
+                    await window.Dispatcher.ResumeForegroundAsync();
+                }
+
                 if (window.Content is FrameworkElement rootElement)
                 {
                     rootElement.RequestedTheme = value;
+                }
+
+                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
+                {
+                    foreach (FrameworkElement element in appWindows.Keys)
+                    {
+                        element.RequestedTheme = value;
+                    }
                 }
             });
 
@@ -119,12 +144,24 @@ namespace WinGetStore.Helpers
 
         public static async Task SetRootThemeAsync(ElementTheme value)
         {
-            await Task.WhenAll(WindowHelper.ActiveWindows.Select(async (window) =>
+            await Task.WhenAll(WindowHelper.ActiveWindows.Values.Select(async (window) =>
             {
-                await window.Dispatcher.ResumeForegroundAsync();
+                if (!window.Dispatcher.HasThreadAccess)
+                {
+                    await window.Dispatcher.ResumeForegroundAsync();
+                }
+
                 if (window.Content is FrameworkElement rootElement)
                 {
                     rootElement.RequestedTheme = value;
+                }
+
+                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
+                {
+                    foreach (FrameworkElement element in appWindows.Keys)
+                    {
+                        element.RequestedTheme = value;
+                    }
                 }
             }));
 
@@ -135,7 +172,7 @@ namespace WinGetStore.Helpers
 
         #endregion
 
-        static ThemeHelper()
+        public static void Initialize()
         {
             // Save reference as this might be null when the user is in another app
             CurrentApplicationWindow = Window.Current;
@@ -150,6 +187,15 @@ namespace WinGetStore.Helpers
         {
             CurrentApplicationWindow ??= window;
             if (window?.Content is FrameworkElement rootElement)
+            {
+                rootElement.RequestedTheme = await GetActualThemeAsync();
+            }
+            UpdateSystemCaptionButtonColors(window);
+        }
+
+        public static async void Initialize(AppWindow window)
+        {
+            if (window?.GetXamlRootForWindow() is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = await GetActualThemeAsync();
             }
@@ -196,38 +242,84 @@ namespace WinGetStore.Helpers
                     : ActualTheme == ElementTheme.Dark;
         }
 
-        public static void UpdateSystemCaptionButtonColors(this ElementTheme theme)
+        public static void UpdateExtendViewIntoTitleBar(bool IsExtendsTitleBar)
         {
-            bool isDark = theme.IsDarkTheme();
-            UpdateSystemCaptionButtonColors(isDark);
+            WindowHelper.ActiveWindows.Values.ForEach(async (window) =>
+            {
+                if (!window.Dispatcher.HasThreadAccess)
+                {
+                    await window.Dispatcher.ResumeForegroundAsync();
+                }
+
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = IsExtendsTitleBar;
+
+                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
+                {
+                    foreach (AppWindow appWindow in appWindows.Values)
+                    {
+                        appWindow.TitleBar.ExtendsContentIntoTitleBar = IsExtendsTitleBar;
+                    }
+                }
+            });
         }
 
         public static async void UpdateSystemCaptionButtonColors()
         {
-            await CurrentApplicationWindow.Dispatcher.ResumeForegroundAsync();
-            bool isDark = await IsDarkThemeAsync();
-            UpdateSystemCaptionButtonColors(isDark);
-        }
-
-        public static void UpdateSystemCaptionButtonColors(bool isDark) =>
-            WindowHelper.ActiveWindows.ForEach((window) => window.UpdateSystemCaptionButtonColors(isDark));
-
-        public static async void UpdateSystemCaptionButtonColors(this Window window)
-        {
-            await CurrentApplicationWindow.Dispatcher.ResumeForegroundAsync();
-            bool isDark = await IsDarkThemeAsync();
-            window.UpdateSystemCaptionButtonColors(isDark);
-        }
-
-        public static async void UpdateSystemCaptionButtonColors(this Window window, bool isDark)
-        {
-            bool IsDark = isDark;
+            bool IsDark = await IsDarkThemeAsync();
             bool IsHighContrast = new AccessibilitySettings().HighContrast;
 
             Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
             Color BackgroundColor = IsHighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
 
-            await window.Dispatcher.ResumeForegroundAsync();
+            WindowHelper.ActiveWindows.Values.ForEach(async (window) =>
+            {
+                if (!window.Dispatcher.HasThreadAccess)
+                {
+                    await window.Dispatcher.ResumeForegroundAsync();
+                }
+
+                if (UIHelper.HasStatusBar)
+                {
+                    StatusBar StatusBar = StatusBar.GetForCurrentView();
+                    StatusBar.ForegroundColor = ForegroundColor;
+                    StatusBar.BackgroundColor = BackgroundColor;
+                    StatusBar.BackgroundOpacity = 0; // 透明度
+                }
+                else
+                {
+                    bool ExtendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
+                    ApplicationViewTitleBar TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    TitleBar.ForegroundColor = TitleBar.ButtonForegroundColor = ForegroundColor;
+                    TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
+                    TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
+                }
+
+                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
+                {
+                    foreach (AppWindow appWindow in appWindows.Values)
+                    {
+                        bool ExtendViewIntoTitleBar = appWindow.TitleBar.ExtendsContentIntoTitleBar;
+                        AppWindowTitleBar TitleBar = appWindow.TitleBar;
+                        TitleBar.ForegroundColor = TitleBar.ButtonForegroundColor = ForegroundColor;
+                        TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
+                        TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
+                    }
+                }
+            });
+        }
+
+        public static async void UpdateSystemCaptionButtonColors(Window window)
+        {
+            if (!window.Dispatcher.HasThreadAccess)
+            {
+                await window.Dispatcher.ResumeForegroundAsync();
+            }
+
+            bool IsDark = window?.Content is FrameworkElement rootElement ? IsDarkTheme(rootElement.RequestedTheme) : await IsDarkThemeAsync();
+            bool IsHighContrast = new AccessibilitySettings().HighContrast;
+
+            Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
+            Color BackgroundColor = IsHighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
 
             if (UIHelper.HasStatusBar)
             {
@@ -244,6 +336,26 @@ namespace WinGetStore.Helpers
                 TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
                 TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
             }
+        }
+
+        public static async void UpdateSystemCaptionButtonColors(AppWindow window)
+        {
+            if (!(ThreadSwitcher.IsHasThreadAccessPropertyAvailable && window.DispatcherQueue.HasThreadAccess))
+            {
+                await window.DispatcherQueue.ResumeForegroundAsync();
+            }
+
+            bool IsDark = window.GetXamlRootForWindow() is FrameworkElement rootElement ? IsDarkTheme(rootElement.RequestedTheme) : await IsDarkThemeAsync();
+            bool IsHighContrast = new AccessibilitySettings().HighContrast;
+
+            Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
+            Color BackgroundColor = IsHighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
+
+            bool ExtendViewIntoTitleBar = window.TitleBar.ExtendsContentIntoTitleBar;
+            AppWindowTitleBar TitleBar = window.TitleBar;
+            TitleBar.ForegroundColor = TitleBar.ButtonForegroundColor = ForegroundColor;
+            TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
+            TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
         }
     }
 }
