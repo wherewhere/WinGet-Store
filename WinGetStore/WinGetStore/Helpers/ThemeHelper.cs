@@ -37,18 +37,18 @@ namespace WinGetStore.Helpers
         public static ElementTheme GetActualTheme(Window window) =>
             window == null
                 ? SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                : window.Dispatcher.HasThreadAccess
-                    ? window.Content is FrameworkElement rootElement
-                        && rootElement.RequestedTheme != ElementTheme.Default
-                            ? rootElement.RequestedTheme
-                            : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                    : UIHelper.AwaitByTaskCompleteSource(() =>
-                        window.Dispatcher.AwaitableRunAsync(() =>
+                : window.Dispatcher?.HasThreadAccess == false
+                    ? UIHelper.AwaitByTaskCompleteSource(() =>
+                        window.Dispatcher?.AwaitableRunAsync(() =>
                             window.Content is FrameworkElement _rootElement
                                 && _rootElement.RequestedTheme != ElementTheme.Default
                                     ? _rootElement.RequestedTheme
                                     : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme),
-                            CoreDispatcherPriority.High));
+                            CoreDispatcherPriority.High))
+                    : window.Content is FrameworkElement rootElement
+                        && rootElement.RequestedTheme != ElementTheme.Default
+                            ? rootElement.RequestedTheme
+                            : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme);
 
         public static Task<ElementTheme> GetActualThemeAsync() =>
             GetActualThemeAsync(Window.Current ?? CurrentApplicationWindow);
@@ -56,17 +56,17 @@ namespace WinGetStore.Helpers
         public static async Task<ElementTheme> GetActualThemeAsync(Window window) =>
             window == null
                 ? SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                : window.Dispatcher.HasThreadAccess
-                    ? window.Content is FrameworkElement rootElement
-                        && rootElement.RequestedTheme != ElementTheme.Default
-                            ? rootElement.RequestedTheme
-                            : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme)
-                    : await window.Dispatcher.AwaitableRunAsync(() =>
+                : window.Dispatcher?.HasThreadAccess == false
+                    ? await window.Dispatcher?.AwaitableRunAsync(() =>
                         window.Content is FrameworkElement _rootElement
                             && _rootElement.RequestedTheme != ElementTheme.Default
                                 ? _rootElement.RequestedTheme
                                 : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme),
-                            CoreDispatcherPriority.High);
+                            CoreDispatcherPriority.High)
+                    : window.Content is FrameworkElement rootElement
+                        && rootElement.RequestedTheme != ElementTheme.Default
+                            ? rootElement.RequestedTheme
+                            : SettingsHelper.Get<ElementTheme>(SettingsHelper.SelectedAppTheme);
 
         #endregion
 
@@ -185,7 +185,7 @@ namespace WinGetStore.Helpers
 
         public static async void Initialize(Window window)
         {
-            CurrentApplicationWindow ??= window;
+            CurrentApplicationWindow = CurrentApplicationWindow ?? window;
             if (window?.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = await GetActualThemeAsync();
@@ -246,7 +246,7 @@ namespace WinGetStore.Helpers
         {
             WindowHelper.ActiveWindows.Values.ForEach(async (window) =>
             {
-                if (!window.Dispatcher.HasThreadAccess)
+                if (window.Dispatcher?.HasThreadAccess == false)
                 {
                     await window.Dispatcher.ResumeForegroundAsync();
                 }
@@ -273,7 +273,7 @@ namespace WinGetStore.Helpers
 
             WindowHelper.ActiveWindows.Values.ForEach(async (window) =>
             {
-                if (!window.Dispatcher.HasThreadAccess)
+                if (window.Dispatcher?.HasThreadAccess == false)
                 {
                     await window.Dispatcher.ResumeForegroundAsync();
                 }
@@ -310,12 +310,12 @@ namespace WinGetStore.Helpers
 
         public static async void UpdateSystemCaptionButtonColors(Window window)
         {
-            if (!window.Dispatcher.HasThreadAccess)
+            if (window.Dispatcher?.HasThreadAccess == false)
             {
                 await window.Dispatcher.ResumeForegroundAsync();
             }
 
-            bool IsDark = window?.Content is FrameworkElement rootElement ? IsDarkTheme(rootElement.RequestedTheme) : await IsDarkThemeAsync();
+            bool IsDark = window?.Content is FrameworkElement rootElement ? rootElement.RequestedTheme.IsDarkTheme() : await IsDarkThemeAsync();
             bool IsHighContrast = new AccessibilitySettings().HighContrast;
 
             Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
@@ -340,12 +340,12 @@ namespace WinGetStore.Helpers
 
         public static async void UpdateSystemCaptionButtonColors(AppWindow window)
         {
-            if (!(ThreadSwitcher.IsHasThreadAccessPropertyAvailable && window.DispatcherQueue.HasThreadAccess))
+            if (!(ThreadSwitcher.IsHasThreadAccessPropertyAvailable && window.DispatcherQueue?.HasThreadAccess == false))
             {
                 await window.DispatcherQueue.ResumeForegroundAsync();
             }
 
-            bool IsDark = window.GetXamlRootForWindow() is FrameworkElement rootElement ? IsDarkTheme(rootElement.RequestedTheme) : await IsDarkThemeAsync();
+            bool IsDark = window.GetXamlRootForWindow() is FrameworkElement rootElement ? rootElement.RequestedTheme.IsDarkTheme() : await IsDarkThemeAsync();
             bool IsHighContrast = new AccessibilitySettings().HighContrast;
 
             Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
