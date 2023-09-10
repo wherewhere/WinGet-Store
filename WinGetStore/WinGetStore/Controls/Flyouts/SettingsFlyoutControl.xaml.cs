@@ -30,7 +30,11 @@ namespace WinGetStore.Controls
         private void SettingsFlyout_Loaded(object sender, RoutedEventArgs e)
         {
             UISettingChanged = (x) => RequestedTheme = x ? ElementTheme.Dark : ElementTheme.Light;
-            Provider = SettingsViewModel.Caches ?? new SettingsViewModel();
+            if (Provider == null)
+            {
+                DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
+                Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
+            }
             ThemeHelper.UISettingChanged.Add(UISettingChanged);
             DataContext = Provider;
             _ = Provider.Refresh();

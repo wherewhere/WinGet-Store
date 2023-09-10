@@ -145,6 +145,7 @@
                                     MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding TemplateSettings.ProgressStatusText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}" />
@@ -155,6 +156,7 @@
                                     IsTextSelectionEnabled="True"
                                     MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
+                                    TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
@@ -168,6 +170,7 @@
                                     IsTextSelectionEnabled="True"
                                     MaxLines="2"
                                     Style="{StaticResource BodyTextBlockStyle}"
+                                    TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="Wrap"
                                     ToolTipService.ToolTip="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
@@ -223,10 +226,13 @@
                                     <Grid>
                                         <TextBlock
                                             x:Name="ActionButtonText"
+                                            VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{Binding TemplateSettings.ActionButtonText, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                            Text="{Binding TemplateSettings.ActionButtonText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            TextAlignment="Center" />
                                         <TextBlock
                                             x:Name="ActionButtonIcon"
+                                            VerticalAlignment="Center"
                                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                                             FontSize="20"
                                             Text="&#xEBD3;" />

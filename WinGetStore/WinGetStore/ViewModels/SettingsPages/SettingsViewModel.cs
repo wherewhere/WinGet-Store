@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using WinGetStore.Helpers;
 using WinGetStore.Models;
@@ -22,14 +23,15 @@ namespace WinGetStore.ViewModels.SettingsPages
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        public static SettingsViewModel Caches;
         private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
+
+        public static Dictionary<DispatcherQueue, SettingsViewModel> Caches { get; } = new Dictionary<DispatcherQueue, SettingsViewModel>();
 
         public static string DeviceFamily => AnalyticsInfo.VersionInfo.DeviceFamily.Replace('.', ' ');
 
         public static string ToolkitVersion => Assembly.GetAssembly(typeof(HsvColor)).GetName().Version.ToString(3);
 
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
+        public DispatcherQueue Dispatcher { get; }
 
         public string Title => _loader.GetString("Title");
 
@@ -59,77 +61,77 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
         }
 
-        private string _wingetVersion = ResourceLoader.GetForViewIndependentUse("MainPage").GetString("Loading");
+        private static string _wingetVersion = ResourceLoader.GetForViewIndependentUse("MainPage").GetString("Loading");
         public string WinGetVersion
         {
             get => _wingetVersion;
             set => SetProperty(ref _wingetVersion, value);
         }
 
-        private bool _isWinGetInstalled = false;
+        private static bool _isWinGetInstalled = false;
         public bool IsWinGetInstalled
         {
             get => _isWinGetInstalled;
             set => SetProperty(ref _isWinGetInstalled, value);
         }
 
-        private bool _isWinGetDevInstalled = false;
+        private static bool _isWinGetDevInstalled = false;
         public bool IsWinGetDevInstalled
         {
             get => _isWinGetDevInstalled;
             set => SetProperty(ref _isWinGetDevInstalled, value);
         }
 
-        private bool _checkingUpdate;
+        private static bool _checkingUpdate;
         public bool CheckingUpdate
         {
             get => _checkingUpdate;
             set => SetProperty(ref _checkingUpdate, value);
         }
 
-        private string _gotoUpdateTag;
+        private static string _gotoUpdateTag;
         public string GotoUpdateTag
         {
             get => _gotoUpdateTag;
             set => SetProperty(ref _gotoUpdateTag, value);
         }
 
-        private Visibility _gotoUpdateVisibility;
+        private static Visibility _gotoUpdateVisibility;
         public Visibility GotoUpdateVisibility
         {
             get => _gotoUpdateVisibility;
             set => SetProperty(ref _gotoUpdateVisibility, value);
         }
 
-        private bool _updateStateIsOpen;
+        private static bool _updateStateIsOpen;
         public bool UpdateStateIsOpen
         {
             get => _updateStateIsOpen;
             set => SetProperty(ref _updateStateIsOpen, value);
         }
 
-        private string _updateStateMessage;
+        private static string _updateStateMessage;
         public string UpdateStateMessage
         {
             get => _updateStateMessage;
             set => SetProperty(ref _updateStateMessage, value);
         }
 
-        private InfoBarSeverity _updateStateSeverity;
+        private static InfoBarSeverity _updateStateSeverity;
         public InfoBarSeverity UpdateStateSeverity
         {
             get => _updateStateSeverity;
             set => SetProperty(ref _updateStateSeverity, value);
         }
 
-        private string _updateStateTitle;
+        private static string _updateStateTitle;
         public string UpdateStateTitle
         {
             get => _updateStateTitle;
             set => SetProperty(ref _updateStateTitle, value);
         }
 
-        private string _aboutTextBlockText;
+        private static string _aboutTextBlockText;
         public string AboutTextBlockText
         {
             get => _aboutTextBlockText;
@@ -138,22 +140,29 @@ namespace WinGetStore.ViewModels.SettingsPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void SetProperty<T>(ref T property, T value, [CallerMemberName] string name = null)
-        {
-            if (name == null || property is null ? value is null : property.Equals(value)) { return; }
-            property = value;
-            _ = Dispatcher.EnqueueAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
-        }
-
-        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        protected static async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
             if (name != null)
             {
-                if (Dispatcher?.HasThreadAccess == false)
+                foreach (KeyValuePair<DispatcherQueue, SettingsViewModel> cache in Caches)
                 {
-                    await Dispatcher.ResumeForegroundAsync();
+                    if (cache.Key is DispatcherQueue dispatcher
+                        && !(ThreadSwitcher.IsHasThreadAccessPropertyAvailable
+                        && dispatcher.HasThreadAccess != false))
+                    {
+                        await cache.Key.ResumeForegroundAsync();
+                    }
+                    cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name));
                 }
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
+        {
+            if (property == null ? value != null : !property.Equals(value))
+            {
+                property = value;
+                RaisePropertyChangedEvent(name);
             }
         }
 
@@ -166,6 +175,12 @@ namespace WinGetStore.ViewModels.SettingsPages
                 GetAboutTextBlockText();
                 return $"{name} v{ver}";
             }
+        }
+
+        public SettingsViewModel(DispatcherQueue dispatcher)
+        {
+            Dispatcher = dispatcher ?? DispatcherQueue.GetForCurrentThread();
+            Caches[dispatcher] = this;
         }
 
         public async Task Refresh()

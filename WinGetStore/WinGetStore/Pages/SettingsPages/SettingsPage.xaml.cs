@@ -27,11 +27,12 @@ namespace WinGetStore.Pages.SettingsPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (DataContext is not SettingsViewModel)
+            if (Provider == null)
             {
-                Provider = SettingsViewModel.Caches ?? new SettingsViewModel();
-                DataContext = Provider;
+                DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
+                Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
             }
+            DataContext = Provider;
             _ = Provider.Refresh();
         }
 
