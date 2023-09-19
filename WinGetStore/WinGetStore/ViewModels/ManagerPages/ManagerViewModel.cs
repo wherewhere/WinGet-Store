@@ -1,5 +1,4 @@
 ﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -146,15 +145,11 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 await Dispatcher.ResumeForegroundAsync();
-                packagesResult.Matches.ToList()
-                    .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
-                    .ForEach((x) =>
-                    {
-                        if (x.CatalogPackage.DefaultInstallVersion != null)
-                        {
-                            MatchResults.Add(x.CatalogPackage);
-                        }
-                    });
+                MatchResults.AddRange(
+                    packagesResult.Matches.ToList()
+                                          .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
+                                          .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
+                                          .Select((x) => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }

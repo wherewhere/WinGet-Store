@@ -87,4 +87,14 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Frame">
+        <Setter Property="ContentTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <NavigationThemeTransition />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>

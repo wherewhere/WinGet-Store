@@ -29,16 +29,6 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
-
-            <Style TargetType="Frame">
-                <Setter Property="ContentTransitions">
-                    <Setter.Value>
-                        <TransitionCollection>
-                            <NavigationThemeTransition />
-                        </TransitionCollection>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
