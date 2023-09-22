@@ -41,9 +41,9 @@ namespace WinGetStore.Common
             }
         }
 
-        public static SettingsPaneRegister Register(Window window) => new SettingsPaneRegister(window);
+        public static SettingsPaneRegister Register(Window window) => new(window);
 
-        public static SettingsPaneRegister Register(UIElement element) => new SettingsPaneRegister(element);
+        public static SettingsPaneRegister Register(UIElement element) => new(element);
 
         public void Unregister()
         {

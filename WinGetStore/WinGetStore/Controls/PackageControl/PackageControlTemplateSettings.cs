@@ -258,7 +258,7 @@ namespace WinGetStore.Controls
                     ProgressStatusText = _loader.GetString("Installed");
                     break;
                 case PackageState.Installing:
-                    ActionButtonText  = _loader.GetString("Installing");
+                    ActionButtonText = _loader.GetString("Installing");
                     ProgressStatusText = _loader.GetString("PreparingInstall");
                     break;
                 case PackageState.UpdateAvailable:

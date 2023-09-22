@@ -154,7 +154,7 @@
     <Compile Include="Controls\Setting\Setting.Properties.cs" />
     <Compile Include="Controls\Setting\SettingAutomationPeer.cs" />
     <Compile Include="Controls\Slot.cs" />
-    <Compile Include="Controls\StackPanel.cs" />
+    <Compile Include="Controls\StackPanelEx.cs" />
     <Compile Include="Helpers\AttributesHelper.cs" />
     <Compile Include="Helpers\Converters\ConverterTools.cs" />
     <Compile Include="Helpers\LanguageHelper.cs" />

@@ -265,7 +265,7 @@
                                 </StackPanel>
                             </controls:SettingExpander.Description>
                             <controls:SettingExpander.ActionContent>
-                                <controls:StackPanel
+                                <controls:StackPanelEx
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
                                     Spacing="18">
@@ -286,7 +286,7 @@
                                         Click="Button_Click"
                                         Tag="CheckUpdate"
                                         Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
-                                </controls:StackPanel>
+                                </controls:StackPanelEx>
                             </controls:SettingExpander.ActionContent>
                             <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
                                 <cwuc:MarkdownTextBlock

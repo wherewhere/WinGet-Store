@@ -1,5 +1,4 @@
 ﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -147,7 +146,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                     SetError(_loader.GetString("ConnectWinGetFailedTitle"), _loader.GetString("ConnectWinGetFailedDescription"));
                     return;
                 }
-                
+
                 WaitProgressText = _loader.GetString("GettingResults");
                 FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog, title);
                 if (packagesResult is null)

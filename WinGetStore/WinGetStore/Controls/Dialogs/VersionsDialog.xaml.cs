@@ -3,7 +3,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Resources;
 using Windows.System;
 using Windows.UI.Xaml;

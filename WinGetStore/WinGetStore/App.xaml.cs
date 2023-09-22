@@ -2,19 +2,12 @@
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources;
-using Windows.ApplicationModel.Search;
 using Windows.Foundation.Metadata;
-using Windows.Storage;
-using Windows.System;
 using Windows.System.Profile;
-using Windows.UI.ApplicationSettings;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using WinGetStore.Common;
-using WinGetStore.Controls;
 using WinGetStore.Helpers;
 using WinGetStore.Pages;
 

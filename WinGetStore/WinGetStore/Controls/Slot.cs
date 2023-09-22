@@ -3,6 +3,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using WinGetStore.Helpers;
 
 namespace WinGetStore.Controls
 {
@@ -10,11 +11,12 @@ namespace WinGetStore.Controls
     {
         private UIElement RootElement;
 
-        public bool IsStretch
-        {
-            get => (bool)GetValue(IsStretchProperty);
-            set => SetValue(IsStretchProperty, value);
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Slot"/> class.
+        /// </summary>
+        public Slot() { }
+
+        #region IsStretch
 
         /// <summary>
         /// Identifies the <see cref="IsStretch"/> dependency property.
@@ -25,6 +27,26 @@ namespace WinGetStore.Controls
                 typeof(bool),
                 typeof(Slot),
                 new PropertyMetadata(true, OnLayoutPropertyChanged));
+
+        public bool IsStretch
+        {
+            get => (bool)GetValue(IsStretchProperty);
+            set => SetValue(IsStretchProperty, value);
+        }
+
+        #endregion
+
+        #region Orientation
+
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(
+                nameof(Orientation),
+                typeof(Orientation),
+                typeof(Slot),
+                new PropertyMetadata(Orientation.Vertical, OnLayoutPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value that indicates the dimension by which child elements are
@@ -37,21 +59,9 @@ namespace WinGetStore.Controls
             set => SetValue(OrientationProperty, value);
         }
 
-        /// <summary>
-        /// Identifies the <see cref="Orientation"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register(
-                nameof(Orientation),
-                typeof(Orientation),
-                typeof(Slot),
-                new PropertyMetadata(Orientation.Vertical, OnLayoutPropertyChanged));
+        #endregion
 
-        public UIElement LastControl
-        {
-            get => (UIElement)GetValue(LastControlProperty);
-            set => SetValue(LastControlProperty, value);
-        }
+        #region LastControl
 
         /// <summary>
         /// Identifies the <see cref="LastControl"/> dependency property.
@@ -63,6 +73,14 @@ namespace WinGetStore.Controls
                 typeof(Slot),
                 null);
 
+        public UIElement LastControl
+        {
+            get => (UIElement)GetValue(LastControlProperty);
+            set => SetValue(LastControlProperty, value);
+        }
+
+        #endregion
+
         private static void OnLayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue != e.OldValue)
@@ -73,14 +91,7 @@ namespace WinGetStore.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            if (RootElement is null)
-            {
-                RootElement = FindAscendant(this) as UIElement;
-                if (RootElement is null && Window.Current != null)
-                {
-                    RootElement = Window.Current.Content;
-                }
-            }
+            RootElement ??= this.GetXAMLRoot() ?? FindAscendant(this) as UIElement;
 
             bool isStretch = IsStretch;
             bool fHorizontal = Orientation == Orientation.Horizontal;

@@ -11,7 +11,7 @@ namespace WinGetStore.Common
         private class Method(Action<TEventArgs> callback)
         {
             private readonly bool _isStatic = callback.Target == null;
-            private readonly WeakReference _reference = new WeakReference(callback.Target);
+            private readonly WeakReference _reference = new(callback.Target);
             private readonly MethodInfo _method = callback.GetMethodInfo();
 
             public bool IsDead => !(_isStatic || _reference.IsAlive);

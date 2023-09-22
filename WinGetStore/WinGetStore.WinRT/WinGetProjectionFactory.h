@@ -19,6 +19,7 @@ namespace winrt::WinGetStore::WinRT::implementation
 
         static PackageManager CreatePackageManager();
         static InstallOptions CreateInstallOptions();
+        static DownloadOptions CreateDownloadOptions();
         static UninstallOptions CreateUninstallOptions();
         static FindPackagesOptions CreateFindPackagesOptions();
         static CreateCompositePackageCatalogOptions CreateCreateCompositePackageCatalogOptions();
@@ -27,6 +28,7 @@ namespace winrt::WinGetStore::WinRT::implementation
 
         static PackageManager TryCreatePackageManager();
         static InstallOptions TryCreateInstallOptions();
+        static DownloadOptions TryCreateDownloadOptions();
         static UninstallOptions TryCreateUninstallOptions();
         static FindPackagesOptions TryCreateFindPackagesOptions();
         static CreateCompositePackageCatalogOptions TryCreateCreateCompositePackageCatalogOptions();

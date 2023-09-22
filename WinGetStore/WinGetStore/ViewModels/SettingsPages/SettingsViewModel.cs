@@ -13,7 +13,6 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using WinGetStore.Helpers;
 using WinGetStore.Models;

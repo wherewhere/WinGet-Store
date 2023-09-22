@@ -1,6 +1,4 @@
 ﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

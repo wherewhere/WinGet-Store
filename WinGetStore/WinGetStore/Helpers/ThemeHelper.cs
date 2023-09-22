@@ -185,7 +185,7 @@ namespace WinGetStore.Helpers
 
         public static async void Initialize(Window window)
         {
-            CurrentApplicationWindow = CurrentApplicationWindow ?? window;
+            CurrentApplicationWindow ??= window;
             if (window?.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = await GetActualThemeAsync();

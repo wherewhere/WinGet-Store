@@ -3,9 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Web.Http.Filters;
+using Windows.Web.Http;
 using WinGetStore.Models;
+using HttpClient = System.Net.Http.HttpClient;
+using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
+using HttpStatusCode = System.Net.HttpStatusCode;
 
 namespace WinGetStore.Helpers
 {
@@ -34,12 +40,26 @@ namespace WinGetStore.Helpers
 
             try
             {
-                HttpClient client = new HttpClient();
+                using HttpClientHandler clientHandler = new();
+                using HttpClient client = new(clientHandler);
+
+                using (HttpBaseProtocolFilter filter = new())
+                {
+                    Uri host = new("https://api.github.com");
+                    HttpCookieManager cookieManager = filter.CookieManager;
+                    foreach (HttpCookie item in cookieManager.GetCookies(host))
+                    {
+                        clientHandler.CookieContainer.SetCookies(host, item.ToString());
+                    }
+                }
+
                 client.DefaultRequestHeaders.Add("User-Agent", username);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 string url = string.Format(GITHUB_API, username, repository);
-                HttpResponseMessage response = await client.GetAsync(url);
+                HttpResponseMessage response = await client.GetAsync(url).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode != HttpStatusCode.OK) { return null; }
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 UpdateInfo result = JsonConvert.DeserializeObject<UpdateInfo>(responseBody);
 
                 if (result != null)
@@ -52,18 +72,9 @@ namespace WinGetStore.Helpers
 
                     SystemVersionInfo currentVersionInfo = new SystemVersionInfo(major, minor, build, revision);
 
-                    return new UpdateInfo
-                    {
-                        Changelog = result?.Changelog,
-                        CreatedAt = Convert.ToDateTime(result?.CreatedAt),
-                        Assets = result.Assets,
-                        IsPreRelease = result.IsPreRelease,
-                        PublishedAt = Convert.ToDateTime(result?.PublishedAt),
-                        TagName = result.TagName,
-                        ApiUrl = result?.ApiUrl,
-                        ReleaseUrl = result?.ReleaseUrl,
-                        IsExistNewVersion = newVersionInfo > currentVersionInfo
-                    };
+                    result.IsExistNewVersion = newVersionInfo > currentVersionInfo;
+
+                    return result;
                 }
             }
             catch (HttpRequestException e)
@@ -76,13 +87,13 @@ namespace WinGetStore.Helpers
 
         private static SystemVersionInfo GetAsVersionInfo(string version)
         {
-            List<int> numbs = GetVersionNumbers(version).Split('.').Select(int.Parse).ToList();
+            int[] numbs = GetVersionNumbers(version).Split('.').Select(int.Parse).ToArray();
 
-            return numbs.Count <= 1
+            return numbs.Length <= 1
                 ? new SystemVersionInfo(numbs[0], 0, 0, 0)
-                : numbs.Count <= 2
+                : numbs.Length <= 2
                     ? new SystemVersionInfo(numbs[0], numbs[1], 0, 0)
-                    : numbs.Count <= 3
+                    : numbs.Length <= 3
                         ? new SystemVersionInfo(numbs[0], numbs[1], numbs[2], 0)
                         : new SystemVersionInfo(numbs[0], numbs[1], numbs[2], numbs[3]);
         }
