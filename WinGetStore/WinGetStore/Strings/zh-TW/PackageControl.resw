@@ -133,7 +133,7 @@
     <value>正在下載</value>
   </data>
   <data name="DownloadingProgress" xml:space="preserve">
-    <value>已下載 {0}，總共 {1}</value>
+    <value>已下載 {0}，共 {1}</value>
   </data>
   <data name="Finished" xml:space="preserve">
     <value>已完成</value>
