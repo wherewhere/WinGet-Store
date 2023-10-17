@@ -5,7 +5,6 @@ using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using WinGetStore.Common;
 
@@ -21,7 +20,7 @@ namespace WinGetStore.Helpers
         // Keep reference so it does not get optimized/garbage collected
         public static UISettings UISettings;
 
-        public static WeakEvent<bool> UISettingChanged { get; } = new WeakEvent<bool>();
+        public static WeakEvent<bool> UISettingChanged { get; } = [];
 
         #region ActualTheme
 
@@ -127,14 +126,6 @@ namespace WinGetStore.Helpers
                 {
                     rootElement.RequestedTheme = value;
                 }
-
-                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
-                {
-                    foreach (FrameworkElement element in appWindows.Keys)
-                    {
-                        element.RequestedTheme = value;
-                    }
-                }
             });
 
             SettingsHelper.Set(SettingsHelper.SelectedAppTheme, value);
@@ -154,14 +145,6 @@ namespace WinGetStore.Helpers
                 if (window.Content is FrameworkElement rootElement)
                 {
                     rootElement.RequestedTheme = value;
-                }
-
-                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
-                {
-                    foreach (FrameworkElement element in appWindows.Keys)
-                    {
-                        element.RequestedTheme = value;
-                    }
                 }
             }));
 
@@ -187,15 +170,6 @@ namespace WinGetStore.Helpers
         {
             CurrentApplicationWindow ??= window;
             if (window?.Content is FrameworkElement rootElement)
-            {
-                rootElement.RequestedTheme = await GetActualThemeAsync();
-            }
-            UpdateSystemCaptionButtonColors(window);
-        }
-
-        public static async void Initialize(AppWindow window)
-        {
-            if (window?.GetXamlRootForWindow() is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = await GetActualThemeAsync();
             }
@@ -252,14 +226,6 @@ namespace WinGetStore.Helpers
                 }
 
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = IsExtendsTitleBar;
-
-                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
-                {
-                    foreach (AppWindow appWindow in appWindows.Values)
-                    {
-                        appWindow.TitleBar.ExtendsContentIntoTitleBar = IsExtendsTitleBar;
-                    }
-                }
             });
         }
 
@@ -293,18 +259,6 @@ namespace WinGetStore.Helpers
                     TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
                     TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
                 }
-
-                if (WindowHelper.IsAppWindowSupported && WindowHelper.ActiveAppWindows.TryGetValue(window.Dispatcher, out System.Collections.Generic.Dictionary<UIElement, AppWindow> appWindows))
-                {
-                    foreach (AppWindow appWindow in appWindows.Values)
-                    {
-                        bool ExtendViewIntoTitleBar = appWindow.TitleBar.ExtendsContentIntoTitleBar;
-                        AppWindowTitleBar TitleBar = appWindow.TitleBar;
-                        TitleBar.ForegroundColor = TitleBar.ButtonForegroundColor = ForegroundColor;
-                        TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
-                        TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
-                    }
-                }
             });
         }
 
@@ -336,26 +290,6 @@ namespace WinGetStore.Helpers
                 TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
                 TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
             }
-        }
-
-        public static async void UpdateSystemCaptionButtonColors(AppWindow window)
-        {
-            if (!(ThreadSwitcher.IsHasThreadAccessPropertyAvailable && window.DispatcherQueue?.HasThreadAccess == false))
-            {
-                await window.DispatcherQueue.ResumeForegroundAsync();
-            }
-
-            bool IsDark = window.GetXamlRootForWindow() is FrameworkElement rootElement ? rootElement.RequestedTheme.IsDarkTheme() : await IsDarkThemeAsync();
-            bool IsHighContrast = new AccessibilitySettings().HighContrast;
-
-            Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
-            Color BackgroundColor = IsHighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
-
-            bool ExtendViewIntoTitleBar = window.TitleBar.ExtendsContentIntoTitleBar;
-            AppWindowTitleBar TitleBar = window.TitleBar;
-            TitleBar.ForegroundColor = TitleBar.ButtonForegroundColor = ForegroundColor;
-            TitleBar.BackgroundColor = TitleBar.InactiveBackgroundColor = BackgroundColor;
-            TitleBar.ButtonBackgroundColor = TitleBar.ButtonInactiveBackgroundColor = ExtendViewIntoTitleBar ? Colors.Transparent : BackgroundColor;
         }
     }
 }

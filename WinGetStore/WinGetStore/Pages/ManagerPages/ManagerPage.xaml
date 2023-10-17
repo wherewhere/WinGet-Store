@@ -9,17 +9,15 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:WinGetStore.ViewModels.ManagerPages"
     d:DataContext="{d:DesignInstance Type=viewmodels:ManagerViewModel}"
+    DataContext="{x:Bind Provider}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
-        <muxc:RefreshContainer
-            x:Name="RefreshContainer"
-            RefreshRequested="RefreshContainer_RefreshRequested"
-            Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}">
+        <muxc:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <ListView
                 x:Name="ListView"
                 Padding="36,3"
-                ItemsSource="{Binding MatchResults}">
+                ItemsSource="{x:Bind Provider.MatchResults, Mode=OneWay}">
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource TransparentCardItemStyle}" TargetType="ListViewItem">
                         <Setter Property="Margin" Value="0,3" />
@@ -58,10 +56,10 @@
         </muxc:RefreshContainer>
         <Grid
             x:Name="InitialLoadingUI"
-            Padding="{Binding Padding, ElementName=ListView}"
+            Padding="{x:Bind ListView.Padding, Mode=OneWay}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+            x:Load="{x:Bind Provider.IsLoading, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -77,16 +75,17 @@
                 x:Name="WaitProgressText"
                 Grid.Row="1"
                 Margin="0,6,0,0"
-                Text="{Binding WaitProgressText}"
+                Text="{x:Bind Provider.WaitProgressText, Mode=OneWay}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Grid>
         <Grid
+            x:Name="ErrorGrid"
             MaxWidth="480"
             Margin="0,16,0,0"
             Padding="0,24,0,24"
             HorizontalAlignment="Center"
-            Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+            x:Load="{x:Bind Provider.IsError, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -94,19 +93,19 @@
             <StackPanel Margin="0,0,0,35" VerticalAlignment="Center">
                 <TextBlock
                     x:Name="ErrorDescription"
+                    x:Load="{x:Bind Provider.ErrorDescription, Converter={StaticResource StringToBoolConverter}, Mode=OneWay}"
                     FontWeight="SemiBold"
                     Style="{StaticResource SubheaderTextBlockStyle}"
-                    Text="{Binding ErrorDescription}"
-                    TextAlignment="Center"
-                    Visibility="{Binding ErrorDescription, Converter={StaticResource StringVisibilityConverter}}" />
+                    Text="{x:Bind Provider.ErrorDescription, Mode=OneWay}"
+                    TextAlignment="Center" />
                 <TextBlock
                     x:Name="ErrorLongDescription"
                     Margin="0,7,0,0"
+                    x:Load="{x:Bind Provider.ErrorLongDescription, Converter={StaticResource StringToBoolConverter}, Mode=OneWay}"
                     FontWeight="SemiBold"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{Binding ErrorLongDescription}"
-                    TextAlignment="Center"
-                    Visibility="{Binding ErrorLongDescription, Converter={StaticResource StringVisibilityConverter}}" />
+                    Text="{x:Bind Provider.ErrorLongDescription, Mode=OneWay}"
+                    TextAlignment="Center" />
                 <StackPanel
                     x:Name="ButtonContainer"
                     Margin="0,19,0,0"
@@ -128,13 +127,13 @@
             <StackPanel Grid.Row="1">
                 <TextBlock
                     x:Name="ErrorCode"
+                    x:Load="{x:Bind Provider.ErrorCode, Converter={StaticResource StringToBoolConverter}, Mode=OneWay}"
                     IsTextSelectionEnabled="True"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    TextAlignment="Center"
-                    Visibility="{Binding ErrorCode, Converter={StaticResource StringVisibilityConverter}}">
+                    TextAlignment="Center">
                     <Run x:Uid="/MainPage/Code" />
-                    <Run Text="{Binding ErrorCode}" />
+                    <Run Text="{x:Bind Provider.ErrorCode, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock
                     x:Name="CorrelationErrorCode"

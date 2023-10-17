@@ -6,15 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
+using WinGetStore.Common;
 using WinGetStore.Helpers;
 
 namespace WinGetStore.ViewModels
 {
-    public class VersionsViewModel : INotifyPropertyChanged
+    public class VersionsViewModel(CatalogPackage catalogPackage) : INotifyPropertyChanged
     {
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
-        public CatalogPackage CatalogPackage { get; }
+        public CatalogPackage CatalogPackage { get; } = catalogPackage;
 
         private bool isLoading = true;
         public bool IsLoading
@@ -23,7 +24,7 @@ namespace WinGetStore.ViewModels
             set => SetProperty(ref isLoading, value);
         }
 
-        private ObservableCollection<CatalogPackageVersion> packageVersions = new();
+        private ObservableCollection<CatalogPackageVersion> packageVersions = [];
         public ObservableCollection<CatalogPackageVersion> PackageVersions
         {
             get => packageVersions;
@@ -55,27 +56,31 @@ namespace WinGetStore.ViewModels
             }
         }
 
-        public VersionsViewModel(CatalogPackage catalogPackage) => CatalogPackage = catalogPackage;
-
         public async Task Refresh()
         {
             IsLoading = true;
             try
             {
                 await ThreadSwitcher.ResumeBackgroundAsync();
-                CatalogPackage.AvailableVersions.ToList().ForEach(async (x) =>
+                CatalogPackage.AvailableVersions.ToArray().ForEach(async (x) =>
                 {
                     PackageVersionInfo versionInfo = CatalogPackage.GetPackageVersionInfo(x);
-                    CatalogPackageMetadata packageMetadata = versionInfo.GetCatalogPackageMetadata();
-                    await Dispatcher.ResumeForegroundAsync();
-                    PackageVersions.Add(new(versionInfo.Version, packageMetadata));
+                    if (PackageVersions.LastOrDefault()?.Version != versionInfo.Version)
+                    {
+                        CatalogPackageMetadata packageMetadata = versionInfo.GetCatalogPackageMetadata();
+                        await Dispatcher.ResumeForegroundAsync();
+                        PackageVersions.Add(new(versionInfo.Version, packageMetadata));
+                    }
                 });
             }
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(VersionsViewModel)).Error(ex.ExceptionToMessage());
             }
-            IsLoading = false;
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 

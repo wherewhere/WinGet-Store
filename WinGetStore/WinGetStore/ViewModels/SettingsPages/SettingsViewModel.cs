@@ -13,7 +13,9 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
+using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.Models;
 using WinGetStore.WinRT;
@@ -24,7 +26,7 @@ namespace WinGetStore.ViewModels.SettingsPages
     {
         private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
 
-        public static Dictionary<DispatcherQueue, SettingsViewModel> Caches { get; } = new Dictionary<DispatcherQueue, SettingsViewModel>();
+        public static Dictionary<DispatcherQueue, SettingsViewModel> Caches { get; } = [];
 
         public static string DeviceFamily => AnalyticsInfo.VersionInfo.DeviceFamily.Replace('.', ' ');
 
@@ -156,6 +158,21 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
         }
 
+        protected static async void RaisePropertyChangedEvent(params string[] names)
+        {
+            if (names?.Any() == true)
+            {
+                foreach (KeyValuePair<DispatcherQueue, SettingsViewModel> cache in Caches)
+                {
+                    if (cache.Key?.HasThreadAccess == false)
+                    {
+                        await cache.Key.ResumeForegroundAsync();
+                    }
+                    names.ForEach(name => cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name)));
+                }
+            }
+        }
+
         protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
         {
             if (property == null ? value != null : !property.Equals(value))
@@ -171,7 +188,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             {
                 string ver = Package.Current.Id.Version.ToFormattedString(3);
                 string name = ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? Package.Current.DisplayName;
-                GetAboutTextBlockText();
+                _ = GetAboutTextBlockTextAsync();
                 return $"{name} v{ver}";
             }
         }
@@ -182,7 +199,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             Caches[dispatcher] = this;
         }
 
-        public async Task Refresh()
+        public async Task UpdateWinGetVersionAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             IEnumerable<Package> packages = await PackageHelper.FindPackagesByName("Microsoft.DesktopAppInstaller");
@@ -191,14 +208,12 @@ namespace WinGetStore.ViewModels.SettingsPages
                 string wingetVersion = packages.FirstOrDefault().Id.Version.ToFormattedString();
                 bool isWinGetInstalled = WinGetProjectionFactory.IsWinGetInstalled;
                 bool isWinGetDevInstalled = WinGetProjectionFactory.IsWinGetDevInstalled;
-                await Dispatcher.ResumeForegroundAsync();
                 WinGetVersion = wingetVersion;
                 IsWinGetInstalled = isWinGetInstalled;
                 IsWinGetDevInstalled = isWinGetDevInstalled;
             }
             else
             {
-                await Dispatcher.ResumeForegroundAsync();
                 WinGetVersion = "Not Installed";
             }
         }
@@ -206,43 +221,49 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async void CheckUpdate()
         {
             CheckingUpdate = true;
-            UpdateInfo info = null;
             try
             {
-                info = await UpdateHelper.CheckUpdateAsync("wherewhere", "WinGet-Store");
-            }
-            catch (Exception ex)
-            {
-                UpdateStateIsOpen = true;
-                UpdateStateMessage = ex.Message;
-                UpdateStateSeverity = InfoBarSeverity.Error;
-                GotoUpdateVisibility = Visibility.Collapsed;
-                UpdateStateTitle = _loader.GetString("CheckFailed");
-            }
-            if (info != null)
-            {
-                if (info.IsExistNewVersion)
+                UpdateInfo info = null;
+                try
                 {
-                    UpdateStateIsOpen = true;
-                    GotoUpdateTag = info.ReleaseUrl;
-                    GotoUpdateVisibility = Visibility.Visible;
-                    UpdateStateSeverity = InfoBarSeverity.Warning;
-                    UpdateStateTitle = _loader.GetString("FindUpdate");
-                    UpdateStateMessage = $"{VersionTextBlockText} -> {info.TagName}";
+                    info = await UpdateHelper.CheckUpdateAsync("wherewhere", "WinGet-Store").ConfigureAwait(false);
                 }
-                else
+                catch (Exception ex)
                 {
                     UpdateStateIsOpen = true;
+                    UpdateStateMessage = ex.Message;
+                    UpdateStateSeverity = InfoBarSeverity.Error;
                     GotoUpdateVisibility = Visibility.Collapsed;
-                    UpdateStateSeverity = InfoBarSeverity.Success;
-                    UpdateStateTitle = _loader.GetString("UpToDate");
+                    UpdateStateTitle = _loader.GetString("CheckFailed");
                 }
+                if (info != null)
+                {
+                    if (info.IsExistNewVersion)
+                    {
+                        UpdateStateIsOpen = true;
+                        GotoUpdateTag = info.ReleaseUrl;
+                        GotoUpdateVisibility = Visibility.Visible;
+                        UpdateStateSeverity = InfoBarSeverity.Warning;
+                        UpdateStateTitle = _loader.GetString("FindUpdate");
+                        UpdateStateMessage = $"{VersionTextBlockText} -> {info.TagName}";
+                    }
+                    else
+                    {
+                        UpdateStateIsOpen = true;
+                        GotoUpdateVisibility = Visibility.Collapsed;
+                        UpdateStateSeverity = InfoBarSeverity.Success;
+                        UpdateStateTitle = _loader.GetString("UpToDate");
+                    }
+                }
+                UpdateDate = DateTime.Now;
             }
-            UpdateDate = DateTime.Now;
-            CheckingUpdate = false;
+            finally
+            {
+                CheckingUpdate = false;
+            }
         }
 
-        private async void GetAboutTextBlockText()
+        private async Task GetAboutTextBlockTextAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             string langCode = LanguageHelper.GetPrimaryLanguage();
@@ -253,6 +274,18 @@ namespace WinGetStore.ViewModels.SettingsPages
                 string markdown = await FileIO.ReadTextAsync(file);
                 AboutTextBlockText = markdown;
             }
+        }
+
+        public async Task Refresh(bool reset)
+        {
+            if (reset)
+            {
+                RaisePropertyChangedEvent(
+                    nameof(UpdateDate),
+                    nameof(SelectedTheme));
+            }
+            await GetAboutTextBlockTextAsync();
+            await UpdateWinGetVersionAsync();
         }
     }
 }

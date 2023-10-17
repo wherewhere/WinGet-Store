@@ -231,7 +231,7 @@ namespace WinGetStore.Controls
                 child.Arrange(arrangeRect);
             }
 
-            return result;
+            return base.ArrangeOverride(result);
         }
     }
 }

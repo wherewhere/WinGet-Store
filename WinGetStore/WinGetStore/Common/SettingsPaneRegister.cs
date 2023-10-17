@@ -13,47 +13,33 @@ namespace WinGetStore.Common
 {
     public class SettingsPaneRegister
     {
-        private UIElement element;
+        private CoreDispatcher dispatcher;
 
         public SettingsPaneRegister(Window window)
         {
-            element = window.Content;
+            dispatcher = window.Dispatcher;
 
             if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
             {
-                SettingsPane searchPane = SettingsPane.GetForCurrentView();
-                searchPane.CommandsRequested -= OnCommandsRequested;
-                searchPane.CommandsRequested += OnCommandsRequested;
-                window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-                window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-            }
-        }
-
-        public SettingsPaneRegister(UIElement element)
-        {
-            this.element = element;
-
-            if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
-            {
-                SettingsPane searchPane = SettingsPane.GetForCurrentView();
-                searchPane.CommandsRequested -= OnCommandsRequested;
-                searchPane.CommandsRequested += OnCommandsRequested;
+                SettingsPane settingsPane = SettingsPane.GetForCurrentView();
+                settingsPane.CommandsRequested -= OnCommandsRequested;
+                settingsPane.CommandsRequested += OnCommandsRequested;
+                dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             }
         }
 
         public static SettingsPaneRegister Register(Window window) => new(window);
-
-        public static SettingsPaneRegister Register(UIElement element) => new(element);
 
         public void Unregister()
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
             {
                 SettingsPane.GetForCurrentView().CommandsRequested -= OnCommandsRequested;
-                element.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             }
 
-            element = null;
+            dispatcher = null;
         }
 
         private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)

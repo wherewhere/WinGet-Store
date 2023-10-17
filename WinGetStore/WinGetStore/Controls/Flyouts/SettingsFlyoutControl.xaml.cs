@@ -2,12 +2,14 @@
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WinGetStore.Helpers;
+using WinGetStore.Pages.SettingsPages;
 using WinGetStore.ViewModels.SettingsPages;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -18,7 +20,28 @@ namespace WinGetStore.Controls
     {
         private Action<bool> UISettingChanged;
 
-        internal SettingsViewModel Provider;
+        #region Provider
+
+        /// <summary>
+        /// Identifies the <see cref="Provider"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ProviderProperty =
+            DependencyProperty.Register(
+                nameof(Provider),
+                typeof(SettingsViewModel),
+                typeof(SettingsFlyoutControl),
+                null);
+
+        /// <summary>
+        /// Get the <see cref="SettingsViewModel"/> of current <see cref="SettingsFlyout"/>.
+        /// </summary>
+        public SettingsViewModel Provider
+        {
+            get => (SettingsViewModel)GetValue(ProviderProperty);
+            private set => SetValue(ProviderProperty, value);
+        }
+
+        #endregion
 
         public SettingsFlyoutControl()
         {
@@ -37,7 +60,7 @@ namespace WinGetStore.Controls
             }
             ThemeHelper.UISettingChanged.Add(UISettingChanged);
             DataContext = Provider;
-            _ = Provider.Refresh();
+            _ = Refresh();
         }
 
         private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e)
@@ -91,9 +114,13 @@ namespace WinGetStore.Controls
                     _ = Launcher.LaunchUriAsync(new Uri("https://t.me/PavingBase"));
                     break;
                 case "Reset":
-                    Reset.Flyout?.Hide();
-                    ApplicationData.Current.LocalSettings.Values.Clear();
+                    SettingsHelper.LocalObject.Clear();
                     SettingsHelper.SetDefaultSettings();
+                    if (Reset.Flyout is Flyout flyout_reset)
+                    {
+                        flyout_reset.Hide();
+                    }
+                    _ = Refresh(true);
                     break;
                 case "CheckUpdate":
                     Provider.CheckUpdate();
@@ -133,6 +160,8 @@ namespace WinGetStore.Controls
                 message.IsTextSelectionEnabled = true;
             }
         }
+
+        public Task Refresh(bool reset = false) => Provider.Refresh(reset);
 
         private void GotoUpdate_Click(object sender, RoutedEventArgs e) => _ = Launcher.LaunchUriAsync(new Uri((sender as FrameworkElement).Tag.ToString()));
 

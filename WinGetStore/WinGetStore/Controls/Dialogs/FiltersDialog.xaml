@@ -12,6 +12,7 @@
     Title="Filters"
     d:DataContext="{d:DesignInstance Type=viewmodels:FiltersViewModel}"
     Closing="ContentDialog_Closing"
+    DataContext="{x:Bind Provider}"
     DefaultButton="Primary"
     FullSizeDesired="True"
     Loaded="ContentDialog_Loaded"
@@ -36,7 +37,7 @@
                 HorizontalScrollMode="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Auto">
-                <controls:SettingsGroup ItemsSource="{Binding PackageMatchFilters}">
+                <controls:SettingsGroup ItemsSource="{x:Bind Provider.PackageMatchFilters, Mode=OneWay}">
                     <controls:SettingsGroup.ItemTemplate>
                         <DataTemplate x:DataType="deployment:PackageMatchFilter">
                             <controls:Setting
@@ -79,19 +80,19 @@
                         <TextBox
                             MaxWidth="{StaticResource SettingCardContentMinWidth}"
                             PlaceholderText="Input Search Word..."
-                            Text="{Binding Value, Mode=TwoWay}" />
+                            Text="{x:Bind Provider.Value, Mode=TwoWay}" />
                     </controls:Setting>
                     <controls:Setting x:Uid="/FiltersDialog/Field" Icon="&#xE71C;">
                         <ComboBox
                             x:Uid="/FiltersDialog/MatchField"
                             ItemsSource="{ui:EnumValues Type=deployment:PackageMatchField}"
-                            SelectedItem="{Binding Field, Mode=TwoWay}" />
+                            SelectedItem="{x:Bind Provider.Field, Mode=TwoWay}" />
                     </controls:Setting>
                     <controls:Setting x:Uid="/FiltersDialog/Option" Icon="&#xE933;">
                         <ComboBox
                             ItemsSource="{ui:EnumValues Type=deployment:PackageFieldMatchOption}"
                             PlaceholderText="Match Option"
-                            SelectedItem="{Binding Option, Mode=TwoWay}" />
+                            SelectedItem="{x:Bind Provider.Option, Mode=TwoWay}" />
                     </controls:Setting>
                 </controls:SettingsGroup>
             </ScrollViewer>

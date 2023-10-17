@@ -12,8 +12,9 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingspages="using:WinGetStore.ViewModels.SettingsPages"
     xmlns:sys="using:System"
-    Title="{Binding Title}"
+    Title="{x:Bind Provider.Title, Mode=OneWay}"
     d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
+    DataContext="{x:Bind Provider, Mode=OneWay}"
     Loaded="SettingsFlyout_Loaded"
     Unloaded="SettingsFlyout_Unloaded"
     mc:Ignorable="d">
@@ -31,7 +32,7 @@
                         Click="HyperlinkButton_Click"
                         Tag="WindowsColor" />
                 </local:Setting.Description>
-                <ComboBox SelectedIndex="{Binding SelectedTheme, Mode=TwoWay}">
+                <ComboBox SelectedIndex="{x:Bind Provider.SelectedTheme, Mode=TwoWay}">
                     <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDark" />
                     <ComboBoxItem x:Uid="/SettingsPage/RadioThemeLight" />
                     <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDefault" />
@@ -54,23 +55,35 @@
             </local:Setting>
         </local:SettingsGroup>
         <local:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
-            <local:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{Binding WinGetVersion}">
+            <local:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{x:Bind Provider.WinGetVersion, Mode=OneWay}">
                 <local:SettingExpander.Icon>
                     <muxc:ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                 </local:SettingExpander.Icon>
                 <local:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
                     <local:Setting.Description>
                         <Grid>
-                            <TextBlock x:Uid="/SettingsPage/InstalledTextBlock" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <TextBlock x:Uid="/SettingsPage/UnavailableTextBlock" Visibility="{Binding IsWinGetInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                            <TextBlock
+                                x:Name="WinGetInstalledTextBlock"
+                                x:Uid="/SettingsPage/InstalledTextBlock"
+                                x:Load="{x:Bind Provider.IsWinGetInstalled, Mode=OneWay}" />
+                            <TextBlock
+                                x:Name="WinGetUnavailableTextBlock"
+                                x:Uid="/SettingsPage/UnavailableTextBlock"
+                                x:Load="{x:Bind Provider.IsWinGetInstalled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                         </Grid>
                     </local:Setting.Description>
                 </local:Setting>
                 <local:Setting Header="WinGet Dev" Style="{StaticResource DefaultSettingExpanderItemStyle}">
                     <local:Setting.Description>
                         <Grid>
-                            <TextBlock x:Uid="/SettingsPage/InstalledTextBlock" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <TextBlock x:Uid="/SettingsPage/UnavailableTextBlock" Visibility="{Binding IsWinGetDevInstalled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                            <TextBlock
+                                x:Name="WinGetDevInstalledTextBlock"
+                                x:Uid="/SettingsPage/InstalledTextBlock"
+                                x:Load="{x:Bind Provider.IsWinGetDevInstalled, Mode=OneWay}" />
+                            <TextBlock
+                                x:Name="WinGetDevUnavailableTextBlock"
+                                x:Uid="/SettingsPage/UnavailableTextBlock"
+                                x:Load="{x:Bind Provider.IsWinGetDevInstalled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                         </Grid>
                     </local:Setting.Description>
                 </local:Setting>
@@ -213,12 +226,12 @@
             </local:SettingExpander>
         </local:SettingsGroup>
         <local:SettingsGroup x:Uid="/SettingsPage/AboutSettingsHeader">
-            <local:SettingExpander Header="{Binding VersionTextBlockText}" Icon="&#xE117;">
+            <local:SettingExpander Header="{x:Bind Provider.VersionTextBlockText, Mode=OneWay}" Icon="&#xE117;">
                 <local:SettingExpander.Description>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">
                             <Run x:Uid="/SettingsPage/LastChecked" />
-                            <Run Text="{Binding UpdateDate}" />
+                            <Run Text="{x:Bind Provider.UpdateDate, Mode=OneWay}" />
                         </TextBlock>
                         <ScrollViewer
                             Margin="0,0,0,-8"
@@ -254,22 +267,25 @@
                         Orientation="Horizontal"
                         Spacing="18">
                         <muxc:ProgressRing
+                            x:Name="CheckingUpdateRing"
                             Width="24"
                             Height="24"
-                            IsActive="{Binding CheckingUpdate}"
-                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            x:Load="{x:Bind Provider.CheckingUpdate, Mode=OneWay}"
+                            IsActive="{x:Bind Provider.CheckingUpdate, Mode=OneWay}" />
                         <TextBlock
+                            x:Name="CheckingUpdatesText"
                             x:Uid="/SettingsPage/CheckingUpdates"
                             VerticalAlignment="Center"
+                            x:Load="{x:Bind Provider.CheckingUpdate, Mode=OneWay}"
                             FontWeight="SemiBold"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <Button
+                            x:Name="CheckUpdatesButton"
                             x:Uid="/SettingsPage/CheckUpdates"
                             HorizontalAlignment="Right"
+                            x:Load="{x:Bind Provider.CheckingUpdate, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                             Click="Button_Click"
-                            Tag="CheckUpdate"
-                            Visibility="{Binding CheckingUpdate, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='true'}" />
+                            Tag="CheckUpdate" />
                     </local:StackPanelEx>
                 </local:SettingExpander.ActionContent>
                 <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
@@ -277,26 +293,27 @@
                         HorizontalAlignment="Left"
                         Background="Transparent"
                         LinkClicked="MarkdownText_LinkClicked"
-                        Text="{Binding AboutTextBlockText}" />
+                        LinkForeground="{ThemeResource HyperlinkForeground}"
+                        Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}" />
                 </Grid>
             </local:SettingExpander>
             <muxc:InfoBar
                 x:Name="UpdateState"
-                Title="{Binding UpdateStateTitle}"
+                Title="{x:Bind Provider.UpdateStateTitle, Mode=OneWay}"
+                x:Load="{x:Bind Provider.UpdateStateIsOpen, Mode=OneWay}"
                 IsClosable="True"
-                IsOpen="{Binding UpdateStateIsOpen, Mode=TwoWay}"
+                IsOpen="{x:Bind Provider.UpdateStateIsOpen, Mode=TwoWay}"
                 Loaded="InfoBar_Loaded"
-                Message="{Binding UpdateStateMessage}"
-                Severity="{Binding UpdateStateSeverity}"
-                Visibility="{Binding UpdateStateIsOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                Message="{x:Bind Provider.UpdateStateMessage, Mode=OneWay}"
+                Severity="{x:Bind Provider.UpdateStateSeverity, Mode=OneWay}">
                 <muxc:InfoBar.ActionButton>
                     <Button
                         x:Name="GotoUpdate"
                         x:Uid="/SettingsPage/GoToUpdate"
                         HorizontalAlignment="Right"
                         Click="GotoUpdate_Click"
-                        Tag="{Binding GotoUpdateTag}"
-                        Visibility="{Binding GotoUpdateVisibility}" />
+                        Tag="{x:Bind Provider.GotoUpdateTag, Mode=OneWay}"
+                        Visibility="{x:Bind Provider.GotoUpdateVisibility, Mode=OneWay}" />
                 </muxc:InfoBar.ActionButton>
             </muxc:InfoBar>
             <local:Setting x:Uid="/SettingsPage/ContactMeSettings" Icon="&#xE779;">

@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.System;
+using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.WinRT;
 
@@ -68,7 +69,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref errorCode, value);
         }
 
-        private ObservableCollection<CatalogPackage> matchResults = new();
+        private ObservableCollection<CatalogPackage> matchResults = [];
         public ObservableCollection<CatalogPackage> MatchResults
         {
             get => matchResults;
@@ -108,18 +109,21 @@ namespace WinGetStore.ViewModels.ManagerPages
             waitProgressText = _loader.GetString("Searching");
         }
 
-        private void SetError(string title, string description, string code = "")
+        private async void SetError(string title, string description, string code = "")
         {
-            if (IsError) { return; }
+            if (isError) { return; }
             IsError = true;
             IsLoading = false;
             ErrorDescription = title;
             ErrorLongDescription = description;
             ErrorCode = code;
+            await Dispatcher.ResumeForegroundAsync();
+            matchResults.Clear();
         }
 
         private void RemoveError()
         {
+            if (!isError) { return; }
             IsError = false;
             ErrorDescription = string.Empty;
             ErrorLongDescription = string.Empty;
@@ -130,13 +134,13 @@ namespace WinGetStore.ViewModels.ManagerPages
         {
             try
             {
-                if (IsLoading) { return; }
+                if (isLoading) { return; }
 
                 WaitProgressText = _loader.GetString("Searching");
                 IsLoading = true;
 
                 RemoveError();
-                MatchResults.Clear();
+                matchResults.Clear();
 
                 await ThreadSwitcher.ResumeBackgroundAsync();
                 WaitProgressText = _loader.GetString("ConnectingWinGet");
@@ -157,7 +161,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 await Dispatcher.ResumeForegroundAsync();
-                packagesResult.Matches.ToList().ForEach((x) => MatchResults.Add(x.CatalogPackage));
+                matchResults.AddRange(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
@@ -180,18 +184,16 @@ namespace WinGetStore.ViewModels.ManagerPages
                     return null;
                 }
 
-                List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToList();
-                if (packageCatalogReferences is null || !packageCatalogReferences.Any())
+                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
+                if (packageCatalogReferences?.Any() != true)
                 {
                     SetError(_loader.GetString("NoCatalogTitle"), _loader.GetString("NoCatalogDescription"));
                     return null;
                 }
 
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
-                {
-                    createCompositePackageCatalogOptions.Catalogs.Add(catalogReference);
-                }
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
                 ConnectResult connectResult = await catalogRef.ConnectAsync();
                 return connectResult.PackageCatalog;
@@ -210,25 +212,18 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
 
-                bool isEmpty = true;
-                if (PackageMatchFilters != null)
+                if (PackageMatchFilters?.Any() == true)
                 {
-                    List<PackageMatchFilter> filters = PackageMatchFilters.ToList();
-                    if (filters.Any())
-                    {
-                        filters.ForEach(findPackagesOptions.Filters.Add);
-                        isEmpty = false;
-                    }
+                    findPackagesOptions.Filters.AddRange(PackageMatchFilters);
                 }
-
-                if (isEmpty)
+                else
                 {
                     PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
                     filter.Field = PackageMatchField.Id;
                     filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
                     filter.Value = packageId;
                     findPackagesOptions.Filters.Add(filter);
-                    PackageMatchFilters = findPackagesOptions.Filters;
+                    PackageMatchFilters = findPackagesOptions.Filters.ToArray();
                 }
 
                 return await catalog.FindPackagesAsync(findPackagesOptions);
@@ -240,7 +235,5 @@ namespace WinGetStore.ViewModels.ManagerPages
                 return null;
             }
         }
-
-        public bool IsEqual(SearchingViewModel other) => other is SearchingViewModel model && IsEqual(model);
     }
 }

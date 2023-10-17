@@ -62,7 +62,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref errorCode, value);
         }
 
-        private ObservableCollection<CatalogPackage> matchResults = new();
+        private ObservableCollection<CatalogPackage> matchResults = [];
         public ObservableCollection<CatalogPackage> MatchResults
         {
             get => matchResults;
@@ -96,18 +96,21 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public ManagerViewModel() => waitProgressText = _loader.GetString("Loading");
 
-        private void SetError(string title, string description, string code = "")
+        private async void SetError(string title, string description, string code = "")
         {
-            if (IsError) { return; }
+            if (isError) { return; }
             IsError = true;
             IsLoading = false;
             ErrorDescription = title;
             ErrorLongDescription = description;
             ErrorCode = code;
+            await Dispatcher.ResumeForegroundAsync();
+            matchResults.Clear();
         }
 
         private void RemoveError()
         {
+            if (!isError) { return; }
             IsError = false;
             ErrorDescription = string.Empty;
             ErrorLongDescription = string.Empty;
@@ -118,13 +121,13 @@ namespace WinGetStore.ViewModels.ManagerPages
         {
             try
             {
-                if (IsLoading) { return; }
+                if (isLoading) { return; }
 
                 WaitProgressText = _loader.GetString("Loading");
                 IsLoading = true;
 
                 RemoveError();
-                MatchResults.Clear();
+                matchResults.Clear();
 
                 await ThreadSwitcher.ResumeBackgroundAsync();
                 WaitProgressText = _loader.GetString("ConnectingWinGet");
@@ -145,8 +148,8 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 await Dispatcher.ResumeForegroundAsync();
-                MatchResults.AddRange(
-                    packagesResult.Matches.ToList()
+                matchResults.AddRange(
+                    packagesResult.Matches.ToArray()
                                           .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
                                           .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
                                           .Select((x) => x.CatalogPackage));
@@ -172,19 +175,17 @@ namespace WinGetStore.ViewModels.ManagerPages
                     return null;
                 }
 
-                List<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToList();
-                if (packageCatalogReferences is null || !packageCatalogReferences.Any())
+                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
+                if (packageCatalogReferences?.Any() != true)
                 {
                     SetError(_loader.GetString("NoCatalogTitle"), _loader.GetString("NoCatalogDescription"));
                     return null;
                 }
 
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
-                {
-                    createCompositePackageCatalogOptions.Catalogs.Add(catalogReference);
-                }
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
                 createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
+
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
                 ConnectResult connectResult = await catalogRef.ConnectAsync();
                 return connectResult.PackageCatalog;

@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.Web.Http.Filters;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using WinGetStore.Models;
 using HttpClient = System.Net.Http.HttpClient;
 using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
@@ -20,13 +19,13 @@ namespace WinGetStore.Helpers
         private const string KKPP_API = "https://v2.kkpp.cc/repos/{0}/{1}/releases/latest";
         private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/releases/latest";
 
-        public static Task<UpdateInfo> CheckUpdateAsync(string username, string repository, bool isBackground = false)
+        public static Task<UpdateInfo> CheckUpdateAsync(string username, string repository)
         {
             PackageVersion currentVersion = Package.Current.Id.Version;
-            return CheckUpdateAsync(username, repository, currentVersion, isBackground);
+            return CheckUpdateAsync(username, repository, currentVersion);
         }
 
-        public static async Task<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion, bool isBackground = false)
+        public static async Task<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -38,48 +37,33 @@ namespace WinGetStore.Helpers
                 throw new ArgumentNullException(nameof(repository));
             }
 
-            try
+            using HttpClientHandler clientHandler = new();
+            using HttpClient client = new(clientHandler);
+
+            using (HttpBaseProtocolFilter filter = new())
             {
-                using HttpClientHandler clientHandler = new();
-                using HttpClient client = new(clientHandler);
-
-                using (HttpBaseProtocolFilter filter = new())
+                Uri host = new("https://api.github.com");
+                HttpCookieManager cookieManager = filter.CookieManager;
+                foreach (HttpCookie item in cookieManager.GetCookies(host))
                 {
-                    Uri host = new("https://api.github.com");
-                    HttpCookieManager cookieManager = filter.CookieManager;
-                    foreach (HttpCookie item in cookieManager.GetCookies(host))
-                    {
-                        clientHandler.CookieContainer.SetCookies(host, item.ToString());
-                    }
-                }
-
-                client.DefaultRequestHeaders.Add("User-Agent", username);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                string url = string.Format(GITHUB_API, username, repository);
-                HttpResponseMessage response = await client.GetAsync(url).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                if (response.StatusCode != HttpStatusCode.OK) { return null; }
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                UpdateInfo result = JsonConvert.DeserializeObject<UpdateInfo>(responseBody);
-
-                if (result != null)
-                {
-                    SystemVersionInfo newVersionInfo = GetAsVersionInfo(result.TagName);
-                    int major = currentVersion.Major <= 0 ? 0 : currentVersion.Major;
-                    int minor = currentVersion.Minor <= 0 ? 0 : currentVersion.Minor;
-                    int build = currentVersion.Build <= 0 ? 0 : currentVersion.Build;
-                    int revision = currentVersion.Revision <= 0 ? 0 : currentVersion.Revision;
-
-                    SystemVersionInfo currentVersionInfo = new SystemVersionInfo(major, minor, build, revision);
-
-                    result.IsExistNewVersion = newVersionInfo > currentVersionInfo;
-
-                    return result;
+                    clientHandler.CookieContainer.SetCookies(host, item.ToString());
                 }
             }
-            catch (HttpRequestException e)
+
+            client.DefaultRequestHeaders.Add("User-Agent", username);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            string url = string.Format(GITHUB_API, username, repository);
+            HttpResponseMessage response = await client.GetAsync(url).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            if (response.StatusCode != HttpStatusCode.OK) { return null; }
+            string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            UpdateInfo result = JsonConvert.DeserializeObject<UpdateInfo>(responseBody);
+
+            if (result != null)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(UpdateHelper)).Error(e.ExceptionToMessage(), e);
+                SystemVersionInfo newVersionInfo = GetAsVersionInfo(result.TagName);
+                result.IsExistNewVersion = newVersionInfo > currentVersion;
+                return result;
             }
 
             return null;

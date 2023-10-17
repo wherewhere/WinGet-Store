@@ -187,7 +187,7 @@ namespace WinGetStore.Controls
                     }
                 }
             }
-            return arrangeSize;
+            return base.ArrangeOverride(arrangeSize);
         }
 
         private static DependencyObject FindAscendant(DependencyObject element)

@@ -13,11 +13,11 @@ namespace WinGetStore.ViewModels
     {
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
-        private ObservableCollection<PackageMatchFilter> packageMatchFilter = new();
+        private ObservableCollection<PackageMatchFilter> packageMatchFilters = [];
         public ObservableCollection<PackageMatchFilter> PackageMatchFilters
         {
-            get => packageMatchFilter;
-            set => SetProperty(ref packageMatchFilter, value);
+            get => packageMatchFilters;
+            set => SetProperty(ref packageMatchFilters, value);
         }
 
         public string Value { get; set; }
@@ -57,7 +57,7 @@ namespace WinGetStore.ViewModels
             filter.Field = Field;
             filter.Option = Option;
             filter.Value = Value;
-            PackageMatchFilters.Add(filter);
+            packageMatchFilters.Add(filter);
         }
     }
 }

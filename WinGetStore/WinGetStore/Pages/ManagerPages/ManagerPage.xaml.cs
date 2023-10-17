@@ -53,7 +53,12 @@ namespace WinGetStore.Pages.ManagerPages
             }
         }
 
-        private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => _ = Provider?.Refresh();
+        private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (e?.Handled == true) { return; }
+            _ = Provider?.Refresh();
+            if (e != null) { e.Handled = true; }
+        }
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
     }

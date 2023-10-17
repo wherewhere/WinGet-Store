@@ -1,5 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using System;
+using System.Data;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -17,15 +18,35 @@ namespace WinGetStore.Pages.ManagerPages
     /// </summary>
     public sealed partial class SearchingPage : Page
     {
-        private SearchingViewModel Provider;
+        #region Provider
+
+        /// <summary>
+        /// Identifies the <see cref="Provider"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ProviderProperty =
+            DependencyProperty.Register(
+                nameof(Provider),
+                typeof(SearchingViewModel),
+                typeof(SearchingPage),
+                null);
+
+        /// <summary>
+        /// Get the <see cref="SearchingViewModel"/> of current <see cref="Page"/>.
+        /// </summary>
+        public SearchingViewModel Provider
+        {
+            get => (SearchingViewModel)GetValue(ProviderProperty);
+            private set => SetValue(ProviderProperty, value);
+        }
+
+        #endregion
 
         public SearchingPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is SearchingViewModel ViewModel
-                && Provider?.IsEqual(ViewModel) != true)
+            if (e.Parameter is SearchingViewModel ViewModel && Provider != ViewModel)
             {
                 Provider = ViewModel;
                 DataContext = Provider;
@@ -65,7 +86,12 @@ namespace WinGetStore.Pages.ManagerPages
             }
         }
 
-        private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) => _ = Provider?.Refresh();
+        private void Border_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (e?.Handled == true) { return; }
+            _ = Provider?.Refresh();
+            if (e != null) { e.Handled = true; }
+        }
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
     }

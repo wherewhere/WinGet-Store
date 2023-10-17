@@ -47,20 +47,20 @@ namespace WinGetStore.Controls.Dialogs
             }
         }
 
-        internal static List<PackageAgreement> PackageAgreementsToList(IReadOnlyList<PackageAgreement> values) => values.ToList();
+        internal static PackageAgreement[] PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => values?.ToArray();
 
-        internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
+        internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
 
-        internal static List<Documentation> DocumentationsToList(IReadOnlyList<Documentation> values) => values.ToList();
+        internal static Documentation[] DocumentationsToArray(IReadOnlyList<Documentation> values) => values?.ToArray();
 
-        internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
+        internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
 
-        internal static List<Icon> IconsToList(IReadOnlyList<Icon> values) => values.ToList();
+        internal static Icon[] IconsToArray(IReadOnlyList<Icon> values) => values?.ToArray();
 
-        internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values.ToList().Count);
+        internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
 
-        internal static List<string> TagsToList(IReadOnlyList<string> values) => values.ToList();
+        internal static string[] TagsToArray(IReadOnlyList<string> values) => values?.ToArray();
 
-        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values.ToList());
+        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values?.ToArray());
     }
 }

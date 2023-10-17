@@ -8,17 +8,14 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using WinGetStore.Common;
 
 namespace WinGetStore.Helpers
 {
     /// <summary>
     /// Helpers class to allow the app to find the Window that contains an
-    /// arbitrary <see cref="UIElement"/> (<see cref="GetWindowForElement(UIElement)"/>).
+    /// arbitrary <see cref="UIElement"/> (GetWindowForElement(UIElement)).
     /// To do this, we keep track of all active Windows. The app code must call
     /// <see cref="CreateWindowAsync(Action{Window})"/> rather than "new <see cref="Window"/>()"
     /// so we can keep track of all the relevant windows.
@@ -42,15 +39,6 @@ namespace WinGetStore.Helpers
             return await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
         }
 
-        public static async Task<(AppWindow, Frame)> CreateWindowAsync()
-        {
-            Frame newFrame = new();
-            AppWindow newWindow = await AppWindow.TryCreateAsync();
-            ElementCompositionPreview.SetAppWindowContent(newWindow, newFrame);
-            newWindow.TrackWindow(newFrame);
-            return (newWindow, newFrame);
-        }
-
         public static void TrackWindow(this Window window)
         {
             if (!ActiveWindows.ContainsKey(window.Dispatcher))
@@ -64,56 +52,6 @@ namespace WinGetStore.Helpers
                 };
                 ActiveWindows[window.Dispatcher] = window;
             }
-        }
-
-        public static void TrackWindow(this AppWindow window, Frame frame)
-        {
-            if (!ActiveAppWindows.ContainsKey(frame.Dispatcher))
-            {
-                ActiveAppWindows[frame.Dispatcher] = new Dictionary<UIElement, AppWindow>();
-            }
-
-            if (!ActiveAppWindows[frame.Dispatcher].ContainsKey(frame))
-            {
-                window.Closed += (sender, args) =>
-                {
-                    if (ActiveAppWindows.TryGetValue(frame.Dispatcher, out Dictionary<UIElement, AppWindow> windows))
-                    {
-                        windows?.Remove(frame);
-                    }
-                    frame.Content = null;
-                    window = null;
-                };
-                ActiveAppWindows[frame.Dispatcher][frame] = window;
-            }
-        }
-
-        public static bool IsAppWindow(this UIElement element) =>
-            IsAppWindowSupported
-            && element?.XamlRoot?.Content != null
-            && ActiveAppWindows.ContainsKey(element.Dispatcher)
-            && ActiveAppWindows[element.Dispatcher].ContainsKey(element.XamlRoot.Content);
-
-        public static AppWindow GetWindowForElement(this UIElement element) =>
-            IsAppWindowSupported
-            && element?.XamlRoot?.Content != null
-            && ActiveAppWindows.TryGetValue(element.Dispatcher, out Dictionary<UIElement, AppWindow> windows)
-            && windows.TryGetValue(element.XamlRoot.Content, out AppWindow window)
-                ? window : null;
-
-        public static UIElement GetXamlRootForWindow(this AppWindow window)
-        {
-            foreach (Dictionary<UIElement, AppWindow> windows in ActiveAppWindows.Values)
-            {
-                foreach (KeyValuePair<UIElement, AppWindow> element in windows)
-                {
-                    if (element.Value == window)
-                    {
-                        return element.Key;
-                    }
-                }
-            }
-            return null;
         }
 
         public static Size GetXAMLRootSize(this UIElement element) =>
@@ -137,7 +75,6 @@ namespace WinGetStore.Helpers
             }
         }
 
-        public static Dictionary<CoreDispatcher, Window> ActiveWindows { get; } = new Dictionary<CoreDispatcher, Window>();
-        public static Dictionary<CoreDispatcher, Dictionary<UIElement, AppWindow>> ActiveAppWindows { get; } = IsAppWindowSupported ? new Dictionary<CoreDispatcher, Dictionary<UIElement, AppWindow>>() : null;
+        public static Dictionary<CoreDispatcher, Window> ActiveWindows { get; } = [];
     }
 }
