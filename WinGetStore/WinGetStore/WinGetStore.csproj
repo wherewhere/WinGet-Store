@@ -162,7 +162,7 @@
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="Helpers\ThreadSwitcher.cs" />
+    <Compile Include="Common\ThreadSwitcher.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />

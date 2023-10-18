@@ -27,7 +27,7 @@ namespace WinGetStore.Pages
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly List<(string Tag, Type Page)> _pages = new()
+        private readonly HashSet<(string Tag, Type Page)> _pages = new(3)
         {
             ("Home", typeof(ManagerPage)),
             ("Library", typeof(InstallingPage)),

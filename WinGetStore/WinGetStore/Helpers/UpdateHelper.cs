@@ -63,6 +63,7 @@ namespace WinGetStore.Helpers
             {
                 SystemVersionInfo newVersionInfo = GetAsVersionInfo(result.TagName);
                 result.IsExistNewVersion = newVersionInfo > currentVersion;
+                result.Version = newVersionInfo;
                 return result;
             }
 

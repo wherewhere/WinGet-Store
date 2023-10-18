@@ -16,18 +16,12 @@ namespace WinGetStore.Common
 
             public bool IsDead => !(_isStatic || _reference.IsAlive);
 
-            public bool Equals(Action<TEventArgs> callback)
-            {
-                return _reference.Target == callback.Target && _method == callback.GetMethodInfo();
-            }
+            public bool Equals(Action<TEventArgs> callback) => _reference.Target == callback.Target && _method == callback.GetMethodInfo();
 
-            public void Invoke(TEventArgs arg)
-            {
-                _method.Invoke(_reference.Target, new object[] { arg });
-            }
+            public void Invoke(TEventArgs arg) => _ = _method.Invoke(_reference.Target, [arg]);
         }
 
-        private readonly List<Method> _list = new();
+        private readonly List<Method> _list = [];
 
         public int Count => _list.Count;
 

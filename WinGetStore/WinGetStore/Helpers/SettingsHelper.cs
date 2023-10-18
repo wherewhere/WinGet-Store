@@ -8,7 +8,7 @@ using IObjectSerializer = Microsoft.Toolkit.Helpers.IObjectSerializer;
 
 namespace WinGetStore.Helpers
 {
-    internal static partial class SettingsHelper
+    public static partial class SettingsHelper
     {
         public const string UpdateDate = nameof(UpdateDate);
         public const string CurrentLanguage = nameof(CurrentLanguage);
@@ -36,7 +36,7 @@ namespace WinGetStore.Helpers
         }
     }
 
-    internal static partial class SettingsHelper
+    public static partial class SettingsHelper
     {
         public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
         public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new NewtonsoftJsonObjectSerializer());

@@ -3,7 +3,7 @@ using Windows.ApplicationModel;
 
 namespace WinGetStore.Models
 {
-    public record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IEquatable<SystemVersionInfo>, IComparable<SystemVersionInfo>
+    public record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IComparable, IComparable<SystemVersionInfo>
     {
         public readonly bool Equals(SystemVersionInfo other) => Major == other.Major && Minor == other.Minor && Build == other.Build && Revision == other.Revision;
 

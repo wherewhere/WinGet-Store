@@ -7,14 +7,11 @@ using Windows.Foundation.Metadata;
 
 namespace WinGetStore.Helpers
 {
-    internal static partial class UIHelper
+    public static class UIHelper
     {
         public static bool HasTitleBar => !CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
         public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
-    }
 
-    internal static partial class UIHelper
-    {
         public static string ExceptionToMessage(this Exception ex)
         {
             StringBuilder builder = new();

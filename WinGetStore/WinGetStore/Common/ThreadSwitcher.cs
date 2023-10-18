@@ -7,7 +7,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using ThreadPool = Windows.System.Threading.ThreadPool;
 
-namespace WinGetStore.Helpers
+namespace WinGetStore.Common
 {
     public readonly struct DispatcherThreadSwitcher : INotifyCompletion
     {

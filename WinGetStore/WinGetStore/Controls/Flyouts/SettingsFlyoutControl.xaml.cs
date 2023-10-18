@@ -9,7 +9,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WinGetStore.Helpers;
-using WinGetStore.Pages.SettingsPages;
 using WinGetStore.ViewModels.SettingsPages;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板

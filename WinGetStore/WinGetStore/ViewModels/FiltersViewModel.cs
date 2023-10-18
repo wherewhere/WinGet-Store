@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.System;
-using WinGetStore.Helpers;
+using WinGetStore.Common;
 using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels

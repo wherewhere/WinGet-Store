@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
