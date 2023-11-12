@@ -23,7 +23,7 @@ namespace WinGetStore.Helpers
             return builder.ToString();
         }
 
-        public static TResult AwaitByTaskCompleteSource<TResult>(Func<Task<TResult>> function, CancellationToken cancellationToken = default)
+        public static TResult AwaitByTaskCompleteSource<TResult>(this Task<TResult> function, CancellationToken cancellationToken = default)
         {
             TaskCompletionSource<TResult> taskCompletionSource = new();
             Task<TResult> task = taskCompletionSource.Task;
@@ -31,7 +31,7 @@ namespace WinGetStore.Helpers
             {
                 try
                 {
-                    TResult result = await function.Invoke().ConfigureAwait(false);
+                    TResult result = await function.ConfigureAwait(false);
                     taskCompletionSource.SetResult(result);
                 }
                 catch (Exception e)

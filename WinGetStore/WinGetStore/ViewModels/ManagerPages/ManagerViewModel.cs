@@ -74,12 +74,7 @@ namespace WinGetStore.ViewModels.ManagerPages
         {
             if (name != null)
             {
-                if (Dispatcher is DispatcherQueue dispatcher
-                    && !(ThreadSwitcher.IsHasThreadAccessPropertyAvailable
-                    && dispatcher.HasThreadAccess != false))
-                {
-                    await dispatcher.ResumeForegroundAsync();
-                }
+                await Dispatcher.ResumeForegroundAsync();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
         }
