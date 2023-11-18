@@ -123,6 +123,9 @@
   <data name="Available" xml:space="preserve">
     <value>可用</value>
   </data>
+  <data name="AvailableTextBlock.Text" xml:space="preserve">
+    <value>可用</value>
+  </data>
   <data name="AvailableVersion.Text" xml:space="preserve">
     <value>可用版本：</value>
   </data>
@@ -138,6 +141,9 @@
   <data name="Finished" xml:space="preserve">
     <value>已完成</value>
   </data>
+  <data name="IDTextBlock.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
   <data name="Install" xml:space="preserve">
     <value>安裝</value>
   </data>
@@ -145,6 +151,9 @@
     <value>安裝已取消</value>
   </data>
   <data name="Installed" xml:space="preserve">
+    <value>已安裝</value>
+  </data>
+  <data name="InstalledTextBlock.Text" xml:space="preserve">
     <value>已安裝</value>
   </data>
   <data name="InstalledVersion.Text" xml:space="preserve">
@@ -156,6 +165,9 @@
   </data>
   <data name="Installing" xml:space="preserve">
     <value>正在安裝</value>
+  </data>
+  <data name="NameTextBlock.Text" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="PreparingInstall" xml:space="preserve">
     <value>正在準備安裝</value>
