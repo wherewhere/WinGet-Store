@@ -16,7 +16,7 @@
   <mp:PhoneIdentity PhoneProductId="4ec6d330-651b-467e-9211-252c8e155ff3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WinGetStore</DisplayName>
+    <DisplayName>WinGet Store</DisplayName>
     <PublisherDisplayName>wherewhere</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

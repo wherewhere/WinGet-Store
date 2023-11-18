@@ -156,7 +156,11 @@
                             </Button>
                         </controls:Setting>
                         <controls:SettingExpander x:Uid="/SettingsPage/FrameworkSettings" Icon="&#xE950;">
-                            <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
+                            <Grid
+                                Margin="0,0,0,8"
+                                ColumnSpacing="32"
+                                RowSpacing="8"
+                                Style="{StaticResource SettingExpanderContentGridStyle}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -173,27 +177,27 @@
                                     x:Uid="/SettingsPage/FrameworkTextBlock"
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Padding="0,0,0,8"
                                     Foreground="{ThemeResource SettingCardForeground}" />
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    Padding="32,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
                                     Text="{x:Bind interopservices:RuntimeInformation.FrameworkDescription}"
                                     TextWrapping="WrapWholeWords" />
 
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Padding="0,0,0,8"
                                     Foreground="{ThemeResource SettingCardForeground}"
                                     Text="Community Toolkit" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    Padding="32,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
                                     Text="{Binding ToolkitVersion}"
                                     TextWrapping="WrapWholeWords" />
 
@@ -201,13 +205,13 @@
                                     x:Uid="/SettingsPage/DeviceFamilyTextBlock"
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Padding="0,0,0,8"
                                     Foreground="{ThemeResource SettingCardForeground}" />
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
-                                    Padding="32,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
                                     Text="{Binding DeviceFamily}"
                                     TextWrapping="WrapWholeWords" />
 
@@ -215,13 +219,13 @@
                                     x:Uid="/SettingsPage/OSPlatformTextBlock"
                                     Grid.Row="3"
                                     Grid.Column="0"
-                                    Padding="0,0,0,8"
                                     Foreground="{ThemeResource SettingCardForeground}" />
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="1"
-                                    Padding="32,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
                                     Text="{x:Bind sys:Environment.OSVersion}"
                                     TextWrapping="WrapWholeWords" />
 
@@ -229,13 +233,13 @@
                                     x:Uid="/SettingsPage/OSArchitectureTextBlock"
                                     Grid.Row="4"
                                     Grid.Column="0"
-                                    Padding="0,0,0,8"
                                     Foreground="{ThemeResource SettingCardForeground}" />
                                 <TextBlock
                                     Grid.Row="4"
                                     Grid.Column="1"
-                                    Padding="32,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    IsTextSelectionEnabled="True"
                                     Text="{x:Bind interopservices:RuntimeInformation.OSArchitecture}"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>

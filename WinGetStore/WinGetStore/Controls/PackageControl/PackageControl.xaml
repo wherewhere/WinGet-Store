@@ -63,6 +63,66 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <ToolTipService.ToolTip>
+                                <ToolTip>
+                                    <Grid ColumnSpacing="8" RowSpacing="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            x:Uid="/PackageControl/NameTextBlock"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Foreground="{ThemeResource SettingCardForeground}" />
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{Binding CatalogPackage.Name, RelativeSource={RelativeSource Mode=TemplatedParent}, FallbackValue='null'}"
+                                            TextWrapping="WrapWholeWords" />
+                                        <TextBlock
+                                            x:Uid="/PackageControl/IDTextBlock"
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Foreground="{ThemeResource SettingCardForeground}" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{Binding CatalogPackage.Id, RelativeSource={RelativeSource Mode=TemplatedParent}, FallbackValue='null'}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Uid="/PackageControl/InstalledTextBlock"
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Foreground="{ThemeResource SettingCardForeground}" />
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{Binding CatalogPackage.InstalledVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}, FallbackValue='null'}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Uid="/PackageControl/AvailableTextBlock"
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Foreground="{ThemeResource SettingCardForeground}" />
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}, FallbackValue='null'}"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
                             <Grid x:Name="ProductInformation" Margin="0,0,12,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
