@@ -167,7 +167,7 @@
     <value>正在安裝</value>
   </data>
   <data name="NameTextBlock.Text" xml:space="preserve">
-    <value>Name</value>
+    <value>名稱</value>
   </data>
   <data name="PreparingInstall" xml:space="preserve">
     <value>正在準備安裝</value>
