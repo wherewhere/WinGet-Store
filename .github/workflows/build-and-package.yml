@@ -19,6 +19,7 @@ jobs:
     env:
       Solution_Name: WinGetStore.sln
       Project_Directory: WinGetStore/WinGetStore
+      Signing_Certificate: WinGetStore_TemporaryKey.pfx
 
     steps:
     - name: Checkout
@@ -29,9 +30,11 @@ jobs:
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
       run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath WinGetStore_TemporaryKey.pfx
+        $pfx_cert_byte = [System.Convert]::FromBase64String("$env:Certificate")
+        $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath $env:Signing_Certificate
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+      env:
+        Certificate: ${{ secrets.Base64_Encoded_Pfx }}
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
@@ -48,13 +51,26 @@ jobs:
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /p:AppxBundlePlatforms="$env:Appx_Bundle_Platforms" /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageDir="$env:Appx_Package_Dir" /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25" /p:PackageCertificateKeyFile=WinGetStore_TemporaryKey.pfx /p:PackageCertificatePassword="$env:Password"
+      run: msbuild $env:Solution_Name `
+        /p:IsUpdateCIManifest=True `
+        /p:CIBuildID="$env:Build_ID" `
+        /p:AppxBundlePlatforms="$env:Appx_Bundle_Platforms" `
+        /p:Configuration=$env:Configuration `
+        /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode `
+        /p:AppxBundle=$env:Appx_Bundle `
+        /p:AppxPackageDir="$env:Appx_Package_Dir" `
+        /p:AppxPackageSigningEnabled=true `
+        /p:PackageCertificateThumbprint="$env:Thumbprint" `
+        /p:PackageCertificateKeyFile=$env:Signing_Certificate `
+        /p:PackageCertificatePassword="$env:Password"
       env:
+        Build_ID: ${{ github.run_number }}
         Appx_Bundle: Always
         Appx_Bundle_Platforms: x86|x64|ARM|ARM64
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: AppxPackages\
         Configuration: Release
+        Thumbprint: 0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25
         Password: ${{ secrets.Password }}
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
