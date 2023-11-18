@@ -236,7 +236,7 @@ namespace WinGetStore.ViewModels.SettingsPages
                         GotoUpdateVisibility = Visibility.Visible;
                         UpdateStateSeverity = InfoBarSeverity.Warning;
                         UpdateStateTitle = _loader.GetString("FindUpdate");
-                        UpdateStateMessage = $"{VersionTextBlockText} -> {info.TagName}";
+                        UpdateStateMessage = $"{VersionTextBlockText} -> {info.Version.ToString(3)}";
                     }
                     else
                     {
