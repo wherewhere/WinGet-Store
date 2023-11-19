@@ -189,4 +189,16 @@
   <data name="Refresh.Content" xml:space="preserve">
     <value>刷新</value>
   </data>
+  <data name="Install.Text" xml:space="preserve">
+    <value>安裝</value>
+  </data>
+  <data name="Uninstall.Text" xml:space="preserve">
+    <value>解除安裝</value>
+  </data>
+  <data name="Upgrade.Text" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Share.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>
