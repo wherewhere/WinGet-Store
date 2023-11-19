@@ -189,4 +189,16 @@
   <data name="Refresh.Content" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="Install.Text" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Uninstall.Text" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Upgrade.Text" xml:space="preserve">
+    <value>Upgrade</value>
+  </data>
+  <data name="Share.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>
