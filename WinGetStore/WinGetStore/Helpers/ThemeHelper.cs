@@ -83,7 +83,7 @@ namespace WinGetStore.Helpers
 
         public static ElementTheme GetRootTheme() =>
             GetRootTheme(Window.Current ?? CurrentApplicationWindow);
-        
+
         public static ElementTheme GetRootTheme(Window window) =>
             window == null
                 ? ElementTheme.Default

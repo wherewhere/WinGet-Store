@@ -3,6 +3,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
+using Windows.Security.Authorization.AppCapabilityAccess;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,6 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.Pages;
+using WinGetStore.WinRT;
 
 namespace WinGetStore
 {
@@ -28,10 +30,7 @@ namespace WinGetStore
             Suspending += OnSuspending;
             UnhandledException += Application_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            if (ApiInformation.IsEnumNamedValuePresent("Windows.UI.Xaml.FocusVisualKind", "Reveal"))
-            {
-                FocusVisualKind = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox" ? FocusVisualKind.Reveal : FocusVisualKind.HighVisibility;
-            }
+            FocusVisualKind = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox" ? FocusVisualKind.Reveal : FocusVisualKind.HighVisibility;
         }
 
         /// <summary>
@@ -49,6 +48,8 @@ namespace WinGetStore
             if (!isLoaded)
             {
                 RegisterExceptionHandlingSynchronizationContext();
+                RequestPackageManagement();
+                CheckWinGetDev();
                 isLoaded = true;
             }
 
@@ -120,6 +121,30 @@ namespace WinGetStore
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private void CheckWinGetDev()
+        {
+            if (!WinGetProjectionFactory.IsWinGetInstalled && WinGetProjectionFactory.IsWinGetDevInstalled)
+            {
+                WinGetProjectionFactory.IsUseDev = true;
+            }
+        }
+
+        private async void RequestPackageManagement()
+        {
+            if (ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability"))
+            {
+                AppCapability PackageManagement = AppCapability.Create("packageManagement");
+                switch (PackageManagement.CheckAccess())
+                {
+                    case AppCapabilityAccessStatus.DeniedByUser:
+                    case AppCapabilityAccessStatus.DeniedBySystem:
+                        // Do something
+                        await PackageManagement.RequestAccessAsync();
+                        break;
+                }
+            }
         }
 
         private void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)

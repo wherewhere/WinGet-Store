@@ -246,7 +246,7 @@
                         </controls:SettingExpander>
                     </controls:SettingsGroup>
                     <controls:SettingsGroup x:Uid="/SettingsPage/AboutSettingsHeader">
-                        <controls:SettingExpander Header="{x:Bind Provider.VersionTextBlockText, Mode=OneWay}" Icon="&#xE117;">
+                        <controls:SettingExpander Header="{x:Bind settingspages:SettingsViewModel.VersionTextBlockText}" Icon="&#xE117;">
                             <controls:SettingExpander.Description>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">

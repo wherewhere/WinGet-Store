@@ -226,7 +226,7 @@
             </local:SettingExpander>
         </local:SettingsGroup>
         <local:SettingsGroup x:Uid="/SettingsPage/AboutSettingsHeader">
-            <local:SettingExpander Header="{x:Bind Provider.VersionTextBlockText, Mode=OneWay}" Icon="&#xE117;">
+            <local:SettingExpander Header="{x:Bind settingspages:SettingsViewModel.VersionTextBlockText}" Icon="&#xE117;">
                 <local:SettingExpander.Description>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">

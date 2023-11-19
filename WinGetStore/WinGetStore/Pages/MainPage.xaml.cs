@@ -27,12 +27,12 @@ namespace WinGetStore.Pages
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly HashSet<(string Tag, Type Page)> _pages = new(3)
-        {
+        private readonly HashSet<(string Tag, Type Page)> _pages =
+        [
             ("Home", typeof(ManagerPage)),
             ("Library", typeof(InstallingPage)),
             ("Settings", typeof(SettingsPage))
-        };
+        ];
 
         public MainPage()
         {
