@@ -1,8 +1,10 @@
 ﻿using Microsoft.Management.Deployment;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using WinGetStore.Controls;
 using WinGetStore.Controls.Dialogs;
 using WinGetStore.ViewModels.ManagerPages;
 using muxc = Microsoft.UI.Xaml.Controls;
@@ -49,6 +51,23 @@ namespace WinGetStore.Pages.ManagerPages
                 case "Versions":
                     VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
                     _ = dialog.ShowAsync();
+                    break;
+                case "Upgrade":
+                    (element.Tag as PackageControl).CheckToUpgrade();
+                    break;
+                case "Install":
+                    (element.Tag as PackageControl).CheckToInstall();
+                    break;
+                case "Uninstall":
+                    (element.Tag as PackageControl).CheckToUninstall();
+                    break;
+                case "Share":
+                    DataPackage dataPackage = new();
+                    string shareString = element.Tag?.ToString();
+                    dataPackage.SetText(shareString);
+                    dataPackage.Properties.Title = shareString.Substring(15);
+                    dataPackage.Properties.Description = shareString;
+                    Clipboard.SetContent(dataPackage);
                     break;
             }
         }

@@ -17,14 +17,12 @@
             <!--  Breakpoints  -->
             <x:Double x:Key="Breakpoint640Plus">641</x:Double>
 
-            <Thickness x:Key="PageHeaderDefaultPadding">0</Thickness>
-            <Thickness x:Key="PageHeaderMinimalPadding">-4,0,12,0</Thickness>
-
             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
 
             <FontFamily x:Key="SymbolThemeFontFamily">Segoe Fluent Icons,Segoe MDL2 Assets,Segoe UI Symbol</FontFamily>
 
+            <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
             <converter:StringToBoolConverter x:Key="StringToBoolConverter" />
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />

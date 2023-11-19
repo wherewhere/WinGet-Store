@@ -34,7 +34,8 @@ namespace WinGetStore.Controls
         private static void OnPackageStatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((PackageControlTemplateSettings)d).UpdateActionButtonText();
-            if (e is { OldValue: PackageState.Installing, NewValue: PackageState.Installed })
+            if (e is { OldValue: PackageState.Installing, NewValue: PackageState.Installed }
+            or { OldValue: PackageState.Uninstalling, NewValue: PackageState.Nominal })
             {
                 ((PackageControlTemplateSettings)d).InvokeShouldUpdatePackage();
             }

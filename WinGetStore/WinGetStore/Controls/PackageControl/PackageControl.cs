@@ -81,7 +81,7 @@ namespace WinGetStore.Controls
 
         private static void OnCatalogPackagePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((PackageControl)d).UpdateCatalogPackage();
+            _ = ((PackageControl)d).UpdateCatalogPackageAsync();
         }
 
         #endregion
@@ -144,14 +144,14 @@ namespace WinGetStore.Controls
         private async void TemplateSettings_ShouldUpdatePackage(object sender, PackageState e)
         {
             await Dispatcher.ResumeForegroundAsync();
-            CatalogPackage catalogPackage = await GetPackageByID(CatalogPackage.Id);
+            CatalogPackage catalogPackage = await GetPackageByIDAsync(CatalogPackage.Id);
             if (catalogPackage != null)
             {
                 CatalogPackage = catalogPackage;
             }
         }
 
-        private async void UpdateCatalogPackage()
+        private async Task UpdateCatalogPackageAsync()
         {
             try
             {
@@ -159,7 +159,7 @@ namespace WinGetStore.Controls
 
                 if (package.DefaultInstallVersion == null)
                 {
-                    CatalogPackage catalogPackage = await GetPackageByID(package.Id);
+                    CatalogPackage catalogPackage = await GetPackageByIDAsync(package.Id);
                     if (catalogPackage != null)
                     {
                         CatalogPackage = catalogPackage;
@@ -185,14 +185,9 @@ namespace WinGetStore.Controls
                     IAsyncOperationWithProgress<InstallResult, InstallProgress> InstallProgress = packageManager.GetInstallProgress(package, info);
                     if (InstallProgress != null)
                     {
-                        if (package.IsUpdateAvailable)
-                        {
-                            RegisterUpgradeProgress(InstallProgress);
-                        }
-                        else
-                        {
-                            RegisterInstallProgress(InstallProgress);
-                        }
+                        _ = package.IsUpdateAvailable
+                            ? RegisterUpgradeProgressAsync(InstallProgress)
+                            : RegisterInstallProgressAsync(InstallProgress);
                         await Dispatcher.ResumeForegroundAsync();
                         templateSettings.PackageState = PackageState.Installing;
                     }
@@ -201,7 +196,7 @@ namespace WinGetStore.Controls
                         IAsyncOperationWithProgress<UninstallResult, UninstallProgress> UninstallProgress = packageManager.GetUninstallProgress(package, info);
                         if (UninstallProgress != null)
                         {
-                            RegisterUninstallProgress(UninstallProgress);
+                            _ = RegisterUninstallProgressAsync(UninstallProgress);
                             await Dispatcher.ResumeForegroundAsync();
                             templateSettings.PackageState = PackageState.Uninstalling;
                         }
@@ -220,17 +215,17 @@ namespace WinGetStore.Controls
             }
         }
 
-        private async void InstallPackageAsync(CatalogPackage package)
+        private async Task InstallPackageAsync(CatalogPackage package)
         {
             PackageControlTemplateSettings templateSettings = TemplateSettings;
             templateSettings.PackageState = PackageState.Installing;
 
             await ThreadSwitcher.ResumeBackgroundAsync();
             IAsyncOperationWithProgress<InstallResult, InstallProgress> progress = GetInstallOperation(package);
-            RegisterInstallProgress(progress);
+            await RegisterInstallProgressAsync(progress).ConfigureAwait(false);
         }
 
-        private async void RegisterInstallProgress(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
+        private async Task RegisterInstallProgressAsync(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
         {
             Progress = progress;
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
@@ -301,17 +296,17 @@ namespace WinGetStore.Controls
             return packageManager.InstallPackageAsync(package, installOptions);
         }
 
-        private async void UpgradePackageAsync(CatalogPackage package)
+        private async Task UpgradePackageAsync(CatalogPackage package)
         {
             PackageControlTemplateSettings templateSettings = TemplateSettings;
             templateSettings.PackageState = PackageState.Installing;
 
             await ThreadSwitcher.ResumeBackgroundAsync();
             IAsyncOperationWithProgress<InstallResult, InstallProgress> progress = GetUpgradeOperation(package);
-            RegisterUpgradeProgress(progress);
+            await RegisterUpgradeProgressAsync(progress).ConfigureAwait(false);
         }
 
-        private async void RegisterUpgradeProgress(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
+        private async Task RegisterUpgradeProgressAsync(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
         {
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
 
@@ -382,17 +377,17 @@ namespace WinGetStore.Controls
             return packageManager.UpgradePackageAsync(package, installOptions);
         }
 
-        private async void UninstallPackageAsync(CatalogPackage package)
+        private async Task UninstallPackageAsync(CatalogPackage package)
         {
             PackageControlTemplateSettings templateSettings = TemplateSettings;
             templateSettings.PackageState = PackageState.Uninstalling;
 
             await ThreadSwitcher.ResumeBackgroundAsync();
             IAsyncOperationWithProgress<UninstallResult, UninstallProgress> progress = GetUninstallOperation(package);
-            RegisterUninstallProgress(progress);
+            await RegisterUninstallProgressAsync(progress).ConfigureAwait(false);
         }
 
-        private async void RegisterUninstallProgress(IAsyncOperationWithProgress<UninstallResult, UninstallProgress> progress)
+        private async Task RegisterUninstallProgressAsync(IAsyncOperationWithProgress<UninstallResult, UninstallProgress> progress)
         {
             progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.UninstallProgress = args);
 
@@ -430,7 +425,9 @@ namespace WinGetStore.Controls
             if (progress.Status == AsyncStatus.Canceled)
             {
                 templateSettings.ProgressStatusText = _loader.GetString("UninstallCancelled");
-                templateSettings.PackageState = PackageState.Installed;
+                templateSettings.PackageState = CatalogPackage.IsUpdateAvailable
+                    ? PackageState.UpdateAvailable
+                    : PackageState.Installed;
             }
             else if (progress.Status == AsyncStatus.Error || installResult == null)
             {
@@ -463,13 +460,13 @@ namespace WinGetStore.Controls
             return packageManager.UninstallPackageAsync(package, uninstallOptions);
         }
 
-        private async Task<CatalogPackage> GetPackageByID(string packageID)
+        private async Task<CatalogPackage> GetPackageByIDAsync(string packageID)
         {
             try
             {
                 await ThreadSwitcher.ResumeBackgroundAsync();
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                PackageCatalogReference[] packageCatalogReferences = [.. packageManager.GetPackageCatalogs()];
+                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
                 createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
@@ -491,8 +488,22 @@ namespace WinGetStore.Controls
             }
         }
 
-        private async void CheckToUninstall()
+        public void CheckToInstall()
         {
+            if (CatalogPackage.InstalledVersion != null) { return; }
+            _ = InstallPackageAsync(CatalogPackage);
+        }
+
+        public void CheckToUpgrade()
+        {
+            if (CatalogPackage.InstalledVersion == null) { return; }
+            _ = UpgradePackageAsync(CatalogPackage);
+        }
+
+        public async void CheckToUninstall()
+        {
+            if (CatalogPackage.InstalledVersion == null) { return; }
+
             ContentDialog dialog = new()
             {
                 Title = string.Format(_loader.GetString("UninstallTitle"), CatalogPackage.Name),
@@ -504,7 +515,7 @@ namespace WinGetStore.Controls
 
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
-                UninstallPackageAsync(CatalogPackage);
+                _ = UninstallPackageAsync(CatalogPackage);
             }
         }
 
@@ -514,28 +525,20 @@ namespace WinGetStore.Controls
             switch (templateSettings.PackageState)
             {
                 case PackageState.Nominal:
-                    InstallPackageAsync(CatalogPackage);
+                case PackageState.InstallError:
+                    CheckToInstall();
                     break;
                 case PackageState.Installed:
-                    CheckToUninstall();
-                    break;
-                case PackageState.Installing:
-                    Progress?.Cancel();
-                    break;
-                case PackageState.UpdateAvailable:
-                    UpgradePackageAsync(CatalogPackage);
-                    break;
-                case PackageState.Uninstalling:
-                    Progress?.Cancel();
-                    break;
-                case PackageState.InstallError:
-                    InstallPackageAsync(CatalogPackage);
-                    break;
-                case PackageState.UpdateError:
-                    UpgradePackageAsync(CatalogPackage);
-                    break;
                 case PackageState.UninstallError:
                     CheckToUninstall();
+                    break;
+                case PackageState.UpdateAvailable:
+                case PackageState.UpdateError:
+                    CheckToUpgrade();
+                    break;
+                case PackageState.Installing:
+                case PackageState.Uninstalling:
+                    Progress?.Cancel();
                     break;
                 default:
                     break;

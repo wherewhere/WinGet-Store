@@ -143,7 +143,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                PackageCatalogReference[] packageCatalogReferences = [.. packageManager.GetPackageCatalogs()];
+                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
                 packagesResult.Matches.ToArray()
                     .ForEach(async (x) =>
                     {
