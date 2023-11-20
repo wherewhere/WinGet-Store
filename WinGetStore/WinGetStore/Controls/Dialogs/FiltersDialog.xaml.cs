@@ -20,13 +20,11 @@ namespace WinGetStore.Controls.Dialogs
         {
             InitializeComponent();
             Provider = provider;
-            DataContext = Provider;
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            FrameworkElement BackgroundElement = this.FindDescendant("BackgroundElement");
-            if (BackgroundElement != null)
+            if (this.FindDescendant("BackgroundElement") is FrameworkElement BackgroundElement)
             {
                 BackgroundElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
@@ -34,10 +32,10 @@ namespace WinGetStore.Controls.Dialogs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
+            if (sender is not FrameworkElement element) { return; }
             switch (element.Name)
             {
-                case "Add":
+                case nameof(Add):
                     if (Pivot.SelectedIndex == 0)
                     {
                         Pivot.SelectedIndex = 1;
@@ -49,7 +47,29 @@ namespace WinGetStore.Controls.Dialogs
                     }
                     break;
                 case "Delete":
-                    Provider?.PackageMatchFilters.Remove((PackageMatchFilter)element.Tag);
+                    Provider?.PackageMatchFilters.Remove(element.Tag as PackageMatchFilter);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement element) { return; }
+            if (element.Tag is not PackageMatchFilter filter) { return; }
+            switch (element.Name)
+            {
+                case "ForkItem":
+                    Provider.Value = filter.Value;
+                    Provider.Field = filter.Field;
+                    Provider.Option = filter.Option;
+                    Pivot.SelectedIndex = 1;
+                    break;
+                case "DeleteItem":
+                    Provider?.PackageMatchFilters.Remove(filter);
+                    break;
+                default:
                     break;
             }
         }

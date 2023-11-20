@@ -29,9 +29,8 @@ namespace WinGetStore.Controls.Dialogs
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            Uri url = element.Tag?.ToString().ValidateAndGetUri();
-            if (url != null)
+            if (sender is not FrameworkElement element) { return; }
+            if (element.Tag?.ToString().TryGetUri(out Uri url) == true)
             {
                 _ = Launcher.LaunchUriAsync(url);
             }
@@ -39,12 +38,10 @@ namespace WinGetStore.Controls.Dialogs
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            FrameworkElement BackgroundElement = this.FindDescendant("BackgroundElement");
-            if (BackgroundElement != null)
+            if (this.FindDescendant("BackgroundElement") is FrameworkElement BackgroundElement)
             {
                 BackgroundElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
-            _ = Provider.Refresh();
         }
 
         internal static PackageAgreement[] PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => values?.ToArray();

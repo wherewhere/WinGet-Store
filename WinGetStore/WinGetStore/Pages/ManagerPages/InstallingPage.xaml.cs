@@ -25,19 +25,15 @@ namespace WinGetStore.Pages.ManagerPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (DataContext is not InstallingViewModel)
-            {
-                DataContext = Provider;
-            }
             _ = Provider.Refresh();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
+            if (sender is not FrameworkElement element) { return; }
             switch (element.Name)
             {
-                case "ActionButtonOne":
+                case nameof(ActionButtonOne):
                     _ = Provider?.Refresh();
                     break;
             }
@@ -45,7 +41,7 @@ namespace WinGetStore.Pages.ManagerPages
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
+            if (sender is not FrameworkElement element) { return; }
             switch (element.Name)
             {
                 case "Versions":
@@ -68,6 +64,8 @@ namespace WinGetStore.Pages.ManagerPages
                     dataPackage.Properties.Title = shareString.Substring(15);
                     dataPackage.Properties.Description = shareString;
                     Clipboard.SetContent(dataPackage);
+                    break;
+                default:
                     break;
             }
         }

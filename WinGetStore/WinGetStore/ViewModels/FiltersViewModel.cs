@@ -20,9 +20,27 @@ namespace WinGetStore.ViewModels
             set => SetProperty(ref packageMatchFilters, value);
         }
 
-        public string Value { get; set; }
-        public PackageMatchField Field { get; set; } = PackageMatchField.Id;
-        public PackageFieldMatchOption Option { get; set; } = PackageFieldMatchOption.ContainsCaseInsensitive;
+        private string value;
+        public string Value
+        {
+            get => value;
+            set => SetProperty(ref this.value, value);
+        }
+
+        private PackageMatchField field = PackageMatchField.Id;
+        public PackageMatchField Field
+        {
+            get => field;
+            set => SetProperty(ref field, value);
+        }
+
+        private PackageFieldMatchOption option = PackageFieldMatchOption.ContainsCaseInsensitive;
+        public PackageFieldMatchOption Option
+        {
+            get => option;
+            set => SetProperty(ref option, value);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

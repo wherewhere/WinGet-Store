@@ -8,6 +8,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using WinGetStore.Helpers;
 using WinGetStore.ViewModels.SettingsPages;
@@ -54,14 +55,13 @@ namespace WinGetStore.Pages.SettingsPages
                 DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
                 Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
             }
-            DataContext = Provider;
             _ = Refresh();
         }
 
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
-            ComboBox ComboBox = sender as ComboBox;
-            switch (ComboBox.Tag.ToString())
+            if (sender is not ComboBox ComboBox) { return; }
+            switch (ComboBox.Tag?.ToString())
             {
                 case "Language":
                     string lang = SettingsHelper.Get<string>(SettingsHelper.CurrentLanguage);
@@ -74,8 +74,8 @@ namespace WinGetStore.Pages.SettingsPages
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox ComboBox = sender as ComboBox;
-            switch (ComboBox.Tag.ToString())
+            if (sender is not ComboBox ComboBox) { return; }
+            switch (ComboBox.Tag?.ToString())
             {
                 case "Language":
                     CultureInfo culture = ComboBox.SelectedItem as CultureInfo;
@@ -95,7 +95,8 @@ namespace WinGetStore.Pages.SettingsPages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            switch ((sender as FrameworkElement).Tag as string)
+            if (sender is not FrameworkElement element) { return; }
+            switch (element?.Tag.ToString())
             {
                 case "Rate":
                     _ = Launcher.LaunchUriAsync(new Uri("http://afdian.net/@wherewhere"));
@@ -106,7 +107,7 @@ namespace WinGetStore.Pages.SettingsPages
                 case "Reset":
                     SettingsHelper.LocalObject.Clear();
                     SettingsHelper.SetDefaultSettings();
-                    if (Reset.Flyout is Flyout flyout_reset)
+                    if (Reset.Flyout is FlyoutBase flyout_reset)
                     {
                         flyout_reset.Hide();
                     }
@@ -125,7 +126,8 @@ namespace WinGetStore.Pages.SettingsPages
 
         private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            switch ((sender as FrameworkElement).Tag.ToString())
+            if (sender is not FrameworkElement element) { return; }
+            switch (element?.Tag.ToString())
             {
                 case "LogFolder":
                     _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
@@ -140,12 +142,12 @@ namespace WinGetStore.Pages.SettingsPages
 
         private void InfoBar_Loaded(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            if (element?.FindDescendant("Title") is TextBlock title)
+            if (sender is not DependencyObject element) { return; }
+            if (element.FindDescendant("Title") is TextBlock title)
             {
                 title.IsTextSelectionEnabled = true;
             }
-            if (element?.FindDescendant("Message") is TextBlock message)
+            if (element.FindDescendant("Message") is TextBlock message)
             {
                 message.IsTextSelectionEnabled = true;
             }

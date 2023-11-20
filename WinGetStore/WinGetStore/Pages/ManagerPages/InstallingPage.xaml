@@ -32,34 +32,54 @@
                                         x:Name="Versions"
                                         x:Uid="/MainPage/Versions"
                                         Click="MenuFlyoutItem_Click"
-                                        Tag="{x:Bind}" />
+                                        Tag="{x:Bind}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7B8;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem
                                         x:Name="Upgrade"
                                         x:Uid="/MainPage/Upgrade"
                                         Click="MenuFlyoutItem_Click"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind DefaultInstallVersion.Version, FallbackValue='null'}"
-                                        Visibility="{Binding CatalogPackage.IsUpdateAvailable, ElementName=PackageControl, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        Visibility="{Binding CatalogPackage.IsUpdateAvailable, ElementName=PackageControl, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem
                                         x:Name="Install"
                                         x:Uid="/MainPage/Install"
                                         Click="MenuFlyoutItem_Click"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind DefaultInstallVersion.Version, FallbackValue='null'}"
-                                        Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}, ConverterParameter='true'}" />
+                                        Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}, ConverterParameter='true'}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE896;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem
                                         x:Name="Uninstall"
                                         x:Uid="/MainPage/Uninstall"
                                         Click="MenuFlyoutItem_Click"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind InstalledVersion.Version, FallbackValue='null'}"
-                                        Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}}" />
+                                        Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem
                                         x:Name="Share"
                                         x:Uid="/MainPage/Share"
                                         Click="MenuFlyoutItem_Click"
                                         Tag="{x:Bind x:String.Format('winget install {0}', Id)}"
-                                        ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}" />
+                                        ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                 </MenuFlyout>
                             </controls:PackageControl.Flyout>
                         </controls:PackageControl>

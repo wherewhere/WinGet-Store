@@ -24,7 +24,7 @@ namespace WinGetStore.Models
             _hasMoreItems = true;
 
             await ClearAsync().ConfigureAwait(false);
-            _ = await LoadMoreItemsAsync(20);
+            _ = await LoadMoreItemsAsync(15);
         }
 
         public virtual async Task Refresh(bool reset = false)
@@ -36,7 +36,7 @@ namespace WinGetStore.Models
             }
             else if (_hasMoreItems)
             {
-                _ = await LoadMoreItemsAsync(5);
+                _ = await LoadMoreItemsAsync(15);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,20 +44,21 @@ namespace WinGetStore.Helpers
             return taskResult;
         }
 
-        public static Uri ValidateAndGetUri(this string url)
+        public static bool TryGetUri(this string url, out Uri uri)
         {
-            if (string.IsNullOrWhiteSpace(url)) { return null; }
-            Uri uri = null;
+            uri = default;
+            if (string.IsNullOrWhiteSpace(url)) { return false; }
             try
             {
-                uri = url.Contains("://") ? new Uri(url)
-                    : new Uri($"https://{url}");
+                return url.Contains(':')
+                    ? Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri)
+                    : Uri.TryCreate($"https://{url}", UriKind.RelativeOrAbsolute, out uri);
             }
             catch (FormatException ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(UIHelper)).Warn(ex.ExceptionToMessage(), ex);
             }
-            return uri;
+            return false;
         }
     }
 }

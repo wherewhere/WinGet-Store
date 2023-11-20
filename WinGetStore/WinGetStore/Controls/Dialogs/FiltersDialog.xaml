@@ -52,6 +52,28 @@
                                         <Run Text="{x:Bind Option}" />
                                     </TextBlock>
                                 </controls:Setting.Description>
+                                <controls:Setting.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            x:Name="ForkItem"
+                                            x:Uid="/FiltersDialog/ForkItem"
+                                            Click="MenuFlyoutItem_Click"
+                                            Tag="{x:Bind}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C8;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            x:Name="DeleteItem"
+                                            x:Uid="/FiltersDialog/DeleteItem"
+                                            Click="Button_Click"
+                                            Tag="{x:Bind}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </controls:Setting.ContextFlyout>
                                 <Button
                                     x:Name="Delete"
                                     x:Uid="/FiltersDialog/Delete"
@@ -78,8 +100,9 @@
                 <controls:SettingsGroup>
                     <controls:Setting x:Uid="/FiltersDialog/Value" Icon="&#xE932;">
                         <TextBox
+                            MinWidth="71"
+                            x:Uid="/FiltersDialog/ValueTextBox"
                             MaxWidth="{StaticResource SettingCardContentMinWidth}"
-                            PlaceholderText="Input Search Word..."
                             Text="{x:Bind Provider.Value, Mode=TwoWay}" />
                     </controls:Setting>
                     <controls:Setting x:Uid="/FiltersDialog/Field" Icon="&#xE71C;">

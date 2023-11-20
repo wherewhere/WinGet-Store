@@ -50,17 +50,16 @@ namespace WinGetStore.Pages.ManagerPages
             if (e.Parameter is SearchingViewModel ViewModel && Provider != ViewModel)
             {
                 Provider = ViewModel;
-                DataContext = Provider;
                 _ = Provider.Refresh();
             }
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
+            if (sender is not FrameworkElement element) { return; }
             switch (element.Name)
             {
-                case "Filters":
+                case nameof(Filters):
                     FiltersDialog dialog = new(new(Provider.PackageMatchFilters));
                     ContentDialogResult result = await dialog.ShowAsync();
                     if (result == ContentDialogResult.Primary)
@@ -69,15 +68,17 @@ namespace WinGetStore.Pages.ManagerPages
                         _ = Provider.Refresh();
                     }
                     break;
-                case "ActionButtonOne":
+                case nameof(ActionButtonOne):
                     _ = Provider?.Refresh();
+                    break;
+                default:
                     break;
             }
         }
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
+            if (sender is not FrameworkElement element) { return; }
             switch (element.Name)
             {
                 case "Versions":
@@ -100,6 +101,8 @@ namespace WinGetStore.Pages.ManagerPages
                     dataPackage.Properties.Title = shareString.Substring(15);
                     dataPackage.Properties.Description = shareString;
                     Clipboard.SetContent(dataPackage);
+                    break;
+                default:
                     break;
             }
         }
