@@ -173,6 +173,8 @@
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />
+    <Compile Include="Models\IncrementalLoadingBase.cs" />
+    <Compile Include="Models\PackageVersionSource.cs" />
     <Compile Include="Models\SystemVersionInfo.cs" />
     <Compile Include="Models\UpdateInfo.cs" />
     <Compile Include="Pages\ManagerPages\InstallingPage.xaml.cs">

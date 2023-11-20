@@ -1,13 +1,10 @@
 ﻿using Microsoft.Management.Deployment;
-using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
 using WinGetStore.Common;
-using WinGetStore.Helpers;
+using WinGetStore.Models;
 
 namespace WinGetStore.ViewModels
 {
@@ -15,17 +12,8 @@ namespace WinGetStore.ViewModels
     {
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
-        public CatalogPackage CatalogPackage { get; } = catalogPackage;
-
-        private bool isLoading = true;
-        public bool IsLoading
-        {
-            get => isLoading;
-            set => SetProperty(ref isLoading, value);
-        }
-
-        private ObservableCollection<CatalogPackageVersion> packageVersions = [];
-        public ObservableCollection<CatalogPackageVersion> PackageVersions
+        private PackageVersionSource packageVersions = new(catalogPackage);
+        public PackageVersionSource PackageVersions
         {
             get => packageVersions;
             set => SetProperty(ref packageVersions, value);
@@ -51,32 +39,7 @@ namespace WinGetStore.ViewModels
             }
         }
 
-        public async Task Refresh()
-        {
-            IsLoading = true;
-            try
-            {
-                await ThreadSwitcher.ResumeBackgroundAsync();
-                CatalogPackage.AvailableVersions.ToArray().ForEach(async (x) =>
-                {
-                    PackageVersionInfo versionInfo = CatalogPackage.GetPackageVersionInfo(x);
-                    if (PackageVersions.LastOrDefault()?.Version != versionInfo.Version)
-                    {
-                        CatalogPackageMetadata packageMetadata = versionInfo.GetCatalogPackageMetadata();
-                        await Dispatcher.ResumeForegroundAsync();
-                        PackageVersions.Add(new(versionInfo.Version, packageMetadata));
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                SettingsHelper.LogManager.GetLogger(nameof(VersionsViewModel)).Error(ex.ExceptionToMessage());
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
+        public Task Refresh(bool reset = false) => PackageVersions.Refresh(reset);
     }
 
     public record class CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);

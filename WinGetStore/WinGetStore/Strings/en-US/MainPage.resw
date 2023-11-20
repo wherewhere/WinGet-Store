@@ -130,10 +130,10 @@
     <value>Settings</value>
   </data>
   <data name="ProcessingResults" xml:space="preserve">
-    <value>Processing results...</value>
+    <value>Processing results</value>
   </data>
   <data name="Searching" xml:space="preserve">
-    <value>Searching...</value>
+    <value>Searching</value>
   </data>
   <data name="SomethingWrong" xml:space="preserve">
     <value>Something is wrong</value>
@@ -151,13 +151,13 @@
     <value>There are no catalog set in WinGet</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Loading</value>
   </data>
   <data name="Finished" xml:space="preserve">
     <value>Finished</value>
   </data>
   <data name="GettingResults" xml:space="preserve">
-    <value>Getting results...</value>
+    <value>Getting results</value>
   </data>
   <data name="GettingResultsFailedDescription" xml:space="preserve">
     <value>There are something wrong with WinGet.</value>
@@ -166,7 +166,7 @@
     <value>Fail to get result</value>
   </data>
   <data name="ConnectingWinGet" xml:space="preserve">
-    <value>Connecting to WinGet...</value>
+    <value>Connecting to WinGet</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
     <value>Fail to connect to WinGet. It seems you are not connect to network.</value>

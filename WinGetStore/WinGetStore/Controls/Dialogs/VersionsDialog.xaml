@@ -18,12 +18,17 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <Grid>
-        <ScrollViewer
-            HorizontalScrollMode="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Auto">
-            <controls:SettingsGroup ItemsSource="{x:Bind Provider.PackageVersions, Mode=OneWay}">
-                <controls:SettingsGroup.ItemTemplate>
+        <muxc:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+            <ListView
+                x:Name="ListView"
+                Padding="0,1.5"
+                ItemsSource="{x:Bind Provider.PackageVersions, Mode=OneWay}">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource TransparentCardItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,1.5" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:CatalogPackageVersion">
                         <controls:SettingExpander Header="{x:Bind Version}" Icon="&#xECAA;">
                             <controls:SettingExpander
@@ -290,16 +295,16 @@
                             </controls:Setting>
                         </controls:SettingExpander>
                     </DataTemplate>
-                </controls:SettingsGroup.ItemTemplate>
-            </controls:SettingsGroup>
-        </ScrollViewer>
+                </ListView.ItemTemplate>
+            </ListView>
+        </muxc:RefreshContainer>
         <muxc:ProgressBar
             x:Name="ProgressBar"
             Margin="1,0"
             VerticalAlignment="Top"
-            x:Load="{x:Bind Provider.IsLoading, Mode=OneWay}"
+            x:Load="{x:Bind Provider.PackageVersions.IsLoading, Mode=OneWay}"
             Background="{ThemeResource SystemControlTransparentBrush}"
-            IsIndeterminate="{x:Bind Provider.IsLoading, Mode=OneWay}">
+            IsIndeterminate="{x:Bind Provider.PackageVersions.IsLoading, Mode=OneWay}">
             <muxc:ProgressBar.RenderTransform>
                 <TranslateTransform Y="-6" />
             </muxc:ProgressBar.RenderTransform>

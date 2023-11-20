@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WinGetStore.Helpers;
 using WinGetStore.ViewModels;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“内容对话框”项模板
 
@@ -24,8 +25,6 @@ namespace WinGetStore.Controls.Dialogs
         {
             InitializeComponent();
             Provider = provider;
-            DataContext = Provider;
-            _ = Provider.Refresh();
         }
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
@@ -45,6 +44,7 @@ namespace WinGetStore.Controls.Dialogs
             {
                 BackgroundElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
+            _ = Provider.Refresh();
         }
 
         internal static PackageAgreement[] PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => values?.ToArray();
@@ -62,5 +62,7 @@ namespace WinGetStore.Controls.Dialogs
         internal static string[] TagsToArray(IReadOnlyList<string> values) => values?.ToArray();
 
         internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values?.ToArray());
+
+        private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh(true);
     }
 }
