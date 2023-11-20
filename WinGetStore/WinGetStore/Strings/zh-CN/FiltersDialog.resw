@@ -154,7 +154,7 @@
     <value>筛选器</value>
   </data>
   <data name="ForkItem.Text" xml:space="preserve">
-    <value>Fork</value>
+    <value>复刻</value>
   </data>
   <data name="MatchField.PlaceholderText" xml:space="preserve">
     <value>匹配项</value>
@@ -172,6 +172,6 @@
     <value>值</value>
   </data>
   <data name="ValueTextBox.PlaceholderText" xml:space="preserve">
-    <value>Input Searching Keyword...</value>
+    <value>输入搜索关键词……</value>
   </data>
 </root>
