@@ -132,6 +132,9 @@
   <data name="Delete.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>刪除</value>
   </data>
+  <data name="DeleteItem.Text" xml:space="preserve">
+    <value>刪除</value>
+  </data>
   <data name="Field.Description" xml:space="preserve">
     <value>軟體包匹配項</value>
   </data>
@@ -150,6 +153,9 @@
   <data name="FiltersDialog.Title" xml:space="preserve">
     <value>篩選器</value>
   </data>
+  <data name="ForkItem.Text" xml:space="preserve">
+    <value>Fork</value>
+  </data>
   <data name="MatchField.PlaceholderText" xml:space="preserve">
     <value>匹配項</value>
   </data>
@@ -164,5 +170,8 @@
   </data>
   <data name="Value.Header" xml:space="preserve">
     <value>值</value>
+  </data>
+  <data name="ValueTextBox.PlaceholderText" xml:space="preserve">
+    <value>Input Searching Keyword...</value>
   </data>
 </root>
