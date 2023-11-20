@@ -130,10 +130,10 @@
     <value>设置</value>
   </data>
   <data name="ProcessingResults" xml:space="preserve">
-    <value>正在处理结果……</value>
+    <value>Processing results</value>
   </data>
   <data name="Searching" xml:space="preserve">
-    <value>正在搜索……</value>
+    <value>Searching</value>
   </data>
   <data name="SomethingWrong" xml:space="preserve">
     <value>有什么不对劲</value>
@@ -151,13 +151,13 @@
     <value>WinGet 中没有安装源</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>正在加载……</value>
+    <value>Loading</value>
   </data>
   <data name="Finished" xml:space="preserve">
     <value>已完成</value>
   </data>
   <data name="GettingResults" xml:space="preserve">
-    <value>正在获取结果……</value>
+    <value>Getting results</value>
   </data>
   <data name="GettingResultsFailedDescription" xml:space="preserve">
     <value>WinGet 出了一些问题。</value>
@@ -166,7 +166,7 @@
     <value>获取结果失败</value>
   </data>
   <data name="ConnectingWinGet" xml:space="preserve">
-    <value>正在连接 WinGet……</value>
+    <value>Connecting to WinGet</value>
   </data>
   <data name="ConnectWinGetFailedDescription" xml:space="preserve">
     <value>无法连接到 WinGet。您可能没有连接到网络。</value>
