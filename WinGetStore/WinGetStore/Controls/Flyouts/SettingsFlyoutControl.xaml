@@ -39,11 +39,7 @@
                 </ComboBox>
             </local:Setting>
             <local:Setting x:Uid="/SettingsPage/LanguageSettings" Icon="&#xF2B7;">
-                <ComboBox
-                    ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}"
-                    Loaded="ComboBox_Loaded"
-                    SelectionChanged="ComboBox_SelectionChanged"
-                    Tag="Language">
+                <ComboBox ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}" SelectedItem="{x:Bind Provider.CurrentLanguage, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="globalization:CultureInfo">
                             <TextBlock>

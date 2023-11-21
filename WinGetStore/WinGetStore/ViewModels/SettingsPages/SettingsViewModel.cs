@@ -4,12 +4,14 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
@@ -58,6 +60,42 @@ namespace WinGetStore.ViewModels.SettingsPages
                 if (SelectedTheme != value)
                 {
                     ThemeHelper.RootTheme = (ElementTheme)(2 - value);
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
+        private static CultureInfo _currentLanguage;
+        public CultureInfo CurrentLanguage
+        {
+            get
+            {
+                if (_currentLanguage == null)
+                {
+                    string lang = SettingsHelper.Get<string>(SettingsHelper.CurrentLanguage);
+                    lang = lang == LanguageHelper.AutoLanguageCode ? LanguageHelper.GetCurrentLanguage() : lang;
+                    _currentLanguage = new CultureInfo(lang);
+                }
+                return _currentLanguage;
+            }
+            set
+            {
+                if (_currentLanguage != value)
+                {
+                    _currentLanguage = value;
+                    if (value != null)
+                    {
+                        if (value.Name != LanguageHelper.GetCurrentLanguage())
+                        {
+                            ApplicationLanguages.PrimaryLanguageOverride = value.Name;
+                            SettingsHelper.Set(SettingsHelper.CurrentLanguage, value.Name);
+                        }
+                        else
+                        {
+                            ApplicationLanguages.PrimaryLanguageOverride = string.Empty;
+                            SettingsHelper.Set(SettingsHelper.CurrentLanguage, LanguageHelper.AutoLanguageCode);
+                        }
+                    }
                     RaisePropertyChangedEvent();
                 }
             }
@@ -184,20 +222,12 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async Task UpdateWinGetVersionAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            IEnumerable<Package> packages = await PackageHelper.FindPackagesByName("Microsoft.DesktopAppInstaller");
-            if (packages.Any())
-            {
-                string wingetVersion = packages.FirstOrDefault().Id.Version.ToFormattedString();
-                bool isWinGetInstalled = WinGetProjectionFactory.IsWinGetInstalled;
-                bool isWinGetDevInstalled = WinGetProjectionFactory.IsWinGetDevInstalled;
-                WinGetVersion = wingetVersion;
-                IsWinGetInstalled = isWinGetInstalled;
-                IsWinGetDevInstalled = isWinGetDevInstalled;
-            }
-            else
-            {
-                WinGetVersion = "Not Installed";
-            }
+            bool isWinGetInstalled = WinGetProjectionFactory.IsWinGetInstalled;
+            bool isWinGetDevInstalled = WinGetProjectionFactory.IsWinGetDevInstalled;
+            IsWinGetInstalled = isWinGetInstalled;
+            IsWinGetDevInstalled = isWinGetDevInstalled;
+            IEnumerable<Package> packages = await PackageHelper.FindPackagesByNameAsync("Microsoft.DesktopAppInstaller");
+            WinGetVersion = packages.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : "Not Installed";
         }
 
         public async void CheckUpdate()

@@ -76,15 +76,18 @@ namespace WinGetStore.Controls.Dialogs
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            if (Pivot.SelectedIndex == 1 && !string.IsNullOrWhiteSpace(Provider?.Value))
+            if (args.Result == ContentDialogResult.Primary)
             {
-                args.Cancel = true;
-                Pivot.SelectedIndex = 0;
-                Provider?.AddField();
-            }
-            else
-            {
-                args.Cancel = Provider?.PackageMatchFilters.Any() != true;
+                if (Pivot.SelectedIndex == 1 && !string.IsNullOrWhiteSpace(Provider?.Value))
+                {
+                    args.Cancel = true;
+                    Pivot.SelectedIndex = 0;
+                    Provider?.AddField();
+                }
+                else
+                {
+                    args.Cancel = Provider?.PackageMatchFilters.Any() != true;
+                }
             }
         }
     }
