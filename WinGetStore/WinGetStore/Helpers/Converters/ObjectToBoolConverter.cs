@@ -3,17 +3,17 @@
 namespace WinGetStore.Helpers.Converters
 {
     /// <summary>
-    /// This class converts a object into a Boolean value (if the value is null returns a false value).
+    /// This class converts a boolean value into a Opacity value.
     /// </summary>
-    public class ObjectToBoolConverter : EmptyObjectToObjectConverter
+    public class BoolToOpacityConverter : BoolToObjectConverter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectToBoolConverter"/> class.
+        /// Initializes a new instance of the <see cref="BoolToOpacityConverter"/> class.
         /// </summary>
-        public ObjectToBoolConverter()
+        public BoolToOpacityConverter()
         {
-            NotEmptyValue = true;
-            EmptyValue = false;
+            TrueValue = 1.0;
+            FalseValue = 0.0;
         }
     }
 }

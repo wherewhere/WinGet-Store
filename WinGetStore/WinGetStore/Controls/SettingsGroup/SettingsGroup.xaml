@@ -6,17 +6,18 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <controls:StackPanelEx Orientation="Vertical" Spacing="3">
-                        <controls:StackPanelEx.ChildrenTransitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition />
-                            </TransitionCollection>
-                        </controls:StackPanelEx.ChildrenTransitions>
-                    </controls:StackPanelEx>
+                    <StackPanel Orientation="Vertical" Spacing="3" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">

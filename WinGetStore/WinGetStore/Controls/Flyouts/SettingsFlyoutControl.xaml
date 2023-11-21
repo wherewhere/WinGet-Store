@@ -262,7 +262,7 @@
                     </StackPanel>
                 </local:SettingExpander.Description>
                 <local:SettingExpander.ActionContent>
-                    <local:StackPanelEx
+                    <StackPanel
                         VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="18">
@@ -286,7 +286,7 @@
                             x:Load="{x:Bind Provider.CheckingUpdate, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                             Click="Button_Click"
                             Tag="CheckUpdate" />
-                    </local:StackPanelEx>
+                    </StackPanel>
                 </local:SettingExpander.ActionContent>
                 <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
                     <cwuc:MarkdownTextBlock

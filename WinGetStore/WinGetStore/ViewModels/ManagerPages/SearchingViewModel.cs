@@ -76,7 +76,13 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref matchResults, value);
         }
 
-        public IList<PackageMatchFilter> PackageMatchFilters { get; set; }
+        private IList<PackageMatchFilter> packageMatchFilters;
+        public IList<PackageMatchFilter> PackageMatchFilters
+        {
+            get => packageMatchFilters;
+            set => SetProperty(ref packageMatchFilters, value);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -155,8 +161,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                await Dispatcher.ResumeForegroundAsync();
-                matchResults.AddRange(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
+                MatchResults = new(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }

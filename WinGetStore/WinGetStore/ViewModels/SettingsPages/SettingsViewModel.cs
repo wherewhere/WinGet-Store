@@ -203,6 +203,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async void CheckUpdate()
         {
             CheckingUpdate = true;
+            await ThreadSwitcher.ResumeBackgroundAsync();
             try
             {
                 UpdateInfo info = null;
@@ -217,6 +218,7 @@ namespace WinGetStore.ViewModels.SettingsPages
                     UpdateStateSeverity = InfoBarSeverity.Error;
                     GotoUpdateVisibility = Visibility.Collapsed;
                     UpdateStateTitle = _loader.GetString("CheckFailed");
+                    return;
                 }
                 if (info?.IsExistNewVersion == true)
                 {

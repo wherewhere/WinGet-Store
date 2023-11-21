@@ -112,7 +112,44 @@
                             x:Uid="/MainPage/Filters"
                             Grid.Column="1"
                             Click="Button_Click"
-                            IsEnabled="{x:Bind Provider.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                            IsEnabled="{x:Bind Provider.IsLoading, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                            <ToolTipService.ToolTip>
+                                <ItemsControl ItemsSource="{x:Bind Provider.PackageMatchFilters, Mode=OneWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Spacing="4"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="deployment:PackageMatchFilter">
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <FontIcon
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                    FontSize="{StaticResource ContentControlFontSize}"
+                                                    Glyph="&#xE8FD;" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="0,0,0,2"
+                                                    VerticalAlignment="Center"
+                                                    TextWrapping="Wrap">
+                                                    <Run Text="{x:Bind Value}" />
+                                                    <Run Text=" • " />
+                                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Field}" />
+                                                    <Run Text=" • " />
+                                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Option}" />
+                                                </TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ToolTipService.ToolTip>
+                        </Button>
                     </Grid>
                 </ListView.Header>
             </ListView>

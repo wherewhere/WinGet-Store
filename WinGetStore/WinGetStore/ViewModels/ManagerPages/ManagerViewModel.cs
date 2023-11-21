@@ -141,8 +141,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                await Dispatcher.ResumeForegroundAsync();
-                matchResults.AddRange(
+                MatchResults = new(
                     packagesResult.Matches.ToArray()
                                           .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
                                           .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)

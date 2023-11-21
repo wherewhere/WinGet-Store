@@ -157,6 +157,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                                     CatalogPackage package = await GetPackageByID(x.CatalogPackage.Id);
                                     await Dispatcher.ResumeForegroundAsync();
                                     matchResults.Add(package ?? x.CatalogPackage);
+                                    if (isLoading) { IsLoading = false; }
                                     break;
                                 }
                             }
