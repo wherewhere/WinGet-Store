@@ -226,10 +226,10 @@
     <value>應用主題</value>
   </data>
   <data name="TileUpdateTimeSettings.Description" xml:space="preserve">
-    <value>Sets the interval between tile updates, per minute (Stop updating when less than 15 minutes)</value>
+    <value>設置磁貼更新的間隔，單位分鐘 (小於 15 分鐘停止更新)</value>
   </data>
   <data name="TileUpdateTimeSettings.Header" xml:space="preserve">
-    <value>Tile Update Interval</value>
+    <value>磁貼更新間隔</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>設定</value>
