@@ -28,7 +28,7 @@ namespace WinGetStore.Helpers
             }
             if (!LocalObject.KeyExists(TileUpdateTime))
             {
-                LocalObject.Save(TileUpdateTime, 15u);
+                LocalObject.Save(TileUpdateTime, 120u);
             }
             if (!LocalObject.KeyExists(CurrentLanguage))
             {
