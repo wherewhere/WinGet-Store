@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
 using Windows.Storage;
@@ -97,6 +98,20 @@ namespace WinGetStore.ViewModels.SettingsPages
                         }
                     }
                     RaisePropertyChangedEvent();
+                }
+            }
+        }
+
+        public uint TileUpdateTime
+        {
+            get => SettingsHelper.Get<uint>(SettingsHelper.TileUpdateTime);
+            set
+            {
+                if (TileUpdateTime != value)
+                {
+                    SettingsHelper.Set(SettingsHelper.TileUpdateTime, value);
+                    RaisePropertyChangedEvent();
+                    _ = UpdateLiveTileTask(value);
                 }
             }
         }
@@ -227,7 +242,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             IsWinGetInstalled = isWinGetInstalled;
             IsWinGetDevInstalled = isWinGetDevInstalled;
             IEnumerable<Package> packages = await PackageHelper.FindPackagesByNameAsync("Microsoft.DesktopAppInstaller");
-            WinGetVersion = packages.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : "Not Installed";
+            WinGetVersion = packages.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : _loader.GetString("NotInstalled");
         }
 
         public async void CheckUpdate()
@@ -288,6 +303,45 @@ namespace WinGetStore.ViewModels.SettingsPages
                     string markdown = await FileIO.ReadTextAsync(file);
                     AboutTextBlockText = markdown;
                 }
+            }
+        }
+
+        private int count = -1;
+        public async Task UpdateLiveTileTask(uint time)
+        {
+            try
+            {
+                count++;
+                await Task.Delay(500).ConfigureAwait(false);
+                if (count != 0) { return; }
+
+                // Check for background access (optional)
+                BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
+
+                if (status is not BackgroundAccessStatus.Unspecified
+                    and not BackgroundAccessStatus.Denied
+                    and not BackgroundAccessStatus.DeniedByUser)
+                {
+                    const string LiveTileTask = "LiveTileTask";
+
+                    if (time < 15)
+                    {
+                        // If background task is not registered, do nothing
+                        if (!BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(LiveTileTask)))
+                        { return; }
+
+                        // Unregister (Single Process)
+                        BackgroundTaskHelper.Unregister(LiveTileTask);
+                        return;
+                    }
+
+                    // Register (Single Process)
+                    BackgroundTaskRegistration _LiveTileTask = BackgroundTaskHelper.Register(LiveTileTask, new TimeTrigger(time, false), true);
+                }
+            }
+            finally
+            {
+                count--;
             }
         }
 

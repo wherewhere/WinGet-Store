@@ -11,6 +11,7 @@ namespace WinGetStore.Helpers
     public static partial class SettingsHelper
     {
         public const string UpdateDate = nameof(UpdateDate);
+        public const string TileUpdateTime = nameof(TileUpdateTime);
         public const string CurrentLanguage = nameof(CurrentLanguage);
         public const string SelectedAppTheme = nameof(SelectedAppTheme);
 
@@ -24,6 +25,10 @@ namespace WinGetStore.Helpers
             if (!LocalObject.KeyExists(UpdateDate))
             {
                 LocalObject.Save(UpdateDate, new DateTime());
+            }
+            if (!LocalObject.KeyExists(TileUpdateTime))
+            {
+                LocalObject.Save(TileUpdateTime, 15u);
             }
             if (!LocalObject.KeyExists(CurrentLanguage))
             {

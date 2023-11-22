@@ -15,7 +15,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 {
     public class ManagerViewModel : INotifyPropertyChanged
     {
-        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
@@ -26,7 +26,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref isLoading, value);
         }
 
-        private string waitProgressText = "Loading...";
+        private string waitProgressText = _loader.GetString("Loading");
         public string WaitProgressText
         {
             get => waitProgressText;
@@ -148,6 +148,8 @@ namespace WinGetStore.ViewModels.ManagerPages
                                           .Select((x) => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
+
+                await UpdateTileAsync();
             }
             catch (Exception ex)
             {
@@ -204,6 +206,16 @@ namespace WinGetStore.ViewModels.ManagerPages
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16)}");
                 return null;
             }
+        }
+
+        private async Task UpdateTileAsync()
+        {
+            await ThreadSwitcher.ResumeBackgroundAsync();
+            CatalogPackage[] available = MatchResults.Where(x => x.IsUpdateAvailable).ToArray();
+            TilesHelper.SetBadgeNumber((uint)available.Length);
+            available.Take(5)
+                     .Select(TilesHelper.CreateTile)
+                     .UpdateTiles();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WinGetStore.Controls
 {
     public class PackageControlTemplateSettings : DependencyObject
     {
-        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
 
         #region PackageState
 

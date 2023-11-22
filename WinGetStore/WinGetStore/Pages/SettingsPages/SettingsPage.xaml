@@ -65,6 +65,16 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </controls:Setting>
+                        <controls:Setting x:Uid="/SettingsPage/TileUpdateTimeSettings" Icon="&#xEA79;">
+                            <Slider
+                                Width="{StaticResource SettingCardContentMinWidth}"
+                                Maximum="1440"
+                                Minimum="0"
+                                StepFrequency="15"
+                                TickFrequency="15"
+                                TickPlacement="Outside"
+                                Value="{x:Bind Provider.TileUpdateTime, Mode=TwoWay}" />
+                        </controls:Setting>
                     </controls:SettingsGroup>
                     <controls:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
                         <controls:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{x:Bind Provider.WinGetVersion, Mode=OneWay}">

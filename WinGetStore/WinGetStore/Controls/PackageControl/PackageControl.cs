@@ -16,7 +16,7 @@ namespace WinGetStore.Controls
 {
     public class PackageControl : Control
     {
-        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
 
         private const string ActionButtonName = "ActionButton";
         private const string InstallProgressControlName = "InstallProgressControl";
@@ -504,12 +504,13 @@ namespace WinGetStore.Controls
         {
             if (CatalogPackage.InstalledVersion == null) { return; }
 
+            ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
             ContentDialog dialog = new()
             {
                 Title = string.Format(_loader.GetString("UninstallTitle"), CatalogPackage.Name),
                 Content = string.Format(_loader.GetString("UninstallContent"), CatalogPackage.Name),
-                PrimaryButtonText = ResourceLoader.GetForViewIndependentUse().GetString("Yes"),
-                CloseButtonText = ResourceLoader.GetForViewIndependentUse().GetString("No"),
+                PrimaryButtonText = loader.GetString("Yes"),
+                CloseButtonText = loader.GetString("No"),
                 DefaultButton = ContentDialogButton.Primary
             };
 

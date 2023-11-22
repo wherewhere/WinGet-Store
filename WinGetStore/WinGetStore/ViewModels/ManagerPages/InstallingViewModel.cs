@@ -16,7 +16,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 {
     public class InstallingViewModel : INotifyPropertyChanged
     {
-        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
@@ -27,7 +27,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref isLoading, value);
         }
 
-        private string waitProgressText = "Loading...";
+        private string waitProgressText = _loader.GetString("Loading");
         public string WaitProgressText
         {
             get => waitProgressText;

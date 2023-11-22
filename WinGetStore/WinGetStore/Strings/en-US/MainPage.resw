@@ -201,4 +201,7 @@
   <data name="Share.Text" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>Not Installed</value>
+  </data>
 </root>
