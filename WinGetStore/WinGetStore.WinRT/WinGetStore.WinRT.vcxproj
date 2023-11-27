@@ -147,10 +147,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Management.Configuration">
-      <HintPath>..\..\WinMD\Microsoft.Management.Configuration.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-    </Reference>
     <Reference Include="Microsoft.Management.Deployment">
       <HintPath>..\..\WinMD\Microsoft.Management.Deployment.winmd</HintPath>
       <IsWinMDFile>true</IsWinMDFile>

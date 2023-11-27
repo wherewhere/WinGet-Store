@@ -407,10 +407,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Management.Configuration, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WinMD\Microsoft.Management.Configuration.winmd</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Management.Deployment">
       <HintPath>..\..\WinMD\Microsoft.Management.Deployment.winmd</HintPath>
     </Reference>

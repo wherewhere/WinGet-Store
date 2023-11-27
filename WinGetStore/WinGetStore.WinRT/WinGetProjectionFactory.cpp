@@ -105,15 +105,6 @@ namespace winrt::WinGetStore::WinRT::implementation
         return winrt::create_instance<DownloadOptions>(CLSID_DownloadOptions, CLSCTX_ALL);
     }
 
-    ConfigurationStaticFunctions WinGetProjectionFactory::CreateConfigurationStaticFunctions()
-    {
-        if (useDev)
-        {
-            return winrt::create_instance<ConfigurationStaticFunctions>(CLSID_ConfigurationStaticFunctions_Dev, CLSCTX_ALL);
-        }
-        return winrt::create_instance<ConfigurationStaticFunctions>(CLSID_ConfigurationStaticFunctions, CLSCTX_ALL);
-    }
-
     PackageManagerSettings WinGetProjectionFactory::CreatePackageManagerSettings()
     {
         return winrt::create_instance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
@@ -180,15 +171,6 @@ namespace winrt::WinGetStore::WinRT::implementation
             return winrt::try_create_instance<DownloadOptions>(CLSID_DownloadOptions_Dev, CLSCTX_ALL);
         }
         return winrt::try_create_instance<DownloadOptions>(CLSID_DownloadOptions, CLSCTX_ALL);
-    }
-
-    ConfigurationStaticFunctions WinGetProjectionFactory::TryCreateConfigurationStaticFunctions()
-    {
-        if (useDev)
-        {
-            return winrt::try_create_instance<ConfigurationStaticFunctions>(CLSID_ConfigurationStaticFunctions_Dev, CLSCTX_ALL);
-        }
-        return winrt::try_create_instance<ConfigurationStaticFunctions>(CLSID_ConfigurationStaticFunctions, CLSCTX_ALL);
     }
 
     PackageManagerSettings WinGetProjectionFactory::TryCreatePackageManagerSettings()

@@ -43,11 +43,11 @@ namespace WinGetStore.Helpers
         {
             if (!ActiveWindows.ContainsKey(window.Dispatcher))
             {
-                SettingsPaneRegister register = SettingsPaneRegister.Register(window);
+                SettingsPaneRegister.Register(window);
                 window.Closed += (sender, args) =>
                 {
                     ActiveWindows.Remove(window.Dispatcher);
-                    register.Unregister();
+                    SettingsPaneRegister.Unregister(window);
                     window = null;
                 };
                 ActiveWindows[window.Dispatcher] = window;
