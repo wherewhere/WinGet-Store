@@ -470,7 +470,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Control.IsTemplateFocusTarget="True"
-                                                    Fill="Transparent"
+                                                    Fill="{ThemeResource SystemControlTransparentBrush}"
                                                     IsHitTestVisible="False" />
                                             </Grid>
                                         </ContentControl>
@@ -482,7 +482,7 @@
                                             Margin="{ThemeResource PivotNavButtonMargin}"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Stretch"
-                                            Background="Transparent"
+                                            Background="{ThemeResource SystemControlTransparentBrush}"
                                             IsEnabled="False"
                                             IsTabStop="False"
                                             Opacity="0"
@@ -496,7 +496,7 @@
                                             Margin="{ThemeResource PivotNavButtonMargin}"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Stretch"
-                                            Background="Transparent"
+                                            Background="{ThemeResource SystemControlTransparentBrush}"
                                             IsEnabled="False"
                                             IsTabStop="False"
                                             Opacity="0"
@@ -718,9 +718,9 @@
                                         To="Unselected">
                                         <VisualTransition.Storyboard>
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectedPipe" Storyboard.TargetProperty="Visibility">
-                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.001" Value="Collapsed" />
-                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectedPipe" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.001" Value="0" />
+                                                </DoubleAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualTransition.Storyboard>
                                     </VisualTransition>
@@ -728,7 +728,7 @@
 
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedPipe.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectedPipe.Opacity" Value="0" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -742,12 +742,12 @@
                                 </VisualState>
                                 <VisualState x:Name="Unselected">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedPipe.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectedPipe.Opacity" Value="0" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="UnselectedLocked">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedPipe.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectedPipe.Opacity" Value="0" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -777,7 +777,7 @@
                                 </VisualState>
                                 <VisualState x:Name="UnselectedPointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedPipe.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectedPipe.Opacity" Value="0" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -802,7 +802,7 @@
                                 </VisualState>
                                 <VisualState x:Name="UnselectedPressed">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectedPipe.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectedPipe.Opacity" Value="0" />
                                     </VisualState.Setters>
 
                                     <Storyboard>

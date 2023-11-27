@@ -205,12 +205,12 @@ namespace WinGetStore.Controls
 
         public void OnDescriptionChanged()
         {
-            _ = VisualStateManager.GoToState(this, Description == null ? "DescriptionCollapsed" : "DescriptionVisible", false);
+            _ = VisualStateManager.GoToState(this, (Description is string @string ? string.IsNullOrEmpty(@string) : Description == null) ? "DescriptionCollapsed" : "DescriptionVisible", false);
         }
 
         public void OnHeaderChanged()
         {
-            _ = VisualStateManager.GoToState(this, Header == null ? "HeaderCollapsed" : "HeaderVisible", false);
+            _ = VisualStateManager.GoToState(this, (Header is string @string ? string.IsNullOrEmpty(@string) : Header == null) ? "HeaderCollapsed" : "HeaderVisible", false);
         }
     }
 }

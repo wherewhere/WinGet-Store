@@ -135,6 +135,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\AnimateSelectionProvider.cs" />
     <Compile Include="Common\Enumerable.cs" />
     <Compile Include="Common\ExceptionHandling.cs" />
     <Compile Include="Common\SettingsPaneRegister.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Common\ThreadSwitcher.cs" />
     <Compile Include="Helpers\TilesHelper.cs" />
+    <Compile Include="Helpers\TipsRectangleHelper.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />

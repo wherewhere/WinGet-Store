@@ -317,7 +317,7 @@
                             <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
                                 <cwuc:MarkdownTextBlock
                                     HorizontalAlignment="Left"
-                                    Background="Transparent"
+                                    Background="{ThemeResource SystemControlTransparentBrush}"
                                     LinkClicked="MarkdownText_LinkClicked"
                                     LinkForeground="{ThemeResource HyperlinkForeground}"
                                     Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}" />

@@ -490,19 +490,19 @@ namespace WinGetStore.Controls
 
         public void CheckToInstall()
         {
-            if (CatalogPackage.InstalledVersion != null) { return; }
+            if (Progress != null || CatalogPackage.InstalledVersion != null) { return; }
             _ = InstallPackageAsync(CatalogPackage);
         }
 
         public void CheckToUpgrade()
         {
-            if (CatalogPackage.InstalledVersion == null) { return; }
+            if (Progress != null || CatalogPackage.InstalledVersion == null) { return; }
             _ = UpgradePackageAsync(CatalogPackage);
         }
 
         public async void CheckToUninstall()
         {
-            if (CatalogPackage.InstalledVersion == null) { return; }
+            if (Progress != null || CatalogPackage.InstalledVersion == null) { return; }
 
             ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
             ContentDialog dialog = new()

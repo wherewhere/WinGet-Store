@@ -652,7 +652,7 @@
                                 </VisualState>
                                 <VisualState x:Name="PaneNotOverlaying">
                                     <VisualState.Setters>
-                                        <Setter Target="RootSplitView.BorderBrush" Value="Transparent" />
+                                        <Setter Target="RootSplitView.BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
                                         <Setter Target="ShadowCaster.Opacity" Value="0" />
                                         <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
                                     </VisualState.Setters>

@@ -5,6 +5,7 @@
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:deployment="using:Microsoft.Management.Deployment"
+    xmlns:helpers="using:WinGetStore.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
@@ -18,7 +19,12 @@
     Loaded="ContentDialog_Loaded"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-    <Pivot x:Name="Pivot" Padding="0">
+    <Pivot
+        x:Name="Pivot"
+        Padding="0"
+        helpers:TipsRectangleHelper.IndicatorName="SelectedPipe"
+        helpers:TipsRectangleHelper.IsEnable="True"
+        helpers:TipsRectangleHelper.Orientation="Horizontal">
         <Pivot.RightHeader>
             <Button
                 x:Name="Add"
@@ -100,8 +106,8 @@
                 <controls:SettingsGroup>
                     <controls:Setting x:Uid="/FiltersDialog/Value" Icon="&#xE932;">
                         <TextBox
-                            MinWidth="71"
                             x:Uid="/FiltersDialog/ValueTextBox"
+                            MinWidth="71"
                             MaxWidth="{StaticResource SettingCardContentMinWidth}"
                             Text="{x:Bind Provider.Value, Mode=TwoWay}" />
                     </controls:Setting>

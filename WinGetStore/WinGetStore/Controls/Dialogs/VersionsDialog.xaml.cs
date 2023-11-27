@@ -44,21 +44,32 @@ namespace WinGetStore.Controls.Dialogs
             }
         }
 
-        internal static PackageAgreement[] PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => values?.ToArray();
+        private static IEnumerable<T> GetEnumerable<T>(IReadOnlyList<T> values)
+        {
+            if (values != null)
+            {
+                for (int i = 0; i < values.Count; i++)
+                {
+                    yield return values[i];
+                }
+            }
+        }
 
-        internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
+        internal static IEnumerable<PackageAgreement> PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => GetEnumerable(values);
 
-        internal static Documentation[] DocumentationsToArray(IReadOnlyList<Documentation> values) => values?.ToArray();
+        internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
+        internal static IEnumerable<Documentation> DocumentationsToArray(IReadOnlyList<Documentation> values) => GetEnumerable(values);
 
-        internal static Icon[] IconsToArray(IReadOnlyList<Icon> values) => values?.ToArray();
+        internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values?.ToArray().Length);
+        internal static IEnumerable<Icon> IconsToArray(IReadOnlyList<Icon> values) => GetEnumerable(values);
 
-        internal static string[] TagsToArray(IReadOnlyList<string> values) => values?.ToArray();
+        internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values?.ToArray());
+        internal static IEnumerable<string> TagsToArray(IReadOnlyList<string> values) => GetEnumerable(values);
+
+        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, GetEnumerable(values));
 
         private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh(true);
     }
