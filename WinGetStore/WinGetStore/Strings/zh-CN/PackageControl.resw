@@ -132,6 +132,9 @@
   <data name="Cancelled" xml:space="preserve">
     <value>已取消</value>
   </data>
+  <data name="ContextMenuButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>更多</value>
+  </data>
   <data name="Downloading" xml:space="preserve">
     <value>正在下载</value>
   </data>
