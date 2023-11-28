@@ -157,10 +157,10 @@
     <value>篩選器</value>
   </data>
   <data name="FiltersText.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>You have to match at least one selector (if there are no selectors, then nothing is selected)</value>
+    <value>您必須符合至少一個選取項（如果沒有選取項目將不會選取）</value>
   </data>
   <data name="FilterType.PlaceholderText" xml:space="preserve">
-    <value>Filter Type</value>
+    <value>篩選類型</value>
   </data>
   <data name="ForkItem.Text" xml:space="preserve">
     <value>複刻</value>
@@ -169,7 +169,7 @@
     <value>匹配項</value>
   </data>
   <data name="MatchOption.PlaceholderText" xml:space="preserve">
-    <value>Match Option</value>
+    <value>匹配選項</value>
   </data>
   <data name="Option.Description" xml:space="preserve">
     <value>軟體包項匹配選項</value>
@@ -181,16 +181,16 @@
     <value>刷新</value>
   </data>
   <data name="SelectorsText.Text" xml:space="preserve">
-    <value>Selectors</value>
+    <value>選取項</value>
   </data>
   <data name="SelectorsText.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>You have to match all filters (if there are no filters, then there is no filtering of selected items)</value>
+    <value>您必須符合所有過濾項目（如果沒有過濾項目，將不會過濾所選取項目 ）</value>
   </data>
   <data name="Type.Description" xml:space="preserve">
-    <value>The Type of Field</value>
+    <value>The Type of Filter</value>
   </data>
   <data name="Type.Header" xml:space="preserve">
-    <value>Type</value>
+    <value>類型</value>
   </data>
   <data name="Value.Header" xml:space="preserve">
     <value>值</value>
