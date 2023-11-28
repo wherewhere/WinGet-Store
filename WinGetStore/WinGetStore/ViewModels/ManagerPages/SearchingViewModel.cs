@@ -76,11 +76,18 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref matchResults, value);
         }
 
-        private IList<PackageMatchFilter> packageMatchFilters;
-        public IList<PackageMatchFilter> PackageMatchFilters
+        private IList<PackageMatchFilter> selectors = [];
+        public IList<PackageMatchFilter> Selectors
         {
-            get => packageMatchFilters;
-            set => SetProperty(ref packageMatchFilters, value);
+            get => selectors;
+            set => SetProperty(ref selectors, value);
+        }
+
+        private IList<PackageMatchFilter> filters = [];
+        public IList<PackageMatchFilter> Filters
+        {
+            get => filters;
+            set => SetProperty(ref filters, value);
         }
 
 
@@ -212,9 +219,10 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
 
-                if (PackageMatchFilters?.Any() == true)
+                if (selectors?.Any() == true || filters?.Any() == true)
                 {
-                    findPackagesOptions.Filters.AddRange(PackageMatchFilters);
+                    findPackagesOptions.Selectors.AddRange(selectors ?? []);
+                    findPackagesOptions.Filters.AddRange(filters ?? []);
                 }
                 else
                 {
@@ -222,8 +230,8 @@ namespace WinGetStore.ViewModels.ManagerPages
                     filter.Field = PackageMatchField.Id;
                     filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
                     filter.Value = packageId;
-                    findPackagesOptions.Filters.Add(filter);
-                    PackageMatchFilters = findPackagesOptions.Filters.ToArray();
+                    findPackagesOptions.Selectors.Add(filter);
+                    Selectors = findPackagesOptions.Selectors.ToArray();
                 }
 
                 return await catalog.FindPackagesAsync(findPackagesOptions);

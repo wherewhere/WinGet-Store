@@ -24,8 +24,6 @@ namespace WinGetStore.Controls
         private ButtonBase ActionButton;
         private ButtonBase InstallProgressControl;
 
-        private IAsyncInfo Progress;
-
         /// <summary>
         /// Creates a new instance of the <see cref="QRCode"/> class.
         /// </summary>
@@ -54,6 +52,29 @@ namespace WinGetStore.Controls
         {
             get => (FlyoutBase)GetValue(FlyoutProperty);
             set => SetValue(FlyoutProperty, value);
+        }
+
+        #endregion
+
+        #region IsProcessing
+
+        /// <summary>
+        /// Identifies the <see cref="IsProcessing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsProcessingProperty =
+            DependencyProperty.Register(
+                nameof(IsProcessing),
+                typeof(bool),
+                typeof(PackageControl),
+                new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets or sets the IsProcessing.
+        /// </summary>
+        public bool IsProcessing
+        {
+            get => (bool)GetValue(IsProcessingProperty);
+            private set => SetValue(IsProcessingProperty, value);
         }
 
         #endregion
@@ -107,6 +128,20 @@ namespace WinGetStore.Controls
         }
 
         #endregion
+
+        private IAsyncInfo progress;
+        public IAsyncInfo Progress
+        {
+            get => progress;
+            set
+            {
+                if (progress != value)
+                {
+                    progress = value;
+                    _ = this.SetValueAsync(IsProcessingProperty, progress != null);
+                }
+            }
+        }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()

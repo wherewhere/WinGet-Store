@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
+using Windows.UI.Xaml;
+using WinGetStore.Common;
 
 namespace WinGetStore.Helpers
 {
@@ -42,6 +44,12 @@ namespace WinGetStore.Helpers
             }, cancellationToken);
             TResult taskResult = task.Result;
             return taskResult;
+        }
+
+        public static async Task SetValueAsync<T>(this DependencyObject element, DependencyProperty dp, T value)
+        {
+            await element.Dispatcher.ResumeForegroundAsync();
+            element.SetValue(dp, value);
         }
 
         public static bool TryGetUri(this string url, out Uri uri)

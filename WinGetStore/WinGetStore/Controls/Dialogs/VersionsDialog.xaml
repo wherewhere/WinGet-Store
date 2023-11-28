@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:WinGetStore.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:local="using:WinGetStore.Controls.Dialogs"
@@ -17,6 +18,10 @@
     Loaded="ContentDialog_Loaded"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
+    </ContentDialog.Resources>
     <Grid>
         <muxc:RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
             <ListView
@@ -44,51 +49,56 @@
                                             ActionIcon="&#xE8A7;"
                                             Click="HyperlinkButton_Click"
                                             Header="{x:Bind Label}"
-                                            IsClickEnabled="True"
+                                            IsClickEnabled="{x:Bind Url, Converter={StaticResource StringToBoolConverter}}"
                                             Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                             Tag="{x:Bind Url}">
                                             <controls:Setting.Description>
                                                 <TextBlock
                                                     IsTextSelectionEnabled="True"
                                                     Text="{x:Bind Text}"
-                                                    ToolTipService.ToolTip="{x:Bind Url}" />
+                                                    ToolTipService.ToolTip="{x:Bind Url}"
+                                                    Visibility="{x:Bind Text, Converter={StaticResource StringVisibilityConverter}}" />
                                             </controls:Setting.Description>
                                         </controls:Setting>
                                     </DataTemplate>
                                 </controls:SettingExpander.ItemTemplate>
                             </controls:SettingExpander>
                             <controls:Setting
+                                x:Name="Author"
                                 x:Uid="/VersionsDialog/Author"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.Author, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.Author, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Author}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="Copyright"
                                 x:Uid="/VersionsDialog/Copyright"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.Copyright, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.Copyright, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Copyright}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="CopyrightUrl"
                                 x:Uid="/VersionsDialog/CopyrightUrl"
+                                x:Load="{x:Bind PackageMetadata.CopyrightUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.CopyrightUrl}"
-                                Visibility="{x:Bind PackageMetadata.CopyrightUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.CopyrightUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.CopyrightUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="Description"
                                 x:Uid="/VersionsDialog/Description"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.Description, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.Description, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Description}" />
                                 </controls:Setting.Description>
@@ -106,11 +116,14 @@
                                             ActionIcon="&#xE8A7;"
                                             Click="HyperlinkButton_Click"
                                             Header="{x:Bind DocumentLabel}"
-                                            IsClickEnabled="True"
+                                            IsClickEnabled="{x:Bind DocumentUrl, Converter={StaticResource StringToBoolConverter}}"
                                             Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                             Tag="{x:Bind DocumentUrl}">
                                             <controls:Setting.Description>
-                                                <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind DocumentUrl}" />
+                                                <TextBlock
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind DocumentUrl}"
+                                                    Visibility="{x:Bind DocumentUrl, Converter={StaticResource StringVisibilityConverter}}" />
                                             </controls:Setting.Description>
                                         </controls:Setting>
                                     </DataTemplate>
@@ -129,7 +142,7 @@
                                             ActionIcon="&#xE8A7;"
                                             Click="HyperlinkButton_Click"
                                             Header="{x:Bind FileType}"
-                                            IsClickEnabled="True"
+                                            IsClickEnabled="{x:Bind Url, Converter={StaticResource StringToBoolConverter}}"
                                             Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                             Tag="{x:Bind Url}">
                                             <controls:Setting.Description>
@@ -144,141 +157,155 @@
                                 </controls:SettingExpander.ItemTemplate>
                             </controls:SettingExpander>
                             <controls:Setting
+                                x:Name="InstallationNotes"
                                 x:Uid="/VersionsDialog/InstallationNotes"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.InstallationNotes, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.InstallationNotes, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.InstallationNotes}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="License"
                                 x:Uid="/VersionsDialog/License"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.License, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.License, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.License}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="LicenseUrl"
                                 x:Uid="/VersionsDialog/LicenseUrl"
+                                x:Load="{x:Bind PackageMetadata.LicenseUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.LicenseUrl}"
-                                Visibility="{x:Bind PackageMetadata.LicenseUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.LicenseUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.LicenseUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="Locale"
                                 x:Uid="/VersionsDialog/Locale"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.Locale, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.Locale, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Locale}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PackageName"
                                 x:Uid="/VersionsDialog/PackageName"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.PackageName, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.PackageName, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PackageName}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PackageUrl"
                                 x:Uid="/VersionsDialog/PackageUrl"
+                                x:Load="{x:Bind PackageMetadata.PackageUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.PackageUrl}"
-                                Visibility="{x:Bind PackageMetadata.PackageUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.PackageUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PackageUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PrivacyUrl"
                                 x:Uid="/VersionsDialog/PrivacyUrl"
+                                x:Load="{x:Bind PackageMetadata.PrivacyUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.PrivacyUrl}"
-                                Visibility="{x:Bind PackageMetadata.PrivacyUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.PrivacyUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PrivacyUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="Publisher"
                                 x:Uid="/VersionsDialog/Publisher"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.Publisher, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.Publisher, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Publisher}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PublisherSupportUrl"
                                 x:Uid="/VersionsDialog/PublisherSupportUrl"
+                                x:Load="{x:Bind PackageMetadata.PublisherSupportUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.PublisherSupportUrl}"
-                                Visibility="{x:Bind PackageMetadata.PublisherSupportUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.PublisherSupportUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PublisherSupportUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PublisherUrl"
                                 x:Uid="/VersionsDialog/PublisherUrl"
+                                x:Load="{x:Bind PackageMetadata.PublisherUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.PublisherUrl}"
-                                Visibility="{x:Bind PackageMetadata.PublisherUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.PublisherUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PublisherUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="PurchaseUrl"
                                 x:Uid="/VersionsDialog/PurchaseUrl"
+                                x:Load="{x:Bind PackageMetadata.PurchaseUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.PurchaseUrl}"
-                                Visibility="{x:Bind PackageMetadata.PurchaseUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.PurchaseUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PurchaseUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="ReleaseNotes"
                                 x:Uid="/VersionsDialog/ReleaseNotes"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.ReleaseNotes, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.ReleaseNotes, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ReleaseNotes}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="ReleaseNotesUrl"
                                 x:Uid="/VersionsDialog/ReleaseNotesUrl"
+                                x:Load="{x:Bind PackageMetadata.ReleaseNotesUrl, Converter={StaticResource StringToBoolConverter}}"
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 IsClickEnabled="True"
                                 Style="{StaticResource ClickableSettingExpanderItemStyle}"
-                                Tag="{x:Bind PackageMetadata.ReleaseNotesUrl}"
-                                Visibility="{x:Bind PackageMetadata.ReleaseNotesUrl, Converter={StaticResource StringVisibilityConverter}}">
+                                Tag="{x:Bind PackageMetadata.ReleaseNotesUrl}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ReleaseNotesUrl}" />
                                 </controls:Setting.Description>
                             </controls:Setting>
                             <controls:Setting
+                                x:Name="ShortDescription"
                                 x:Uid="/VersionsDialog/ShortDescription"
-                                Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                                Visibility="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringVisibilityConverter}}">
+                                x:Load="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringToBoolConverter}}"
+                                Style="{StaticResource DefaultSettingExpanderItemStyle}">
                                 <controls:Setting.Description>
                                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ShortDescription}" />
                                 </controls:Setting.Description>

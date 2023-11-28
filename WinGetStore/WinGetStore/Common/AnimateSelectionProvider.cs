@@ -106,7 +106,7 @@ namespace WinGetStore.Common
         {
             if (sender is ListViewBase listView)
             {
-                if (listView.SelectionMode == ListViewSelectionMode.None || listView.SelectionMode == ListViewSelectionMode.Multiple)
+                if (listView.SelectionMode is ListViewSelectionMode.None or ListViewSelectionMode.Multiple)
                 {
                     return;
                 }
@@ -124,7 +124,7 @@ namespace WinGetStore.Common
                 m_activeIndicator = FindSelectionIndicator(e.RemovedItems.FirstOrDefault());
             }
 
-            if (!e.AddedItems.Any() && ItemsControls.Count() > 1 && ItemsControls.Any(x => x is Selector selector && selector.SelectedItem != null || x is Pivot pivot && pivot.SelectedItem != null))
+            if (!e.AddedItems.Any() && ItemsControls.Count() > 1 && ItemsControls.Any(x => (x is Selector selector && selector.SelectedItem != null) || (x is Pivot pivot && pivot.SelectedItem != null)))
             {
                 return;
             }
@@ -342,13 +342,13 @@ namespace WinGetStore.Common
             }
 
             ScalarKeyFrameAnimation posAnim = comp.CreateScalarKeyFrameAnimation();
-            posAnim.InsertKeyFrame(0.0f, (float)(from < to ? from : from + dimension * (beginScale - 1)));
-            posAnim.InsertKeyFrame(0.333f, (float)(from < to ? to + dimension * (endScale - 1) : to), singleStep);
+            posAnim.InsertKeyFrame(0.0f, (float)(from < to ? from : from + (dimension * (beginScale - 1))));
+            posAnim.InsertKeyFrame(0.333f, (float)(from < to ? to + (dimension * (endScale - 1)) : to), singleStep);
             posAnim.Duration = TimeSpan.FromMilliseconds(600);
 
             ScalarKeyFrameAnimation scaleAnim = comp.CreateScalarKeyFrameAnimation();
             scaleAnim.InsertKeyFrame(0.0f, (float)beginScale);
-            scaleAnim.InsertKeyFrame(0.333f, (float)(Math.Abs(to - from) / dimension + (from < to ? endScale : beginScale)), comp.CreateCubicBezierEasingFunction(c_frame1point1, c_frame1point2));
+            scaleAnim.InsertKeyFrame(0.333f, (float)((Math.Abs(to - from) / dimension) + (from < to ? endScale : beginScale)), comp.CreateCubicBezierEasingFunction(c_frame1point1, c_frame1point2));
             scaleAnim.InsertKeyFrame(1.0f, (float)endScale, comp.CreateCubicBezierEasingFunction(c_frame2point1, c_frame2point2));
             scaleAnim.Duration = TimeSpan.FromMilliseconds(600);
 

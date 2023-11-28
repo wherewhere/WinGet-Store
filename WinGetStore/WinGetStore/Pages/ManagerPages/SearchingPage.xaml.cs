@@ -60,11 +60,12 @@ namespace WinGetStore.Pages.ManagerPages
             switch (element.Name)
             {
                 case nameof(Filters):
-                    FiltersDialog dialog = new(new(Provider.PackageMatchFilters));
+                    FiltersDialog dialog = new(new(Provider.Selectors, Provider.Filters));
                     ContentDialogResult result = await dialog.ShowAsync();
                     if (result == ContentDialogResult.Primary)
                     {
-                        Provider.PackageMatchFilters = dialog.PackageMatchFilters;
+                        Provider.Selectors = dialog.Selectors;
+                        Provider.Filters = dialog.Filters;
                         _ = Provider.Refresh();
                     }
                     break;
@@ -93,6 +94,9 @@ namespace WinGetStore.Pages.ManagerPages
                     break;
                 case "Uninstall":
                     (element.Tag as PackageControl).CheckToUninstall();
+                    break;
+                case "Cancel":
+                    (element.Tag as PackageControl).Progress?.Cancel();
                     break;
                 case "Share":
                     DataPackage dataPackage = new();

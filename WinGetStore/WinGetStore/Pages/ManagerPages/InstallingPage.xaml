@@ -41,6 +41,7 @@
                                         x:Name="Upgrade"
                                         x:Uid="/MainPage/Upgrade"
                                         Click="MenuFlyoutItem_Click"
+                                        IsEnabled="{Binding IsProcessing, ElementName=PackageControl, Converter={StaticResource BoolNegationConverter}}"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind DefaultInstallVersion.Version, FallbackValue='null'}"
                                         Visibility="{Binding CatalogPackage.IsUpdateAvailable, ElementName=PackageControl, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -52,6 +53,7 @@
                                         x:Name="Install"
                                         x:Uid="/MainPage/Install"
                                         Click="MenuFlyoutItem_Click"
+                                        IsEnabled="{Binding IsProcessing, ElementName=PackageControl, Converter={StaticResource BoolNegationConverter}}"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind DefaultInstallVersion.Version, FallbackValue='null'}"
                                         Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}, ConverterParameter='true'}">
@@ -63,11 +65,22 @@
                                         x:Name="Uninstall"
                                         x:Uid="/MainPage/Uninstall"
                                         Click="MenuFlyoutItem_Click"
+                                        IsEnabled="{Binding IsProcessing, ElementName=PackageControl, Converter={StaticResource BoolNegationConverter}}"
                                         Tag="{Binding ElementName=PackageControl}"
                                         ToolTipService.ToolTip="{x:Bind InstalledVersion.Version, FallbackValue='null'}"
                                         Visibility="{Binding CatalogPackage.InstalledVersion, ElementName=PackageControl, Converter={StaticResource ObjectToBoolConverter}}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="Cancel"
+                                        x:Uid="/MainPage/Cancel"
+                                        Click="MenuFlyoutItem_Click"
+                                        Tag="{Binding ElementName=PackageControl}"
+                                        Visibility="{Binding IsProcessing, ElementName=PackageControl}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE711;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutItem
