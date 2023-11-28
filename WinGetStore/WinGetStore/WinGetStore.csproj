@@ -140,6 +140,9 @@
     <Compile Include="Common\ExceptionHandling.cs" />
     <Compile Include="Common\SettingsPaneRegister.cs" />
     <Compile Include="Common\WeakEvent.cs" />
+    <Compile Include="Controls\DataTemplates\PackageDataTemplates.xaml.cs">
+      <DependentUpon>PackageDataTemplates.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\FiltersDialog.xaml.cs">
       <DependentUpon>FiltersDialog.xaml</DependentUpon>
     </Compile>
@@ -287,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\DataTemplates\PackageDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\FiltersDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -450,6 +457,7 @@
     <PRIResource Include="Strings\zh-TW\SettingsPane.resw" />
     <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
