@@ -204,4 +204,7 @@
   <data name="NotInstalled" xml:space="preserve">
     <value>未安装</value>
   </data>
+  <data name="Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>
