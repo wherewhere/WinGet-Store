@@ -187,7 +187,7 @@
     <value>您必須符合所有過濾項目（如果沒有過濾項目，將不會過濾所選取項目 ）</value>
   </data>
   <data name="Type.Description" xml:space="preserve">
-    <value>The Type of Filter</value>
+    <value>篩選器類型</value>
   </data>
   <data name="Type.Header" xml:space="preserve">
     <value>類型</value>
