@@ -1,5 +1,11 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
+using Windows.ApplicationModel.Search;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
@@ -8,41 +14,61 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using WinGetStore.Controls;
 using WinGetStore.Helpers;
+using WinGetStore.Pages;
+using WinGetStore.Pages.ManagerPages;
+using WinGetStore.ViewModels.ManagerPages;
 
 namespace WinGetStore.Common
 {
-    public class SettingsPaneRegister
+    public static class SettingsPaneRegister
     {
-        private CoreDispatcher dispatcher;
+        public static bool IsSearchPaneSupported { get; } = ApiInformation.IsTypePresent("Windows.ApplicationModel.Search.SearchPane") && CheckSearchExtension();
+        public static bool IsSettingsPaneSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane");
 
-        public SettingsPaneRegister(Window window)
+        public static void Register(Window window)
         {
-            dispatcher = window.Dispatcher;
-
-            if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
+            if (IsSearchPaneSupported)
             {
-                SettingsPane settingsPane = SettingsPane.GetForCurrentView();
-                settingsPane.CommandsRequested -= OnCommandsRequested;
-                settingsPane.CommandsRequested += OnCommandsRequested;
-                dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-                dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                SearchPane searchPane = SearchPane.GetForCurrentView();
+                searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
+                searchPane.QuerySubmitted += SearchPane_QuerySubmitted;
+            }
+
+            if (IsSettingsPaneSupported)
+            {
+                SettingsPane searchPane = SettingsPane.GetForCurrentView();
+                searchPane.CommandsRequested -= OnCommandsRequested;
+                searchPane.CommandsRequested += OnCommandsRequested;
+                window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             }
         }
 
-        public static SettingsPaneRegister Register(Window window) => new(window);
-
-        public void Unregister()
+        public static void Unregister(Window window)
         {
-            if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
+            if (IsSearchPaneSupported)
+            {
+                SearchPane searchPane = SearchPane.GetForCurrentView();
+                searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
+            }
+
+            if (IsSettingsPaneSupported)
             {
                 SettingsPane.GetForCurrentView().CommandsRequested -= OnCommandsRequested;
-                dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             }
-
-            dispatcher = null;
         }
 
-        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        private static void SearchPane_QuerySubmitted(SearchPane sender, SearchPaneQuerySubmittedEventArgs args)
+        {
+            if (args.QueryText is string keyWord && !string.IsNullOrEmpty(keyWord))
+            {
+                MainPage page = Window.Current?.Content?.FindDescendant<MainPage>();
+                _ = page.NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(keyWord));
+            }
+        }
+
+        private static void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
             ResourceLoader loader = ResourceLoader.GetForViewIndependentUse("SettingsPane");
             args.Request.ApplicationCommands.Add(
@@ -72,9 +98,9 @@ namespace WinGetStore.Common
                     (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite"))));
         }
 
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        private static void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
-            if (args.EventType.ToString().Contains("Down"))
+            if (args.EventType.HasFlag(CoreAcceleratorKeyEventType.KeyDown) || args.EventType.HasFlag(CoreAcceleratorKeyEventType.SystemKeyUp))
             {
                 CoreVirtualKeyStates ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
                 if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
@@ -84,14 +110,37 @@ namespace WinGetStore.Common
                     {
                         switch (args.VirtualKey)
                         {
-                            case VirtualKey.X:
+                            case VirtualKey.X when IsSettingsPaneSupported:
                                 SettingsPane.Show();
+                                args.Handled = true;
+                                break;
+                            case VirtualKey.Q when IsSearchPaneSupported:
+                                SearchPane.GetForCurrentView().Show();
                                 args.Handled = true;
                                 break;
                         }
                     }
                 }
             }
+        }
+
+        private static bool CheckSearchExtension()
+        {
+            XDocument doc = XDocument.Load(Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml"));
+            XNamespace ns = XNamespace.Get("http://schemas.microsoft.com/appx/manifest/uap/windows10");
+            IEnumerable<XElement> extensions = doc.Root.Descendants(ns + "Extension");
+            if (extensions != null)
+            {
+                foreach (XElement extension in extensions)
+                {
+                    XAttribute category = extension.Attribute("Category");
+                    if (category != null && category.Value == "windows.search")
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

@@ -5,6 +5,7 @@
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:deployment="using:Microsoft.Management.Deployment"
+    xmlns:helpers="using:WinGetStore.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
@@ -18,7 +19,12 @@
     Loaded="ContentDialog_Loaded"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-    <Pivot x:Name="Pivot" Padding="0">
+    <Pivot
+        x:Name="Pivot"
+        Padding="0"
+        helpers:TipsRectangleHelper.IndicatorName="SelectedPipe"
+        helpers:TipsRectangleHelper.IsEnable="True"
+        helpers:TipsRectangleHelper.Orientation="Horizontal">
         <Pivot.RightHeader>
             <Button
                 x:Name="Add"
@@ -37,59 +43,131 @@
                 HorizontalScrollMode="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Auto">
-                <controls:SettingsGroup ItemsSource="{x:Bind Provider.PackageMatchFilters, Mode=OneWay}">
-                    <controls:SettingsGroup.ItemTemplate>
-                        <DataTemplate x:DataType="deployment:PackageMatchFilter">
-                            <controls:Setting
-                                Header="{x:Bind Value}"
-                                Icon="&#xE8FD;"
-                                WrapNoIconThreshold="0"
-                                WrapThreshold="0">
-                                <controls:Setting.Description>
-                                    <TextBlock>
-                                        <Run Text="{x:Bind Field}" />
-                                        <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text=" • " />
-                                        <Run Text="{x:Bind Option}" />
-                                    </TextBlock>
-                                </controls:Setting.Description>
-                                <controls:Setting.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            x:Name="ForkItem"
-                                            x:Uid="/FiltersDialog/ForkItem"
-                                            Click="MenuFlyoutItem_Click"
-                                            Tag="{x:Bind}">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C8;" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem
-                                            x:Name="DeleteItem"
-                                            x:Uid="/FiltersDialog/DeleteItem"
-                                            Click="Button_Click"
-                                            Tag="{x:Bind}">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </controls:Setting.ContextFlyout>
-                                <Button
-                                    x:Name="Delete"
-                                    x:Uid="/FiltersDialog/Delete"
-                                    Width="32"
-                                    Height="32"
-                                    Padding="0"
-                                    Background="{ThemeResource SystemControlTransparentBrush}"
-                                    BorderThickness="0"
-                                    Click="Button_Click"
-                                    Content="&#xE74D;"
-                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                    Tag="{x:Bind}" />
-                            </controls:Setting>
-                        </DataTemplate>
-                    </controls:SettingsGroup.ItemTemplate>
-                </controls:SettingsGroup>
+                <StackPanel>
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <ReorderThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
+                    <controls:SettingsGroup
+                        x:Name="SelectorsGroup"
+                        Margin="0,-20,0,0"
+                        ItemsSource="{x:Bind Provider.Selectors, Mode=OneWay}">
+                        <controls:SettingsGroup.Header>
+                            <TextBlock x:Uid="/FiltersDialog/SelectorsText" />
+                        </controls:SettingsGroup.Header>
+                        <controls:SettingsGroup.ItemTemplate>
+                            <DataTemplate x:DataType="deployment:PackageMatchFilter">
+                                <controls:Setting
+                                    Header="{x:Bind Value}"
+                                    Icon="&#xE8FD;"
+                                    WrapNoIconThreshold="0"
+                                    WrapThreshold="0">
+                                    <controls:Setting.Description>
+                                        <TextBlock>
+                                            <Run Text="{x:Bind Field}" />
+                                            <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text=" • " />
+                                            <Run Text="{x:Bind Option}" />
+                                        </TextBlock>
+                                    </controls:Setting.Description>
+                                    <controls:Setting.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                x:Name="ForkItem"
+                                                x:Uid="/FiltersDialog/ForkItem"
+                                                Click="SelectorsButton_Click"
+                                                Tag="{x:Bind}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C8;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Name="DeleteItem"
+                                                x:Uid="/FiltersDialog/DeleteItem"
+                                                Click="SelectorsButton_Click"
+                                                Tag="{x:Bind}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </controls:Setting.ContextFlyout>
+                                    <Button
+                                        x:Name="Delete"
+                                        x:Uid="/FiltersDialog/Delete"
+                                        Width="32"
+                                        Height="32"
+                                        Padding="0"
+                                        Background="{ThemeResource SystemControlTransparentBrush}"
+                                        BorderThickness="0"
+                                        Click="SelectorsButton_Click"
+                                        Content="&#xE74D;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        Tag="{x:Bind}" />
+                                </controls:Setting>
+                            </DataTemplate>
+                        </controls:SettingsGroup.ItemTemplate>
+                    </controls:SettingsGroup>
+                    <controls:SettingsGroup
+                        x:Name="FiltersGroup"
+                        Margin="0,-20,0,0"
+                        ItemsSource="{x:Bind Provider.Filters, Mode=OneWay}">
+                        <controls:SettingsGroup.Header>
+                            <TextBlock x:Uid="/FiltersDialog/FiltersText" />
+                        </controls:SettingsGroup.Header>
+                        <controls:SettingsGroup.ItemTemplate>
+                            <DataTemplate x:DataType="deployment:PackageMatchFilter">
+                                <controls:Setting
+                                    Header="{x:Bind Value}"
+                                    Icon="&#xE8FD;"
+                                    WrapNoIconThreshold="0"
+                                    WrapThreshold="0">
+                                    <controls:Setting.Description>
+                                        <TextBlock>
+                                            <Run Text="{x:Bind Field}" />
+                                            <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text=" • " />
+                                            <Run Text="{x:Bind Option}" />
+                                        </TextBlock>
+                                    </controls:Setting.Description>
+                                    <controls:Setting.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                x:Name="ForkItem"
+                                                x:Uid="/FiltersDialog/ForkItem"
+                                                Click="FiltersButton_Click"
+                                                Tag="{x:Bind}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C8;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Name="DeleteItem"
+                                                x:Uid="/FiltersDialog/DeleteItem"
+                                                Click="FiltersButton_Click"
+                                                Tag="{x:Bind}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </controls:Setting.ContextFlyout>
+                                    <Button
+                                        x:Name="Delete"
+                                        x:Uid="/FiltersDialog/Delete"
+                                        Width="32"
+                                        Height="32"
+                                        Padding="0"
+                                        Background="{ThemeResource SystemControlTransparentBrush}"
+                                        BorderThickness="0"
+                                        Click="FiltersButton_Click"
+                                        Content="&#xE74D;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        Tag="{x:Bind}" />
+                                </controls:Setting>
+                            </DataTemplate>
+                        </controls:SettingsGroup.ItemTemplate>
+                    </controls:SettingsGroup>
+                </StackPanel>
             </ScrollViewer>
         </PivotItem>
         <PivotItem x:Uid="/FiltersDialog/AddItem">
@@ -98,10 +176,16 @@
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Auto">
                 <controls:SettingsGroup>
+                    <controls:Setting x:Uid="/FiltersDialog/Type" Icon="&#xE97C;">
+                        <ComboBox
+                            x:Uid="/FiltersDialog/FilterType"
+                            ItemsSource="{ui:EnumValues Type=viewmodels:FilterType}"
+                            SelectedItem="{x:Bind Provider.FilterType, Mode=TwoWay}" />
+                    </controls:Setting>
                     <controls:Setting x:Uid="/FiltersDialog/Value" Icon="&#xE932;">
                         <TextBox
-                            MinWidth="71"
                             x:Uid="/FiltersDialog/ValueTextBox"
+                            MinWidth="71"
                             MaxWidth="{StaticResource SettingCardContentMinWidth}"
                             Text="{x:Bind Provider.Value, Mode=TwoWay}" />
                     </controls:Setting>
@@ -113,8 +197,8 @@
                     </controls:Setting>
                     <controls:Setting x:Uid="/FiltersDialog/Option" Icon="&#xE933;">
                         <ComboBox
+                            x:Uid="/FiltersDialog/MatchOption"
                             ItemsSource="{ui:EnumValues Type=deployment:PackageFieldMatchOption}"
-                            PlaceholderText="Match Option"
                             SelectedItem="{x:Bind Provider.Option, Mode=TwoWay}" />
                     </controls:Setting>
                 </controls:SettingsGroup>

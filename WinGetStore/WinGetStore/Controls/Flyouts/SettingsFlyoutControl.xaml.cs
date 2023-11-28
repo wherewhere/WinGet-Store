@@ -1,9 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
-using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -18,8 +16,6 @@ namespace WinGetStore.Controls
 {
     public sealed partial class SettingsFlyoutControl : SettingsFlyout
     {
-        private Action<bool> UISettingChanged;
-
         #region Provider
 
         /// <summary>
@@ -52,55 +48,18 @@ namespace WinGetStore.Controls
 
         private void SettingsFlyout_Loaded(object sender, RoutedEventArgs e)
         {
-            UISettingChanged = (x) => RequestedTheme = x ? ElementTheme.Dark : ElementTheme.Light;
             if (Provider == null)
             {
                 DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
                 Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
             }
-            ThemeHelper.UISettingChanged.Add(UISettingChanged);
+            ThemeHelper.UISettingChanged.Add(OnUISettingChanged);
             _ = Refresh();
         }
 
-        private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e)
-        {
-            ThemeHelper.UISettingChanged.Remove(UISettingChanged);
-        }
+        private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e) => ThemeHelper.UISettingChanged.Remove(OnUISettingChanged);
 
-        private void ComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is not ComboBox ComboBox) { return; }
-            switch (ComboBox.Tag?.ToString())
-            {
-                case "Language":
-                    string lang = SettingsHelper.Get<string>(SettingsHelper.CurrentLanguage);
-                    lang = lang == LanguageHelper.AutoLanguageCode ? LanguageHelper.GetCurrentLanguage() : lang;
-                    CultureInfo culture = new(lang);
-                    ComboBox.SelectedItem = culture;
-                    break;
-            }
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is not ComboBox ComboBox) { return; }
-            switch (ComboBox.Tag?.ToString())
-            {
-                case "Language":
-                    CultureInfo culture = ComboBox.SelectedItem as CultureInfo;
-                    if (culture.Name != LanguageHelper.GetCurrentLanguage())
-                    {
-                        ApplicationLanguages.PrimaryLanguageOverride = culture.Name;
-                        SettingsHelper.Set(SettingsHelper.CurrentLanguage, culture.Name);
-                    }
-                    else
-                    {
-                        ApplicationLanguages.PrimaryLanguageOverride = string.Empty;
-                        SettingsHelper.Set(SettingsHelper.CurrentLanguage, LanguageHelper.AutoLanguageCode);
-                    }
-                    break;
-            }
-        }
+        private void OnUISettingChanged(bool mode) => RequestedTheme = mode ? ElementTheme.Dark : ElementTheme.Light;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

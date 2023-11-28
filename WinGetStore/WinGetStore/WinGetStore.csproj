@@ -135,10 +135,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\AnimateSelectionProvider.cs" />
     <Compile Include="Common\Enumerable.cs" />
     <Compile Include="Common\ExceptionHandling.cs" />
     <Compile Include="Common\SettingsPaneRegister.cs" />
     <Compile Include="Common\WeakEvent.cs" />
+    <Compile Include="Controls\DataTemplates\PackageDataTemplates.xaml.cs">
+      <DependentUpon>PackageDataTemplates.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\FiltersDialog.xaml.cs">
       <DependentUpon>FiltersDialog.xaml</DependentUpon>
     </Compile>
@@ -162,6 +166,7 @@
     <Compile Include="Controls\Slot.cs" />
     <Compile Include="Controls\StackPanelEx.cs" />
     <Compile Include="Helpers\AttributesHelper.cs" />
+    <Compile Include="Helpers\Converters\CollectionToBoolConverter.cs" />
     <Compile Include="Helpers\Converters\ConverterTools.cs" />
     <Compile Include="Helpers\Converters\ObjectToBoolConverter.cs" />
     <Compile Include="Helpers\Converters\StringToBoolConverter.cs" />
@@ -170,6 +175,8 @@
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Common\ThreadSwitcher.cs" />
+    <Compile Include="Helpers\TilesHelper.cs" />
+    <Compile Include="Helpers\TipsRectangleHelper.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Helpers\WindowHelper.cs" />
@@ -209,6 +216,11 @@
     <Content Include="Assets\About\About.en-US.md" />
     <Content Include="Assets\About\About.zh-CN.md" />
     <Content Include="Assets\About\About.zh-TW.md" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -278,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\DataTemplates\PackageDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\FiltersDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -386,6 +402,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>7.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown">
       <Version>7.1.3</Version>
     </PackageReference>
@@ -397,10 +416,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Management.Configuration, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WinMD\Microsoft.Management.Configuration.winmd</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Management.Deployment">
       <HintPath>..\..\WinMD\Microsoft.Management.Deployment.winmd</HintPath>
     </Reference>
@@ -442,6 +457,7 @@
     <PRIResource Include="Strings\zh-TW\SettingsPane.resw" />
     <PRIResource Include="Strings\zh-TW\VersionsDialog.resw" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

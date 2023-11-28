@@ -10,7 +10,7 @@ namespace WinGetStore.Helpers
 {
     public static class PackageHelper
     {
-        public static async Task<IEnumerable<Package>> FindPackagesByName(string PackageName)
+        public static async Task<IEnumerable<Package>> FindPackagesByNameAsync(string PackageName)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             PackageManager manager = new();
@@ -18,16 +18,16 @@ namespace WinGetStore.Helpers
             {
                 IEnumerable<Package> packages = manager.FindPackagesForUser("");
                 IEnumerable<Package> results = packages?.Where((x) => x.Id.FamilyName.StartsWith(PackageName));
-                return results ?? Array.Empty<Package>();
+                return results ?? System.Linq.Enumerable.Empty<Package>();
             }
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
-                return Array.Empty<Package>();
+                return System.Linq.Enumerable.Empty<Package>();
             }
         }
 
-        public static async Task<Package> FindPackagesByFamilyName(string PackageFamilyName)
+        public static async Task<Package> FindPackagesByFamilyNameAsync(string PackageFamilyName)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             PackageManager manager = new();

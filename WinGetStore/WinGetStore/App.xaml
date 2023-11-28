@@ -4,13 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:WinGetStore.Helpers.Converters"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:templates="using:WinGetStore.Controls.DataTemplates">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <muxc:XamlControlsResources />
                 <!--  Add resource dictionaries here  -->
                 <ResourceDictionary Source="ms-appx:///Themes/CustomStyles.xaml" />
+                <templates:PackageDataTemplates />
             </ResourceDictionary.MergedDictionaries>
             <!--  Add resources here  -->
 
@@ -22,14 +24,9 @@
 
             <FontFamily x:Key="SymbolThemeFontFamily">Segoe Fluent Icons,Segoe MDL2 Assets,Segoe UI Symbol</FontFamily>
 
-            <converter:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
             <converter:StringToBoolConverter x:Key="StringToBoolConverter" />
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <converters:StringFormatConverter x:Key="StringFormatConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
-            <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

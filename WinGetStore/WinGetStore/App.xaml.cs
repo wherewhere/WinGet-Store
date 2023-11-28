@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.Security.Authorization.AppCapabilityAccess;
@@ -48,7 +52,8 @@ namespace WinGetStore
             if (!isLoaded)
             {
                 RegisterExceptionHandlingSynchronizationContext();
-                RequestPackageManagement();
+                _ = RequestPackageManagementAsync();
+                _ = RegisterBackgroundTaskAsync();
                 CheckWinGetDev();
                 isLoaded = true;
             }
@@ -131,7 +136,7 @@ namespace WinGetStore
             }
         }
 
-        private async void RequestPackageManagement()
+        private async Task RequestPackageManagementAsync()
         {
             if (ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability"))
             {
@@ -175,6 +180,74 @@ namespace WinGetStore
         {
             SettingsHelper.LogManager.GetLogger("Unhandled Exception - SynchronizationContext").Error(e.Exception.ExceptionToMessage(), e.Exception);
             e.Handled = true;
+        }
+
+        private static async Task RegisterBackgroundTaskAsync()
+        {
+            if (!WinGetProjectionFactory.IsWinGetInstalled && !WinGetProjectionFactory.IsWinGetDevInstalled)
+            { return; }
+
+            // Check for background access (optional)
+            BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
+
+            if (status is not BackgroundAccessStatus.Unspecified
+                and not BackgroundAccessStatus.Denied
+                and not BackgroundAccessStatus.DeniedByUser)
+            {
+                RegisterLiveTileTask();
+            }
+
+            #region LiveTileTask
+
+            const string LiveTileTask = "LiveTileTask";
+
+            static void RegisterLiveTileTask()
+            {
+                uint time = SettingsHelper.Get<uint>(SettingsHelper.TileUpdateTime);
+                if (time < 15)
+                {
+                    UnregisterLiveTileTask();
+                    return;
+                }
+
+                // If background task is already registered, do nothing
+                if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(LiveTileTask)))
+                { return; }
+
+                // Register (Single Process)
+                BackgroundTaskRegistration _LiveTileTask = BackgroundTaskHelper.Register(LiveTileTask, new TimeTrigger(time, false), true);
+            }
+
+            static void UnregisterLiveTileTask()
+            {
+                // If background task is not registered, do nothing
+                if (!BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(LiveTileTask)))
+                { return; }
+
+                // Unregister (Single Process)
+                BackgroundTaskHelper.Unregister(LiveTileTask);
+            }
+
+            #endregion
+        }
+
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case "LiveTileTask":
+                    await TilesHelper.UpdateAvailablePackageAsync();
+                    break;
+
+                default:
+                    break;
+            }
+
+            deferral.Complete();
         }
 
         private bool isLoaded;

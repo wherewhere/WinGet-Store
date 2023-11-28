@@ -299,6 +299,7 @@
                             </Grid>
                             <Button
                                 x:Name="ContextMenuButton"
+                                x:Uid="/PackageControl/ContextMenuButton"
                                 Grid.Column="4"
                                 Width="32"
                                 Height="32"
@@ -309,8 +310,7 @@
                                 Content="&#xE712;"
                                 Flyout="{TemplateBinding Flyout}"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                FontSize="20"
-                                ToolTipService.ToolTip="More" />
+                                FontSize="20" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="OrientationStates">
                                     <VisualState x:Name="Horizontal" />

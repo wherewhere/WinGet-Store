@@ -55,11 +55,7 @@
                             </ComboBox>
                         </controls:Setting>
                         <controls:Setting x:Uid="/SettingsPage/LanguageSettings" Icon="&#xF2B7;">
-                            <ComboBox
-                                ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}"
-                                Loaded="ComboBox_Loaded"
-                                SelectionChanged="ComboBox_SelectionChanged"
-                                Tag="Language">
+                            <ComboBox ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}" SelectedItem="{x:Bind Provider.CurrentLanguage, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="globalization:CultureInfo">
                                         <TextBlock>
@@ -68,6 +64,16 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+                        </controls:Setting>
+                        <controls:Setting x:Uid="/SettingsPage/TileUpdateTimeSettings" Icon="&#xEA79;">
+                            <Slider
+                                Width="{StaticResource SettingCardContentMinWidth}"
+                                Maximum="1440"
+                                Minimum="0"
+                                StepFrequency="15"
+                                TickFrequency="15"
+                                TickPlacement="Outside"
+                                Value="{x:Bind Provider.TileUpdateTime, Mode=TwoWay}" />
                         </controls:Setting>
                     </controls:SettingsGroup>
                     <controls:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
@@ -282,7 +288,7 @@
                                 </StackPanel>
                             </controls:SettingExpander.Description>
                             <controls:SettingExpander.ActionContent>
-                                <controls:StackPanelEx
+                                <StackPanel
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
                                     Spacing="18">
@@ -306,12 +312,12 @@
                                         x:Load="{x:Bind Provider.CheckingUpdate, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                         Click="Button_Click"
                                         Tag="CheckUpdate" />
-                                </controls:StackPanelEx>
+                                </StackPanel>
                             </controls:SettingExpander.ActionContent>
                             <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
                                 <cwuc:MarkdownTextBlock
                                     HorizontalAlignment="Left"
-                                    Background="Transparent"
+                                    Background="{ThemeResource SystemControlTransparentBrush}"
                                     LinkClicked="MarkdownText_LinkClicked"
                                     LinkForeground="{ThemeResource HyperlinkForeground}"
                                     Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}" />

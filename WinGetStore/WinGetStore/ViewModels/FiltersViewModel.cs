@@ -9,15 +9,36 @@ using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels
 {
-    public class FiltersViewModel : INotifyPropertyChanged
+    public enum FilterType
+    {
+        Selector = 0b01,
+        Filter = 0b10,
+        Both = Selector | Filter
+    }
+
+    public class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters) : INotifyPropertyChanged
     {
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
-        private ObservableCollection<PackageMatchFilter> packageMatchFilters = [];
-        public ObservableCollection<PackageMatchFilter> PackageMatchFilters
+        private ObservableCollection<PackageMatchFilter> selectors = new(selectors);
+        public ObservableCollection<PackageMatchFilter> Selectors
         {
-            get => packageMatchFilters;
-            set => SetProperty(ref packageMatchFilters, value);
+            get => selectors;
+            set => SetProperty(ref selectors, value);
+        }
+
+        private ObservableCollection<PackageMatchFilter> filters = new(filters);
+        public ObservableCollection<PackageMatchFilter> Filters
+        {
+            get => filters;
+            set => SetProperty(ref filters, value);
+        }
+
+        private FilterType filterType = FilterType.Both;
+        public FilterType FilterType
+        {
+            get => filterType;
+            set => SetProperty(ref filterType, value);
         }
 
         private string value;
@@ -62,15 +83,20 @@ namespace WinGetStore.ViewModels
             }
         }
 
-        public FiltersViewModel(IList<PackageMatchFilter> packageMatchFilters) => PackageMatchFilters = new(packageMatchFilters);
-
         public void AddField()
         {
             PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
             filter.Field = Field;
             filter.Option = Option;
             filter.Value = Value;
-            packageMatchFilters.Add(filter);
+            if (FilterType.HasFlag(FilterType.Selector))
+            {
+                Selectors.Add(filter);
+            }
+            if (FilterType.HasFlag(FilterType.Filter))
+            {
+                Filters.Add(filter);
+            }
         }
     }
 }

@@ -14,7 +14,8 @@ namespace WinGetStore.Controls.Dialogs
     {
         private readonly FiltersViewModel Provider;
 
-        public ObservableCollection<PackageMatchFilter> PackageMatchFilters => Provider.PackageMatchFilters;
+        public ObservableCollection<PackageMatchFilter> Selectors => Provider.Selectors;
+        public ObservableCollection<PackageMatchFilter> Filters => Provider.Filters;
 
         public FiltersDialog(FiltersViewModel provider)
         {
@@ -46,28 +47,47 @@ namespace WinGetStore.Controls.Dialogs
                         Provider?.AddField();
                     }
                     break;
-                case "Delete":
-                    Provider?.PackageMatchFilters.Remove(element.Tag as PackageMatchFilter);
-                    break;
-                default:
-                    break;
             }
         }
 
-        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private void SelectorsButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement element) { return; }
             if (element.Tag is not PackageMatchFilter filter) { return; }
             switch (element.Name)
             {
                 case "ForkItem":
+                    Provider.FilterType = FilterType.Selector;
                     Provider.Value = filter.Value;
                     Provider.Field = filter.Field;
                     Provider.Option = filter.Option;
                     Pivot.SelectedIndex = 1;
                     break;
+                case "Delete":
                 case "DeleteItem":
-                    Provider?.PackageMatchFilters.Remove(filter);
+                    Provider?.Selectors.Remove(filter);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void FiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement element) { return; }
+            if (element.Tag is not PackageMatchFilter filter) { return; }
+            switch (element.Name)
+            {
+                case "ForkItem":
+                    Provider.FilterType = FilterType.Filter;
+                    Provider.Value = filter.Value;
+                    Provider.Field = filter.Field;
+                    Provider.Option = filter.Option;
+                    Pivot.SelectedIndex = 1;
+                    break;
+                case "Delete":
+                case "DeleteItem":
+                    Provider?.Filters.Remove(filter);
                     break;
                 default:
                     break;
@@ -76,15 +96,18 @@ namespace WinGetStore.Controls.Dialogs
 
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            if (Pivot.SelectedIndex == 1 && !string.IsNullOrWhiteSpace(Provider?.Value))
+            if (args.Result == ContentDialogResult.Primary)
             {
-                args.Cancel = true;
-                Pivot.SelectedIndex = 0;
-                Provider?.AddField();
-            }
-            else
-            {
-                args.Cancel = Provider?.PackageMatchFilters.Any() != true;
+                if (Pivot.SelectedIndex == 1 && !string.IsNullOrWhiteSpace(Provider?.Value))
+                {
+                    args.Cancel = true;
+                    Pivot.SelectedIndex = 0;
+                    Provider?.AddField();
+                }
+                else
+                {
+                    args.Cancel = !Provider.Selectors.Any() && !Provider.Filters.Any();
+                }
             }
         }
     }

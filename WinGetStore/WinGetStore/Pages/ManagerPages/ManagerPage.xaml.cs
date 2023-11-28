@@ -61,6 +61,9 @@ namespace WinGetStore.Pages.ManagerPages
                 case "Uninstall":
                     (element.Tag as PackageControl).CheckToUninstall();
                     break;
+                case "Cancel":
+                    (element.Tag as PackageControl).Progress?.Cancel();
+                    break;
                 case "Share":
                     DataPackage dataPackage = new();
                     string shareString = element.Tag?.ToString();

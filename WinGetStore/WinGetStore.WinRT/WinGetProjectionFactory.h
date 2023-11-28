@@ -1,10 +1,8 @@
 ﻿#pragma once
 
 #include "WinGetProjectionFactory.g.h"
-#include "winrt/Microsoft.Management.Configuration.h"
 #include "winrt/Microsoft.Management.Deployment.h"
 
-using namespace winrt::Microsoft::Management::Configuration;
 using namespace winrt::Microsoft::Management::Deployment;
 
 namespace winrt::WinGetStore::WinRT::implementation
@@ -23,7 +21,6 @@ namespace winrt::WinGetStore::WinRT::implementation
         static InstallOptions CreateInstallOptions();
         static UninstallOptions CreateUninstallOptions();
         static PackageMatchFilter CreatePackageMatchFilter();
-        static ConfigurationStaticFunctions CreateConfigurationStaticFunctions();
         static DownloadOptions CreateDownloadOptions();
         static PackageManagerSettings CreatePackageManagerSettings();
 
@@ -33,7 +30,6 @@ namespace winrt::WinGetStore::WinRT::implementation
         static InstallOptions TryCreateInstallOptions();
         static UninstallOptions TryCreateUninstallOptions();
         static PackageMatchFilter TryCreatePackageMatchFilter();
-        static ConfigurationStaticFunctions TryCreateConfigurationStaticFunctions();
         static DownloadOptions TryCreateDownloadOptions();
         static PackageManagerSettings TryCreatePackageManagerSettings();
 

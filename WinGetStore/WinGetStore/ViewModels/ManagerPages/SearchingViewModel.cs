@@ -16,7 +16,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 {
     public class SearchingViewModel : INotifyPropertyChanged
     {
-        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
+        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
@@ -34,7 +34,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref isLoading, value);
         }
 
-        private string waitProgressText = "Searching...";
+        private string waitProgressText = _loader.GetString("Searching");
         public string WaitProgressText
         {
             get => waitProgressText;
@@ -76,7 +76,20 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref matchResults, value);
         }
 
-        public IList<PackageMatchFilter> PackageMatchFilters { get; set; }
+        private IList<PackageMatchFilter> selectors = [];
+        public IList<PackageMatchFilter> Selectors
+        {
+            get => selectors;
+            set => SetProperty(ref selectors, value);
+        }
+
+        private IList<PackageMatchFilter> filters = [];
+        public IList<PackageMatchFilter> Filters
+        {
+            get => filters;
+            set => SetProperty(ref filters, value);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -155,8 +168,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                await Dispatcher.ResumeForegroundAsync();
-                matchResults.AddRange(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
+                MatchResults = new(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
@@ -207,9 +219,10 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
 
-                if (PackageMatchFilters?.Any() == true)
+                if (selectors?.Any() == true || filters?.Any() == true)
                 {
-                    findPackagesOptions.Filters.AddRange(PackageMatchFilters);
+                    findPackagesOptions.Selectors.AddRange(selectors ?? []);
+                    findPackagesOptions.Filters.AddRange(filters ?? []);
                 }
                 else
                 {
@@ -217,8 +230,8 @@ namespace WinGetStore.ViewModels.ManagerPages
                     filter.Field = PackageMatchField.Id;
                     filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
                     filter.Value = packageId;
-                    findPackagesOptions.Filters.Add(filter);
-                    PackageMatchFilters = findPackagesOptions.Filters.ToArray();
+                    findPackagesOptions.Selectors.Add(filter);
+                    Selectors = findPackagesOptions.Selectors.ToArray();
                 }
 
                 return await catalog.FindPackagesAsync(findPackagesOptions);
