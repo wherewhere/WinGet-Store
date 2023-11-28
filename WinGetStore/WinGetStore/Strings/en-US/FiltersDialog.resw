@@ -187,7 +187,7 @@
     <value>You have to match all filters (if there are no filters, then there is no filtering of selected items)</value>
   </data>
   <data name="Type.Description" xml:space="preserve">
-    <value>The Type of Field</value>
+    <value>The Type of Filter</value>
   </data>
   <data name="Type.Header" xml:space="preserve">
     <value>Type</value>
