@@ -187,7 +187,7 @@
     <value>您必须匹配所有过滤项（如果没有过滤项，将不会过滤所选项目）</value>
   </data>
   <data name="Type.Description" xml:space="preserve">
-    <value>The Type of Filter</value>
+    <value>筛选器类型</value>
   </data>
   <data name="Type.Header" xml:space="preserve">
     <value>类型</value>
