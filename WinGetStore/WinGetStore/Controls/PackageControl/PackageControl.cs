@@ -1,6 +1,7 @@
 ﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
@@ -501,9 +502,9 @@ namespace WinGetStore.Controls
             {
                 await ThreadSwitcher.ResumeBackgroundAsync();
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
+                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
                 ConnectResult connectResult = await catalogRef.ConnectAsync();
                 PackageCatalog catalog = connectResult.PackageCatalog;
@@ -514,7 +515,7 @@ namespace WinGetStore.Controls
                 filter.Value = packageID;
                 findPackagesOptions.Filters.Add(filter);
                 FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
-                return packagesResult.Matches.ToArray().FirstOrDefault()?.CatalogPackage;
+                return packagesResult.Matches.AsReader().FirstOrDefault()?.CatalogPackage;
             }
             catch (Exception ex)
             {

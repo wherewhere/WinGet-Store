@@ -1,5 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -142,7 +143,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 MatchResults = new(
-                    packagesResult.Matches.ToArray()
+                    packagesResult.Matches.AsReader()
                                           .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
                                           .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
                                           .Select((x) => x.CatalogPackage));
@@ -170,15 +171,15 @@ namespace WinGetStore.ViewModels.ManagerPages
                     return null;
                 }
 
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
-                if (packageCatalogReferences?.Any() != true)
+                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
+                if (packageCatalogReferences?.Count is not > 0)
                 {
                     SetError(_loader.GetString("NoCatalogTitle"), _loader.GetString("NoCatalogDescription"));
                     return null;
                 }
 
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
                 createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
 
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);

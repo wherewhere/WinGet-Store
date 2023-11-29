@@ -168,7 +168,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                MatchResults = new(packagesResult.Matches.ToArray().Select(x => x.CatalogPackage));
+                MatchResults = new(packagesResult.Matches.AsReader().Select(x => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
@@ -190,16 +190,16 @@ namespace WinGetStore.ViewModels.ManagerPages
                     SetError(_loader.GetString("WinGetNotInstalledTitle"), _loader.GetString("WinGetNotInstalledDescription"));
                     return null;
                 }
-
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
-                if (packageCatalogReferences?.Any() != true)
+                
+                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
+                if (packageCatalogReferences?.Count is not > 0)
                 {
                     SetError(_loader.GetString("NoCatalogTitle"), _loader.GetString("NoCatalogDescription"));
                     return null;
                 }
 
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
 
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
                 ConnectResult connectResult = await catalogRef.ConnectAsync();

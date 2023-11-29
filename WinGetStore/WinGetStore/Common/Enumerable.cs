@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.System;
 
 namespace WinGetStore.Common
@@ -145,7 +146,7 @@ namespace WinGetStore.Common
         /// Performs the specified action on each element of the <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source"></param>
+        /// <param name="source">The <typeparamref name="IEnumerable{TSource}"/> to be action.</param>
         /// <param name="action">The <see cref="Action{T}"/> delegate to perform on each element of the <see cref="List{T}"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="action"/> is null.</exception>
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
@@ -180,5 +181,13 @@ namespace WinGetStore.Common
                 }
             }
         }
+
+        /// <summary>
+        /// Get the <see cref="VectorViewReader{TSource}"/> of <see cref="IVectorView{TSource}"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <typeparamref name="IVectorView{TSource}"/> to be redden.</param>
+        /// <returns>The <see cref="VectorViewReader{TSource}"/> of <see cref="IVectorView{TSource}"/>.</returns>
+        public static VectorViewReader<TSource> AsReader<TSource>(this IReadOnlyList<TSource> source) => new(source);
     }
 }

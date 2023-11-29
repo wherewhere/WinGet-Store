@@ -181,7 +181,7 @@ namespace WinGetStore.Helpers
                 if (packagesResult is null) { return; }
 
                 CatalogPackage[] available =
-                    packagesResult.Matches.ToArray()
+                    packagesResult.Matches.AsReader()
                                           .Where((x) => x.CatalogPackage.DefaultInstallVersion != null && x.CatalogPackage.IsUpdateAvailable)
                                           .Select((x) => x.CatalogPackage)
                                           .ToArray();
@@ -205,11 +205,11 @@ namespace WinGetStore.Helpers
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
                 if (packageManager is null) { return null; }
 
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
-                if (packageCatalogReferences?.Any() != true) { return null; }
+                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
+                if (packageCatalogReferences?.Count is not > 0) { return null; }
 
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
                 createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
 
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);

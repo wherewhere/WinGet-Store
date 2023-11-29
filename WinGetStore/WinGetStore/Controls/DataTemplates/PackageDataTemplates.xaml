@@ -104,7 +104,7 @@
                     Description="{x:Bind local:PackageDataTemplates.PackageAgreementsToDescription(PackageMetadata.Agreements)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                     Style="{StaticResource SettingExpanderExpanderItemStyle}"
-                    Tag="{x:Bind local:PackageDataTemplates.PackageAgreementsToArray(PackageMetadata.Agreements)}"
+                    Tag="{x:Bind local:PackageDataTemplates.GetPackageAgreementsReader(PackageMetadata.Agreements)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:PackageAgreement">
@@ -171,7 +171,7 @@
                     Description="{x:Bind local:PackageDataTemplates.DocumentationsToDescription(PackageMetadata.Documentations)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                     Style="{StaticResource SettingExpanderExpanderItemStyle}"
-                    Tag="{x:Bind local:PackageDataTemplates.DocumentationsToArray(PackageMetadata.Documentations)}"
+                    Tag="{x:Bind local:PackageDataTemplates.GetDocumentationsReader(PackageMetadata.Documentations)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Documentation">
@@ -197,7 +197,7 @@
                     Description="{x:Bind local:PackageDataTemplates.IconsToDescription(PackageMetadata.Icons)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                     Style="{StaticResource SettingExpanderExpanderItemStyle}"
-                    Tag="{x:Bind local:PackageDataTemplates.IconsToArray(PackageMetadata.Icons)}"
+                    Tag="{x:Bind local:PackageDataTemplates.GetIconsReader(PackageMetadata.Icons)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Icon">
@@ -377,7 +377,7 @@
                     x:Uid="/VersionsDialog/Tags"
                     CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
                     Style="{StaticResource DefaultSettingExpanderItemStyle}"
-                    Tag="{x:Bind local:PackageDataTemplates.TagsToArray(PackageMetadata.Tags)}"
+                    Tag="{x:Bind local:PackageDataTemplates.GetTagsReader(PackageMetadata.Tags)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:Setting.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind local:PackageDataTemplates.JoinTags(', ', PackageMetadata.Tags)}" />

@@ -5,6 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources;
 using Windows.System;
 using Windows.UI.Xaml;
+using WinGetStore.Common;
 using WinGetStore.Controls.Dialogs;
 using WinGetStore.Helpers;
 
@@ -61,31 +62,20 @@ namespace WinGetStore.Controls.DataTemplates
             }
         }
 
-        private static IEnumerable<T> GetEnumerable<T>(IReadOnlyList<T> values)
-        {
-            if (values != null)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    yield return values[i];
-                }
-            }
-        }
-
-        internal static IEnumerable<PackageAgreement> PackageAgreementsToArray(IReadOnlyList<PackageAgreement> values) => GetEnumerable(values);
+        internal static VectorViewReader<PackageAgreement> GetPackageAgreementsReader(IReadOnlyList<PackageAgreement> values) => values.AsReader();
 
         internal static string PackageAgreementsToDescription(IReadOnlyList<PackageAgreement> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static IEnumerable<Documentation> DocumentationsToArray(IReadOnlyList<Documentation> values) => GetEnumerable(values);
+        internal static VectorViewReader<Documentation> GetDocumentationsReader(IReadOnlyList<Documentation> values) => values.AsReader();
 
         internal static string DocumentationsToDescription(IReadOnlyList<Documentation> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static IEnumerable<Icon> IconsToArray(IReadOnlyList<Icon> values) => GetEnumerable(values);
+        internal static VectorViewReader<Icon> GetIconsReader(IReadOnlyList<Icon> values) => values.AsReader();
 
         internal static string IconsToDescription(IReadOnlyList<Icon> values) => string.Format(_loader.GetString("InTotal"), values.Count);
 
-        internal static IEnumerable<string> TagsToArray(IReadOnlyList<string> values) => GetEnumerable(values);
+        internal static VectorViewReader<string> GetTagsReader(IReadOnlyList<string> values) => values.AsReader();
 
-        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, GetEnumerable(values));
+        internal static string JoinTags(string separate, IReadOnlyList<string> values) => string.Join(separate, values.AsReader());
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -143,8 +144,8 @@ namespace WinGetStore.ViewModels.ManagerPages
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
-                packagesResult.Matches.ToArray()
+                VectorViewReader<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().AsReader();
+                packagesResult.Matches.AsReader()
                     .ForEach(async (x) =>
                     {
                         foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
@@ -222,9 +223,9 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 await ThreadSwitcher.ResumeBackgroundAsync();
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                PackageCatalogReference[] packageCatalogReferences = packageManager.GetPackageCatalogs()?.ToArray();
+                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences);
+                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
                 PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
                 ConnectResult connectResult = await catalogRef.ConnectAsync();
                 PackageCatalog catalog = connectResult.PackageCatalog;
@@ -235,7 +236,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 filter.Value = packageID;
                 findPackagesOptions.Filters.Add(filter);
                 FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
-                return packagesResult.Matches.ToArray().FirstOrDefault()?.CatalogPackage;
+                return packagesResult.Matches.AsReader().FirstOrDefault()?.CatalogPackage;
             }
             catch (Exception ex)
             {
