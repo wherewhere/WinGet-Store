@@ -196,7 +196,7 @@ namespace WinGetStore.Controls
                 if (package.DefaultInstallVersion == null)
                 {
                     CatalogPackage catalogPackage = await GetPackageByIDAsync(package.Id);
-                    if (catalogPackage != null)
+                    if (catalogPackage?.DefaultInstallVersion != null)
                     {
                         CatalogPackage = catalogPackage;
                         return;
@@ -213,10 +213,11 @@ namespace WinGetStore.Controls
                 InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
                 PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
 
-                PackageInstallerInfo installerInfo = package.DefaultInstallVersion.GetApplicableInstaller(installOptions);
-
                 if (package.DefaultInstallVersion != null)
                 {
+                    PackageInstallerInfo installerInfo = package.DefaultInstallVersion.GetApplicableInstaller(installOptions);
+                    await templateSettings.SetValueAsync(PackageControlTemplateSettings.InstallerTypeProperty, installerInfo.InstallerType);
+
                     PackageCatalogInfo info = package.DefaultInstallVersion.PackageCatalog.Info;
                     IAsyncOperationWithProgress<InstallResult, InstallProgress> InstallProgress = packageManager.GetInstallProgress(package, info);
                     if (InstallProgress != null)
@@ -238,9 +239,6 @@ namespace WinGetStore.Controls
                         }
                     }
                 }
-
-                await Dispatcher.ResumeForegroundAsync();
-                templateSettings.InstallerType = installerInfo.InstallerType;
             }
             catch (Exception ex)
             {
@@ -513,7 +511,7 @@ namespace WinGetStore.Controls
                 filter.Field = PackageMatchField.Id;
                 filter.Option = PackageFieldMatchOption.Equals;
                 filter.Value = packageID;
-                findPackagesOptions.Filters.Add(filter);
+                findPackagesOptions.Selectors.Add(filter);
                 FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
                 return packagesResult.Matches.AsReader().FirstOrDefault()?.CatalogPackage;
             }

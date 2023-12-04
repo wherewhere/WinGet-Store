@@ -46,6 +46,12 @@ namespace WinGetStore.Helpers
             return taskResult;
         }
 
+        public static async Task<T> GetValueAsync<T>(this DependencyObject element, DependencyProperty dp)
+        {
+            await element.Dispatcher.ResumeForegroundAsync();
+            return (T)element.GetValue(dp);
+        }
+
         public static async Task SetValueAsync<T>(this DependencyObject element, DependencyProperty dp, T value)
         {
             await element.Dispatcher.ResumeForegroundAsync();

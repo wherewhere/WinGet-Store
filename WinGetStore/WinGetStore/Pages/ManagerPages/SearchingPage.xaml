@@ -21,7 +21,8 @@
                 x:Name="ListView"
                 Padding="36,3,36,24"
                 ItemTemplate="{StaticResource CatalogPackageDefaultTemplate}"
-                ItemsSource="{x:Bind Provider.MatchResults, Mode=OneWay}">
+                ItemsSource="{x:Bind Provider.MatchResults, Mode=OneWay}"
+                SelectionMode="None">
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource TransparentCardItemStyle}" TargetType="ListViewItem">
                         <Setter Property="Margin" Value="0,3" />

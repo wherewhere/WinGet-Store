@@ -1,13 +1,11 @@
 ﻿using Microsoft.Management.Deployment;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
 using Windows.System;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
@@ -143,31 +141,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                VectorViewReader<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs().AsReader();
-                packagesResult.Matches.AsReader()
-                    .ForEach(async (x) =>
-                    {
-                        foreach (PackageCatalogReference catalogReference in packageCatalogReferences)
-                        {
-                            try
-                            {
-                                IAsyncOperationWithProgress<InstallResult, InstallProgress> installOperation = packageManager.GetInstallProgress(x.CatalogPackage, catalogReference.Info);
-                                if (installOperation != null)
-                                {
-                                    CatalogPackage package = await GetPackageByID(x.CatalogPackage.Id);
-                                    await Dispatcher.ResumeForegroundAsync();
-                                    matchResults.Add(package ?? x.CatalogPackage);
-                                    if (isLoading) { IsLoading = false; }
-                                    break;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Warn(ex.ExceptionToMessage());
-                            }
-                        }
-                    });
+                MatchResults = new(packagesResult.Matches.AsReader().Select(x => x.CatalogPackage));
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
@@ -213,34 +187,6 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
-                return null;
-            }
-        }
-
-        private async Task<CatalogPackage> GetPackageByID(string packageID)
-        {
-            try
-            {
-                await ThreadSwitcher.ResumeBackgroundAsync();
-                PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-                IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
-                CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = WinGetProjectionFactory.TryCreateCreateCompositePackageCatalogOptions();
-                createCompositePackageCatalogOptions.Catalogs.AddRange(packageCatalogReferences.AsReader());
-                PackageCatalogReference catalogRef = packageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
-                ConnectResult connectResult = await catalogRef.ConnectAsync();
-                PackageCatalog catalog = connectResult.PackageCatalog;
-                FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
-                PackageMatchFilter filter = WinGetProjectionFactory.TryCreatePackageMatchFilter();
-                filter.Field = PackageMatchField.Id;
-                filter.Option = PackageFieldMatchOption.Equals;
-                filter.Value = packageID;
-                findPackagesOptions.Filters.Add(filter);
-                FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
-                return packagesResult.Matches.AsReader().FirstOrDefault()?.CatalogPackage;
-            }
-            catch (Exception ex)
-            {
-                SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
                 return null;
             }
         }

@@ -20,7 +20,8 @@
                 x:Name="ListView"
                 Padding="0,1.5"
                 ItemTemplate="{StaticResource CatalogPackageVersionDefaultTemplate}"
-                ItemsSource="{x:Bind Provider.PackageVersions, Mode=OneWay}">
+                ItemsSource="{x:Bind Provider.PackageVersions, Mode=OneWay}"
+                SelectionMode="None">
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource TransparentCardItemStyle}" TargetType="ListViewItem">
                         <Setter Property="Margin" Value="0,1.5" />

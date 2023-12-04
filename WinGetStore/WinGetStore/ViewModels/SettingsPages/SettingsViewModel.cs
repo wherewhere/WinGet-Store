@@ -28,7 +28,7 @@ namespace WinGetStore.ViewModels.SettingsPages
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
 
-        public static Dictionary<DispatcherQueue, SettingsViewModel> Caches { get; } = [];
+        public static ConditionalWeakTable<DispatcherQueue, SettingsViewModel> Caches { get; } = [];
 
         public static string DeviceFamily => AnalyticsInfo.VersionInfo.DeviceFamily.Replace('.', ' ');
 
@@ -231,7 +231,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         public SettingsViewModel(DispatcherQueue dispatcher)
         {
             Dispatcher = dispatcher ?? DispatcherQueue.GetForCurrentThread();
-            Caches[dispatcher] = this;
+            Caches.AddOrUpdate(dispatcher, this);
         }
 
         public async Task UpdateWinGetVersionAsync()

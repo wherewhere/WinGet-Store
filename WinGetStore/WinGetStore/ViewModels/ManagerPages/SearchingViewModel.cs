@@ -190,7 +190,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                     SetError(_loader.GetString("WinGetNotInstalledTitle"), _loader.GetString("WinGetNotInstalledDescription"));
                     return null;
                 }
-                
+
                 IReadOnlyList<PackageCatalogReference> packageCatalogReferences = packageManager.GetPackageCatalogs();
                 if (packageCatalogReferences?.Count is not > 0)
                 {

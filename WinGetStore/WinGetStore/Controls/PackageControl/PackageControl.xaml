@@ -337,7 +337,11 @@
                                 <VisualStateGroup x:Name="PackageStates">
                                     <VisualState x:Name="Nominal">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="Nominal" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>Nominal</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="StatusTextBlock.Visibility" Value="Collapsed" />
@@ -348,7 +352,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Installed">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="Installed" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>Installed</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="StatusTextBlock.Visibility" Value="Collapsed" />
@@ -359,7 +367,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Installing">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="Installing" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>Installing</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="AvailableVersionTextBlock.Visibility" Value="Collapsed" />
@@ -369,7 +381,11 @@
                                     </VisualState>
                                     <VisualState x:Name="UpdateAvailable">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="UpdateAvailable" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>UpdateAvailable</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="StatusTextBlock.Visibility" Value="Collapsed" />
@@ -380,7 +396,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Uninstalling">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="Uninstalling" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>Uninstalling</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="AvailableVersionTextBlock.Visibility" Value="Collapsed" />
@@ -390,7 +410,11 @@
                                     </VisualState>
                                     <VisualState x:Name="InstallError">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="InstallError" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>InstallError</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="AvailableVersionTextBlock.Visibility" Value="Collapsed" />
@@ -401,7 +425,11 @@
                                     </VisualState>
                                     <VisualState x:Name="UpdateError">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="UpdateError" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>UpdateError</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="AvailableVersionTextBlock.Visibility" Value="Collapsed" />
@@ -412,7 +440,11 @@
                                     </VisualState>
                                     <VisualState x:Name="UninstallError">
                                         <VisualState.StateTriggers>
-                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="UninstallError" />
+                                            <triggers:IsEqualStateTrigger Value="{Binding TemplateSettings.PackageState, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <triggers:IsEqualStateTrigger.To>
+                                                    <controls:PackageState>UninstallError</controls:PackageState>
+                                                </triggers:IsEqualStateTrigger.To>
+                                            </triggers:IsEqualStateTrigger>
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="AvailableVersionTextBlock.Visibility" Value="Collapsed" />
