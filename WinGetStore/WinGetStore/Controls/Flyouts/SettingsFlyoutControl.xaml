@@ -49,6 +49,17 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </local:Setting>
+            <local:Setting x:Uid="/SettingsPage/TileUpdateTimeSettings" Icon="&#xEA79;">
+                <Slider
+                    Width="{StaticResource SettingCardContentMinWidth}"
+                    Maximum="1440"
+                    Minimum="0"
+                    StepFrequency="15"
+                    ThumbToolTipValueConverter="{StaticResource TimeSpanToolTipValueConverter}"
+                    TickFrequency="15"
+                    TickPlacement="Outside"
+                    Value="{x:Bind Provider.TileUpdateTime, Mode=TwoWay}" />
+            </local:Setting>
         </local:SettingsGroup>
         <local:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
             <local:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{x:Bind Provider.WinGetVersion, Mode=OneWay}">
@@ -136,7 +147,11 @@
                 </Button>
             </local:Setting>
             <local:SettingExpander x:Uid="/SettingsPage/FrameworkSettings" Icon="&#xE950;">
-                <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
+                <Grid
+                    Margin="0,0,0,8"
+                    ColumnSpacing="32"
+                    RowSpacing="8"
+                    Style="{StaticResource SettingExpanderContentGridStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -148,74 +163,69 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <TextBlock
                         x:Uid="/SettingsPage/FrameworkTextBlock"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Padding="0,0,0,8"
                         Foreground="{ThemeResource SettingCardForeground}" />
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="1"
-                        Padding="32,0,0,8"
+                        HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Text="{x:Bind interopservices:RuntimeInformation.FrameworkDescription}"
                         TextWrapping="WrapWholeWords" />
-
                     <TextBlock
                         Grid.Row="1"
                         Grid.Column="0"
-                        Padding="0,0,0,8"
                         Foreground="{ThemeResource SettingCardForeground}"
                         Text="Community Toolkit" />
                     <TextBlock
                         Grid.Row="1"
                         Grid.Column="1"
-                        Padding="32,0,0,8"
+                        HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Text="{Binding ToolkitVersion}"
                         TextWrapping="WrapWholeWords" />
-
                     <TextBlock
                         x:Uid="/SettingsPage/DeviceFamilyTextBlock"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Padding="0,0,0,8"
                         Foreground="{ThemeResource SettingCardForeground}" />
                     <TextBlock
                         Grid.Row="2"
                         Grid.Column="1"
-                        Padding="32,0,0,8"
+                        HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Text="{Binding DeviceFamily}"
                         TextWrapping="WrapWholeWords" />
-
                     <TextBlock
                         x:Uid="/SettingsPage/OSPlatformTextBlock"
                         Grid.Row="3"
                         Grid.Column="0"
-                        Padding="0,0,0,8"
                         Foreground="{ThemeResource SettingCardForeground}" />
                     <TextBlock
                         Grid.Row="3"
                         Grid.Column="1"
-                        Padding="32,0,0,8"
+                        HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Text="{x:Bind sys:Environment.OSVersion}"
                         TextWrapping="WrapWholeWords" />
-
                     <TextBlock
                         x:Uid="/SettingsPage/OSArchitectureTextBlock"
                         Grid.Row="4"
                         Grid.Column="0"
-                        Padding="0,0,0,8"
                         Foreground="{ThemeResource SettingCardForeground}" />
                     <TextBlock
                         Grid.Row="4"
                         Grid.Column="1"
-                        Padding="32,0,0,8"
+                        HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Text="{x:Bind interopservices:RuntimeInformation.OSArchitecture}"
                         TextWrapping="WrapWholeWords" />
                 </Grid>

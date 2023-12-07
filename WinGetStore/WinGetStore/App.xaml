@@ -25,6 +25,7 @@
             <FontFamily x:Key="SymbolThemeFontFamily">Segoe Fluent Icons,Segoe MDL2 Assets,Segoe UI Symbol</FontFamily>
 
             <converter:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converter:TimeSpanToolTipValueConverter x:Key="TimeSpanToolTipValueConverter" />
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>

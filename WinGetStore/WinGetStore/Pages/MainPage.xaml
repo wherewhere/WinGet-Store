@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -95,6 +96,7 @@
             x:Name="NavigationView"
             BackRequested="NavigationView_BackRequested"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
+            ExpandedModeThresholdWidth="850"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
             IsSettingsVisible="False"
@@ -142,34 +144,26 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="0" MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NavigationView.PaneDisplayMode" Value="Auto" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="386" MinWindowWidth="0" />
+                        <triggers:ControlSizeTrigger
+                            MinHeight="386"
+                            MaxWidth="{x:Bind NavigationView.CompactModeThresholdWidth}"
+                            TargetElement="{x:Bind}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NavigationView.PaneDisplayMode" Value="Top" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="0" MinWindowWidth="{x:Bind NavigationView.CompactModeThresholdWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="NavigationView.PaneDisplayMode" Value="Auto" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <triggers:ControlSizeTrigger MaxWidth="{x:Bind NavigationView.CompactModeThresholdWidth}" TargetElement="{x:Bind}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SearchTextBox.Margin" Value="0" />
@@ -179,7 +173,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
+                        <triggers:ControlSizeTrigger MaxWidth="{x:Bind NavigationView.ExpandedModeThresholdWidth}" TargetElement="{x:Bind}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SearchTextBox.Margin" Value="0" />
@@ -188,9 +182,6 @@
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="850" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SearchTextBox.Margin" Value="40,0" />
                         <Setter Target="SearchBoxHolder.IsStretch" Value="False" />

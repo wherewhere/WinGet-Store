@@ -7,6 +7,7 @@
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:viewmodels="using:WinGetStore.ViewModels.ManagerPages"
     d:DataContext="{d:DesignInstance Type=viewmodels:SearchingViewModel}"
     DataContext="{x:Bind Provider, Mode=OneWay}"
@@ -244,16 +245,13 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <triggers:ControlSizeTrigger MaxWidth="{StaticResource Breakpoint640Plus}" TargetElement="{x:Bind}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ListView.Padding" Value="24,3,24,24" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ListView.Padding" Value="36,3,36,24" />
                     </VisualState.Setters>

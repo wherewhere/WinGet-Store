@@ -12,13 +12,14 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingspages="using:WinGetStore.ViewModels.SettingsPages"
     xmlns:sys="using:System"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
     DataContext="{x:Bind Provider, Mode=OneWay}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
         <ScrollViewer>
-            <Grid x:Name="RootGird" Margin="36,0">
+            <Grid x:Name="RootGird" Padding="36,0">
                 <Grid.ChildrenTransitions>
                     <TransitionCollection>
                         <ReorderThemeTransition />
@@ -34,7 +35,7 @@
                     FontWeight="SemiBold"
                     Style="{StaticResource TitleTextBlockStyle}"
                     Text="{x:Bind Provider.Title, Mode=OneWay}" />
-                <StackPanel Grid.Row="1" Margin="0,0,0,24">
+                <StackPanel Grid.Row="1" Padding="0,0,0,24">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <ReorderThemeTransition />
@@ -71,6 +72,7 @@
                                 Maximum="1440"
                                 Minimum="0"
                                 StepFrequency="15"
+                                ThumbToolTipValueConverter="{StaticResource TimeSpanToolTipValueConverter}"
                                 TickFrequency="15"
                                 TickPlacement="Outside"
                                 Value="{x:Bind Provider.TileUpdateTime, Mode=TwoWay}" />
@@ -178,7 +180,6 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-
                                 <TextBlock
                                     x:Uid="/SettingsPage/FrameworkTextBlock"
                                     Grid.Row="0"
@@ -192,7 +193,6 @@
                                     IsTextSelectionEnabled="True"
                                     Text="{x:Bind interopservices:RuntimeInformation.FrameworkDescription}"
                                     TextWrapping="WrapWholeWords" />
-
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
@@ -206,7 +206,6 @@
                                     IsTextSelectionEnabled="True"
                                     Text="{Binding ToolkitVersion}"
                                     TextWrapping="WrapWholeWords" />
-
                                 <TextBlock
                                     x:Uid="/SettingsPage/DeviceFamilyTextBlock"
                                     Grid.Row="2"
@@ -220,7 +219,6 @@
                                     IsTextSelectionEnabled="True"
                                     Text="{Binding DeviceFamily}"
                                     TextWrapping="WrapWholeWords" />
-
                                 <TextBlock
                                     x:Uid="/SettingsPage/OSPlatformTextBlock"
                                     Grid.Row="3"
@@ -234,7 +232,6 @@
                                     IsTextSelectionEnabled="True"
                                     Text="{x:Bind sys:Environment.OSVersion}"
                                     TextWrapping="WrapWholeWords" />
-
                                 <TextBlock
                                     x:Uid="/SettingsPage/OSArchitectureTextBlock"
                                     Grid.Row="4"
@@ -422,18 +419,15 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <triggers:ControlSizeTrigger MaxWidth="{StaticResource Breakpoint640Plus}" TargetElement="{x:Bind}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGird.Margin" Value="24,0" />
+                        <Setter Target="RootGird.Padding" Value="24,0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGird.Margin" Value="36,0" />
+                        <Setter Target="RootGird.Padding" Value="36,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
