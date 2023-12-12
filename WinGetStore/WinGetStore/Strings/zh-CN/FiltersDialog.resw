@@ -153,11 +153,23 @@
   <data name="FiltersDialog.Title" xml:space="preserve">
     <value>筛选器</value>
   </data>
+  <data name="FiltersText.Text" xml:space="preserve">
+    <value>过滤项</value>
+  </data>
+  <data name="FiltersText.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>您必须匹配至少一个选取项（如果没有选取项将不会选取）</value>
+  </data>
+  <data name="FilterType.PlaceholderText" xml:space="preserve">
+    <value>筛选类型</value>
+  </data>
   <data name="ForkItem.Text" xml:space="preserve">
     <value>复刻</value>
   </data>
   <data name="MatchField.PlaceholderText" xml:space="preserve">
     <value>匹配项</value>
+  </data>
+  <data name="MatchOption.PlaceholderText" xml:space="preserve">
+    <value>匹配选项</value>
   </data>
   <data name="Option.Description" xml:space="preserve">
     <value>软件包项匹配选项</value>
@@ -167,6 +179,18 @@
   </data>
   <data name="Refresh.Content" xml:space="preserve">
     <value>刷新</value>
+  </data>
+  <data name="SelectorsText.Text" xml:space="preserve">
+    <value>选取项</value>
+  </data>
+  <data name="SelectorsText.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>您必须匹配所有过滤项（如果没有过滤项，将不会过滤所选项目）</value>
+  </data>
+  <data name="Type.Description" xml:space="preserve">
+    <value>筛选器类型</value>
+  </data>
+  <data name="Type.Header" xml:space="preserve">
+    <value>类型</value>
   </data>
   <data name="Value.Header" xml:space="preserve">
     <value>值</value>
