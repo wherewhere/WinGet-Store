@@ -53,11 +53,11 @@ namespace WinGetStore.Controls
                 DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
                 Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
             }
-            ThemeHelper.UISettingChanged.Add(OnUISettingChanged);
+            ThemeHelper.UISettingChanged += OnUISettingChanged;
             _ = Refresh();
         }
 
-        private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e) => ThemeHelper.UISettingChanged.Remove(OnUISettingChanged);
+        private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e) => ThemeHelper.UISettingChanged -= OnUISettingChanged;
 
         private void OnUISettingChanged(bool mode) => RequestedTheme = mode ? ElementTheme.Dark : ElementTheme.Light;
 

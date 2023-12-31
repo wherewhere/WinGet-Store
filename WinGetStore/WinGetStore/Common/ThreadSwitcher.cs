@@ -75,7 +75,7 @@ namespace WinGetStore.Common
         public void GetResult() { }
 
         /// <summary>
-        /// Gets an awaiter used to await this <see cref="CoreDispatcherThreadSwitcher"/>.
+        /// Gets an awaiter used to await this <see cref="DispatcherQueueThreadSwitcher"/>.
         /// </summary>
         /// <returns>An awaiter instance.</returns>
         public DispatcherQueueThreadSwitcher GetAwaiter() => this;
@@ -101,7 +101,7 @@ namespace WinGetStore.Common
         public void GetResult() { }
 
         /// <summary>
-        /// Gets an awaiter used to await this <see cref="CoreDispatcherThreadSwitcher"/>.
+        /// Gets an awaiter used to await this <see cref="ThreadPoolThreadSwitcher"/>.
         /// </summary>
         /// <returns>An awaiter instance.</returns>
         public ThreadPoolThreadSwitcher GetAwaiter() => this;

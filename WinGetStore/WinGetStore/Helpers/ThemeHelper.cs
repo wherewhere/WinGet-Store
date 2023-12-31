@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -16,12 +17,19 @@ namespace WinGetStore.Helpers
     public static class ThemeHelper
     {
         private static Window CurrentApplicationWindow;
+        private static readonly WeakEvent<bool> actions = [];
 
         // Keep reference so it does not get optimized/garbage collected
         public static UISettings UISettings { get; } = new UISettings();
         public static AccessibilitySettings AccessibilitySettings { get; } = new AccessibilitySettings();
 
-        public static WeakEvent<bool> UISettingChanged { get; } = [];
+        public static event Action<bool> UISettingChanged
+        {
+            add => actions.Add(value);
+            remove => actions.Remove(value);
+        }
+
+        private static void InvokeUISettingChanged(bool value) => actions.Invoke(value);
 
         #region ActualTheme
 
@@ -126,7 +134,7 @@ namespace WinGetStore.Helpers
 
             SettingsHelper.Set(SettingsHelper.SelectedAppTheme, value);
             UpdateSystemCaptionButtonColors();
-            UISettingChanged.Invoke(await IsDarkThemeAsync());
+            InvokeUISettingChanged(await IsDarkThemeAsync());
         }
 
         public static async Task SetRootThemeAsync(ElementTheme value)
@@ -142,7 +150,7 @@ namespace WinGetStore.Helpers
 
             SettingsHelper.Set(SettingsHelper.SelectedAppTheme, value);
             UpdateSystemCaptionButtonColors();
-            UISettingChanged.Invoke(await IsDarkThemeAsync());
+            InvokeUISettingChanged(await IsDarkThemeAsync());
         }
 
         #endregion
@@ -173,7 +181,7 @@ namespace WinGetStore.Helpers
         private static async void UISettings_ColorValuesChanged(UISettings sender, object args)
         {
             UpdateSystemCaptionButtonColors();
-            UISettingChanged.Invoke(await IsDarkThemeAsync());
+            InvokeUISettingChanged(await IsDarkThemeAsync());
         }
 
         public static bool IsDarkTheme()

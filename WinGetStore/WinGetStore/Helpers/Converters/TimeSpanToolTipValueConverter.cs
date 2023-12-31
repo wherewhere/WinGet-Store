@@ -25,14 +25,7 @@ namespace WinGetStore.Helpers.Converters
             else
             {
                 TimeSpan timeSpan = TimeSpan.Parse(value.ToString());
-                if (targetType == typeof(TimeSpan))
-                {
-                    return timeSpan;
-                }
-                else
-                {
-                    return ConverterTools.Convert(timeSpan.TotalMinutes, targetType);
-                }
+                return targetType == typeof(TimeSpan) ? timeSpan : ConverterTools.Convert(timeSpan.TotalMinutes, targetType);
             }
         }
     }
