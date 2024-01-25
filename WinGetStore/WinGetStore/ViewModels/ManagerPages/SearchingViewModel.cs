@@ -219,7 +219,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
 
-                if (selectors?.Any() == true || filters?.Any() == true)
+                if (selectors?.Count > 0 || filters?.Count > 0)
                 {
                     findPackagesOptions.Selectors.AddRange(selectors ?? []);
                     findPackagesOptions.Filters.AddRange(filters ?? []);

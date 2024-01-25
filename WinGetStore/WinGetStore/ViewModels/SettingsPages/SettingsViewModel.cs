@@ -209,7 +209,7 @@ namespace WinGetStore.ViewModels.SettingsPages
 
         protected static async void RaisePropertyChangedEvent(params string[] names)
         {
-            if (names?.Any() == true)
+            if (names?.Length > 0)
             {
                 foreach (KeyValuePair<DispatcherQueue, SettingsViewModel> cache in Caches)
                 {
@@ -242,7 +242,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             IsWinGetInstalled = isWinGetInstalled;
             IsWinGetDevInstalled = isWinGetDevInstalled;
             IEnumerable<Package> packages = await PackageHelper.FindPackagesByNameAsync("Microsoft.DesktopAppInstaller");
-            WinGetVersion = packages.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : _loader.GetString("NotInstalled");
+            WinGetVersion = packages?.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : _loader.GetString("NotInstalled");
         }
 
         public async void CheckUpdate()

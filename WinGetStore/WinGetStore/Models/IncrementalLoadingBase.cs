@@ -1,10 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -25,7 +22,7 @@ namespace WinGetStore.Models
     /// so that you can load different data in your view model, refer this blog for detail
     /// <see href="http://blogs.msdn.com/b/devosaure/archive/2012/10/15/isupportincrementalloading-loading-a-subsets-of-data.aspx"/>
     /// </summary>
-    public abstract class IncrementalLoadingBase<T, TSource> : ObservableCollection<T>, ISupportIncrementalLoading
+    public abstract class IncrementalLoadingBase<T> : ObservableCollection<T>, ISupportIncrementalLoading
     {
         #region ISupportIncrementalLoading
 
@@ -40,13 +37,13 @@ namespace WinGetStore.Models
         {
             if (_busy)
             {
-                return Task.Run(() => new LoadMoreItemsResult { Count = 0 }).AsAsyncOperation();
+                return AsyncInfo.Run(_ => Task.FromResult(new LoadMoreItemsResult { Count = 0 }));
             }
 
             _busy = true;
 
             // We need to use AsyncInfo.Run to invoke async operation, as this method cannot return a Task.
-            return AsyncInfo.Run((c) => LoadMoreItemsAsync(c, count));
+            return AsyncInfo.Run(cancellation => LoadMoreItemsAsync(cancellation, count));
         }
 
         #endregion
@@ -104,15 +101,13 @@ namespace WinGetStore.Models
                 LoadMoreStarted?.Invoke();
 
                 // Data loading will different for sub-class.
-                ICollection<TSource> items = await LoadMoreItemsOverrideAsync(cancellation, count);
-
-                await AddItemsAsync(items);
+                uint loaded = await LoadMoreItemsOverrideAsync(cancellation, count).ConfigureAwait(false);
 
                 // We finished loading operation.
                 IsLoading = false;
                 LoadMoreCompleted?.Invoke();
 
-                return new LoadMoreItemsResult { Count = items == null ? 0 : (uint)items.Count };
+                return new LoadMoreItemsResult { Count = loaded };
             }
             finally
             {
@@ -123,7 +118,7 @@ namespace WinGetStore.Models
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnCollectionChanged(e);
-            Any = this.Any();
+            Any = Count > 0;
         }
 
         public delegate void EventHandler();
@@ -134,27 +129,13 @@ namespace WinGetStore.Models
 
         #region Overridable methods
 
-        /// <summary>
-        /// Append items to list.
-        /// </summary>
-        protected virtual async Task AddItemsAsync(ICollection<TSource> items)
-        {
-            if (items != null)
-            {
-                foreach (T item in items.OfType<T>())
-                {
-                    await AddAsync(item).ConfigureAwait(false);
-                }
-            }
-        }
-
         public virtual Task AddAsync(T item) => Dispatcher.EnqueueAsync(() => Add(item));
 
         public virtual Task RemoveAsync(T item) => Dispatcher.EnqueueAsync(() => Remove(item));
 
         public virtual Task ClearAsync() => Dispatcher.EnqueueAsync(Clear);
 
-        protected abstract Task<ICollection<TSource>> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count);
+        protected abstract Task<uint> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count);
 
         protected abstract bool HasMoreItemsOverride();
 

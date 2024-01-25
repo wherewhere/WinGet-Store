@@ -35,11 +35,11 @@ namespace WinGetStore.Helpers
                 try
                 {
                     TResult result = await function.ConfigureAwait(false);
-                    taskCompletionSource.SetResult(result);
+                    _ = taskCompletionSource.TrySetResult(result);
                 }
                 catch (Exception e)
                 {
-                    taskCompletionSource.SetException(e);
+                    _ = taskCompletionSource.TrySetException(e);
                 }
             }, cancellationToken);
             TResult taskResult = task.Result;

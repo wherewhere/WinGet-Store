@@ -10,7 +10,7 @@ using WinGetStore.ViewModels;
 
 namespace WinGetStore.Models
 {
-    public class PackageVersionSource(CatalogPackage catalogPackage) : IncrementalLoadingBase<CatalogPackageVersion, PackageVersionId>
+    public class PackageVersionSource(CatalogPackage catalogPackage) : IncrementalLoadingBase<CatalogPackageVersion>
     {
         private List<PackageVersionId> availableVersions;
 
@@ -40,7 +40,7 @@ namespace WinGetStore.Models
             }
         }
 
-        protected override async Task<ICollection<PackageVersionId>> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count)
+        protected override async Task<uint> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
 
@@ -60,24 +60,21 @@ namespace WinGetStore.Models
                 }
             }
 
+            List<PackageVersionId> result;
             if (availableVersions.Count > count)
             {
-                List<PackageVersionId> result = availableVersions.GetRange(0, (int)count);
+                result = availableVersions.GetRange(0, (int)count);
                 availableVersions.RemoveRange(0, (int)count);
-                return result;
             }
             else
             {
-                List<PackageVersionId> result = availableVersions;
+                result = availableVersions;
                 _hasMoreItems = false;
-                return result;
             }
-        }
 
-        protected override async Task AddItemsAsync(ICollection<PackageVersionId> items)
-        {
             string currents = this.LastOrDefault()?.Version;
-            foreach (PackageVersionId item in items)
+            uint loaded = 0;
+            foreach (PackageVersionId item in result)
             {
                 if (currents != item.Version)
                 {
@@ -85,8 +82,10 @@ namespace WinGetStore.Models
                     CatalogPackageMetadata packageMetadata = versionInfo.GetCatalogPackageMetadata();
                     await AddAsync(new(versionInfo.Version, packageMetadata));
                     currents = item.Version;
+                    loaded++;
                 }
             }
+            return loaded;
         }
 
         protected override bool HasMoreItemsOverride() => _hasMoreItems;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WinGetStore.ViewModels;
@@ -106,7 +105,7 @@ namespace WinGetStore.Controls.Dialogs
                 }
                 else
                 {
-                    args.Cancel = !Provider.Selectors.Any() && !Provider.Filters.Any();
+                    args.Cancel = Provider.Selectors.Count <= 0 && Provider.Filters.Count <= 0;
                 }
             }
         }

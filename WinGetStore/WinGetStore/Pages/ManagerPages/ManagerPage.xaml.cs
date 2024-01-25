@@ -1,5 +1,4 @@
 ﻿using Microsoft.Management.Deployment;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +25,7 @@ namespace WinGetStore.Pages.ManagerPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (Provider.MatchResults?.Any() == false)
+            if (Provider.MatchResults?.Count <= 0)
             {
                 _ = Provider.Refresh();
             }
