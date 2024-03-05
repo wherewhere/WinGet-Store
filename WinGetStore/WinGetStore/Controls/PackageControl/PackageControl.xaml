@@ -231,9 +231,9 @@
                                     TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="Wrap"
-                                    ToolTipService.ToolTip="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                    ToolTipService.ToolTip="{Binding CatalogPackage.InstalledVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <Run x:Uid="/PackageControl/InstalledVersion" />
-                                    <Run Text="{Binding CatalogPackage.DefaultInstallVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    <Run Text="{Binding CatalogPackage.InstalledVersion.Version, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 </TextBlock>
                             </Grid>
                             <Grid

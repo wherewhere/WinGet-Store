@@ -38,13 +38,13 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
       with:
         msbuild-architecture: x64
-        
+ 
     - name: Setup NuGet.exe
-      uses: NuGet/setup-nuget@v1
-    
+      uses: NuGet/setup-nuget@v2
+
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: nuget restore $env:Solution_Name
@@ -75,7 +75,7 @@ jobs:
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: MSIX Package
         path: WinGetStore/WinGetStore/AppxPackages/**
