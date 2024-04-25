@@ -122,7 +122,7 @@ namespace WinGetStore.Models
         }
 
         public delegate void EventHandler();
-        public delegate void EventHandler<TEventArgs>(TEventArgs e);
+        public delegate void EventHandler<in TEventArgs>(TEventArgs e);
 
         public event EventHandler LoadMoreStarted;
         public event EventHandler LoadMoreCompleted;
