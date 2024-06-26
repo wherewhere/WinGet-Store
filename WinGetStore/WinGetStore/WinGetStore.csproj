@@ -136,6 +136,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\AnimateSelectionProvider.cs" />
+    <Compile Include="Common\DefaultInterpolatedStringHandler.cs" />
     <Compile Include="Common\Enumerable.cs" />
     <Compile Include="Common\ExceptionHandling.cs" />
     <Compile Include="Common\SettingsPaneRegister.cs" />

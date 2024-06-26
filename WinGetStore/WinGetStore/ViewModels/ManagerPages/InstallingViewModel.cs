@@ -148,7 +148,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
-                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return;
             }
         }
@@ -171,7 +171,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
-                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }
         }
@@ -186,7 +186,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
-                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{Convert.ToString(ex.HResult, 16).ToUpperInvariant()}");
+                SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }
         }
