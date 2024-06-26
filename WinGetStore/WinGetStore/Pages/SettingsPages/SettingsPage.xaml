@@ -355,7 +355,7 @@
                                         VerticalScrollMode="Disabled">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
-                                                Content="Github"
+                                                Content="GitHub"
                                                 NavigateUri="https://github.com/wherewhere"
                                                 ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
                                             <HyperlinkButton
@@ -367,7 +367,7 @@
                                                 NavigateUri="https://twitter.com/wherewhere7"
                                                 ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
                                             <HyperlinkButton
-                                                Content="Bilibili"
+                                                Content="哔哩哔哩"
                                                 NavigateUri="https://space.bilibili.com/266112738"
                                                 ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
                                         </StackPanel>
@@ -396,7 +396,7 @@
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <HyperlinkButton
                                                 Content="爱发电"
-                                                NavigateUri="http://afdian.net/@wherewhere"
+                                                NavigateUri="https://afdian.net/@wherewhere"
                                                 ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
                                             <HyperlinkButton
                                                 Content="Patreon"

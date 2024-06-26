@@ -19,16 +19,16 @@ namespace WinGetStore.Helpers
             "zh-TW"
         ];
 
-        private static readonly string[] SupportLanguageCodes =
+        private static readonly string[][] SupportLanguageCodes =
         [
-            "en, en-au, en-ca, en-gb, en-ie, en-in, en-nz, en-sg, en-us, en-za, en-bz, en-hk, en-id, en-jm, en-kz, en-mt, en-my, en-ph, en-pk, en-tt, en-vn, en-zw, en-053, en-021, en-029, en-011, en-018, en-014",
-            "zh-Hans, zh-cn, zh-hans-cn, zh-sg, zh-hans-sg",
-            "zh-Hant, zh-hk, zh-mo, zh-tw, zh-hant-hk, zh-hant-mo, zh-hant-tw"
+            ["en", "en-au", "en-ca", "en-gb", "en-ie", "en-in", "en-nz", "en-sg", "en-us", "en-za", "en-bz", "en-hk", "en-id", "en-jm", "en-kz", "en-mt", "en-my", "en-ph", "en-pk", "en-tt", "en-vn", "en-zw", "en-053", "en-021", "en-029", "en-011", "en-018", "en-014"],
+            ["zh-Hans", "zh-cn", "zh-hans-cn", "zh-sg", "zh-hans-sg"],
+            ["zh-Hant", "zh-hk", "zh-mo", "zh-tw", "zh-hant-hk", "zh-hant-mo", "zh-hant-tw"]
         ];
 
         public static CultureInfo[] SupportCultures { get; } = SupportLanguages.Select(x => new CultureInfo(x)).ToArray();
 
-        public static int FindIndexFromSupportLanguageCodes(string language) => Array.FindIndex(SupportLanguageCodes, code => code.Split(',', ' ').Any(x => x.Equals(language, StringComparison.OrdinalIgnoreCase)));
+        public static int FindIndexFromSupportLanguageCodes(string language) => Array.FindIndex(SupportLanguageCodes, codes => Array.Exists(codes, x => x.Equals(language, StringComparison.OrdinalIgnoreCase)));
 
         public static string GetCurrentLanguage()
         {
