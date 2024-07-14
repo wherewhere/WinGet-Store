@@ -32,7 +32,7 @@
                         var name = node.Attribute("Name");
                         if (name != null)
                         {
-                            name.SetValue("wherewhere.WinGetStore.Canary");
+                            name.SetValue("18184wherewhere.WinGetStore.Canary");
                             var version = node.Attribute("Version");
                             if (version != null)
                             {

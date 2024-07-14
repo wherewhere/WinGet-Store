@@ -3,7 +3,7 @@ using Windows.ApplicationModel;
 
 namespace WinGetStore.Models
 {
-    public readonly record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IComparable, IComparable<SystemVersionInfo>
+    public readonly record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IComparable, IComparable<SystemVersionInfo>, IFormattable
     {
         public override int GetHashCode() => (Major, Minor, Build, Revision).GetHashCode();
 
@@ -35,14 +35,22 @@ namespace WinGetStore.Models
         /// <returns>Version string of the format 'Major.Minor.Build.Revision'</returns>
         public string ToString(int significance = 4) => significance switch
         {
-            4 => $"{Major}.{Minor}.{Build}.{Revision}",
-            3 => $"{Major}.{Minor}.{Build}",
-            2 => $"{Major}.{Minor}",
             1 => $"{Major}",
-            _ => throw new ArgumentOutOfRangeException(nameof(significance), "Value must be a value 1 through 4."),
+            2 => $"{Major}.{Minor}",
+            3 => $"{Major}.{Minor}.{Build}",
+            4 => $"{Major}.{Minor}.{Build}.{Revision}",
+            _ => throw new ArgumentOutOfRangeException(nameof(significance), "Value must be a value 1 through 4.")
         };
 
         public override string ToString() => $"{Major}.{Minor}.{Build}.{Revision}";
+
+        public string ToString(string format, IFormatProvider formatProvider) => format switch
+        {
+            "1" => $"{Major}",
+            "2" => $"{Major}.{Minor}",
+            "3" => $"{Major}.{Minor}.{Build}",
+            "4" or _ => $"{Major}.{Minor}.{Build}.{Revision}"
+        };
 
         public static implicit operator SystemVersionInfo(Version version) => new(version.Major, version.Minor, version.Build, version.Revision);
 

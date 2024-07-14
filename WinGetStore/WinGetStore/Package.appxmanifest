@@ -9,11 +9,11 @@
   IgnorableNamespaces="uap uap5 mp rescap">
 
   <Identity
-    Name="wherewhere.WinGetStore"
-    Publisher="CN=where"
-    Version="0.0.0.0" />
+    Name="18184wherewhere.WinGetStore"
+    Publisher="CN=2C3A37C0-35FC-4839-B08C-751C1C1AFBF5"
+    Version="0.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="4ec6d330-651b-467e-9211-252c8e155ff3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="77750615-21cf-4028-895b-89098060eeb8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WinGet Store</DisplayName>
