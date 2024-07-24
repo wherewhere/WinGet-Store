@@ -421,8 +421,8 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
-    <PackageReference Include="System.IO.FileSystem.AccessControl">
-      <Version>4.7.0</Version>
+    <PackageReference Include="WinGetStore.References">
+      <Version>0.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

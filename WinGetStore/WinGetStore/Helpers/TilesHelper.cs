@@ -182,7 +182,6 @@ namespace WinGetStore.Helpers
             try
             {
                 StorageFile file = await StorageFileHelper.WriteTextToLocalFileAsync(adaptiveCard.ToJson(), fileName).ConfigureAwait(false);
-
                 FileInfo info = new(file.Path);
                 FileSecurity security = info.GetAccessControl();
                 // Add Shell Experience Capability SID
