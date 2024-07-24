@@ -212,11 +212,13 @@ namespace WinGetStore.ViewModels.ManagerPages
         private async Task UpdateTileAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            CatalogPackage[] available = MatchResults.Where(x => x.IsUpdateAvailable).ToArray();
+            Task task = TilesHelper.CreateStartMenuCompanion(matchResults).UpdateStartMenuCompanionAsync();
+            CatalogPackage[] available = matchResults.Where(x => x.IsUpdateAvailable).ToArray();
             TilesHelper.SetBadgeNumber((uint)available.Length);
             available.Take(5)
                      .Select(TilesHelper.CreateTile)
                      .UpdateTiles();
+            await task;
         }
     }
 }

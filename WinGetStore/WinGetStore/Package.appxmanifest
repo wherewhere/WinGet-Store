@@ -64,19 +64,18 @@
           <uap3:AppExtension
             Name="com.microsoft.startmenucompanion"
             Id="18184wherewhere.WinGetStore.Companion"
-            DisplayName="WinGet Store"
-            Description="WinGet Store Start Menu Companion"
+            DisplayName="ms-resource:AppName"
+            Description="ms-resource:AppDescription"
             PublicFolder="public">
             <uap3:Properties>
-              <AdaptiveCardAppDataLocalRelativePath>StartMenu/StartMenuCompanion.json</AdaptiveCardAppDataLocalRelativePath>
+              <AdaptiveCardAppDataLocalRelativePath>StartMenuCompanion.json</AdaptiveCardAppDataLocalRelativePath>
               <PlacementPreference>Left</PlacementPreference>
-              <RefreshCardLaunchUri>ms-phone:startup?ref=StartMenu</RefreshCardLaunchUri>
               <Icon>ms-appx:///Assets/StoreLogo.png</Icon>
-              <CompanionSettingName>WinGet Store</CompanionSettingName>
-              <CompanionSettingExtendedName>WinGet Store Start Menu Companion</CompanionSettingExtendedName>
-              <DetailedSettingsSettingName>Report bugs</DetailedSettingsSettingName>
+              <CompanionSettingName>ms-resource:AppName</CompanionSettingName>
+              <CompanionSettingExtendedName>ms-resource:AppDescription</CompanionSettingExtendedName>
+              <DetailedSettingsSettingName>ms-resource:Report</DetailedSettingsSettingName>
               <DetailedSettingsLaunchName>GitHub</DetailedSettingsLaunchName>
-              <DetailedSettingsLaunchUri>https://github.com/thebookisclosed/StartMenuCompanionSample</DetailedSettingsLaunchUri>
+              <DetailedSettingsLaunchUri>https://github.com/wherewhere/WinGet-Store/issues</DetailedSettingsLaunchUri>
               <DefaultState>Available</DefaultState>
             </uap3:Properties>
           </uap3:AppExtension>

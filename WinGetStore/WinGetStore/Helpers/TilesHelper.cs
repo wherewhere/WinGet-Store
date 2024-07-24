@@ -9,6 +9,8 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -179,15 +181,13 @@ namespace WinGetStore.Helpers
         {
             try
             {
-                StorageFolder storageDir = await ApplicationData.Current.LocalFolder.CreateFolderAsync("StartMenu", CreationCollisionOption.OpenIfExists);
+                StorageFile file = await StorageFileHelper.WriteTextToLocalFileAsync(adaptiveCard.ToJson(), fileName).ConfigureAwait(false);
 
-                DirectoryInfo dirInfo = new(storageDir.Path);
-                DirectorySecurity dirSec = dirInfo.GetAccessControl();
+                FileInfo info = new(file.Path);
+                FileSecurity security = info.GetAccessControl();
                 // Add Shell Experience Capability SID
-                dirSec.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-3-1024-3167453650-624722384-889205278-321484983-714554697-3592933102-807660695-1632717421"), FileSystemRights.ReadAndExecute, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
-                dirInfo.SetAccessControl(dirSec);
-
-                await storageDir.WriteTextToFileAsync(adaptiveCard.ToJson(), fileName).ConfigureAwait(false);
+                security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-3-1024-3167453650-624722384-889205278-321484983-714554697-3592933102-807660695-1632717421"), FileSystemRights.ReadAndExecute, InheritanceFlags.None, PropagationFlags.None, AccessControlType.Allow));
+                info.SetAccessControl(security);
             }
             catch (Exception ex)
             {
@@ -197,8 +197,106 @@ namespace WinGetStore.Helpers
 
         public static AdaptiveCard CreateStartMenuCompanion(IEnumerable<CatalogPackage> catalogPackages)
         {
-            AdaptiveCard card = new(new AdaptiveSchemaVersion(1, 1));
-            card.Body.AddRange(catalogPackages.Select(x => new AdaptiveTextBlock(x.Name)));
+            AdaptiveCard card = new(new AdaptiveSchemaVersion(1, 1))
+            {
+                Body =
+                {
+                    new AdaptiveColumnSet
+                    {
+                        Columns =
+                        {
+                            new AdaptiveColumn
+                            {
+                                Width = "8px"
+                            },
+                            new AdaptiveColumn
+                            {
+                                Items =
+                                {
+                                    new AdaptiveTextBlock(ResourceLoader.GetForViewIndependentUse().GetString("StartMenuTitle"))
+                                    {
+                                        Weight = AdaptiveTextWeight.Bolder,
+                                        Size = AdaptiveTextSize.Large,
+                                        Spacing = AdaptiveSpacing.None
+                                    }
+                                }
+                            },
+                            new AdaptiveColumn
+                            {
+                                Width = "8px"
+                            }
+                        },
+                        Spacing = AdaptiveSpacing.None
+                    }
+                }
+            };
+            card.Body.AddRange(catalogPackages.Select(CreateCard));
+            static AdaptiveContainer CreateCard(CatalogPackage catalogPackage)
+            {
+                return new AdaptiveContainer
+                {
+                    Items =
+                    {
+                        new AdaptiveColumnSet
+                        {
+                            Columns =
+                            {
+                                new AdaptiveColumn
+                                {
+                                    Width = "8px"
+                                },
+                                new AdaptiveColumn
+                                {
+                                    Items = 
+                                    {
+                                        new AdaptiveTextBlock(catalogPackage.Name)
+                                        {
+                                            Weight = AdaptiveTextWeight.Bolder
+                                        },
+                                        new AdaptiveColumnSet
+                                        {
+                                            Columns =
+                                            {
+                                                new AdaptiveColumn
+                                                {
+                                                    Items =
+                                                    {
+                                                        new AdaptiveTextBlock(catalogPackage.Id)
+                                                        {
+                                                            IsSubtle = true,
+                                                            Size = AdaptiveTextSize.Small,
+                                                            Spacing = AdaptiveSpacing.None
+                                                        }
+                                                    }
+                                                },
+                                                new AdaptiveColumn
+                                                {
+                                                    Items =
+                                                    {
+                                                        new AdaptiveTextBlock(catalogPackage.IsUpdateAvailable ? "可更新" : " ")
+                                                        {
+                                                            Color = AdaptiveTextColor.Accent,
+                                                            IsSubtle = true,
+                                                            Size = AdaptiveTextSize.Small,
+                                                            Spacing = AdaptiveSpacing.None
+                                                        }
+                                                    },
+                                                    Width = "auto"
+                                                }
+                                            },
+                                            Spacing = AdaptiveSpacing.Small
+                                        }
+                                    }
+                                },
+                                new AdaptiveColumn
+                                {
+                                    Width = "8px"
+                                }
+                            }
+                        }
+                    }
+                };
+            }
             return card;
         }
 
