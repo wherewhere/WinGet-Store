@@ -1,10 +1,16 @@
-﻿using Microsoft.Management.Deployment;
+﻿using AdaptiveCards;
+using Microsoft.Management.Deployment;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
+using Windows.Storage;
 using Windows.UI.Notifications;
 using WinGetStore.Common;
 using WinGetStore.ViewModels.ManagerPages;
@@ -169,6 +175,33 @@ namespace WinGetStore.Helpers
             return xmlDocument;
         }
 
+        public static async Task UpdateStartMenuCompanionAsync(this AdaptiveCard adaptiveCard, string fileName = "StartMenuCompanion.json")
+        {
+            try
+            {
+                StorageFolder storageDir = await ApplicationData.Current.LocalFolder.CreateFolderAsync("StartMenu", CreationCollisionOption.OpenIfExists);
+
+                DirectoryInfo dirInfo = new(storageDir.Path);
+                DirectorySecurity dirSec = dirInfo.GetAccessControl();
+                // Add Shell Experience Capability SID
+                dirSec.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-3-1024-3167453650-624722384-889205278-321484983-714554697-3592933102-807660695-1632717421"), FileSystemRights.ReadAndExecute, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+                dirInfo.SetAccessControl(dirSec);
+
+                await storageDir.WriteTextToFileAsync(adaptiveCard.ToJson(), fileName).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.GetLogger(nameof(TilesHelper)).Error(ex.ExceptionToMessage(), ex);
+            }
+        }
+
+        public static AdaptiveCard CreateStartMenuCompanion(IEnumerable<CatalogPackage> catalogPackages)
+        {
+            AdaptiveCard card = new(new AdaptiveSchemaVersion(1, 1));
+            card.Body.AddRange(catalogPackages.Select(x => new AdaptiveTextBlock(x.Name)));
+            return card;
+        }
+
         public static async Task UpdateAvailablePackageAsync()
         {
             try
@@ -180,16 +213,22 @@ namespace WinGetStore.Helpers
                 FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog);
                 if (packagesResult is null) { return; }
 
-                CatalogPackage[] available =
+                IEnumerable<CatalogPackage> catalogPackages =
                     packagesResult.Matches.AsReader()
-                                          .Where((x) => x.CatalogPackage.DefaultInstallVersion != null && x.CatalogPackage.IsUpdateAvailable)
-                                          .Select((x) => x.CatalogPackage)
-                                          .ToArray();
+                                          .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
+                                          .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
+                                          .Select((x) => x.CatalogPackage);
+
+                Task task = CreateStartMenuCompanion(catalogPackages).UpdateStartMenuCompanionAsync();
+
+                CatalogPackage[] available = catalogPackages.Where(x => x.IsUpdateAvailable).ToArray();
 
                 SetBadgeNumber((uint)available.Length);
                 available.Take(5)
                          .Select(CreateTile)
                          .UpdateTiles();
+
+                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {

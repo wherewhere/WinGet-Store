@@ -4,9 +4,10 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap5 mp rescap">
+  IgnorableNamespaces="uap uap3 uap5 mp rescap">
 
   <Identity
     Name="18184wherewhere.WinGetStore"
@@ -58,6 +59,29 @@
         </uap:InitialRotationPreference>
         <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\BadgeLogo.png"/>
       </uap:VisualElements>
+      <Extensions>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension
+            Name="com.microsoft.startmenucompanion"
+            Id="18184wherewhere.WinGetStore.Companion"
+            DisplayName="WinGet Store"
+            Description="WinGet Store Start Menu Companion"
+            PublicFolder="public">
+            <uap3:Properties>
+              <AdaptiveCardAppDataLocalRelativePath>StartMenu/StartMenuCompanion.json</AdaptiveCardAppDataLocalRelativePath>
+              <PlacementPreference>Left</PlacementPreference>
+              <RefreshCardLaunchUri>ms-phone:startup?ref=StartMenu</RefreshCardLaunchUri>
+              <Icon>ms-appx:///Assets/StoreLogo.png</Icon>
+              <CompanionSettingName>WinGet Store</CompanionSettingName>
+              <CompanionSettingExtendedName>WinGet Store Start Menu Companion</CompanionSettingExtendedName>
+              <DetailedSettingsSettingName>Report bugs</DetailedSettingsSettingName>
+              <DetailedSettingsLaunchName>GitHub</DetailedSettingsLaunchName>
+              <DetailedSettingsLaunchUri>https://github.com/thebookisclosed/StartMenuCompanionSample</DetailedSettingsLaunchUri>
+              <DefaultState>Available</DefaultState>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
