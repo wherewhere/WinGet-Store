@@ -145,4 +145,10 @@
   <data name="Yes" xml:space="preserve">
     <value>是</value>
   </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report bugs</value>
+  </data>
+  <data name="StartMenuTitle" xml:space="preserve">
+    <value>WinGet App List</value>
+  </data>
 </root>
