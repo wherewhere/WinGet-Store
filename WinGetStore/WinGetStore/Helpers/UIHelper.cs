@@ -3,8 +3,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using WinGetStore.Common;
 
@@ -12,9 +10,6 @@ namespace WinGetStore.Helpers
 {
     public static class UIHelper
     {
-        public static bool HasTitleBar => !CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
-        public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
-
         public static string ExceptionToMessage(this Exception ex)
         {
             StringBuilder builder = new StringBuilder().AppendLine();

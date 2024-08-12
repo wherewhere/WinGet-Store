@@ -10,7 +10,6 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -246,7 +245,7 @@ namespace WinGetStore.Helpers
                                 },
                                 new AdaptiveColumn
                                 {
-                                    Items = 
+                                    Items =
                                     {
                                         new AdaptiveTextBlock(catalogPackage.Name)
                                         {

@@ -27,35 +27,49 @@ namespace WinGetStore.Common
 
         public static void Register(Window window)
         {
-            if (IsSearchPaneSupported)
+            try
             {
-                SearchPane searchPane = SearchPane.GetForCurrentView();
-                searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
-                searchPane.QuerySubmitted += SearchPane_QuerySubmitted;
-            }
+                if (IsSearchPaneSupported)
+                {
+                    SearchPane searchPane = SearchPane.GetForCurrentView();
+                    searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
+                    searchPane.QuerySubmitted += SearchPane_QuerySubmitted;
+                }
 
-            if (IsSettingsPaneSupported)
+                if (IsSettingsPaneSupported)
+                {
+                    SettingsPane searchPane = SettingsPane.GetForCurrentView();
+                    searchPane.CommandsRequested -= OnCommandsRequested;
+                    searchPane.CommandsRequested += OnCommandsRequested;
+                    window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                    window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                }
+            }
+            catch (Exception ex)
             {
-                SettingsPane searchPane = SettingsPane.GetForCurrentView();
-                searchPane.CommandsRequested -= OnCommandsRequested;
-                searchPane.CommandsRequested += OnCommandsRequested;
-                window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-                window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
             }
         }
 
         public static void Unregister(Window window)
         {
-            if (IsSearchPaneSupported)
+            try
             {
-                SearchPane searchPane = SearchPane.GetForCurrentView();
-                searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
-            }
+                if (IsSearchPaneSupported)
+                {
+                    SearchPane searchPane = SearchPane.GetForCurrentView();
+                    searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
+                }
 
-            if (IsSettingsPaneSupported)
+                if (IsSettingsPaneSupported)
+                {
+                    SettingsPane.GetForCurrentView().CommandsRequested -= OnCommandsRequested;
+                    window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                }
+            }
+            catch (Exception ex)
             {
-                SettingsPane.GetForCurrentView().CommandsRequested -= OnCommandsRequested;
-                window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
+                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
             }
         }
 
@@ -126,19 +140,26 @@ namespace WinGetStore.Common
 
         private static bool CheckSearchExtension()
         {
-            XDocument doc = XDocument.Load(Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml"));
-            XNamespace ns = XNamespace.Get("http://schemas.microsoft.com/appx/manifest/uap/windows10");
-            IEnumerable<XElement> extensions = doc.Root.Descendants(ns + "Extension");
-            if (extensions != null)
+            try
             {
-                foreach (XElement extension in extensions)
+                XDocument doc = XDocument.Load(Path.Combine(Package.Current.InstalledLocation.Path, "AppxManifest.xml"));
+                XNamespace ns = XNamespace.Get("http://schemas.microsoft.com/appx/manifest/uap/windows10");
+                IEnumerable<XElement> extensions = doc.Root.Descendants(ns + "Extension");
+                if (extensions != null)
                 {
-                    XAttribute category = extension.Attribute("Category");
-                    if (category != null && category.Value == "windows.search")
+                    foreach (XElement extension in extensions)
                     {
-                        return true;
+                        XAttribute category = extension.Attribute("Category");
+                        if (category != null && category.Value == "windows.search")
+                        {
+                            return true;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
             }
             return false;
         }
