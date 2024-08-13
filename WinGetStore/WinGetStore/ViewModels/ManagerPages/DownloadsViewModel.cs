@@ -13,7 +13,7 @@ using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public class InstallingViewModel : INotifyPropertyChanged
+    public class DownloadsViewModel : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
@@ -88,7 +88,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        public InstallingViewModel() => waitProgressText = _loader.GetString("Loading");
+        public DownloadsViewModel() => waitProgressText = _loader.GetString("Loading");
 
         private async void SetError(string title, string description, string code = "")
         {
@@ -147,7 +147,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.GetLogger(nameof(DownloadsViewModel)).Error(ex.ExceptionToMessage());
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return;
             }
@@ -170,7 +170,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.GetLogger(nameof(DownloadsViewModel)).Error(ex.ExceptionToMessage());
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }
@@ -185,7 +185,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(InstallingViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.GetLogger(nameof(DownloadsViewModel)).Error(ex.ExceptionToMessage());
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }

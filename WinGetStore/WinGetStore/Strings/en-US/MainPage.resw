@@ -120,8 +120,8 @@
   <data name="Home.Content" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="Library.Content" xml:space="preserve">
-    <value>Library</value>
+  <data name="Downloads.Content" xml:space="preserve">
+    <value>Downloads</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>Searching Apps, Games, etc</value>
@@ -183,8 +183,8 @@
   <data name="Filters.Content" xml:space="preserve">
     <value>Filters</value>
   </data>
-  <data name="InstallingPage.Text" xml:space="preserve">
-    <value>Installing App</value>
+  <data name="DownloadsPage.Text" xml:space="preserve">
+    <value>Updates &amp; Downloads</value>
   </data>
   <data name="Refresh.Content" xml:space="preserve">
     <value>Refresh</value>

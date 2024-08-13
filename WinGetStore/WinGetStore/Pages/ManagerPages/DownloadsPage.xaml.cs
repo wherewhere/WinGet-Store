@@ -12,11 +12,11 @@ namespace WinGetStore.Pages.ManagerPages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class InstallingPage : Page
+    public sealed partial class DownloadsPage : Page
     {
-        private readonly InstallingViewModel Provider = new();
+        private readonly DownloadsViewModel Provider = new();
 
-        public InstallingPage() => InitializeComponent();
+        public DownloadsPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

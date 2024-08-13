@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="WinGetStore.Pages.ManagerPages.InstallingPage"
+    x:Class="WinGetStore.Pages.ManagerPages.DownloadsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
-    d:DataContext="{d:DesignInstance Type=managerpages:InstallingViewModel}"
+    d:DataContext="{d:DesignInstance Type=managerpages:DownloadsViewModel}"
     DataContext="{x:Bind Provider}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -31,7 +31,7 @@
                         Background="{ThemeResource SystemControlTransparentBrush}"
                         DoubleTapped="Border_DoubleTapped">
                         <TextBlock
-                            x:Uid="/MainPage/InstallingPage"
+                            x:Uid="/MainPage/DownloadsPage"
                             Margin="0,21"
                             AutomationProperties.HeadingLevel="Level1"
                             FontWeight="SemiBold"

@@ -187,8 +187,8 @@
     <Compile Include="Models\PackageVersionSource.cs" />
     <Compile Include="Models\SystemVersionInfo.cs" />
     <Compile Include="Models\UpdateInfo.cs" />
-    <Compile Include="Pages\ManagerPages\InstallingPage.xaml.cs">
-      <DependentUpon>InstallingPage.xaml</DependentUpon>
+    <Compile Include="Pages\ManagerPages\DownloadsPage.xaml.cs">
+      <DependentUpon>DownloadsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -204,7 +204,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
-    <Compile Include="ViewModels\ManagerPages\InstallingViewModel.cs" />
+    <Compile Include="ViewModels\ManagerPages\DownloadsViewModel.cs" />
     <Compile Include="ViewModels\ManagerPages\ManagerViewModel.cs" />
     <Compile Include="ViewModels\ManagerPages\SearchingViewModel.cs" />
     <Compile Include="ViewModels\SettingsPages\SettingsViewModel.cs" />
@@ -346,7 +346,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\ManagerPages\InstallingPage.xaml">
+    <Page Include="Pages\ManagerPages\DownloadsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

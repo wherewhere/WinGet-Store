@@ -30,7 +30,7 @@ namespace WinGetStore.Pages
         private readonly HashSet<(string Tag, Type Page)> _pages =
         [
             ("Home", typeof(ManagerPage)),
-            ("Library", typeof(InstallingPage)),
+            ("Downloads", typeof(DownloadsPage)),
             ("Settings", typeof(SettingsPage))
         ];
 
