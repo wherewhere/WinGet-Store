@@ -6,8 +6,9 @@ namespace WinGetStore.Common
 {
     /// <summary>
     /// Wrapper around a standard synchronization context, that catches any unhandled exceptions.
-    /// Acts as a façade passing calls to the original SynchronizationContext
+    /// Acts as a façade passing calls to the original SynchronizationContext.
     /// </summary>
+    /// <param name="syncContext">The synchronization context to wrap.</param>
     /// <example>
     /// Set this up inside your App.xaml.cs file as follows:
     /// <code>
@@ -38,9 +39,9 @@ namespace WinGetStore.Common
     public class ExceptionHandlingSynchronizationContext(SynchronizationContext syncContext) : SynchronizationContext
     {
         /// <summary>
-        /// Registration method.  Call this from OnLaunched and OnActivated inside the App.xaml.cs
+        /// Registration method. Call this from OnLaunched and OnActivated inside the App.xaml.cs.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The <see cref="ExceptionHandlingSynchronizationContext"/> which registered.</returns>
         public static ExceptionHandlingSynchronizationContext Register()
         {
             SynchronizationContext syncContext = Current ?? throw new InvalidOperationException("Ensure a synchronization context exists before calling this method.");
@@ -56,11 +57,11 @@ namespace WinGetStore.Common
 
         /// <summary>
         /// Links the synchronization context to the specified frame
-        /// and ensures that it is still in use after each navigation event
+        /// and ensures that it is still in use after each navigation event.
         /// </summary>
-        /// <param name="rootFrame"></param>
-        /// <returns></returns>
-        public static ExceptionHandlingSynchronizationContext RegisterForFrame(Frame rootFrame)
+        /// <param name="rootFrame">The frame to link the synchronization context to.</param>
+        /// <returns>The <see cref="ExceptionHandlingSynchronizationContext"/> which registered.</returns>
+        public static ExceptionHandlingSynchronizationContext Register(Frame rootFrame)
         {
             if (rootFrame == null) { throw new ArgumentNullException(nameof(rootFrame)); }
 
@@ -72,26 +73,35 @@ namespace WinGetStore.Common
             return synchronizationContext;
         }
 
+        /// <summary>
+        /// Ensures that the specified synchronization context is the current one.
+        /// </summary>
+        /// <param name="context">The <see cref="SynchronizationContext"/> to ensure.</param>
         private static void EnsureContext(SynchronizationContext context)
         {
             if (Current != context) { SetSynchronizationContext(context); }
         }
 
+        /// <inheritdoc/>
         public override SynchronizationContext CreateCopy() => new ExceptionHandlingSynchronizationContext(syncContext.CreateCopy());
 
-
+        /// <inheritdoc/>
         public override void OperationCompleted() => syncContext.OperationCompleted();
 
-
+        /// <inheritdoc/>
         public override void OperationStarted() => syncContext.OperationStarted();
 
-
+        /// <inheritdoc/>
         public override void Post(SendOrPostCallback d, object state) => syncContext.Post(WrapCallback(d), state);
 
-
+        /// <inheritdoc/>
         public override void Send(SendOrPostCallback d, object state) => syncContext.Send(d, state);
 
-
+        /// <summary>
+        /// Pack the callback in a try-catch block to catch any unhandled exceptions.
+        /// </summary>
+        /// <param name="sendOrPostCallback">The callback to wrap.</param>
+        /// <returns>The wrapped callback.</returns>
         private SendOrPostCallback WrapCallback(SendOrPostCallback sendOrPostCallback) =>
             state =>
             {
@@ -105,14 +115,16 @@ namespace WinGetStore.Common
                 }
             };
 
+        /// <summary>
+        /// Handles the exception by raising the UnhandledException event.
+        /// </summary>
+        /// <param name="exception">The exception to handle.</param>
+        /// <returns><see langword="true"/> if the exception was handled; otherwise, <see langword="false"/>.</returns>
         private bool HandleException(Exception exception)
         {
             if (UnhandledException == null) { return false; }
 
-            UnhandledExceptionEventArgs exWrapper = new()
-            {
-                Exception = exception
-            };
+            UnhandledExceptionEventArgs exWrapper = new(exception);
 
             UnhandledException(this, exWrapper);
 
@@ -126,14 +138,33 @@ namespace WinGetStore.Common
 
         /// <summary>
         /// Listen to this event to catch any unhandled exceptions and allow for handling them
-        /// so they don't crash your application
+        /// so they don't crash your application.
         /// </summary>
         public event EventHandler<UnhandledExceptionEventArgs> UnhandledException;
     }
 
-    public class UnhandledExceptionEventArgs : EventArgs
+    /// <summary>
+    /// Provides data for the UnhandledException event.
+    /// </summary>
+    /// <param name="exception">The exception that was not handled.</param>
+    public class UnhandledExceptionEventArgs(Exception exception) : EventArgs
     {
+        /// <summary>
+        /// Gets or sets a value that indicates whether the exception is handled.
+        /// </summary>
+        /// <value><see langword="true"/> to mark the exception as handled, which indicates that the event system should not process it further; otherwise, <see langword="false"/>.</value>
         public bool Handled { get; set; }
-        public Exception Exception { get; init; }
+
+        /// <summary>
+        /// Gets the <b>HRESULT</b> code associated with the unhandled exception.
+        /// </summary>
+        /// <value>The <b>HRESULT</b> code (for Visual C++ component extensions (C++/CX)), or a mapped common language runtime (CLR) <see cref="System.Exception"/>.</value>
+        public Exception Exception => exception;
+
+        /// <summary>
+        /// Gets the message string as passed by the originating unhandled exception.
+        /// </summary>
+        /// <value>The message string, which may be useful for debugging.</value>
+        public string Message => Exception?.Message;
     }
 }
