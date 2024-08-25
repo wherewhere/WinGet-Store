@@ -8,16 +8,16 @@ using Windows.UI.Xaml.Controls;
 namespace WinGetStore.Controls
 {
     /// <summary>
-    /// The SettingExpander is a collapsable control to host multiple SettingsCards.
+    /// The <see cref="SettingsExpander"/> is a collapsable control to host multiple SettingsCards.
     /// </summary>
-    public partial class SettingExpander : ItemsControl
+    public partial class SettingsExpander : ItemsControl
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="SettingExpander"/> class.
+        /// Creates a new instance of the <see cref="SettingsExpander"/> class.
         /// </summary>
-        public SettingExpander()
+        public SettingsExpander()
         {
-            DefaultStyleKey = typeof(SettingExpander);
+            DefaultStyleKey = typeof(SettingsExpander);
         }
 
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace WinGetStore.Controls
         /// <returns>An automation peer for <see cref="SettingsExpander"/>.</returns>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return new SettingExpanderAutomationPeer(this);
+            return new SettingsExpanderAutomationPeer(this);
         }
     }
 }

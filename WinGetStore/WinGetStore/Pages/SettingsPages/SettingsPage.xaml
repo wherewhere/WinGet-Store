@@ -42,20 +42,20 @@
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
                     <controls:SettingsGroup x:Uid="/SettingsPage/DisplaySettingsHeader" Margin="0,-28,0,0">
-                        <controls:Setting x:Uid="/SettingsPage/ThemeSettings" Icon="&#xE790;">
-                            <controls:Setting.Description>
+                        <controls:SettingsCard x:Uid="/SettingsPage/ThemeSettings" HeaderIcon="&#xE790;">
+                            <controls:SettingsCard.Description>
                                 <HyperlinkButton
                                     x:Uid="/SettingsPage/WindowsColorButton"
                                     Click="HyperlinkButton_Click"
                                     Tag="WindowsColor" />
-                            </controls:Setting.Description>
+                            </controls:SettingsCard.Description>
                             <ComboBox SelectedIndex="{x:Bind Provider.SelectedTheme, Mode=TwoWay}">
                                 <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDark" />
                                 <ComboBoxItem x:Uid="/SettingsPage/RadioThemeLight" />
                                 <ComboBoxItem x:Uid="/SettingsPage/RadioThemeDefault" />
                             </ComboBox>
-                        </controls:Setting>
-                        <controls:Setting x:Uid="/SettingsPage/LanguageSettings" Icon="&#xF2B7;">
+                        </controls:SettingsCard>
+                        <controls:SettingsCard x:Uid="/SettingsPage/LanguageSettings" HeaderIcon="&#xF2B7;">
                             <ComboBox ItemsSource="{x:Bind helper:LanguageHelper.SupportCultures}" SelectedItem="{x:Bind Provider.CurrentLanguage, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="globalization:CultureInfo">
@@ -65,10 +65,10 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
-                        </controls:Setting>
-                        <controls:Setting x:Uid="/SettingsPage/TileUpdateTimeSettings" Icon="&#xEA79;">
+                        </controls:SettingsCard>
+                        <controls:SettingsCard x:Uid="/SettingsPage/TileUpdateTimeSettings" HeaderIcon="&#xEA79;">
                             <Slider
-                                Width="{StaticResource SettingCardContentMinWidth}"
+                                Width="{StaticResource SettingsCardContentMinWidth}"
                                 Maximum="1440"
                                 Minimum="0"
                                 StepFrequency="15"
@@ -76,15 +76,15 @@
                                 TickFrequency="15"
                                 TickPlacement="Outside"
                                 Value="{x:Bind Provider.TileUpdateTime, Mode=TwoWay}" />
-                        </controls:Setting>
+                        </controls:SettingsCard>
                     </controls:SettingsGroup>
                     <controls:SettingsGroup x:Uid="/SettingsPage/ConfigsSettingsHeader">
-                        <controls:SettingExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{x:Bind Provider.WinGetVersion, Mode=OneWay}">
-                            <controls:SettingExpander.Icon>
+                        <controls:SettingsExpander x:Uid="/SettingsPage/WinGetVersionSettings" Description="{x:Bind Provider.WinGetVersion, Mode=OneWay}">
+                            <controls:SettingsExpander.HeaderIcon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
-                            </controls:SettingExpander.Icon>
-                            <controls:Setting Header="WinGet" Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                                <controls:Setting.Description>
+                            </controls:SettingsExpander.HeaderIcon>
+                            <controls:SettingsCard Header="WinGet">
+                                <controls:SettingsCard.Description>
                                     <Grid>
                                         <TextBlock
                                             x:Name="WinGetInstalledTextBlock"
@@ -95,10 +95,10 @@
                                             x:Uid="/SettingsPage/UnavailableTextBlock"
                                             x:Load="{x:Bind Provider.IsWinGetInstalled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                                     </Grid>
-                                </controls:Setting.Description>
-                            </controls:Setting>
-                            <controls:Setting Header="WinGet Dev" Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                                <controls:Setting.Description>
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
+                            <controls:SettingsCard Header="WinGet Dev">
+                                <controls:SettingsCard.Description>
                                     <Grid>
                                         <TextBlock
                                             x:Name="WinGetDevInstalledTextBlock"
@@ -109,17 +109,16 @@
                                             x:Uid="/SettingsPage/UnavailableTextBlock"
                                             x:Load="{x:Bind Provider.IsWinGetDevInstalled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                                     </Grid>
-                                </controls:Setting.Description>
-                            </controls:Setting>
-                            <controls:Setting
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
+                            <controls:SettingsCard
                                 x:Uid="/SettingsPage/WinGetDownloadSettings"
                                 ActionIcon="&#xE8A7;"
                                 Click="Button_Click"
                                 CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
                                 IsClickEnabled="True"
-                                Style="{StaticResource ClickableSettingExpanderItemStyle}"
                                 Tag="WinGetDownloadSettings">
-                                <controls:Setting.Description>
+                                <controls:SettingsCard.Description>
                                     <ScrollViewer
                                         Margin="0,0,0,-8"
                                         Padding="0,0,0,8"
@@ -142,10 +141,10 @@
                                                 ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
                                         </StackPanel>
                                     </ScrollViewer>
-                                </controls:Setting.Description>
-                            </controls:Setting>
-                        </controls:SettingExpander>
-                        <controls:Setting x:Uid="/SettingsPage/ResetSettings" Icon="&#xE777;">
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
+                        </controls:SettingsExpander>
+                        <controls:SettingsCard x:Uid="/SettingsPage/ResetSettings" HeaderIcon="&#xE777;">
                             <Button Name="Reset" x:Uid="/SettingsPage/ResetSettingsButton">
                                 <Button.Flyout>
                                     <Flyout>
@@ -162,13 +161,12 @@
                                     </Flyout>
                                 </Button.Flyout>
                             </Button>
-                        </controls:Setting>
-                        <controls:SettingExpander x:Uid="/SettingsPage/FrameworkSettings" Icon="&#xE950;">
+                        </controls:SettingsCard>
+                        <controls:SettingsExpander x:Uid="/SettingsPage/FrameworkSettings" HeaderIcon="&#xE950;">
                             <Grid
                                 Margin="0,0,0,8"
                                 ColumnSpacing="32"
-                                RowSpacing="8"
-                                Style="{StaticResource SettingExpanderContentGridStyle}">
+                                RowSpacing="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -184,7 +182,7 @@
                                     x:Uid="/SettingsPage/FrameworkTextBlock"
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Foreground="{ThemeResource SettingCardForeground}" />
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="1"
@@ -196,7 +194,7 @@
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Foreground="{ThemeResource SettingCardForeground}"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                     Text="Community Toolkit" />
                                 <TextBlock
                                     Grid.Row="1"
@@ -210,7 +208,7 @@
                                     x:Uid="/SettingsPage/DeviceFamilyTextBlock"
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    Foreground="{ThemeResource SettingCardForeground}" />
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
@@ -223,7 +221,7 @@
                                     x:Uid="/SettingsPage/OSPlatformTextBlock"
                                     Grid.Row="3"
                                     Grid.Column="0"
-                                    Foreground="{ThemeResource SettingCardForeground}" />
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="1"
@@ -236,7 +234,7 @@
                                     x:Uid="/SettingsPage/OSArchitectureTextBlock"
                                     Grid.Row="4"
                                     Grid.Column="0"
-                                    Foreground="{ThemeResource SettingCardForeground}" />
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
                                 <TextBlock
                                     Grid.Row="4"
                                     Grid.Column="1"
@@ -246,11 +244,11 @@
                                     Text="{x:Bind interopservices:RuntimeInformation.OSArchitecture}"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>
-                        </controls:SettingExpander>
+                        </controls:SettingsExpander>
                     </controls:SettingsGroup>
                     <controls:SettingsGroup x:Uid="/SettingsPage/AboutSettingsHeader">
-                        <controls:SettingExpander Header="{x:Bind settingspages:SettingsViewModel.VersionTextBlockText}" Icon="&#xE117;">
-                            <controls:SettingExpander.Description>
+                        <controls:SettingsExpander Header="{x:Bind settingspages:SettingsViewModel.VersionTextBlockText}" HeaderIcon="&#xE117;">
+                            <controls:SettingsExpander.Description>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">
                                         <Run x:Uid="/SettingsPage/LastChecked" />
@@ -283,8 +281,8 @@
                                         </StackPanel>
                                     </ScrollViewer>
                                 </StackPanel>
-                            </controls:SettingExpander.Description>
-                            <controls:SettingExpander.ActionContent>
+                            </controls:SettingsExpander.Description>
+                            <controls:SettingsExpander.ActionContent>
                                 <StackPanel
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
@@ -310,8 +308,8 @@
                                         Click="Button_Click"
                                         Tag="CheckUpdate" />
                                 </StackPanel>
-                            </controls:SettingExpander.ActionContent>
-                            <Grid Style="{StaticResource SettingExpanderContentGridStyle}">
+                            </controls:SettingsExpander.ActionContent>
+                            <Grid>
                                 <cwuc:MarkdownTextBlock
                                     HorizontalAlignment="Left"
                                     Background="{ThemeResource SystemControlTransparentBrush}"
@@ -319,7 +317,7 @@
                                     LinkForeground="{ThemeResource HyperlinkForeground}"
                                     Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}" />
                             </Grid>
-                        </controls:SettingExpander>
+                        </controls:SettingsExpander>
                         <muxc:InfoBar
                             x:Name="UpdateState"
                             Title="{x:Bind Provider.UpdateStateTitle, Mode=OneWay}"
@@ -339,8 +337,8 @@
                                     Visibility="{x:Bind Provider.GotoUpdateVisibility, Mode=OneWay}" />
                             </muxc:InfoBar.ActionButton>
                         </muxc:InfoBar>
-                        <controls:Setting x:Uid="/SettingsPage/ContactMeSettings" Icon="&#xE779;">
-                            <controls:Setting.Description>
+                        <controls:SettingsCard x:Uid="/SettingsPage/ContactMeSettings" HeaderIcon="&#xE779;">
+                            <controls:SettingsCard.Description>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock
                                         x:Uid="/SettingsPage/ContactMeTextBlock"
@@ -373,14 +371,14 @@
                                         </StackPanel>
                                     </ScrollViewer>
                                 </StackPanel>
-                            </controls:Setting.Description>
+                            </controls:SettingsCard.Description>
                             <Button
                                 x:Uid="/SettingsPage/Group"
                                 Click="Button_Click"
                                 Tag="Group" />
-                        </controls:Setting>
-                        <controls:Setting x:Uid="/SettingsPage/DonateSettings" Icon="&#xEB51;">
-                            <controls:Setting.Description>
+                        </controls:SettingsCard>
+                        <controls:SettingsCard x:Uid="/SettingsPage/DonateSettings" HeaderIcon="&#xEB51;">
+                            <controls:SettingsCard.Description>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock
                                         x:Uid="/SettingsPage/DonateTextBlock"
@@ -405,12 +403,12 @@
                                         </StackPanel>
                                     </ScrollViewer>
                                 </StackPanel>
-                            </controls:Setting.Description>
+                            </controls:SettingsCard.Description>
                             <Button
                                 x:Uid="/SettingsPage/Rate"
                                 Click="Button_Click"
                                 Tag="Rate" />
-                        </controls:Setting>
+                        </controls:SettingsCard>
                     </controls:SettingsGroup>
                 </StackPanel>
             </Grid>

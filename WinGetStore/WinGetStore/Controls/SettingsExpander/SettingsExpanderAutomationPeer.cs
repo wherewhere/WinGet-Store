@@ -3,15 +3,15 @@
 namespace WinGetStore.Controls
 {
     /// <summary>
-    /// AutomationPeer for SettingsCard
+    /// AutomationPeer for <see cref="SettingsExpander"/>
     /// </summary>
-    public class SettingAutomationPeer : ButtonBaseAutomationPeer
+    public partial class SettingsExpanderAutomationPeer : ItemsControlAutomationPeer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Setting"/> class.
+        /// Initializes a new instance of the <see cref="SettingsExpander"/> class.
         /// </summary>
-        /// <param name="owner">Setting</param>
-        public SettingAutomationPeer(Setting owner) : base(owner)
+        /// <param name="owner"><see cref="SettingsExpander"/></param>
+        public SettingsExpanderAutomationPeer(SettingsExpander owner) : base(owner)
         {
         }
 
@@ -21,7 +21,7 @@ namespace WinGetStore.Controls
         /// <returns>The control type.</returns>
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
-            return AutomationControlType.Group;
+            return AutomationControlType.Button;
         }
 
         /// <summary>

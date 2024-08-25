@@ -58,19 +58,19 @@
                         </controls:SettingsGroup.Header>
                         <controls:SettingsGroup.ItemTemplate>
                             <DataTemplate x:DataType="deployment:PackageMatchFilter">
-                                <controls:Setting
+                                <controls:SettingsCard
                                     Header="{x:Bind Value}"
-                                    Icon="&#xE8FD;"
+                                    HeaderIcon="&#xE8FD;"
                                     WrapNoIconThreshold="0"
                                     WrapThreshold="0">
-                                    <controls:Setting.Description>
+                                    <controls:SettingsCard.Description>
                                         <TextBlock>
                                             <Run Text="{x:Bind Field}" />
                                             <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text=" • " />
                                             <Run Text="{x:Bind Option}" />
                                         </TextBlock>
-                                    </controls:Setting.Description>
-                                    <controls:Setting.ContextFlyout>
+                                    </controls:SettingsCard.Description>
+                                    <controls:SettingsCard.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem
                                                 x:Name="ForkItem"
@@ -91,7 +91,7 @@
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
-                                    </controls:Setting.ContextFlyout>
+                                    </controls:SettingsCard.ContextFlyout>
                                     <Button
                                         x:Name="Delete"
                                         x:Uid="/FiltersDialog/Delete"
@@ -104,7 +104,7 @@
                                         Content="&#xE74D;"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         Tag="{x:Bind}" />
-                                </controls:Setting>
+                                </controls:SettingsCard>
                             </DataTemplate>
                         </controls:SettingsGroup.ItemTemplate>
                     </controls:SettingsGroup>
@@ -117,19 +117,19 @@
                         </controls:SettingsGroup.Header>
                         <controls:SettingsGroup.ItemTemplate>
                             <DataTemplate x:DataType="deployment:PackageMatchFilter">
-                                <controls:Setting
+                                <controls:SettingsCard
                                     Header="{x:Bind Value}"
-                                    Icon="&#xE8FD;"
+                                    HeaderIcon="&#xE8FD;"
                                     WrapNoIconThreshold="0"
                                     WrapThreshold="0">
-                                    <controls:Setting.Description>
+                                    <controls:SettingsCard.Description>
                                         <TextBlock>
                                             <Run Text="{x:Bind Field}" />
                                             <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text=" • " />
                                             <Run Text="{x:Bind Option}" />
                                         </TextBlock>
-                                    </controls:Setting.Description>
-                                    <controls:Setting.ContextFlyout>
+                                    </controls:SettingsCard.Description>
+                                    <controls:SettingsCard.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem
                                                 x:Name="ForkItem"
@@ -150,7 +150,7 @@
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
-                                    </controls:Setting.ContextFlyout>
+                                    </controls:SettingsCard.ContextFlyout>
                                     <Button
                                         x:Name="Delete"
                                         x:Uid="/FiltersDialog/Delete"
@@ -163,7 +163,7 @@
                                         Content="&#xE74D;"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         Tag="{x:Bind}" />
-                                </controls:Setting>
+                                </controls:SettingsCard>
                             </DataTemplate>
                         </controls:SettingsGroup.ItemTemplate>
                     </controls:SettingsGroup>
@@ -176,31 +176,31 @@
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Auto">
                 <controls:SettingsGroup>
-                    <controls:Setting x:Uid="/FiltersDialog/Type" Icon="&#xE97C;">
+                    <controls:SettingsCard x:Uid="/FiltersDialog/Type" HeaderIcon="&#xE97C;">
                         <ComboBox
                             x:Uid="/FiltersDialog/FilterType"
                             ItemsSource="{ui:EnumValues Type=viewmodels:FilterType}"
                             SelectedItem="{x:Bind Provider.FilterType, Mode=TwoWay}" />
-                    </controls:Setting>
-                    <controls:Setting x:Uid="/FiltersDialog/Value" Icon="&#xE932;">
+                    </controls:SettingsCard>
+                    <controls:SettingsCard x:Uid="/FiltersDialog/Value" HeaderIcon="&#xE932;">
                         <TextBox
                             x:Uid="/FiltersDialog/ValueTextBox"
                             MinWidth="71"
-                            MaxWidth="{StaticResource SettingCardContentMinWidth}"
+                            MaxWidth="{StaticResource SettingsCardContentMinWidth}"
                             Text="{x:Bind Provider.Value, Mode=TwoWay}" />
-                    </controls:Setting>
-                    <controls:Setting x:Uid="/FiltersDialog/Field" Icon="&#xE71C;">
+                    </controls:SettingsCard>
+                    <controls:SettingsCard x:Uid="/FiltersDialog/Field" HeaderIcon="&#xE71C;">
                         <ComboBox
                             x:Uid="/FiltersDialog/MatchField"
                             ItemsSource="{ui:EnumValues Type=deployment:PackageMatchField}"
                             SelectedItem="{x:Bind Provider.Field, Mode=TwoWay}" />
-                    </controls:Setting>
-                    <controls:Setting x:Uid="/FiltersDialog/Option" Icon="&#xE933;">
+                    </controls:SettingsCard>
+                    <controls:SettingsCard x:Uid="/FiltersDialog/Option" HeaderIcon="&#xE933;">
                         <ComboBox
                             x:Uid="/FiltersDialog/MatchOption"
                             ItemsSource="{ui:EnumValues Type=deployment:PackageFieldMatchOption}"
                             SelectedItem="{x:Bind Provider.Option, Mode=TwoWay}" />
-                    </controls:Setting>
+                    </controls:SettingsCard>
                 </controls:SettingsGroup>
             </ScrollViewer>
         </PivotItem>

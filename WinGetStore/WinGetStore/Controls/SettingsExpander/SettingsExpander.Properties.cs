@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 
 namespace WinGetStore.Controls
 {
-    public partial class SettingExpander
+    public partial class SettingsExpander
     {
         #region Header
 
@@ -14,7 +14,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(Header),
                 typeof(object),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(Description),
                 typeof(object),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ActionContent),
                 typeof(object),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -77,25 +77,25 @@ namespace WinGetStore.Controls
 
         #endregion
 
-        #region Icon
+        #region HeaderIcon
 
         /// <summary>
-        /// Identifies the <see cref="Icon"/> dependency property.
+        /// Identifies the <see cref="HeaderIcon"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconProperty =
+        public static readonly DependencyProperty HeaderIconProperty =
             DependencyProperty.Register(
-                nameof(Icon),
+                nameof(HeaderIcon),
                 typeof(object),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Gets or sets the icon on the left.
         /// </summary>
-        public object Icon
+        public object HeaderIcon
         {
-            get => GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
+            get => GetValue(HeaderIconProperty);
+            set => SetValue(HeaderIconProperty, value);
         }
 
         #endregion
@@ -109,7 +109,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ContentAlignment),
                 typeof(ContentAlignment),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(ContentAlignment.Right));
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ItemsHeader),
                 typeof(UIElement),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ItemsFooter),
                 typeof(UIElement),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(null));
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(IsExpanded),
                 typeof(bool),
-                typeof(SettingExpander),
+                typeof(SettingsExpander),
                 new PropertyMetadata(false));
 
         /// <summary>

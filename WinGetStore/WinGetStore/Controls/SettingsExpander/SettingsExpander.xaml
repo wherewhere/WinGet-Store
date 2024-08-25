@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:controls="using:WinGetStore.Controls">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Setting.ThemeResources.xaml" />
+        <ResourceDictionary Source="SettingsExpander.ThemeResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <Style BasedOn="{StaticResource DefaultSettingCardStyle}" TargetType="controls:Setting" />
+    <!--  Implicitly applied default style  -->
+    <Style BasedOn="{StaticResource DefaultSettingsExpanderStyle}" TargetType="controls:SettingsExpander" />
 </ResourceDictionary>

@@ -4,7 +4,7 @@ using Windows.UI.Xaml;
 
 namespace WinGetStore.Controls
 {
-    public partial class Setting
+    public partial class SettingsCard
     {
         /// <summary>
         /// Gets or sets the content of a ContentControl.
@@ -22,7 +22,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(Header),
                 typeof(object),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(null, OnHeaderPropertyChanged));
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace WinGetStore.Controls
         {
             if (e.NewValue != e.OldValue)
             {
-                ((Setting)d).OnHeaderChanged();
+                ((SettingsCard)d).OnHeaderChanged();
             }
         }
 
@@ -54,7 +54,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(Description),
                 typeof(object),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(null, OnDescriptionPropertyChanged));
 
         /// <summary>
@@ -71,38 +71,38 @@ namespace WinGetStore.Controls
         {
             if (e.NewValue != e.OldValue)
             {
-                ((Setting)d).OnDescriptionChanged();
+                ((SettingsCard)d).OnDescriptionChanged();
             }
         }
 
         #endregion
 
-        #region Icon
+        #region HeaderIcon
 
         /// <summary>
-        /// Identifies the <see cref="Icon"/> dependency property.
+        /// Identifies the <see cref="HeaderIcon"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconProperty =
+        public static readonly DependencyProperty HeaderIconProperty =
             DependencyProperty.Register(
-                nameof(Icon),
+                nameof(HeaderIcon),
                 typeof(object),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(null, OnIconPropertyChanged));
 
         /// <summary>
         /// Gets or sets the icon on the left.
         /// </summary>
-        public object Icon
+        public object HeaderIcon
         {
-            get => GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
+            get => GetValue(HeaderIconProperty);
+            set => SetValue(HeaderIconProperty, value);
         }
 
         private static void OnIconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue != e.OldValue)
             {
-                ((Setting)d).OnHeaderIconChanged();
+                ((SettingsCard)d).OnHeaderIconChanged();
             }
         }
 
@@ -117,7 +117,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ActionIcon),
                 typeof(object),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(null, OnActionIconPropertyChanged));
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace WinGetStore.Controls
         {
             if (e.NewValue != e.OldValue)
             {
-                ((Setting)d).OnButtonIconChanged();
+                ((SettingsCard)d).OnButtonIconChanged();
             }
         }
 
@@ -148,7 +148,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ActionIconToolTip),
                 typeof(string),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata("More"));
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(IsClickEnabled),
                 typeof(bool),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(false, OnIsClickEnabledPropertyChanged));
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace WinGetStore.Controls
         {
             if (e.NewValue != e.OldValue)
             {
-                ((Setting)d).OnIsClickEnabledChanged();
+                ((SettingsCard)d).OnIsClickEnabledChanged();
             }
         }
 
@@ -202,7 +202,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(ContentAlignment),
                 typeof(ContentAlignment),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(ContentAlignment.Right));
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(WrapThreshold),
                 typeof(double),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(476));
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace WinGetStore.Controls
             DependencyProperty.Register(
                 nameof(WrapNoIconThreshold),
                 typeof(double),
-                typeof(Setting),
+                typeof(SettingsCard),
                 new PropertyMetadata(286));
 
         /// <summary>

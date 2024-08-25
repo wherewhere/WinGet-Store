@@ -98,292 +98,270 @@
 
     <DataTemplate x:Key="CatalogPackageVersionDefaultTemplate" x:DataType="viewmodels:CatalogPackageVersion">
         <Border>
-            <controls:SettingExpander Header="{x:Bind Version}" Icon="&#xECAA;">
-                <controls:SettingExpander
+            <controls:SettingsExpander Header="{x:Bind Version}" HeaderIcon="&#xECAA;">
+                <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Agreements"
                     Description="{x:Bind local:PackageDataTemplates.PackageAgreementsToDescription(PackageMetadata.Agreements)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Style="{StaticResource SettingExpanderExpanderItemStyle}"
                     Tag="{x:Bind local:PackageDataTemplates.GetPackageAgreementsReader(PackageMetadata.Agreements)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <controls:SettingExpander.ItemTemplate>
+                    <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:PackageAgreement">
-                            <controls:Setting
+                            <controls:SettingsCard
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 Header="{x:Bind Label}"
                                 IsClickEnabled="{x:Bind Url, Converter={StaticResource StringToBoolConverter}}"
-                                Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                Style="{StaticResource ClickableSettingsExpanderItemStyle}"
                                 Tag="{x:Bind Url}">
-                                <controls:Setting.Description>
+                                <controls:SettingsCard.Description>
                                     <TextBlock
                                         IsTextSelectionEnabled="True"
                                         Text="{x:Bind Text}"
                                         ToolTipService.ToolTip="{x:Bind Url}"
                                         Visibility="{x:Bind Text, Converter={StaticResource StringVisibilityConverter}}" />
-                                </controls:Setting.Description>
-                            </controls:Setting>
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
                         </DataTemplate>
-                    </controls:SettingExpander.ItemTemplate>
-                </controls:SettingExpander>
-                <controls:Setting
+                    </controls:SettingsExpander.ItemTemplate>
+                </controls:SettingsExpander>
+                <controls:SettingsCard
                     x:Name="Author"
                     x:Uid="/VersionsDialog/Author"
-                    x:Load="{x:Bind PackageMetadata.Author, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.Author, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Author}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="Copyright"
                     x:Uid="/VersionsDialog/Copyright"
-                    x:Load="{x:Bind PackageMetadata.Copyright, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.Copyright, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Copyright}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="CopyrightUrl"
                     x:Uid="/VersionsDialog/CopyrightUrl"
                     x:Load="{x:Bind PackageMetadata.CopyrightUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.CopyrightUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.CopyrightUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="Description"
                     x:Uid="/VersionsDialog/Description"
-                    x:Load="{x:Bind PackageMetadata.Description, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.Description, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Description}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:SettingExpander
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Documentations"
                     Description="{x:Bind local:PackageDataTemplates.DocumentationsToDescription(PackageMetadata.Documentations)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Style="{StaticResource SettingExpanderExpanderItemStyle}"
                     Tag="{x:Bind local:PackageDataTemplates.GetDocumentationsReader(PackageMetadata.Documentations)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <controls:SettingExpander.ItemTemplate>
+                    <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Documentation">
-                            <controls:Setting
+                            <controls:SettingsCard
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 Header="{x:Bind DocumentLabel}"
                                 IsClickEnabled="{x:Bind DocumentUrl, Converter={StaticResource StringToBoolConverter}}"
-                                Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                Style="{StaticResource ClickableSettingsExpanderItemStyle}"
                                 Tag="{x:Bind DocumentUrl}">
-                                <controls:Setting.Description>
+                                <controls:SettingsCard.Description>
                                     <TextBlock
                                         IsTextSelectionEnabled="True"
                                         Text="{x:Bind DocumentUrl}"
                                         Visibility="{x:Bind DocumentUrl, Converter={StaticResource StringVisibilityConverter}}" />
-                                </controls:Setting.Description>
-                            </controls:Setting>
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
                         </DataTemplate>
-                    </controls:SettingExpander.ItemTemplate>
-                </controls:SettingExpander>
-                <controls:SettingExpander
+                    </controls:SettingsExpander.ItemTemplate>
+                </controls:SettingsExpander>
+                <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Icons"
                     Description="{x:Bind local:PackageDataTemplates.IconsToDescription(PackageMetadata.Icons)}"
                     ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Style="{StaticResource SettingExpanderExpanderItemStyle}"
                     Tag="{x:Bind local:PackageDataTemplates.GetIconsReader(PackageMetadata.Icons)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <controls:SettingExpander.ItemTemplate>
+                    <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Icon">
-                            <controls:Setting
+                            <controls:SettingsCard
                                 ActionIcon="&#xE8A7;"
                                 Click="HyperlinkButton_Click"
                                 Header="{x:Bind FileType}"
                                 IsClickEnabled="{x:Bind Url, Converter={StaticResource StringToBoolConverter}}"
-                                Style="{StaticResource ClickableSettingExpanderItemStyle}"
+                                Style="{StaticResource ClickableSettingsExpanderItemStyle}"
                                 Tag="{x:Bind Url}">
-                                <controls:Setting.Description>
+                                <controls:SettingsCard.Description>
                                     <TextBlock IsTextSelectionEnabled="True">
                                         <Run Text="{x:Bind Theme}" />
                                         <Run Text="•" />
                                         <Run Text="{x:Bind Resolution}" />
                                     </TextBlock>
-                                </controls:Setting.Description>
-                            </controls:Setting>
+                                </controls:SettingsCard.Description>
+                            </controls:SettingsCard>
                         </DataTemplate>
-                    </controls:SettingExpander.ItemTemplate>
-                </controls:SettingExpander>
-                <controls:Setting
+                    </controls:SettingsExpander.ItemTemplate>
+                </controls:SettingsExpander>
+                <controls:SettingsCard
                     x:Name="InstallationNotes"
                     x:Uid="/VersionsDialog/InstallationNotes"
-                    x:Load="{x:Bind PackageMetadata.InstallationNotes, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.InstallationNotes, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.InstallationNotes}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="License"
                     x:Uid="/VersionsDialog/License"
-                    x:Load="{x:Bind PackageMetadata.License, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.License, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.License}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="LicenseUrl"
                     x:Uid="/VersionsDialog/LicenseUrl"
                     x:Load="{x:Bind PackageMetadata.LicenseUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.LicenseUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.LicenseUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="Locale"
                     x:Uid="/VersionsDialog/Locale"
-                    x:Load="{x:Bind PackageMetadata.Locale, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.Locale, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Locale}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PackageName"
                     x:Uid="/VersionsDialog/PackageName"
-                    x:Load="{x:Bind PackageMetadata.PackageName, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.PackageName, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PackageName}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PackageUrl"
                     x:Uid="/VersionsDialog/PackageUrl"
                     x:Load="{x:Bind PackageMetadata.PackageUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.PackageUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PackageUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PrivacyUrl"
                     x:Uid="/VersionsDialog/PrivacyUrl"
                     x:Load="{x:Bind PackageMetadata.PrivacyUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.PrivacyUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PrivacyUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="Publisher"
                     x:Uid="/VersionsDialog/Publisher"
-                    x:Load="{x:Bind PackageMetadata.Publisher, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.Publisher, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.Publisher}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PublisherSupportUrl"
                     x:Uid="/VersionsDialog/PublisherSupportUrl"
                     x:Load="{x:Bind PackageMetadata.PublisherSupportUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.PublisherSupportUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PublisherSupportUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PublisherUrl"
                     x:Uid="/VersionsDialog/PublisherUrl"
                     x:Load="{x:Bind PackageMetadata.PublisherUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.PublisherUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PublisherUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="PurchaseUrl"
                     x:Uid="/VersionsDialog/PurchaseUrl"
                     x:Load="{x:Bind PackageMetadata.PurchaseUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.PurchaseUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.PurchaseUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="ReleaseNotes"
                     x:Uid="/VersionsDialog/ReleaseNotes"
-                    x:Load="{x:Bind PackageMetadata.ReleaseNotes, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.ReleaseNotes, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ReleaseNotes}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="ReleaseNotesUrl"
                     x:Uid="/VersionsDialog/ReleaseNotesUrl"
                     x:Load="{x:Bind PackageMetadata.ReleaseNotesUrl, Converter={StaticResource StringToBoolConverter}}"
                     ActionIcon="&#xE8A7;"
                     Click="HyperlinkButton_Click"
                     IsClickEnabled="True"
-                    Style="{StaticResource ClickableSettingExpanderItemStyle}"
                     Tag="{x:Bind PackageMetadata.ReleaseNotesUrl}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ReleaseNotesUrl}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Name="ShortDescription"
                     x:Uid="/VersionsDialog/ShortDescription"
-                    x:Load="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringToBoolConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}">
-                    <controls:Setting.Description>
+                    x:Load="{x:Bind PackageMetadata.ShortDescription, Converter={StaticResource StringToBoolConverter}}">
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind PackageMetadata.ShortDescription}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-                <controls:Setting
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+                <controls:SettingsCard
                     x:Uid="/VersionsDialog/Tags"
                     CornerRadius="{Binding Source={StaticResource ControlCornerRadius}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
-                    Style="{StaticResource DefaultSettingExpanderItemStyle}"
                     Tag="{x:Bind local:PackageDataTemplates.GetTagsReader(PackageMetadata.Tags)}"
                     Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <controls:Setting.Description>
+                    <controls:SettingsCard.Description>
                         <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind local:PackageDataTemplates.JoinTags(', ', PackageMetadata.Tags)}" />
-                    </controls:Setting.Description>
-                </controls:Setting>
-            </controls:SettingExpander>
+                    </controls:SettingsCard.Description>
+                </controls:SettingsCard>
+            </controls:SettingsExpander>
         </Border>
     </DataTemplate>
 </ResourceDictionary>

@@ -12,24 +12,37 @@ namespace WinGetStore.Controls
 {
     /// <summary>
     /// This is the base control to create consistent settings experiences, inline with the Windows 11 design language.
-    /// A Setting can also be hosted within a SettingExpander.
+    /// A <see cref="SettingsCard"/> can also be hosted within a <see cref="SettingsExpander"/>.
     /// </summary>
-    public partial class Setting : ButtonBase
+    [TemplatePart(Name = HeaderIconPresenterHolder, Type = typeof(Viewbox))]
+    [TemplatePart(Name = ContentPresenter, Type = typeof(ContentPresenter))]
+    [TemplateVisualState(Name = NormalState, GroupName = CommonStates)]
+    [TemplateVisualState(Name = PointerOverState, GroupName = CommonStates)]
+    [TemplateVisualState(Name = PressedState, GroupName = CommonStates)]
+    [TemplateVisualState(Name = DisabledState, GroupName = CommonStates)]
+    [TemplateVisualState(Name = ActionIconVisibleState, GroupName = ActionIconVisibilityGroup)]
+    [TemplateVisualState(Name = ActionIconCollapsedState, GroupName = ActionIconVisibilityGroup)]
+    public partial class SettingsCard : ButtonBase
     {
-        internal const string NormalState = "Normal";
-        internal const string PointerOverState = "PointerOver";
-        internal const string PressedState = "Pressed";
-        internal const string DisabledState = "Disabled";
+        private const string CommonStates = "CommonStates";
+        private const string NormalState = "Normal";
+        private const string PointerOverState = "PointerOver";
+        private const string PressedState = "Pressed";
+        private const string DisabledState = "Disabled";
 
-        internal const string ContentPresenter = "PART_ContentPresenter";
-        internal const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
+        private const string ActionIconVisibilityGroup = "ActionIconVisibilityGroup";
+        private const string ActionIconVisibleState = "ActionIconVisible";
+        private const string ActionIconCollapsedState = "ActionIconCollapsed";
+
+        private const string ContentPresenter = "PART_ContentPresenter";
+        private const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
 
         /// <summary>
-        /// Creates a new instance of the <see cref="Setting"/> class.
+        /// Creates a new instance of the <see cref="SettingsCard"/> class.
         /// </summary>
-        public Setting()
+        public SettingsCard()
         {
-            DefaultStyleKey = typeof(Setting);
+            DefaultStyleKey = typeof(SettingsCard);
         }
 
         /// <inheritdoc />
@@ -153,10 +166,10 @@ namespace WinGetStore.Controls
         /// <summary>
         /// Creates AutomationPeer
         /// </summary>
-        /// <returns>An automation peer for <see cref="Setting"/>.</returns>
+        /// <returns>An automation peer for <see cref="SettingsCard"/>.</returns>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return new SettingAutomationPeer(this);
+            return new SettingsCardAutomationPeer(this);
         }
 
         private void OnIsClickEnabledChanged()
@@ -187,7 +200,7 @@ namespace WinGetStore.Controls
         {
             if (GetTemplateChild(HeaderIconPresenterHolder) is FrameworkElement headerIconPresenter)
             {
-                headerIconPresenter.Visibility = Icon != null
+                headerIconPresenter.Visibility = HeaderIcon != null
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }

@@ -156,17 +156,17 @@
     </Compile>
     <Compile Include="Controls\PackageControl\PackageControl.cs" />
     <Compile Include="Controls\PackageControl\PackageControlTemplateSettings.cs" />
-    <Compile Include="Controls\SettingExpander\SettingExpander.cs" />
-    <Compile Include="Controls\SettingExpander\SettingExpander.Properties.cs" />
-    <Compile Include="Controls\SettingExpander\SettingExpanderAutomationPeer.cs" />
+    <Compile Include="Controls\SettingsCard\SettingsCard.cs" />
+    <Compile Include="Controls\SettingsCard\SettingsCard.Properties.cs" />
+    <Compile Include="Controls\SettingsCard\SettingsCardAutomationPeer.cs" />
+    <Compile Include="Controls\SettingsExpander\SettingsExpander.cs" />
+    <Compile Include="Controls\SettingsExpander\SettingsExpander.Properties.cs" />
+    <Compile Include="Controls\SettingsExpander\SettingsExpanderAutomationPeer.cs" />
+    <Compile Include="Controls\SettingsExpander\SettingsExpanderItemStyleSelector.cs" />
     <Compile Include="Controls\SettingsGroup\SettingsGroup.cs" />
     <Compile Include="Controls\SettingsGroup\SettingsGroup.Properties.cs" />
     <Compile Include="Controls\SettingsGroup\SettingsGroupAutomationPeer.cs" />
-    <Compile Include="Controls\Setting\Setting.cs" />
-    <Compile Include="Controls\Setting\Setting.Properties.cs" />
-    <Compile Include="Controls\Setting\SettingAutomationPeer.cs" />
     <Compile Include="Controls\Slot.cs" />
-    <Compile Include="Controls\StackPanelEx.cs" />
     <Compile Include="Helpers\AttributesHelper.cs" />
     <Compile Include="Helpers\Converters\CollectionToBoolConverter.cs" />
     <Compile Include="Helpers\Converters\ConverterTools.cs" />
@@ -326,23 +326,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SettingExpander\SettingExpander.ThemeResources.xaml">
+    <Page Include="Controls\SettingsCard\SettingsCard.ThemeResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SettingExpander\SettingExpander.xaml">
+    <Page Include="Controls\SettingsCard\SettingsCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsExpander\SettingsExpander.ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsExpander\SettingsExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\SettingsGroup\SettingsGroup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\Setting\Setting.ThemeResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\Setting\Setting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

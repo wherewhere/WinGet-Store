@@ -6,9 +6,9 @@
         <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
         <ResourceDictionary Source="ms-appx:///Styles/AutoSuggestBox.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationView.xaml" />
-        <ResourceDictionary Source="ms-appx:///Controls/Setting/Setting.ThemeResources.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/SettingsCard/SettingsCard.ThemeResources.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationBackButton.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/NavigationView/NavigationView.Themeresources.xaml" />
-        <ResourceDictionary Source="ms-appx:///Controls/SettingExpander/SettingExpander.ThemeResources.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/SettingsExpander/SettingsExpander.ThemeResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
