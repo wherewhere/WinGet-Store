@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.UI.Xaml.Controls;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 
 namespace WinGetStore.Controls
@@ -188,6 +189,29 @@ namespace WinGetStore.Controls
         {
             get => (bool)GetValue(IsExpandedProperty);
             set => SetValue(IsExpandedProperty, value);
+        }
+
+        #endregion
+
+        #region ExpandDirection
+
+        /// <summary>
+        /// Identifies the <see cref="ExpandDirection"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ExpandDirectionProperty =
+            DependencyProperty.Register(
+                nameof(ExpandDirection),
+                typeof(ExpandDirection),
+                typeof(SettingsExpander),
+                new PropertyMetadata(ExpandDirection.Down));
+
+        /// <summary>
+        /// Gets or sets a value that indicates the direction in which the content area expands.
+        /// </summary>
+        public ExpandDirection ExpandDirection
+        {
+            get => (ExpandDirection)GetValue(ExpandDirectionProperty);
+            set => SetValue(ExpandDirectionProperty, value);
         }
 
         #endregion
