@@ -121,7 +121,7 @@
     <value>主頁</value>
   </data>
   <data name="Downloads.Content" xml:space="preserve">
-    <value>Downloads</value>
+    <value>下載</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>搜索應用程式、遊戲等</value>
@@ -184,7 +184,7 @@
     <value>篩選器</value>
   </data>
   <data name="DownloadsPage.Text" xml:space="preserve">
-    <value>Updates &amp; Downloads</value>
+    <value>更新和下載</value>
   </data>
   <data name="Refresh.Content" xml:space="preserve">
     <value>刷新</value>
