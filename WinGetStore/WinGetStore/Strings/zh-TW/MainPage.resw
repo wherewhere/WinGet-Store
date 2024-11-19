@@ -120,8 +120,8 @@
   <data name="Home.Content" xml:space="preserve">
     <value>主頁</value>
   </data>
-  <data name="Library.Content" xml:space="preserve">
-    <value>庫</value>
+  <data name="Downloads.Content" xml:space="preserve">
+    <value>下載</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>搜索應用程式、遊戲等</value>
@@ -183,8 +183,8 @@
   <data name="Filters.Content" xml:space="preserve">
     <value>篩選器</value>
   </data>
-  <data name="InstallingPage.Text" xml:space="preserve">
-    <value>正在安裝的應用</value>
+  <data name="DownloadsPage.Text" xml:space="preserve">
+    <value>更新和下載</value>
   </data>
   <data name="Refresh.Content" xml:space="preserve">
     <value>刷新</value>
