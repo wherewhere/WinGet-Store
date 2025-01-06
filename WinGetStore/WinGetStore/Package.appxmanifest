@@ -59,28 +59,6 @@
         </uap:InitialRotationPreference>
         <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\BadgeLogo.png"/>
       </uap:VisualElements>
-      <Extensions>
-        <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension
-            Name="com.microsoft.startmenucompanion"
-            Id="18184wherewhere.WinGetStore.Companion"
-            DisplayName="ms-resource:AppName"
-            Description="ms-resource:AppDescription"
-            PublicFolder="public">
-            <uap3:Properties>
-              <AdaptiveCardAppDataLocalRelativePath>StartMenuCompanion.json</AdaptiveCardAppDataLocalRelativePath>
-              <PlacementPreference>Left</PlacementPreference>
-              <Icon>ms-appx:///Assets/StoreLogo.png</Icon>
-              <CompanionSettingName>ms-resource:AppName</CompanionSettingName>
-              <CompanionSettingExtendedName>ms-resource:AppDescription</CompanionSettingExtendedName>
-              <DetailedSettingsSettingName>ms-resource:Report</DetailedSettingsSettingName>
-              <DetailedSettingsLaunchName>GitHub</DetailedSettingsLaunchName>
-              <DetailedSettingsLaunchUri>https://github.com/wherewhere/WinGet-Store/issues</DetailedSettingsLaunchUri>
-              <DefaultState>Available</DefaultState>
-            </uap3:Properties>
-          </uap3:AppExtension>
-        </uap3:Extension>
-      </Extensions>
     </Application>
   </Applications>
 
