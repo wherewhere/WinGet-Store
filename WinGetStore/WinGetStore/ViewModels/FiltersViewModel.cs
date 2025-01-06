@@ -20,14 +20,14 @@ namespace WinGetStore.ViewModels
     {
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
-        private ObservableCollection<PackageMatchFilter> selectors = new(selectors);
+        private ObservableCollection<PackageMatchFilter> selectors = [.. selectors];
         public ObservableCollection<PackageMatchFilter> Selectors
         {
             get => selectors;
             set => SetProperty(ref selectors, value);
         }
 
-        private ObservableCollection<PackageMatchFilter> filters = new(filters);
+        private ObservableCollection<PackageMatchFilter> filters = [.. filters];
         public ObservableCollection<PackageMatchFilter> Filters
         {
             get => filters;
@@ -51,8 +51,8 @@ namespace WinGetStore.ViewModels
         private PackageMatchField field = PackageMatchField.Id;
         public PackageMatchField Field
         {
-            get => field;
-            set => SetProperty(ref field, value);
+            get => this.field;
+            set => SetProperty(ref this.field, value);
         }
 
         private PackageFieldMatchOption option = PackageFieldMatchOption.ContainsCaseInsensitive;

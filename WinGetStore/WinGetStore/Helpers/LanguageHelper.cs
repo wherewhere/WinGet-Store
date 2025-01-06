@@ -26,7 +26,7 @@ namespace WinGetStore.Helpers
             ["zh-Hant", "zh-hk", "zh-mo", "zh-tw", "zh-hant-hk", "zh-hant-mo", "zh-hant-tw"]
         ];
 
-        public static CultureInfo[] SupportCultures { get; } = SupportLanguages.Select(x => new CultureInfo(x)).ToArray();
+        public static CultureInfo[] SupportCultures { get; } = [.. SupportLanguages.Select(x => new CultureInfo(x))];
 
         public static int FindIndexFromSupportLanguageCodes(string language) => Array.FindIndex(SupportLanguageCodes, codes => Array.Exists(codes, x => x.Equals(language, StringComparison.OrdinalIgnoreCase)));
 

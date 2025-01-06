@@ -168,7 +168,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                MatchResults = new(packagesResult.Matches.AsReader().Select(x => x.CatalogPackage));
+                MatchResults = [.. packagesResult.Matches.AsReader().Select(x => x.CatalogPackage)];
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
             }
@@ -231,7 +231,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                     filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
                     filter.Value = packageId;
                     findPackagesOptions.Selectors.Add(filter);
-                    Selectors = findPackagesOptions.Selectors.ToArray();
+                    Selectors = [.. findPackagesOptions.Selectors];
                 }
 
                 return await catalog.FindPackagesAsync(findPackagesOptions);

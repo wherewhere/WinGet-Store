@@ -1,17 +1,10 @@
-﻿using AdaptiveCards;
-using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 using Windows.Data.Xml.Dom;
-using Windows.Storage;
 using Windows.UI.Notifications;
 using WinGetStore.Common;
 using WinGetStore.ViewModels.ManagerPages;
@@ -55,11 +48,11 @@ namespace WinGetStore.Helpers
                 TileUpdateManager.CreateTileUpdaterForApplication().Clear();
                 TileUpdater tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
                 tileUpdater.EnableNotificationQueue(true);
-                tileContents.ForEach(tileContent =>
+                foreach (XmlDocument tileContent in tileContents)
                 {
                     TileNotification tileNotification = new(tileContent);
                     tileUpdater.Update(tileNotification);
-                });
+                }
             }
             catch (Exception ex)
             {
@@ -176,128 +169,6 @@ namespace WinGetStore.Helpers
             return xmlDocument;
         }
 
-        public static async Task UpdateStartMenuCompanionAsync(this AdaptiveCard adaptiveCard, string fileName = "StartMenuCompanion.json")
-        {
-            try
-            {
-                StorageFile file = await StorageFileHelper.WriteTextToLocalFileAsync(adaptiveCard.ToJson(), fileName).ConfigureAwait(false);
-                FileInfo info = new(file.Path);
-                FileSecurity security = info.GetAccessControl();
-                // Add Shell Experience Capability SID
-                security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-3-1024-3167453650-624722384-889205278-321484983-714554697-3592933102-807660695-1632717421"), FileSystemRights.ReadAndExecute, InheritanceFlags.None, PropagationFlags.None, AccessControlType.Allow));
-                info.SetAccessControl(security);
-            }
-            catch (Exception ex)
-            {
-                SettingsHelper.LogManager.GetLogger(nameof(TilesHelper)).Error(ex.ExceptionToMessage(), ex);
-            }
-        }
-
-        public static AdaptiveCard CreateStartMenuCompanion(IEnumerable<CatalogPackage> catalogPackages)
-        {
-            AdaptiveCard card = new(new AdaptiveSchemaVersion(1, 1))
-            {
-                Body =
-                {
-                    new AdaptiveColumnSet
-                    {
-                        Columns =
-                        {
-                            new AdaptiveColumn
-                            {
-                                Width = "8px"
-                            },
-                            new AdaptiveColumn
-                            {
-                                Items =
-                                {
-                                    new AdaptiveTextBlock(ResourceLoader.GetForViewIndependentUse().GetString("StartMenuTitle"))
-                                    {
-                                        Weight = AdaptiveTextWeight.Bolder,
-                                        Size = AdaptiveTextSize.Large,
-                                        Spacing = AdaptiveSpacing.None
-                                    }
-                                }
-                            },
-                            new AdaptiveColumn
-                            {
-                                Width = "8px"
-                            }
-                        },
-                        Spacing = AdaptiveSpacing.None
-                    }
-                }
-            };
-            card.Body.AddRange(catalogPackages.Select(CreateCard));
-            static AdaptiveContainer CreateCard(CatalogPackage catalogPackage)
-            {
-                return new AdaptiveContainer
-                {
-                    Items =
-                    {
-                        new AdaptiveColumnSet
-                        {
-                            Columns =
-                            {
-                                new AdaptiveColumn
-                                {
-                                    Width = "8px"
-                                },
-                                new AdaptiveColumn
-                                {
-                                    Items =
-                                    {
-                                        new AdaptiveTextBlock(catalogPackage.Name)
-                                        {
-                                            Weight = AdaptiveTextWeight.Bolder
-                                        },
-                                        new AdaptiveColumnSet
-                                        {
-                                            Columns =
-                                            {
-                                                new AdaptiveColumn
-                                                {
-                                                    Items =
-                                                    {
-                                                        new AdaptiveTextBlock(catalogPackage.Id)
-                                                        {
-                                                            IsSubtle = true,
-                                                            Size = AdaptiveTextSize.Small,
-                                                            Spacing = AdaptiveSpacing.None
-                                                        }
-                                                    }
-                                                },
-                                                new AdaptiveColumn
-                                                {
-                                                    Items =
-                                                    {
-                                                        new AdaptiveTextBlock(catalogPackage.IsUpdateAvailable ? "可更新" : " ")
-                                                        {
-                                                            Color = AdaptiveTextColor.Accent,
-                                                            IsSubtle = true,
-                                                            Size = AdaptiveTextSize.Small,
-                                                            Spacing = AdaptiveSpacing.None
-                                                        }
-                                                    },
-                                                    Width = "auto"
-                                                }
-                                            },
-                                            Spacing = AdaptiveSpacing.Small
-                                        }
-                                    }
-                                },
-                                new AdaptiveColumn
-                                {
-                                    Width = "8px"
-                                }
-                            }
-                        }
-                    }
-                };
-            }
-            return card;
-        }
-
         public static async Task UpdateAvailablePackageAsync()
         {
             try
@@ -309,22 +180,15 @@ namespace WinGetStore.Helpers
                 FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog);
                 if (packagesResult is null) { return; }
 
-                IEnumerable<CatalogPackage> catalogPackages =
-                    packagesResult.Matches.AsReader()
-                                          .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
-                                          .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
-                                          .Select((x) => x.CatalogPackage);
-
-                Task task = CreateStartMenuCompanion(catalogPackages).UpdateStartMenuCompanionAsync();
-
-                CatalogPackage[] available = catalogPackages.Where(x => x.IsUpdateAvailable).ToArray();
+                CatalogPackage[] available =
+                    [.. packagesResult.Matches.AsReader()
+                                              .Where((x) => x.CatalogPackage.DefaultInstallVersion != null && x.CatalogPackage.IsUpdateAvailable)
+                                              .Select((x) => x.CatalogPackage)];
 
                 SetBadgeNumber((uint)available.Length);
                 available.Take(5)
                          .Select(CreateTile)
                          .UpdateTiles();
-
-                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {

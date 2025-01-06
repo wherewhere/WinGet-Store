@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("wherewhere")]
 [assembly: AssemblyProduct("WinGet Store")]
-[assembly: AssemblyCopyright("Copyright © 2017 - 2024 wherewhere. All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2017 - 2025 wherewhere. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

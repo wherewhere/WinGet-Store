@@ -62,7 +62,7 @@ namespace WinGetStore.Pages.SettingsPages
             switch (element?.Tag.ToString())
             {
                 case "Rate":
-                    _ = Launcher.LaunchUriAsync(new Uri("http://afdian.net/@wherewhere"));
+                    _ = Launcher.LaunchUriAsync(new Uri("http://afdian.com/@wherewhere"));
                     break;
                 case "Group":
                     _ = Launcher.LaunchUriAsync(new Uri("https://t.me/PavingBase"));

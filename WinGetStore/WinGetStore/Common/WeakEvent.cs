@@ -34,15 +34,12 @@ namespace WinGetStore.Common
                     && _reference.Target == callback.Target
                     && _method == callback.GetMethodInfo();
 
-            public override bool Equals(object obj)
+            public override bool Equals(object obj) => obj switch
             {
-                return obj switch
-                {
-                    Method other => Equals(other),
-                    Action<TEventArgs> callback => Equals(callback),
-                    _ => false,
-                };
-            }
+                Method other => Equals(other),
+                Action<TEventArgs> callback => Equals(callback),
+                _ => false,
+            };
 
             public override int GetHashCode() => (_reference, _method).GetHashCode();
 
@@ -55,7 +52,7 @@ namespace WinGetStore.Common
 
         public WeakEvent() => _list = [];
 
-        public WeakEvent(IEnumerable<Action<TEventArgs>> collection) => _list = new List<Method>(collection.Select<Action<TEventArgs>, Method>(x => x));
+        public WeakEvent(IEnumerable<Action<TEventArgs>> collection) => _list = [.. collection.Select<Action<TEventArgs>, Method>(x => x)];
 
         public WeakEvent(int capacity) => _list = new List<Method>(capacity);
 

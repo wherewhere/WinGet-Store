@@ -236,14 +236,12 @@ namespace WinGetStore.Helpers
                     statusBar.BackgroundColor = backgroundColor;
                     statusBar.BackgroundOpacity = 0; // 透明度
                 }
-                else
-                {
-                    bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
-                    ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                    titleBar.ForegroundColor = titleBar.ButtonForegroundColor = foregroundColor;
-                    titleBar.BackgroundColor = titleBar.InactiveBackgroundColor = backgroundColor;
-                    titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = extendViewIntoTitleBar ? Colors.Transparent : backgroundColor;
-                }
+
+                bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
+                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ForegroundColor = titleBar.ButtonForegroundColor = foregroundColor;
+                titleBar.BackgroundColor = titleBar.InactiveBackgroundColor = backgroundColor;
+                titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = extendViewIntoTitleBar ? Colors.Transparent : backgroundColor;
             });
         }
 
@@ -264,14 +262,12 @@ namespace WinGetStore.Helpers
                 statusBar.BackgroundColor = backgroundColor;
                 statusBar.BackgroundOpacity = 0; // 透明度
             }
-            else
-            {
-                bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
-                ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ForegroundColor = titleBar.ButtonForegroundColor = foregroundColor;
-                titleBar.BackgroundColor = titleBar.InactiveBackgroundColor = backgroundColor;
-                titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = extendViewIntoTitleBar ? Colors.Transparent : backgroundColor;
-            }
+
+            bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ForegroundColor = titleBar.ButtonForegroundColor = foregroundColor;
+            titleBar.BackgroundColor = titleBar.InactiveBackgroundColor = backgroundColor;
+            titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = extendViewIntoTitleBar ? Colors.Transparent : backgroundColor;
         }
     }
 }

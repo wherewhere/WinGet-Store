@@ -142,11 +142,11 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("ProcessingResults");
-                MatchResults = new(
-                    packagesResult.Matches.AsReader()
-                                          .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
-                                          .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
-                                          .Select((x) => x.CatalogPackage));
+                MatchResults =
+                    [.. packagesResult.Matches.AsReader()
+                                              .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
+                                              .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
+                                              .Select((x) => x.CatalogPackage)];
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
 
@@ -212,13 +212,11 @@ namespace WinGetStore.ViewModels.ManagerPages
         private async Task UpdateTileAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            Task task = TilesHelper.CreateStartMenuCompanion(matchResults).UpdateStartMenuCompanionAsync();
-            CatalogPackage[] available = matchResults.Where(x => x.IsUpdateAvailable).ToArray();
+            CatalogPackage[] available = [.. matchResults.Where(x => x.IsUpdateAvailable)];
             TilesHelper.SetBadgeNumber((uint)available.Length);
             available.Take(5)
                      .Select(TilesHelper.CreateTile)
                      .UpdateTiles();
-            await task;
         }
     }
 }
