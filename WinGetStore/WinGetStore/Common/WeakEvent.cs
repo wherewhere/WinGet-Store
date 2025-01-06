@@ -56,6 +56,8 @@ namespace WinGetStore.Common
 
         public WeakEvent(int capacity) => _list = new List<Method>(capacity);
 
+        public WeakEvent(ReadOnlySpan<Action<TEventArgs>> callbacks) => _list = [.. callbacks];
+
         public int Count => _list.Count;
 
         public bool IsReadOnly => ((ICollection<Method>)_list).IsReadOnly;

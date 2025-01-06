@@ -150,7 +150,14 @@ namespace WinGetStore.ViewModels.ManagerPages
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
 
-                await UpdateTileAsync();
+                try
+                {
+                    await UpdateTileAsync();
+                }
+                catch (Exception ex)
+                {
+                    SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                }
             }
             catch (Exception ex)
             {

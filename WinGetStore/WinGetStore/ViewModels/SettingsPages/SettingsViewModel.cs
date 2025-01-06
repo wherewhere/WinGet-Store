@@ -40,9 +40,9 @@ namespace WinGetStore.ViewModels.SettingsPages
 
         public string Title { get; } = _loader.GetString("Title");
 
-        public DateTime UpdateDate
+        public DateTimeOffset UpdateDate
         {
-            get => SettingsHelper.Get<DateTime>(SettingsHelper.UpdateDate);
+            get => SettingsHelper.Get<DateTimeOffset>(SettingsHelper.UpdateDate);
             set
             {
                 if (UpdateDate != value)
@@ -282,7 +282,7 @@ namespace WinGetStore.ViewModels.SettingsPages
                     UpdateStateSeverity = InfoBarSeverity.Success;
                     UpdateStateTitle = _loader.GetString("UpToDate");
                 }
-                UpdateDate = DateTime.Now;
+                UpdateDate = DateTimeOffset.Now;
             }
             finally
             {

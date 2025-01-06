@@ -1,9 +1,13 @@
 ﻿using MetroLog;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using WinGetStore.Models;
 using IObjectSerializer = Microsoft.Toolkit.Helpers.IObjectSerializer;
 
 namespace WinGetStore.Helpers
@@ -24,7 +28,7 @@ namespace WinGetStore.Helpers
         {
             if (!LocalObject.KeyExists(UpdateDate))
             {
-                LocalObject.Save(UpdateDate, new DateTime());
+                LocalObject.Save(UpdateDate, new DateTimeOffset());
             }
             if (!LocalObject.KeyExists(TileUpdateTime))
             {
@@ -44,18 +48,44 @@ namespace WinGetStore.Helpers
     public static partial class SettingsHelper
     {
         public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
-        public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new NewtonsoftJsonObjectSerializer());
+        public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper() => SetDefaultSettings();
     }
 
-    public class NewtonsoftJsonObjectSerializer : IObjectSerializer
+    public class SystemTextJsonObjectSerializer : IObjectSerializer
     {
-        // Specify your serialization settings
-        private readonly JsonSerializerSettings settings = new() { DefaultValueHandling = DefaultValueHandling.Ignore };
+        public string Serialize<T>(T value) => value switch
+        {
+            uint => JsonSerializer.Serialize(value, SourceGenerationContext.Default.UInt32),
+            string => JsonSerializer.Serialize(value, SourceGenerationContext.Default.String),
+            ElementTheme => JsonSerializer.Serialize(value, SourceGenerationContext.Default.ElementTheme),
+            DateTimeOffset => JsonSerializer.Serialize(value, SourceGenerationContext.Default.DateTimeOffset),
+            _ => JsonSerializer.Serialize(value)
+        };
 
-        public string Serialize<T>(T value) => JsonConvert.SerializeObject(value, typeof(T), Formatting.Indented, settings);
-
-        public T Deserialize<T>(string value) => JsonConvert.DeserializeObject<T>(value, settings);
+        public T Deserialize<T>([StringSyntax(StringSyntaxAttribute.Json)] string value)
+        {
+            if (string.IsNullOrEmpty(value)) { return default; }
+            Type type = typeof(T);
+            return type == typeof(uint) ? Deserialize(value, SourceGenerationContext.Default.UInt32)
+                : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
+                : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
+                : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
+                : JsonSerializer.Deserialize<T>(value);
+            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) => JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
+        }
     }
+
+    [JsonSerializable(typeof(uint))]
+    [JsonSerializable(typeof(string))]
+    [JsonSerializable(typeof(ElementTheme))]
+    [JsonSerializable(typeof(DateTimeOffset))]
+#if CANARY
+    [JsonSerializable(typeof(ArtifactsInfo))]
+    [JsonSerializable(typeof(RunInfo))]
+#else
+    [JsonSerializable(typeof(UpdateInfo))]
+#endif
+    public partial class SourceGenerationContext : JsonSerializerContext;
 }

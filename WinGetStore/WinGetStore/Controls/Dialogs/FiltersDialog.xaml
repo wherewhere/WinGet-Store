@@ -179,7 +179,7 @@
                     <controls:SettingsCard x:Uid="/FiltersDialog/Type" HeaderIcon="&#xE97C;">
                         <ComboBox
                             x:Uid="/FiltersDialog/FilterType"
-                            ItemsSource="{ui:EnumValues Type=viewmodels:FilterType}"
+                            ItemsSource="{x:Bind viewmodels:FiltersViewModel.FilterTypes}"
                             SelectedItem="{x:Bind Provider.FilterType, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard x:Uid="/FiltersDialog/Value" HeaderIcon="&#xE932;">

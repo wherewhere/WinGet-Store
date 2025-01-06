@@ -252,7 +252,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">
                                         <Run x:Uid="/SettingsPage/LastChecked" />
-                                        <Run Text="{x:Bind Provider.UpdateDate, Mode=OneWay}" />
+                                        <Run Text="{x:Bind Provider.UpdateDate.LocalDateTime, Mode=OneWay}" />
                                     </TextBlock>
                                     <ScrollViewer
                                         Margin="0,0,0,-8"

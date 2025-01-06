@@ -1,94 +1,94 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace WinGetStore.Models
 {
 #if CANARY
     public class ArtifactsInfo
     {
-        [JsonProperty("total_count")]
-        public int TotalCount { get; set; }
-        [JsonProperty("artifacts")]
+        [JsonPropertyName("total_count")]
+        public long TotalCount { get; set; }
+        [JsonPropertyName("artifacts")]
         public Artifact[] Artifacts { get; set; }
     }
 
     public class Artifact
     {
-        [JsonProperty("id")]
-        public int ID { get; set; }
-        [JsonProperty("node_id")]
+        [JsonPropertyName("id")]
+        public long ID { get; set; }
+        [JsonPropertyName("node_id")]
         public string NodeID { get; set; }
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("size_in_bytes")]
-        public int SizeInBytes { get; set; }
-        [JsonProperty("url")]
+        [JsonPropertyName("size_in_bytes")]
+        public long SizeInBytes { get; set; }
+        [JsonPropertyName("url")]
         public string Url { get; set; }
-        [JsonProperty("archive_download_url")]
+        [JsonPropertyName("archive_download_url")]
         public string ArchiveDownloadUrl { get; set; }
-        [JsonProperty("expired")]
+        [JsonPropertyName("expired")]
         public bool Expired { get; set; }
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTimeOffset CreatedAt { get; set; }
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTimeOffset UpdatedAt { get; set; }
-        [JsonProperty("expires_at")]
+        [JsonPropertyName("expires_at")]
         public DateTimeOffset ExpiresAt { get; set; }
-        [JsonProperty("workflow_run")]
+        [JsonPropertyName("workflow_run")]
         public WorkflowRun WorkflowRun { get; set; }
     }
 
     public class WorkflowRun
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long ID { get; set; }
-        [JsonProperty("repository_id")]
-        public int RepositoryID { get; set; }
-        [JsonProperty("head_repository_id")]
-        public int HeadRepositoryID { get; set; }
-        [JsonProperty("head_branch")]
+        [JsonPropertyName("repository_id")]
+        public long RepositoryID { get; set; }
+        [JsonPropertyName("head_repository_id")]
+        public long HeadRepositoryID { get; set; }
+        [JsonPropertyName("head_branch")]
         public string HeadBranch { get; set; }
-        [JsonProperty("head_sha")]
+        [JsonPropertyName("head_sha")]
         public string HeadSHA { get; set; }
     }
 
     public class RunInfo
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public long ID { get; set; }
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("node_id")]
+        [JsonPropertyName("node_id")]
         public string NodeID { get; set; }
-        [JsonProperty("head_branch")]
+        [JsonPropertyName("head_branch")]
         public string HeadBranch { get; set; }
-        [JsonProperty("head_sha")]
+        [JsonPropertyName("head_sha")]
         public string HeadSHA { get; set; }
-        [JsonProperty("path")]
+        [JsonPropertyName("path")]
         public string Path { get; set; }
-        [JsonProperty("display_title")]
+        [JsonPropertyName("display_title")]
         public string DisplayTitle { get; set; }
-        [JsonProperty("run_number")]
-        public int RunNumber { get; set; }
-        [JsonProperty("_event")]
+        [JsonPropertyName("run_number")]
+        public long RunNumber { get; set; }
+        [JsonPropertyName("_event")]
         public string Event { get; set; }
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonProperty("conclusion")]
+        [JsonPropertyName("conclusion")]
         public string Conclusion { get; set; }
-        [JsonProperty("workflow_id")]
-        public int WorkflowID { get; set; }
-        [JsonProperty("check_suite_id")]
+        [JsonPropertyName("workflow_id")]
+        public long WorkflowID { get; set; }
+        [JsonPropertyName("check_suite_id")]
         public long CheckSuiteID { get; set; }
-        [JsonProperty("check_suite_node_id")]
+        [JsonPropertyName("check_suite_node_id")]
         public string CheckSuiteNodeID { get; set; }
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
-        [JsonProperty("html_url")]
+        [JsonPropertyName("html_url")]
         public string HTMLUrl { get; set; }
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
     }
 
@@ -106,7 +106,7 @@ namespace WinGetStore.Models
     {
         public string Url { get; set; }
         public string Name { get; set; }
-        public int Size { get; set; }
+        public long Size { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public DateTimeOffset ExpiresAt { get; set; }
@@ -115,21 +115,21 @@ namespace WinGetStore.Models
 #else
     public class UpdateInfo
     {
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string ApiUrl { get; set; }
-        [JsonProperty("html_url")]
+        [JsonPropertyName("html_url")]
         public string ReleaseUrl { get; set; }
-        [JsonProperty("tag_name")]
+        [JsonPropertyName("tag_name")]
         public string TagName { get; set; }
-        [JsonProperty("prerelease")]
+        [JsonPropertyName("prerelease")]
         public bool IsPreRelease { get; set; }
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTimeOffset CreatedAt { get; set; }
-        [JsonProperty("published_at")]
+        [JsonPropertyName("published_at")]
         public DateTimeOffset PublishedAt { get; set; }
-        [JsonProperty("assets")]
+        [JsonPropertyName("assets")]
         public Asset[] Assets { get; set; }
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Changelog { get; set; }
         [JsonIgnore]
         public bool IsExistNewVersion { get; set; }
@@ -139,19 +139,19 @@ namespace WinGetStore.Models
 
     public class Asset
     {
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonProperty("size")]
-        public int Size { get; set; }
-        [JsonProperty("download_count")]
-        public int DownloadCount { get; set; }
-        [JsonProperty("created_at")]
+        [JsonPropertyName("size")]
+        public long Size { get; set; }
+        [JsonPropertyName("download_count")]
+        public long DownloadCount { get; set; }
+        [JsonPropertyName("created_at")]
         public DateTimeOffset CreatedAt { get; set; }
-        [JsonProperty("updated_at")]
+        [JsonPropertyName("updated_at")]
         public DateTimeOffset UpdatedAt { get; set; }
-        [JsonProperty("browser_download_url")]
+        [JsonPropertyName("browser_download_url")]
         public string DownloadUrl { get; set; }
     }
 #endif

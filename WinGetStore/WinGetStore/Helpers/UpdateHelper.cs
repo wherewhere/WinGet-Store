@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Web.Http;
@@ -61,7 +61,7 @@ namespace WinGetStore.Helpers
             response.EnsureSuccessStatusCode();
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
             string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            ArtifactsInfo result = JsonConvert.DeserializeObject<ArtifactsInfo>(responseBody);
+            ArtifactsInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.ArtifactsInfo);
 
             if (result != null)
             {
@@ -95,9 +95,9 @@ namespace WinGetStore.Helpers
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
                             responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            RunInfo run = JsonConvert.DeserializeObject<RunInfo>(responseBody);
+                            RunInfo run = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.RunInfo);
 
-                            SystemVersionInfo newVersionInfo = GetAsVersionInfo(artifact.CreatedAt, run.RunNumber);
+                            SystemVersionInfo newVersionInfo = GetAsVersionInfo(artifact.CreatedAt, (int)run.RunNumber);
                             updateInfo.ReleaseUrl = run.HTMLUrl;
                             updateInfo.IsExistNewVersion = newVersionInfo > currentVersion;
                             updateInfo.Version = newVersionInfo;
@@ -165,7 +165,7 @@ namespace WinGetStore.Helpers
             response.EnsureSuccessStatusCode();
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
             string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            UpdateInfo result = JsonConvert.DeserializeObject<UpdateInfo>(responseBody);
+            UpdateInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.UpdateInfo);
 
             if (result != null)
             {

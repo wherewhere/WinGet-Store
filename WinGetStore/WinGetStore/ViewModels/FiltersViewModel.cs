@@ -1,4 +1,5 @@
 ﻿using Microsoft.Management.Deployment;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,6 +19,8 @@ namespace WinGetStore.ViewModels
 
     public class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters) : INotifyPropertyChanged
     {
+        public static Array FilterTypes { get; } = Enum.GetValues(typeof(FilterType));
+
         public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
         private ObservableCollection<PackageMatchFilter> selectors = [.. selectors];

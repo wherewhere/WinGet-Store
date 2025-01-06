@@ -9,6 +9,7 @@ namespace System.Runtime.CompilerServices
     /// <summary>
     /// Provides a handler used by the language compiler to process interpolated strings into <see cref="string"/> instances.
     /// </summary>
+    [InterpolatedStringHandler]
     internal readonly struct DefaultInterpolatedStringHandler
     {
         /// <summary>
@@ -241,6 +242,53 @@ namespace System.Runtime.CompilerServices
             // simply to disambiguate between ROS<char> and object, just in case someone does specify a format, as
             // string is implicitly convertible to both. Just delegate to the T-based implementation.
             AppendFormatted<string>(value, alignment, format);
+        #endregion
+
+        #region AppendFormatted ReadOnlySpan<char>
+        /// <summary>
+        /// Writes the specified character span to the handler.
+        /// </summary>
+        /// <param name="value">The span to write.</param>
+        public void AppendFormatted(params ReadOnlySpan<char> value) => _ = _builder.Append(value.ToArray());
+
+        /// <summary>
+        /// Writes the specified string of chars to the handler.
+        /// </summary>
+        /// <param name="value">The span to write.</param>
+        /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
+        /// <param name="__">The format string.</param>
+        public void AppendFormatted(ReadOnlySpan<char> value, int alignment = 0, string __ = null)
+        {
+            bool leftAlign = false;
+            if (alignment < 0)
+            {
+                leftAlign = true;
+                alignment = -alignment;
+            }
+
+            int paddingRequired = alignment - value.Length;
+            if (paddingRequired <= 0)
+            {
+                // The value is as large or larger than the required amount of padding,
+                // so just write the value.
+                AppendFormatted(value);
+                return;
+            }
+
+            // Write the value along with the appropriate padding.
+            if (leftAlign)
+            {
+                AppendFormatted(value);
+                int _pos = _builder.Length;
+                _ = _builder.Insert(_pos, " ", paddingRequired);
+            }
+            else
+            {
+                int _pos = _builder.Length;
+                _ = _builder.Insert(_pos, " ", paddingRequired);
+                AppendFormatted(value);
+            }
+        }
         #endregion
 
         #region AppendFormatted object
