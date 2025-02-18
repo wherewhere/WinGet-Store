@@ -61,19 +61,19 @@ namespace WinGetStore.Controls
 
         #endregion
 
-        #region LastControl
+        #region PreviousElement
 
         /// <summary>
-        /// Identifies the <see cref="LastControl"/> dependency property.
+        /// Identifies the <see cref="PreviousElement"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LastControlProperty =
             DependencyProperty.Register(
-                nameof(LastControl),
+                nameof(PreviousElement),
                 typeof(UIElement),
                 typeof(Slot),
                 null);
 
-        public UIElement LastControl
+        public UIElement PreviousElement
         {
             get => (UIElement)GetValue(LastControlProperty);
             set => SetValue(LastControlProperty, value);
@@ -112,8 +112,8 @@ namespace WinGetStore.Controls
             {
                 if (fHorizontal)
                 {
-                    Point screenCoords = LastControl != null
-                        ? LastControl.TransformToVisual(RootElement).TransformPoint(new Point(LastControl.ActualSize.X, 0))
+                    Point screenCoords = PreviousElement != null
+                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(PreviousElement.ActualSize.X, 0))
                         : TransformToVisual(RootElement).TransformPoint(new Point(0, 0));
 
                     double leftPadding = Math.Max(0, screenCoords.X);
@@ -150,8 +150,8 @@ namespace WinGetStore.Controls
                 }
                 else
                 {
-                    Point screenCoords = LastControl != null
-                        ? LastControl.TransformToVisual(RootElement).TransformPoint(new Point(0, LastControl.ActualSize.Y))
+                    Point screenCoords = PreviousElement != null
+                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(0, PreviousElement.ActualSize.Y))
                         : TransformToVisual(RootElement).TransformPoint(new Point(0, 0));
 
                     double topPadding = Math.Max(0, screenCoords.Y);
