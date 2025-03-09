@@ -29,6 +29,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <AppxPackageSigningTimestampServerUrl>http://timestamp.digicert.com</AppxPackageSigningTimestampServerUrl>
+    <AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
   </PropertyGroup>
   <PropertyGroup>
     <IsUpdateCIManifest Condition="'$(IsUpdateCIManifest)' == ''">False</IsUpdateCIManifest>
@@ -402,13 +403,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
-      <Version>9.0.1</Version>
+      <Version>9.0.2</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Management.Deployment">
-      <HintPath>..\..\WinMD\Microsoft.Management.Deployment.winmd</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.26100.0">
