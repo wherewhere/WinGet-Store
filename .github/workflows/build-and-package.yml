@@ -66,6 +66,7 @@ jobs:
       run: msbuild $env:Solution_Name `
         /p:IsUpdateCIManifest=True `
         /p:CIBuildID="$env:Build_ID" `
+        /p:PublisherName="$env:Publisher_Name" `
         /p:AppxBundlePlatforms="$env:Appx_Bundle_Platforms" `
         /p:Configuration=$env:Configuration `
         /p:Platform=$env:Platform `
@@ -79,6 +80,7 @@ jobs:
         /p:PackageCertificatePassword="$env:Password"
       env:
         Build_ID: ${{ github.run_number }}
+        Publisher_Name: CN=where
         Appx_Bundle: Always
         Appx_Bundle_Platforms: x64|ARM64
         Appx_Package_Build_Mode: SideloadOnly

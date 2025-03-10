@@ -7,6 +7,7 @@
     <ParameterGroup>
       <AppxManifestPath ParameterType="System.String" Required="true" />
       <CIBuildID ParameterType="System.String" Required="true" />
+      <PublisherName ParameterType="System.String" Required="false" />
     </ParameterGroup>
     <Task>
       <Reference Include="System.Xml" />
@@ -40,8 +41,16 @@
                                 var major = int.Parse(dateTime.ToString("yy"));
                                 var minor = int.Parse(dateTime.ToString("MMdd"));
                                 version.SetValue(string.Join(".", major, minor, CIBuildID, 0));
-                                break;
                             }
+                            if (!string.IsNullOrEmpty(PublisherName))
+                            {
+                                var publisher = node.Attribute("Publisher");
+                                if (publisher != null)
+                                {
+                                    publisher.SetValue(PublisherName);
+                                }
+                            }
+                            break;
                         }
                     }
                 }
@@ -67,8 +76,10 @@
     Condition="'$(IsUpdateCIManifest)' == 'True'">
     <Message Importance="high" Text="UpdateCIPackageManifest" />
     <Message Importance="high" Text="Current Build ID: $(CIBuildID)" />
+    <Message Importance="high" Text="Publisher Name: $(PublisherName)" Condition="$(PublisherName) != ''" />
     <UpdateCIManifest
       AppxManifestPath="$(AppxManifestName)"
-      CIBuildID="$(CIBuildID)" />
+      CIBuildID="$(CIBuildID)"
+      PublisherName="$(PublisherName)" />
   </Target>
 </Project>
