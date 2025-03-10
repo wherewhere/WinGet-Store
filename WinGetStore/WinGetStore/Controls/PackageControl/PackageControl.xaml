@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers">
+    xmlns:triggers="using:CommunityToolkit.WinUI">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Controls/SettingsCard/SettingsCard.ThemeResources.xaml" />
     </ResourceDictionary.MergedDictionaries>

@@ -7,7 +7,7 @@
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:WinGetStore.ViewModels.ManagerPages"
     d:DataContext="{d:DesignInstance Type=viewmodels:SearchingViewModel}"
     DataContext="{x:Bind Provider, Mode=OneWay}"

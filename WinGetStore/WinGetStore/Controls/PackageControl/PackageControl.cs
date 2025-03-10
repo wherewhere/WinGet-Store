@@ -1,5 +1,4 @@
 ﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +10,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
-using WinGetStore.WinRT;
+using WinRT;
 
 namespace WinGetStore.Controls
 {
-    public class PackageControl : Control
+    public partial class PackageControl : Control
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
 
@@ -88,16 +87,16 @@ namespace WinGetStore.Controls
         public static readonly DependencyProperty CatalogPackageProperty =
             DependencyProperty.Register(
                 nameof(CatalogPackage),
-                typeof(CatalogPackage),
+                typeof(BindableCatalogPackage),
                 typeof(PackageControl),
                 new PropertyMetadata(null, OnCatalogPackagePropertyChanged));
 
         /// <summary>
         /// Gets or sets the CatalogPackage.
         /// </summary>
-        public CatalogPackage CatalogPackage
+        public BindableCatalogPackage CatalogPackage
         {
-            get => (CatalogPackage)GetValue(CatalogPackageProperty);
+            get => (BindableCatalogPackage)GetValue(CatalogPackageProperty);
             set => SetValue(CatalogPackageProperty, value);
         }
 
@@ -318,7 +317,7 @@ namespace WinGetStore.Controls
             }
         }
 
-        private IAsyncOperationWithProgress<InstallResult, InstallProgress> GetInstallOperation(CatalogPackage package)
+        private static IAsyncOperationWithProgress<InstallResult, InstallProgress> GetInstallOperation(CatalogPackage package)
         {
             PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
             InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
@@ -399,7 +398,7 @@ namespace WinGetStore.Controls
             }
         }
 
-        private IAsyncOperationWithProgress<InstallResult, InstallProgress> GetUpgradeOperation(CatalogPackage package)
+        private static IAsyncOperationWithProgress<InstallResult, InstallProgress> GetUpgradeOperation(CatalogPackage package)
         {
             PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
             InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
@@ -482,7 +481,7 @@ namespace WinGetStore.Controls
             }
         }
 
-        private IAsyncOperationWithProgress<UninstallResult, UninstallProgress> GetUninstallOperation(CatalogPackage package)
+        private static IAsyncOperationWithProgress<UninstallResult, UninstallProgress> GetUninstallOperation(CatalogPackage package)
         {
             PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
             UninstallOptions uninstallOptions = WinGetProjectionFactory.TryCreateUninstallOptions();
@@ -579,5 +578,31 @@ namespace WinGetStore.Controls
                     break;
             }
         }
+    }
+
+    [GeneratedBindableCustomProperty]
+    public sealed partial class BindableCatalogPackage(CatalogPackage value)
+    {
+        private readonly CatalogPackage value = value;
+
+        public bool IsUpdateAvailable => value != null && value.IsUpdateAvailable;
+        public string Name => value?.Name;
+        public string Id => value?.Id;
+        public BindablePackageVersionInfo InstalledVersion => value?.InstalledVersion;
+        public BindablePackageVersionInfo DefaultInstallVersion => value?.DefaultInstallVersion;
+
+        public static implicit operator CatalogPackage(BindableCatalogPackage host) => host?.value;
+        public static implicit operator BindableCatalogPackage(CatalogPackage value) => value == null ? null : new(value);
+    }
+
+    [GeneratedBindableCustomProperty]
+    public sealed partial class BindablePackageVersionInfo(PackageVersionInfo value)
+    {
+        private readonly PackageVersionInfo value = value;
+
+        public string Version => value?.Version;
+
+        public static implicit operator PackageVersionInfo(BindablePackageVersionInfo host) => host?.value;
+        public static implicit operator BindablePackageVersionInfo(PackageVersionInfo value) => value == null ? null : new(value);
     }
 }

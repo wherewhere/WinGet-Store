@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,7 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 using WinGetStore.Common;
 
@@ -22,7 +21,7 @@ namespace WinGetStore.Models
     /// so that you can load different data in your view model, refer this blog for detail
     /// <see href="http://blogs.msdn.com/b/devosaure/archive/2012/10/15/isupportincrementalloading-loading-a-subsets-of-data.aspx"/>
     /// </summary>
-    public abstract class IncrementalLoadingBase<T> : ObservableCollection<T>, ISupportIncrementalLoading
+    public abstract class IncrementalLoadingBase<T>(CoreDispatcher dispatcher) : ObservableCollection<T>, ISupportIncrementalLoading
     {
         #region ISupportIncrementalLoading
 
@@ -43,12 +42,12 @@ namespace WinGetStore.Models
             _busy = true;
 
             // We need to use AsyncInfo.Run to invoke async operation, as this method cannot return a Task.
-            return AsyncInfo.Run(cancellation => LoadMoreItemsAsync(cancellation, count));
+            return AsyncInfo.Run(cancellation => LoadMoreItemsAsync(count, cancellation));
         }
 
         #endregion
 
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
+        public CoreDispatcher Dispatcher => dispatcher;
 
         private bool any = false;
         public bool Any
@@ -87,10 +86,10 @@ namespace WinGetStore.Models
         /// <summary>
         /// We use this method to load data and add to self.
         /// </summary>
-        /// <param name="c">Cancellation Token</param>
         /// <param name="count">How many want to load.</param>
+        /// <param name="cancellation">Cancellation Token</param>
         /// <returns>Item count actually loaded.</returns>
-        protected async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken cancellation, uint count)
+        protected async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellation)
         {
             try
             {
@@ -101,12 +100,13 @@ namespace WinGetStore.Models
                 LoadMoreStarted?.Invoke();
 
                 // Data loading will different for sub-class.
-                uint loaded = await LoadMoreItemsOverrideAsync(cancellation, count).ConfigureAwait(false);
+                uint loaded = await LoadMoreItemsOverrideAsync(count, cancellation).ConfigureAwait(false);
 
                 // We finished loading operation.
                 IsLoading = false;
                 LoadMoreCompleted?.Invoke();
 
+                await Dispatcher.ResumeForegroundAsync();
                 return new LoadMoreItemsResult { Count = loaded };
             }
             finally
@@ -129,13 +129,25 @@ namespace WinGetStore.Models
 
         #region Overridable methods
 
-        public virtual Task AddAsync(T item) => Dispatcher.EnqueueAsync(() => Add(item));
+        public virtual async Task AddAsync(T item)
+        {
+            await Dispatcher.ResumeForegroundAsync();
+            Add(item);
+        }
 
-        public virtual Task RemoveAsync(T item) => Dispatcher.EnqueueAsync(() => Remove(item));
+        public virtual async Task RemoveAsync(T item)
+        {
+            await Dispatcher.ResumeForegroundAsync();
+            Remove(item);
+        }
 
-        public virtual Task ClearAsync() => Dispatcher.EnqueueAsync(Clear);
+        public virtual async Task ClearAsync()
+        {
+            await Dispatcher.ResumeForegroundAsync();
+            Clear();
+        }
 
-        protected abstract Task<uint> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count);
+        protected abstract Task<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken);
 
         protected abstract bool HasMoreItemsOverride();
 

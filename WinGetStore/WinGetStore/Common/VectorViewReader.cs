@@ -9,7 +9,7 @@ namespace WinGetStore.Common
     /// </summary>
     /// <typeparam name="T">The type of the elements of <paramref name="Source"/>.</typeparam>
     /// <param name="Source">The <see cref="IVectorView{T}"/> to be redden.</param>
-    public readonly record struct VectorViewReader<T>(IReadOnlyList<T> Source) : IReadOnlyList<T>
+    public sealed record VectorViewReader<T>(IReadOnlyList<T> Source) : IReadOnlyList<T>
     {
         /// <inheritdoc/>
         public T this[int index] => Source[index];

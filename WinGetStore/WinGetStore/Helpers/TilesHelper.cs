@@ -8,7 +8,6 @@ using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 using WinGetStore.Common;
 using WinGetStore.ViewModels.ManagerPages;
-using WinGetStore.WinRT;
 
 namespace WinGetStore.Helpers
 {

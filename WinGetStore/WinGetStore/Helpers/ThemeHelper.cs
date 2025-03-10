@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -229,14 +228,6 @@ namespace WinGetStore.Helpers
             WindowHelper.ActiveWindows.Values.ForEach(async window =>
             {
                 await window.Dispatcher.ResumeForegroundAsync();
-                if (IsStatusBarSupported)
-                {
-                    StatusBar statusBar = StatusBar.GetForCurrentView();
-                    statusBar.ForegroundColor = foregroundColor;
-                    statusBar.BackgroundColor = backgroundColor;
-                    statusBar.BackgroundOpacity = 0; // 透明度
-                }
-
                 bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
                 ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ForegroundColor = titleBar.ButtonForegroundColor = foregroundColor;
@@ -254,14 +245,6 @@ namespace WinGetStore.Helpers
 
             Color foregroundColor = isDark || isHighContrast ? Colors.White : Colors.Black;
             Color backgroundColor = isHighContrast ? Color.FromArgb(255, 0, 0, 0) : isDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
-
-            if (IsStatusBarSupported)
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.ForegroundColor = foregroundColor;
-                statusBar.BackgroundColor = backgroundColor;
-                statusBar.BackgroundOpacity = 0; // 透明度
-            }
 
             bool extendViewIntoTitleBar = CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;

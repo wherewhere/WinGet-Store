@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -14,29 +13,33 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
 using Windows.Storage;
-using Windows.System;
 using Windows.System.Profile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.Models;
-using WinGetStore.WinRT;
+using WinRT;
 
 namespace WinGetStore.ViewModels.SettingsPages
 {
-    public class SettingsViewModel : INotifyPropertyChanged
+    public partial class SettingsViewModel : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
 
-        public static ConditionalWeakTable<DispatcherQueue, SettingsViewModel> Caches { get; } = [];
+        public static ConditionalWeakTable<CoreDispatcher, SettingsViewModel> Caches { get; } = [];
 
-        public static string DeviceFamily => AnalyticsInfo.VersionInfo.DeviceFamily.Replace('.', ' ');
+        public static string SDKVersion { get; } = Assembly.GetAssembly(typeof(PackageSignatureKind)).GetName().Version.ToString();
 
-        public static string ToolkitVersion => Assembly.GetAssembly(typeof(HsvColor)).GetName().Version.ToString(3);
+        public static string WinRTVersion { get; } = Assembly.GetAssembly(typeof(TrustLevel)).GetName().Version.ToString(3);
+
+        public static string DeviceFamily { get; } = AnalyticsInfo.VersionInfo.DeviceFamily.Replace('.', ' ');
+
+        public static string ToolkitVersion { get; } = Assembly.GetAssembly(typeof(ScrollItemPlacement)).GetName().Version.ToString(3);
 
         public static string VersionTextBlockText { get; } = $"{ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? Package.Current.DisplayName} v{Package.Current.Id.Version.ToFormattedString(3)}";
 
-        public DispatcherQueue Dispatcher { get; }
+        public CoreDispatcher Dispatcher { get; }
 
         public string Title { get; } = _loader.GetString("Title");
 
@@ -199,7 +202,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         {
             if (name != null)
             {
-                foreach (KeyValuePair<DispatcherQueue, SettingsViewModel> cache in Caches)
+                foreach (KeyValuePair<CoreDispatcher, SettingsViewModel> cache in Caches)
                 {
                     await cache.Key.ResumeForegroundAsync();
                     cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name));
@@ -211,7 +214,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         {
             if (names?.Length > 0)
             {
-                foreach (KeyValuePair<DispatcherQueue, SettingsViewModel> cache in Caches)
+                foreach (KeyValuePair<CoreDispatcher, SettingsViewModel> cache in Caches)
                 {
                     await cache.Key.ResumeForegroundAsync();
                     names.ForEach(name => cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name)));
@@ -228,9 +231,9 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
         }
 
-        public SettingsViewModel(DispatcherQueue dispatcher)
+        public SettingsViewModel(CoreDispatcher dispatcher)
         {
-            Dispatcher = dispatcher ?? DispatcherQueue.GetForCurrentThread();
+            Dispatcher = dispatcher;
             Caches.AddOrUpdate(dispatcher, this);
         }
 

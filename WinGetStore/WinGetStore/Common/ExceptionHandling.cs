@@ -8,7 +8,7 @@ namespace WinGetStore.Common
     /// Wrapper around a standard synchronization context, that catches any unhandled exceptions.
     /// Acts as a façade passing calls to the original SynchronizationContext.
     /// </summary>
-    /// <param name="syncContext">The synchronization context to wrap.</param>
+    /// <param name="syncContext">The <see cref="SynchronizationContext"/> to wrap.</param>
     /// <example>
     /// Set this up inside your App.xaml.cs file as follows:
     /// <code>
@@ -56,6 +56,28 @@ namespace WinGetStore.Common
         }
 
         /// <summary>
+        /// Try registration method. Call this from OnLaunched and OnActivated inside the App.xaml.cs.
+        /// </summary>
+        /// <param name="context">The <see cref="ExceptionHandlingSynchronizationContext"/> which registered.</param>
+        /// <returns><see langword="true"/> if the registration is successful; otherwise, <see langword="false"/>.</returns>
+        public static bool TryRegister(out ExceptionHandlingSynchronizationContext context)
+        {
+            switch (Current)
+            {
+                case ExceptionHandlingSynchronizationContext _context:
+                    context = _context;
+                    return false;
+                case SynchronizationContext syncContext:
+                    context = new(syncContext);
+                    SetSynchronizationContext(context);
+                    return true;
+                default:
+                    context = null;
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// Links the synchronization context to the specified frame
         /// and ensures that it is still in use after each navigation event.
         /// </summary>
@@ -63,7 +85,7 @@ namespace WinGetStore.Common
         /// <returns>The <see cref="ExceptionHandlingSynchronizationContext"/> which registered.</returns>
         public static ExceptionHandlingSynchronizationContext Register(Frame rootFrame)
         {
-            if (rootFrame == null) { throw new ArgumentNullException(nameof(rootFrame)); }
+            ArgumentNullException.ThrowIfNull(rootFrame);
 
             ExceptionHandlingSynchronizationContext synchronizationContext = Register();
 

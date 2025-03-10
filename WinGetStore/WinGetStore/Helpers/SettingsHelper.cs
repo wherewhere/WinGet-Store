@@ -1,5 +1,5 @@
-﻿using MetroLog;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using CommunityToolkit.Common.Helpers;
+using MetroLog;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
@@ -8,7 +8,6 @@ using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using WinGetStore.Models;
-using IObjectSerializer = Microsoft.Toolkit.Helpers.IObjectSerializer;
 
 namespace WinGetStore.Helpers
 {
@@ -61,7 +60,7 @@ namespace WinGetStore.Helpers
             string => JsonSerializer.Serialize(value, SourceGenerationContext.Default.String),
             ElementTheme => JsonSerializer.Serialize(value, SourceGenerationContext.Default.ElementTheme),
             DateTimeOffset => JsonSerializer.Serialize(value, SourceGenerationContext.Default.DateTimeOffset),
-            _ => JsonSerializer.Serialize(value)
+            _ => default
         };
 
         public T Deserialize<T>([StringSyntax(StringSyntaxAttribute.Json)] string value)
@@ -72,7 +71,7 @@ namespace WinGetStore.Helpers
                 : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
                 : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
                 : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
-                : JsonSerializer.Deserialize<T>(value);
+                : default;
             static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) => JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
         }
     }

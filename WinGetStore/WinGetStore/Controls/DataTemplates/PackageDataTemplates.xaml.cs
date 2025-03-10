@@ -25,7 +25,7 @@ namespace WinGetStore.Controls.DataTemplates
             switch (element.Name)
             {
                 case "Versions":
-                    VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
+                    VersionsDialog dialog = new(element.Tag as CatalogPackage);
                     _ = dialog.ShowAsync();
                     break;
                 case "Upgrade":
@@ -44,7 +44,7 @@ namespace WinGetStore.Controls.DataTemplates
                     DataPackage dataPackage = new();
                     string shareString = element.Tag?.ToString();
                     dataPackage.SetText(shareString);
-                    dataPackage.Properties.Title = shareString.Substring(15);
+                    dataPackage.Properties.Title = shareString[15..];
                     dataPackage.Properties.Description = shareString;
                     Clipboard.SetContent(dataPackage);
                     break;

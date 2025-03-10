@@ -1,5 +1,6 @@
-﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit.Uwp.UI;
+﻿using CommunityToolkit.WinUI;
+using Microsoft.Management.Deployment;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,10 +17,10 @@ namespace WinGetStore.Controls.Dialogs
         public ObservableCollection<PackageMatchFilter> Selectors => Provider.Selectors;
         public ObservableCollection<PackageMatchFilter> Filters => Provider.Filters;
 
-        public FiltersDialog(FiltersViewModel provider)
+        public FiltersDialog(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters)
         {
             InitializeComponent();
-            Provider = provider;
+            Provider = new FiltersViewModel(selectors, filters, Dispatcher);
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)

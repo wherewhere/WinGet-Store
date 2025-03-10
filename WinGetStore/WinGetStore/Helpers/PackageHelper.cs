@@ -18,12 +18,12 @@ namespace WinGetStore.Helpers
             {
                 IEnumerable<Package> packages = manager.FindPackagesForUser("");
                 IEnumerable<Package> results = packages?.Where((x) => x.Id.FamilyName.StartsWith(PackageName));
-                return results ?? System.Linq.Enumerable.Empty<Package>();
+                return results ?? [];
             }
             catch (Exception ex)
             {
                 SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
-                return System.Linq.Enumerable.Empty<Package>();
+                return [];
             }
         }
 

@@ -7,9 +7,9 @@ using WinGetStore.Helpers;
 
 namespace WinGetStore.Controls
 {
-    public class Slot : Panel
+    public partial class Slot : Panel
     {
-        private UIElement RootElement;
+        private FrameworkElement RootElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Slot"/> class.
@@ -69,13 +69,13 @@ namespace WinGetStore.Controls
         public static readonly DependencyProperty LastControlProperty =
             DependencyProperty.Register(
                 nameof(PreviousElement),
-                typeof(UIElement),
+                typeof(FrameworkElement),
                 typeof(Slot),
                 null);
 
-        public UIElement PreviousElement
+        public FrameworkElement PreviousElement
         {
-            get => (UIElement)GetValue(LastControlProperty);
+            get => (FrameworkElement)GetValue(LastControlProperty);
             set => SetValue(LastControlProperty, value);
         }
 
@@ -91,7 +91,7 @@ namespace WinGetStore.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            RootElement ??= this.GetXAMLRoot() ?? FindAscendant(this) as UIElement;
+            RootElement ??= (this.GetXAMLRoot() ?? FindAscendant(this)) as FrameworkElement;
 
             bool isStretch = IsStretch;
             bool fHorizontal = Orientation == Orientation.Horizontal;
@@ -113,11 +113,11 @@ namespace WinGetStore.Controls
                 if (fHorizontal)
                 {
                     Point screenCoords = PreviousElement != null
-                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(PreviousElement.ActualSize.X, 0))
+                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(PreviousElement.ActualWidth, 0))
                         : TransformToVisual(RootElement).TransformPoint(new Point(0, 0));
 
                     double leftPadding = Math.Max(0, screenCoords.X);
-                    double rightPadding = Math.Max(0, RootElement.ActualSize.X - screenCoords.X - arrangeSize.Width);
+                    double rightPadding = Math.Max(0, RootElement.ActualWidth - screenCoords.X - arrangeSize.Width);
 
                     if (leftPadding > rightPadding)
                     {
@@ -151,11 +151,11 @@ namespace WinGetStore.Controls
                 else
                 {
                     Point screenCoords = PreviousElement != null
-                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(0, PreviousElement.ActualSize.Y))
+                        ? PreviousElement.TransformToVisual(RootElement).TransformPoint(new Point(0, PreviousElement.ActualHeight))
                         : TransformToVisual(RootElement).TransformPoint(new Point(0, 0));
 
                     double topPadding = Math.Max(0, screenCoords.Y);
-                    double buttonPadding = Math.Max(0, RootElement.ActualSize.Y - screenCoords.Y - arrangeSize.Height);
+                    double buttonPadding = Math.Max(0, RootElement.ActualHeight - screenCoords.Y - arrangeSize.Height);
 
                     if (topPadding > buttonPadding)
                     {

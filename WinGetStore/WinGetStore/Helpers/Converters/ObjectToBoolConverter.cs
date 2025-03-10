@@ -1,11 +1,11 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Converters;
+﻿using CommunityToolkit.WinUI.Converters;
 
 namespace WinGetStore.Helpers.Converters
 {
     /// <summary>
     /// This class converts a object into a Boolean value (if the value is null returns a false value).
     /// </summary>
-    public class ObjectToBoolConverter : EmptyObjectToObjectConverter
+    public partial class ObjectToBoolConverter : EmptyObjectToObjectConverter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectToBoolConverter"/> class.

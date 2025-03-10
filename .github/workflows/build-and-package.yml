@@ -10,6 +10,9 @@ on:
       - 'WinGetStore**'
   workflow_dispatch:
 
+env:
+  DOTNET_VERSION: '9.0.x' # The .NET SDK version to use
+
 jobs:
   build-and-package:
 
@@ -36,18 +39,27 @@ jobs:
       env:
         Certificate: ${{ secrets.Base64_Encoded_Pfx }}
 
+    # Install the .NET Core App workload
+    - name: Install .NET Core App
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
       with:
         msbuild-architecture: x64
- 
-    - name: Setup NuGet.exe
-      uses: NuGet/setup-nuget@v2
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: nuget restore $env:Solution_Name
+      run: msbuild $env:Solution_Name `
+        /t:Restore `
+        /p:Configuration=$env:Configuration `
+        /p:Platform=$env:Platform
+      env:
+        Configuration: Release
+        Platform: 'x64'
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
@@ -56,9 +68,11 @@ jobs:
         /p:CIBuildID="$env:Build_ID" `
         /p:AppxBundlePlatforms="$env:Appx_Bundle_Platforms" `
         /p:Configuration=$env:Configuration `
+        /p:Platform=$env:Platform `
         /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode `
         /p:AppxBundle=$env:Appx_Bundle `
         /p:AppxPackageDir="$env:Appx_Package_Dir" `
+        /p:GenerateAppxPackageOnBuild=true `
         /p:AppxPackageSigningEnabled=true `
         /p:PackageCertificateThumbprint="$env:Thumbprint" `
         /p:PackageCertificateKeyFile=$env:Signing_Certificate `
@@ -66,10 +80,11 @@ jobs:
       env:
         Build_ID: ${{ github.run_number }}
         Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64|ARM64
+        Appx_Bundle_Platforms: x64|ARM64
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: AppxPackages\
         Configuration: Release
+        Platform: 'x64'
         Thumbprint: 0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25
         Password: ${{ secrets.Password }}
 

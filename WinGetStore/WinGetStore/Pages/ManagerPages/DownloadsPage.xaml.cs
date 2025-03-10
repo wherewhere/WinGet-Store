@@ -3,7 +3,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WinGetStore.ViewModels.ManagerPages;
-using muxc = Microsoft.UI.Xaml.Controls;
+#region using muxc = Microsoft.UI.Xaml.Controls;
+using RefreshContainer = Microsoft.UI.Xaml.Controls.RefreshContainer;
+using RefreshRequestedEventArgs = Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs;
+#endregion
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -14,9 +17,13 @@ namespace WinGetStore.Pages.ManagerPages
     /// </summary>
     public sealed partial class DownloadsPage : Page
     {
-        private readonly DownloadsViewModel Provider = new();
+        private readonly DownloadsViewModel Provider;
 
-        public DownloadsPage() => InitializeComponent();
+        public DownloadsPage()
+        {
+            InitializeComponent();
+            Provider = new DownloadsViewModel(Dispatcher);
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -42,6 +49,6 @@ namespace WinGetStore.Pages.ManagerPages
             if (e != null) { e.Handled = true; }
         }
 
-        private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
+        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
     }
 }

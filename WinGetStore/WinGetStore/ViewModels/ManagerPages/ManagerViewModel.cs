@@ -7,18 +7,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.System;
+using Windows.UI.Core;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
-using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public class ManagerViewModel : INotifyPropertyChanged
+    public partial class ManagerViewModel(CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
+        public CoreDispatcher Dispatcher => dispatcher;
 
         private bool isLoading;
         public bool IsLoading
@@ -88,8 +87,6 @@ namespace WinGetStore.ViewModels.ManagerPages
                 RaisePropertyChangedEvent(name);
             }
         }
-
-        public ManagerViewModel() => waitProgressText = _loader.GetString("Loading");
 
         private async void SetError(string title, string description, string code = "")
         {

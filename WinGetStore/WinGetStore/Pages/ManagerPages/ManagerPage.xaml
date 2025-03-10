@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:CommunityToolkit.WinUI"
     xmlns:viewmodels="using:WinGetStore.ViewModels.ManagerPages"
     d:DataContext="{d:DesignInstance Type=viewmodels:ManagerViewModel}"
     DataContext="{x:Bind Provider}"

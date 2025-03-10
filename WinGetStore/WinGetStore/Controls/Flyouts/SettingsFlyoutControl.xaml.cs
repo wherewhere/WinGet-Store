@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -16,43 +15,18 @@ namespace WinGetStore.Controls
 {
     public sealed partial class SettingsFlyoutControl : SettingsFlyout
     {
-        #region Provider
-
-        /// <summary>
-        /// Identifies the <see cref="Provider"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ProviderProperty =
-            DependencyProperty.Register(
-                nameof(Provider),
-                typeof(SettingsViewModel),
-                typeof(SettingsFlyoutControl),
-                null);
-
-        /// <summary>
-        /// Get the <see cref="SettingsViewModel"/> of current <see cref="SettingsFlyout"/>.
-        /// </summary>
-        public SettingsViewModel Provider
-        {
-            get => (SettingsViewModel)GetValue(ProviderProperty);
-            private set => SetValue(ProviderProperty, value);
-        }
-
-        #endregion
+        private readonly SettingsViewModel Provider;
 
         public SettingsFlyoutControl()
         {
             InitializeComponent();
+            Provider = SettingsViewModel.Caches.TryGetValue(Dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(Dispatcher);
             ResourceDictionary ThemeResources = new() { Source = new Uri("ms-appx:///Styles/SettingsFlyout.xaml") };
             Style = (Style)ThemeResources["DefaultSettingsFlyoutStyle"];
         }
 
         private void SettingsFlyout_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Provider == null)
-            {
-                DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
-                Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
-            }
             ThemeHelper.UISettingChanged += OnUISettingChanged;
             _ = Refresh();
         }
@@ -124,7 +98,5 @@ namespace WinGetStore.Controls
         public Task Refresh(bool reset = false) => Provider.Refresh(reset);
 
         private void GotoUpdate_Click(object sender, RoutedEventArgs e) => _ = Launcher.LaunchUriAsync(new Uri((sender as FrameworkElement).Tag.ToString()));
-
-        private void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e) => _ = Launcher.LaunchUriAsync(new Uri(e.Link));
     }
 }

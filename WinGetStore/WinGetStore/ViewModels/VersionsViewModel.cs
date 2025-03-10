@@ -2,17 +2,17 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.System;
+using Windows.UI.Core;
 using WinGetStore.Common;
 using WinGetStore.Models;
 
 namespace WinGetStore.ViewModels
 {
-    public class VersionsViewModel(CatalogPackage catalogPackage) : INotifyPropertyChanged
+    public partial class VersionsViewModel(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
+        public CoreDispatcher Dispatcher => dispatcher;
 
-        private PackageVersionSource packageVersions = new(catalogPackage);
+        private PackageVersionSource packageVersions = new(catalogPackage, dispatcher);
         public PackageVersionSource PackageVersions
         {
             get => packageVersions;
@@ -42,5 +42,5 @@ namespace WinGetStore.ViewModels
         public Task Refresh(bool reset = false) => PackageVersions.Refresh(reset);
     }
 
-    public record class CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);
+    public record CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);
 }

@@ -7,24 +7,21 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.System;
+using Windows.UI.Core;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
-using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public class SearchingViewModel : INotifyPropertyChanged
+    public partial class SearchingViewModel(string keyword, CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
-
-        private string title = string.Empty;
+        public CoreDispatcher Dispatcher => dispatcher;
         public string Title
         {
-            get => title;
-            set => SetProperty(ref title, value);
+            get => keyword;
+            set => SetProperty(ref keyword, value);
         }
 
         private bool isLoading;
@@ -111,12 +108,6 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        public SearchingViewModel(string keyword)
-        {
-            Title = keyword;
-            waitProgressText = _loader.GetString("Searching");
-        }
-
         private async void SetError(string title, string description, string code = "")
         {
             if (isError) { return; }
@@ -160,7 +151,7 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
 
                 WaitProgressText = _loader.GetString("GettingResults");
-                FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog, title);
+                FindPackagesResult packagesResult = await TryFindPackageInCatalogAsync(packageCatalog, keyword);
                 if (packagesResult is null)
                 {
                     SetError(_loader.GetString("GettingResultsFailedTitle"), _loader.GetString("GettingResultsFailedDescription"));
@@ -231,7 +222,8 @@ namespace WinGetStore.ViewModels.ManagerPages
                     filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
                     filter.Value = packageId;
                     findPackagesOptions.Selectors.Add(filter);
-                    Selectors = [.. findPackagesOptions.Selectors];
+                    List<PackageMatchFilter> selectors = [.. findPackagesOptions.Selectors];
+                    Selectors = selectors;
                 }
 
                 return await catalog.FindPackagesAsync(findPackagesOptions);

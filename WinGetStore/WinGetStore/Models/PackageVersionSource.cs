@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.ViewModels;
 
 namespace WinGetStore.Models
 {
-    public class PackageVersionSource(CatalogPackage catalogPackage) : IncrementalLoadingBase<CatalogPackageVersion>
+    public partial class PackageVersionSource(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : IncrementalLoadingBase<CatalogPackageVersion>(dispatcher)
     {
         private List<PackageVersionId> availableVersions;
 
@@ -40,7 +41,7 @@ namespace WinGetStore.Models
             }
         }
 
-        protected override async Task<uint> LoadMoreItemsOverrideAsync(CancellationToken cancellationToken, uint count)
+        protected override async Task<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
 

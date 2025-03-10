@@ -7,7 +7,10 @@ using Windows.UI.Xaml.Navigation;
 using WinGetStore.Controls;
 using WinGetStore.Controls.Dialogs;
 using WinGetStore.ViewModels.ManagerPages;
-using muxc = Microsoft.UI.Xaml.Controls;
+#region using muxc = Microsoft.UI.Xaml.Controls;
+using RefreshContainer = Microsoft.UI.Xaml.Controls.RefreshContainer;
+using RefreshRequestedEventArgs = Microsoft.UI.Xaml.Controls.RefreshRequestedEventArgs;
+#endregion
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -18,9 +21,13 @@ namespace WinGetStore.Pages.ManagerPages
     /// </summary>
     public sealed partial class ManagerPage : Page
     {
-        private readonly ManagerViewModel Provider = new();
+        private readonly ManagerViewModel Provider;
 
-        public ManagerPage() => InitializeComponent();
+        public ManagerPage()
+        {
+            InitializeComponent();
+            Provider = new ManagerViewModel(Dispatcher);
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -48,7 +55,7 @@ namespace WinGetStore.Pages.ManagerPages
             switch (element.Name)
             {
                 case "Versions":
-                    VersionsDialog dialog = new(new(element.Tag as CatalogPackage));
+                    VersionsDialog dialog = new(element.Tag as CatalogPackage);
                     _ = dialog.ShowAsync();
                     break;
                 case "Upgrade":
@@ -67,7 +74,7 @@ namespace WinGetStore.Pages.ManagerPages
                     DataPackage dataPackage = new();
                     string shareString = element.Tag?.ToString();
                     dataPackage.SetText(shareString);
-                    dataPackage.Properties.Title = shareString.Substring(15);
+                    dataPackage.Properties.Title = shareString[15..];
                     dataPackage.Properties.Description = shareString;
                     Clipboard.SetContent(dataPackage);
                     break;
@@ -83,6 +90,6 @@ namespace WinGetStore.Pages.ManagerPages
             if (e != null) { e.Handled = true; }
         }
 
-        private void RefreshContainer_RefreshRequested(muxc.RefreshContainer sender, muxc.RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
+        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args) => _ = Provider?.Refresh();
     }
 }

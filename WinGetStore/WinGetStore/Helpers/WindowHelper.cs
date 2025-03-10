@@ -1,7 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -22,8 +22,13 @@ namespace WinGetStore.Helpers
     /// </summary>
     public static class WindowHelper
     {
+#pragma warning disable CA1416
+        [SupportedOSPlatformGuard("Windows10.0.18362.0")]
         public static bool IsAppWindowSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.WindowManagement.AppWindow");
+
+        [SupportedOSPlatformGuard("Windows10.0.18362.0")]
         public static bool IsXamlRootSupported { get; } = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
+#pragma warning restore CA1416
 
         public static async Task<bool> CreateWindowAsync(Action<Window> launched)
         {

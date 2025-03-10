@@ -1,6 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+﻿using System;
 using System.Linq;
+using System.Runtime.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -8,14 +9,15 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.Security.Authorization.AppCapabilityAccess;
+using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
 using WinGetStore.Pages;
-using WinGetStore.WinRT;
 
 namespace WinGetStore
 {
@@ -24,6 +26,11 @@ namespace WinGetStore
     /// </summary>
     public sealed partial class App : Application
     {
+#pragma warning disable CA1416
+        [SupportedOSPlatformGuard("Windows10.0.18362.0")]
+        public static bool IsAppCapabilitySupported { get; } = ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability");
+#pragma warning restore CA1416
+
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
@@ -37,6 +44,16 @@ namespace WinGetStore
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox") { FocusVisualKind = FocusVisualKind.Reveal; }
         }
 
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            if (SynchronizationContext.Current == null)
+            {
+                DispatcherQueueSynchronizationContext context = new(args.Window.CoreWindow.DispatcherQueue);
+                SynchronizationContext.SetSynchronizationContext(context);
+            }
+            base.OnWindowCreated(args);
+        }
+
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
@@ -47,11 +64,58 @@ namespace WinGetStore
             EnsureWindow(e);
         }
 
+        #region OnActivated
+
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnActivated(e);
+        }
+
+        protected override void OnCachedFileUpdaterActivated(CachedFileUpdaterActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnCachedFileUpdaterActivated(e);
+        }
+
+        protected override void OnFileActivated(FileActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnFileActivated(e);
+        }
+
+        protected override void OnFileOpenPickerActivated(FileOpenPickerActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnFileOpenPickerActivated(e);
+        }
+
+        protected override void OnFileSavePickerActivated(FileSavePickerActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnFileSavePickerActivated(e);
+        }
+
+        protected override void OnSearchActivated(SearchActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnSearchActivated(e);
+        }
+
+        protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
+        {
+            EnsureWindow(e);
+            base.OnShareTargetActivated(e);
+        }
+
+        #endregion
+
         private void EnsureWindow(IActivatedEventArgs e)
         {
+            RegisterExceptionHandlingSynchronizationContext();
+
             if (!isLoaded)
             {
-                RegisterExceptionHandlingSynchronizationContext();
                 _ = RequestPackageManagementAsync();
                 _ = RegisterBackgroundTaskAsync();
                 CheckWinGetDev();
@@ -97,7 +161,7 @@ namespace WinGetStore
                 // 当导航堆栈尚未还原时，导航到第一页，
                 // 并通过将所需信息作为导航参数传入来配置
                 // 参数
-                rootFrame.Navigate(typeof(MainPage), e);
+                rootFrame.Navigate(typeof(MainPage), e, new DrillInNavigationTransitionInfo());
             }
 
             // 确保当前窗口处于活动状态
@@ -138,7 +202,7 @@ namespace WinGetStore
 
         private static async Task RequestPackageManagementAsync()
         {
-            if (ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability"))
+            if (IsAppCapabilitySupported)
             {
                 AppCapability PackageManagement = AppCapability.Create("packageManagement");
                 switch (PackageManagement.CheckAccess())
@@ -171,9 +235,10 @@ namespace WinGetStore
         /// </summary>
         private static void RegisterExceptionHandlingSynchronizationContext()
         {
-            ExceptionHandlingSynchronizationContext
-                .Register()
-                .UnhandledException += SynchronizationContext_UnhandledException;
+            if (ExceptionHandlingSynchronizationContext.TryRegister(out ExceptionHandlingSynchronizationContext context))
+            {
+                context.UnhandledException += SynchronizationContext_UnhandledException;
+            }
         }
 
         private static void SynchronizationContext_UnhandledException(object sender, Common.UnhandledExceptionEventArgs e)

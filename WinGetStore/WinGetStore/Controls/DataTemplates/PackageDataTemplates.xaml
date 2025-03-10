@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:WinGetStore.Controls"
     xmlns:converter="using:WinGetStore.Helpers.Converters"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:local="using:WinGetStore.Controls.DataTemplates"
@@ -102,9 +102,8 @@
                 <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Agreements"
                     Description="{x:Bind local:PackageDataTemplates.PackageAgreementsToDescription(PackageMetadata.Agreements)}"
-                    ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Tag="{x:Bind local:PackageDataTemplates.GetPackageAgreementsReader(PackageMetadata.Agreements)}"
-                    Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                    ItemsSource="{x:Bind local:PackageDataTemplates.GetPackageAgreementsReader(PackageMetadata.Agreements)}"
+                    Visibility="{Binding ItemsSource, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:PackageAgreement">
                             <controls:SettingsCard
@@ -164,9 +163,8 @@
                 <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Documentations"
                     Description="{x:Bind local:PackageDataTemplates.DocumentationsToDescription(PackageMetadata.Documentations)}"
-                    ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Tag="{x:Bind local:PackageDataTemplates.GetDocumentationsReader(PackageMetadata.Documentations)}"
-                    Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                    ItemsSource="{x:Bind local:PackageDataTemplates.GetDocumentationsReader(PackageMetadata.Documentations)}"
+                    Visibility="{Binding ItemsSource, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Documentation">
                             <controls:SettingsCard
@@ -189,9 +187,8 @@
                 <controls:SettingsExpander
                     x:Uid="/VersionsDialog/Icons"
                     Description="{x:Bind local:PackageDataTemplates.IconsToDescription(PackageMetadata.Icons)}"
-                    ItemsSource="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
-                    Tag="{x:Bind local:PackageDataTemplates.GetIconsReader(PackageMetadata.Icons)}"
-                    Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
+                    ItemsSource="{x:Bind local:PackageDataTemplates.GetIconsReader(PackageMetadata.Icons)}"
+                    Visibility="{Binding ItemsSource, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CollectionVisibilityConverter}}">
                     <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="deployment:Icon">
                             <controls:SettingsCard

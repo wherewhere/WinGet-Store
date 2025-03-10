@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace WinGetStore.Helpers.Converters
 {
-    public class TimeSpanToolTipValueConverter : IValueConverter
+    public partial class TimeSpanToolTipValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

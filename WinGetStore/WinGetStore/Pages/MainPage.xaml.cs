@@ -6,7 +6,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +15,17 @@ using WinGetStore.Controls;
 using WinGetStore.Pages.ManagerPages;
 using WinGetStore.Pages.SettingsPages;
 using WinGetStore.ViewModels.ManagerPages;
-using muxc = Microsoft.UI.Xaml.Controls;
+#region using muxc = Microsoft.UI.Xaml.Controls;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewBackButtonVisible = Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible;
+using NavigationViewBackRequestedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs;
+using NavigationViewDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode;
+using NavigationViewDisplayModeChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
+using NavigationViewItemInvokedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs;
+using NavigationViewPaneClosingEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewPaneClosingEventArgs;
+using NavigationViewPaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode;
+#endregion
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -38,7 +47,7 @@ namespace WinGetStore.Pages
         {
             InitializeComponent();
             SearchBoxHolder.RegisterPropertyChangedCallback(Slot.IsStretchProperty, new DependencyPropertyChangedCallback(OnIsStretchProperty));
-            NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.IsBackButtonVisibleProperty, new DependencyPropertyChangedCallback(OnIsBackButtonVisibleChanged));
+            NavigationView.RegisterPropertyChangedCallback(NavigationView.IsBackButtonVisibleProperty, new DependencyPropertyChangedCallback(OnIsBackButtonVisibleChanged));
             if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush")) { BackdropMaterial.SetApplyToRootOrPageBackground(this, true); }
         }
 
@@ -47,8 +56,6 @@ namespace WinGetStore.Pages
             base.OnNavigatedTo(e);
             Window.Current?.SetTitleBar(DragRegion);
             NavigationView_Navigate("Home", new EntranceNavigationTransitionInfo());
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            { HardwareButtons.BackPressed += System_BackPressed; }
             SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
             CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
             AppTitleText.Text = ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? "WinGet Store";
@@ -58,8 +65,6 @@ namespace WinGetStore.Pages
         {
             base.OnNavigatedFrom(e);
             Window.Current.SetTitleBar(null);
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            { HardwareButtons.BackPressed -= System_BackPressed; }
             SystemNavigationManager.GetForCurrentView().BackRequested -= System_BackRequested;
             CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged -= TitleBar_LayoutMetricsChanged;
         }
@@ -69,7 +74,7 @@ namespace WinGetStore.Pages
             UpdateAppTitle(sender);
         }
 
-        public string GetAppTitleFromSystem => Package.Current.DisplayName;
+        public static string GetAppTitleFromSystem => Package.Current.DisplayName;
 
         private void OnIsStretchProperty(DependencyObject sender, DependencyProperty dp)
         {
@@ -102,9 +107,9 @@ namespace WinGetStore.Pages
             }
         }
 
-        private void NavigationView_BackRequested(muxc.NavigationView sender, muxc.NavigationViewBackRequestedEventArgs args) => _ = TryGoBack();
+        private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _ = TryGoBack();
 
-        private void NavigationView_ItemInvoked(muxc.NavigationView sender, muxc.NavigationViewItemInvokedEventArgs args)
+        private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (args.InvokedItemContainer != null)
             {
@@ -123,8 +128,8 @@ namespace WinGetStore.Pages
 
             // Don't go back if the nav pane is overlayed.
             if (NavigationView.IsPaneOpen &&
-                (NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Compact ||
-                 NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Minimal))
+                (NavigationView.DisplayMode == NavigationViewDisplayMode.Compact ||
+                 NavigationView.DisplayMode == NavigationViewDisplayMode.Minimal))
             { return false; }
 
             NavigationViewFrame.GoBack();
@@ -135,51 +140,51 @@ namespace WinGetStore.Pages
         {
             NavigationView.IsBackEnabled = NavigationViewFrame.CanGoBack;
             NavigationView.IsBackButtonVisible = NavigationViewFrame.CanGoBack
-                ? muxc.NavigationViewBackButtonVisible.Visible
-                : muxc.NavigationViewBackButtonVisible.Collapsed;
+                ? NavigationViewBackButtonVisible.Visible
+                : NavigationViewBackButtonVisible.Collapsed;
             if (NavigationViewFrame.SourcePageType != null)
             {
                 (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
                 if (item.Tag != null)
                 {
-                    muxc.NavigationViewItem SelectedItem = NavigationView.MenuItems
-                        .OfType<muxc.NavigationViewItem>()
+                    NavigationViewItem SelectedItem = NavigationView.MenuItems
+                        .OfType<NavigationViewItem>()
                         .FirstOrDefault(n => n.Tag.Equals(item.Tag))
                             ?? NavigationView.FooterMenuItems
-                                .OfType<muxc.NavigationViewItem>()
+                                .OfType<NavigationViewItem>()
                                 .FirstOrDefault(n => n.Tag.Equals(item.Tag));
                     NavigationView.SelectedItem = SelectedItem;
                 }
             }
         }
 
-        private void NavigationViewControl_PaneClosing(muxc.NavigationView sender, muxc.NavigationViewPaneClosingEventArgs args)
+        private void NavigationViewControl_PaneClosing(NavigationView sender, NavigationViewPaneClosingEventArgs args)
         {
             UpdateLeftPaddingColumn();
         }
 
-        private void NavigationViewControl_PaneOpening(muxc.NavigationView sender, object args)
+        private void NavigationViewControl_PaneOpening(NavigationView sender, object args)
         {
             UpdateLeftPaddingColumn();
         }
 
         private void UpdateLeftPaddingColumn()
         {
-            LeftPaddingColumn.Width = NavigationView.PaneDisplayMode == muxc.NavigationViewPaneDisplayMode.Top
-                ? NavigationView.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+            LeftPaddingColumn.Width = NavigationView.PaneDisplayMode == NavigationViewPaneDisplayMode.Top
+                ? NavigationView.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
                     ? new GridLength(48) : new GridLength(0)
-                    : NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                    : NavigationView.DisplayMode == NavigationViewDisplayMode.Minimal
                         ? NavigationView.IsPaneOpen ? new GridLength(72)
                         : NavigationView.IsPaneToggleButtonVisible
-                            ? NavigationView.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                            ? NavigationView.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
                             ? new GridLength(88) : new GridLength(48)
-                                : NavigationView.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                                : NavigationView.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
                                 ? new GridLength(48) : new GridLength(0)
-                                    : NavigationView.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                                    : NavigationView.IsBackButtonVisible != NavigationViewBackButtonVisible.Collapsed
                                     ? new GridLength(48) : new GridLength(0);
         }
 
-        private void NavigationViewControl_DisplayModeChanged(muxc.NavigationView sender, muxc.NavigationViewDisplayModeChangedEventArgs args)
+        private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
         {
             UpdateLeftPaddingColumn();
             UpdateAppTitleIcon();
@@ -188,14 +193,14 @@ namespace WinGetStore.Pages
         private void UpdateAppTitleIcon()
         {
             AppTitleIcon.Margin = SearchBoxHolder.IsStretch
-                && NavigationView.PaneDisplayMode != muxc.NavigationViewPaneDisplayMode.Top
-                && NavigationView.DisplayMode != muxc.NavigationViewDisplayMode.Minimal
-                    ? NavigationView.IsBackButtonVisible == muxc.NavigationViewBackButtonVisible.Visible
+                && NavigationView.PaneDisplayMode != NavigationViewPaneDisplayMode.Top
+                && NavigationView.DisplayMode != NavigationViewDisplayMode.Minimal
+                    ? NavigationView.IsBackButtonVisible == NavigationViewBackButtonVisible.Visible
                         ? new Thickness(0, 0, 16, 0)
                         : new Thickness(24.5, 0, 24, 0)
-                    : NavigationView.IsBackButtonVisible == muxc.NavigationViewBackButtonVisible.Visible
-                        || (NavigationView.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
-                            && NavigationView.PaneDisplayMode != muxc.NavigationViewPaneDisplayMode.Top
+                    : NavigationView.IsBackButtonVisible == NavigationViewBackButtonVisible.Visible
+                        || (NavigationView.DisplayMode == NavigationViewDisplayMode.Minimal
+                            && NavigationView.PaneDisplayMode != NavigationViewPaneDisplayMode.Top
                             && NavigationView.IsPaneToggleButtonVisible)
                         ? new Thickness(0, 0, 16, 0)
                         : new Thickness(16, 0, 16, 0);
@@ -215,19 +220,11 @@ namespace WinGetStore.Pages
             }
         }
 
-        private void System_BackPressed(object sender, BackPressedEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                e.Handled = TryGoBack();
-            }
-        }
-
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (!string.IsNullOrWhiteSpace(sender.Text))
             {
-                NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(sender.Text));
+                NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(sender.Text, Dispatcher));
             }
         }
     }

@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.System;
+using Windows.UI.Core;
 using WinGetStore.Common;
-using WinGetStore.WinRT;
 
 namespace WinGetStore.ViewModels
 {
@@ -17,11 +16,13 @@ namespace WinGetStore.ViewModels
         Both = Selector | Filter
     }
 
-    public class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters) : INotifyPropertyChanged
+    public partial class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters, CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
-        public static Array FilterTypes { get; } = Enum.GetValues(typeof(FilterType));
+        public static FilterType[] FilterTypes { get; } = Enum.GetValues<FilterType>();
+        public static List<PackageMatchField> PackageMatchFields { get; } = [.. Enum.GetValues<PackageMatchField>()];
+        public static List<PackageFieldMatchOption> PackageFieldMatchOptions { get; } = [.. Enum.GetValues<PackageFieldMatchOption>()];
 
-        public DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
+        public CoreDispatcher Dispatcher => dispatcher;
 
         private ObservableCollection<PackageMatchFilter> selectors = [.. selectors];
         public ObservableCollection<PackageMatchFilter> Selectors

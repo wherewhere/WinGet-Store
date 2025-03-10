@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Threading;
 using Windows.Foundation.Metadata;
 using Windows.System;
@@ -36,13 +37,16 @@ namespace WinGetStore.Common
     /// The interface of helper type for switch thread.
     /// </summary>
     /// <typeparam name="T">The type of the result of <see cref="GetAwaiter"/>.</typeparam>
-    public interface IThreadSwitcher<out T> : IThreadSwitcher
+    public interface IThreadSwitcher<out T> : IThreadSwitcher where T : IThreadSwitcher
     {
         /// <summary>
         /// Gets an awaiter used to await <typeparamref name="T"/>.
         /// </summary>
         /// <returns>A <typeparamref name="T"/> awaiter instance.</returns>
         new T GetAwaiter();
+
+        /// <inheritdoc/>
+        IThreadSwitcher IThreadSwitcher.GetAwaiter() => GetAwaiter();
     }
 
     /// <summary>
@@ -61,9 +65,6 @@ namespace WinGetStore.Common
 
         /// <inheritdoc/>
         public CoreDispatcherThreadSwitcher GetAwaiter() => this;
-
-        /// <inheritdoc/>
-        IThreadSwitcher IThreadSwitcher.GetAwaiter() => this;
 
         /// <inheritdoc/>
         public void OnCompleted(Action continuation) => _ = Dispatcher.RunAsync(Priority, continuation.Invoke);
@@ -88,9 +89,6 @@ namespace WinGetStore.Common
         public DispatcherQueueThreadSwitcher GetAwaiter() => this;
 
         /// <inheritdoc/>
-        IThreadSwitcher IThreadSwitcher.GetAwaiter() => this;
-
-        /// <inheritdoc/>
         public void OnCompleted(Action continuation) => _ = Dispatcher.TryEnqueue(Priority, continuation.Invoke);
     }
 
@@ -110,9 +108,6 @@ namespace WinGetStore.Common
 
         /// <inheritdoc/>
         public SynchronizationContextThreadSwitcher GetAwaiter() => this;
-
-        /// <inheritdoc/>
-        IThreadSwitcher IThreadSwitcher.GetAwaiter() => this;
 
         /// <inheritdoc/>
         public void OnCompleted(Action continuation) => Context.Post(_ => continuation(), null);
@@ -135,9 +130,6 @@ namespace WinGetStore.Common
         public ThreadPoolThreadSwitcher GetAwaiter() => this;
 
         /// <inheritdoc/>
-        IThreadSwitcher IThreadSwitcher.GetAwaiter() => this;
-
-        /// <inheritdoc/>
         public void OnCompleted(Action continuation) => _ = ThreadPool.RunAsync(_ => continuation(), Priority);
     }
 
@@ -146,10 +138,13 @@ namespace WinGetStore.Common
     /// </summary>
     public static class ThreadSwitcher
     {
+#pragma warning disable CA1416
         /// <summary>
         /// Gets is <see cref="DispatcherQueue.HasThreadAccess"/> supported.
         /// </summary>
+        [SupportedOSPlatformGuard("Windows10.0.18362.0")]
         public static bool IsHasThreadAccessPropertyAvailable { get; } = ApiInformation.IsMethodPresent("Windows.System.DispatcherQueue", "HasThreadAccess");
+#pragma warning restore CA1416
 
         /// <summary>
         /// A helper function—for use within a coroutine—that you can <see langword="await"/> to switch execution to a specific foreground thread. 

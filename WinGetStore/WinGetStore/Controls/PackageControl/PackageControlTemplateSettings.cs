@@ -1,5 +1,5 @@
-﻿using Microsoft.Management.Deployment;
-using Microsoft.Toolkit;
+﻿using CommunityToolkit.Common;
+using Microsoft.Management.Deployment;
 using System;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;

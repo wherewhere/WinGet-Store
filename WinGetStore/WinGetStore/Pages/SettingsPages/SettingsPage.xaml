@@ -2,8 +2,8 @@
     x:Class="WinGetStore.Pages.SettingsPages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clwm="using:CommunityToolkit.Labs.WinUI.MarkdownTextBlock"
     xmlns:controls="using:WinGetStore.Controls"
-    xmlns:cwuc="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:globalization="using:System.Globalization"
     xmlns:helper="using:WinGetStore.Helpers"
@@ -12,9 +12,9 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingspages="using:WinGetStore.ViewModels.SettingsPages"
     xmlns:sys="using:System"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:CommunityToolkit.WinUI"
     d:DataContext="{d:DesignInstance Type=settingspages:SettingsViewModel}"
-    DataContext="{x:Bind Provider, Mode=OneWay}"
+    DataContext="{x:Bind Provider}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Grid>
@@ -34,7 +34,7 @@
                     AutomationProperties.HeadingLevel="Level1"
                     FontWeight="SemiBold"
                     Style="{StaticResource TitleTextBlockStyle}"
-                    Text="{x:Bind Provider.Title, Mode=OneWay}" />
+                    Text="{x:Bind Provider.Title}" />
                 <StackPanel Grid.Row="1" Padding="0,0,0,24">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
@@ -202,7 +202,7 @@
                                     HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     IsTextSelectionEnabled="True"
-                                    Text="{Binding ToolkitVersion}"
+                                    Text="{x:Bind settingspages:SettingsViewModel.ToolkitVersion}"
                                     TextWrapping="WrapWholeWords" />
                                 <TextBlock
                                     x:Uid="/SettingsPage/DeviceFamilyTextBlock"
@@ -215,7 +215,7 @@
                                     HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     IsTextSelectionEnabled="True"
-                                    Text="{Binding DeviceFamily}"
+                                    Text="{x:Bind settingspages:SettingsViewModel.DeviceFamily}"
                                     TextWrapping="WrapWholeWords" />
                                 <TextBlock
                                     x:Uid="/SettingsPage/OSPlatformTextBlock"
@@ -310,12 +310,14 @@
                                 </StackPanel>
                             </controls:SettingsExpander.ActionContent>
                             <Grid>
-                                <cwuc:MarkdownTextBlock
+                                <clwm:MarkdownTextBlock
+                                    x:Name="AboutMarkdown"
                                     HorizontalAlignment="Left"
-                                    Background="{ThemeResource SystemControlTransparentBrush}"
-                                    LinkClicked="MarkdownText_LinkClicked"
-                                    LinkForeground="{ThemeResource HyperlinkForeground}"
-                                    Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}" />
+                                    Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}">
+                                    <clwm:MarkdownTextBlock.Config>
+                                        <clwm:MarkdownConfig />
+                                    </clwm:MarkdownTextBlock.Config>
+                                </clwm:MarkdownTextBlock>
                             </Grid>
                         </controls:SettingsExpander>
                         <muxc:InfoBar

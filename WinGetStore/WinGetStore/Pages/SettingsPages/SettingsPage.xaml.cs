@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -20,39 +19,17 @@ namespace WinGetStore.Pages.SettingsPages
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        #region Provider
+        private readonly SettingsViewModel Provider;
 
-        /// <summary>
-        /// Identifies the <see cref="Provider"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ProviderProperty =
-            DependencyProperty.Register(
-                nameof(Provider),
-                typeof(SettingsViewModel),
-                typeof(SettingsPage),
-                null);
-
-        /// <summary>
-        /// Get the <see cref="SettingsViewModel"/> of current <see cref="Page"/>.
-        /// </summary>
-        public SettingsViewModel Provider
+        public SettingsPage()
         {
-            get => (SettingsViewModel)GetValue(ProviderProperty);
-            private set => SetValue(ProviderProperty, value);
+            InitializeComponent();
+            Provider = SettingsViewModel.Caches.TryGetValue(Dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(Dispatcher);
         }
-
-        #endregion
-
-        public SettingsPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (Provider == null)
-            {
-                DispatcherQueue dispatcher = DispatcherQueue.GetForCurrentThread();
-                Provider = SettingsViewModel.Caches.TryGetValue(dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(dispatcher);
-            }
             _ = Refresh();
         }
 
@@ -119,7 +96,5 @@ namespace WinGetStore.Pages.SettingsPages
         public Task Refresh(bool reset = false) => Provider.Refresh(reset);
 
         private void GotoUpdate_Click(object sender, RoutedEventArgs e) => _ = Launcher.LaunchUriAsync(new Uri((sender as FrameworkElement).Tag.ToString()));
-
-        private void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e) => _ = Launcher.LaunchUriAsync(new Uri(e.Link));
     }
 }

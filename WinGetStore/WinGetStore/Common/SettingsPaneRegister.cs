@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
+﻿using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,7 +78,7 @@ namespace WinGetStore.Common
             if (args.QueryText is string keyWord && !string.IsNullOrEmpty(keyWord))
             {
                 MainPage page = Window.Current?.Content?.FindDescendant<MainPage>();
-                _ = page.NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(keyWord));
+                _ = page.NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(keyWord, page.Dispatcher));
             }
         }
 

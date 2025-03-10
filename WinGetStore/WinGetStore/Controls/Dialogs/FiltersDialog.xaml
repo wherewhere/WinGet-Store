@@ -7,7 +7,6 @@
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:helpers="using:WinGetStore.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
     x:Uid="/FiltersDialog/FiltersDialog"
     Title="Filters"
@@ -192,13 +191,13 @@
                     <controls:SettingsCard x:Uid="/FiltersDialog/Field" HeaderIcon="&#xE71C;">
                         <ComboBox
                             x:Uid="/FiltersDialog/MatchField"
-                            ItemsSource="{ui:EnumValues Type=deployment:PackageMatchField}"
+                            ItemsSource="{x:Bind viewmodels:FiltersViewModel.PackageMatchFields}"
                             SelectedItem="{x:Bind Provider.Field, Mode=TwoWay}" />
                     </controls:SettingsCard>
                     <controls:SettingsCard x:Uid="/FiltersDialog/Option" HeaderIcon="&#xE933;">
                         <ComboBox
                             x:Uid="/FiltersDialog/MatchOption"
-                            ItemsSource="{ui:EnumValues Type=deployment:PackageFieldMatchOption}"
+                            ItemsSource="{x:Bind viewmodels:FiltersViewModel.PackageFieldMatchOptions}"
                             SelectedItem="{x:Bind Provider.Option, Mode=TwoWay}" />
                     </controls:SettingsCard>
                 </controls:SettingsGroup>

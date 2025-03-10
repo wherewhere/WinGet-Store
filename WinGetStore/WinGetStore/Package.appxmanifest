@@ -32,7 +32,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="WinGetStore.App">
+      EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="ms-resource:AppName"
         Square150x150Logo="Assets\Square150x150Logo.png"
