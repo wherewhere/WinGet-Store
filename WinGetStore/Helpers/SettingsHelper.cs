@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Common.Helpers;
 using MetroLog;
+using MetroLog.Targets;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using WinGetStore.Models;
 
@@ -46,10 +49,19 @@ namespace WinGetStore.Helpers
 
     public static partial class SettingsHelper
     {
-        public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
+        public static ILogManager LogManager { get; } = CreateLogManager();
         public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper() => SetDefaultSettings();
+
+        public static ILogManager CreateLogManager()
+        {
+            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MetroLogs");
+            if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
+            LoggingConfiguration loggingConfiguration = new();
+            loggingConfiguration.AddTarget(LogLevel.Info, LogLevel.Fatal, new StreamingFileTarget(path, 7));
+            return LogManagerFactory.CreateLogManager(loggingConfiguration);
+        }
     }
 
     public class SystemTextJsonObjectSerializer : IObjectSerializer

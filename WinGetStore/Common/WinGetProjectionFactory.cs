@@ -160,7 +160,7 @@ namespace WinGetStore.Common
             return TryCreateInstance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
         }
 
-        internal static T CreateInstance<T>(Guid rclsid, uint dwClsContext = CLSCTX_ALL)
+        public static T CreateInstance<T>(Guid rclsid, uint dwClsContext = CLSCTX_ALL)
         {
             int hresult = CoCreateInstance(rclsid, 0, dwClsContext, CLSID_IUnknown, out nint result);
             if (hresult < 0)

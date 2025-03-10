@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33620.401
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinGetStore", "WinGetStore\WinGetStore\WinGetStore.csproj", "{5D1758B0-C60F-4A85-8E43-209B93BC5AA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinGetStore", "WinGetStore\WinGetStore.csproj", "{5D1758B0-C60F-4A85-8E43-209B93BC5AA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
