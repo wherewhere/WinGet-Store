@@ -88,8 +88,8 @@ jobs:
         Configuration: Release
         Platform: 'x64'
         Thumbprint: 0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25
-        Password: ${{ secrets.Password }}
-
+        Password: ${{ secrets.Password }}runner  
+  
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
