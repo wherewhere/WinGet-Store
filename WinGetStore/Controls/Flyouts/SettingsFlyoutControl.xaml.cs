@@ -33,7 +33,7 @@ namespace WinGetStore.Controls
 
         private void SettingsFlyout_Unloaded(object sender, RoutedEventArgs e) => ThemeHelper.UISettingChanged -= OnUISettingChanged;
 
-        private void OnUISettingChanged(bool mode) => RequestedTheme = mode ? ElementTheme.Dark : ElementTheme.Light;
+        private void OnUISettingChanged(ApplicationTheme mode) => RequestedTheme = (ElementTheme)(mode + 1);
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
