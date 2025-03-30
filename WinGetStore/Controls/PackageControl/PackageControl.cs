@@ -1,7 +1,7 @@
-﻿using Microsoft.Management.Deployment;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Management.Deployment;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
@@ -241,7 +241,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
 #if DEBUG && !DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
                 if (System.Diagnostics.Debugger.IsAttached) { System.Diagnostics.Debugger.Break(); }
 #endif
@@ -281,7 +281,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -362,7 +362,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -443,7 +443,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Warn(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -493,7 +493,7 @@ namespace WinGetStore.Controls
             return packageManager.UninstallPackageAsync(package, uninstallOptions);
         }
 
-        private async Task<CatalogPackage> GetPackageByIDAsync(string packageID)
+        private static async Task<CatalogPackage> GetPackageByIDAsync(string packageID)
         {
             try
             {
@@ -512,11 +512,11 @@ namespace WinGetStore.Controls
                 filter.Value = packageID;
                 findPackagesOptions.Selectors.Add(filter);
                 FindPackagesResult packagesResult = await catalog.FindPackagesAsync(findPackagesOptions);
-                return packagesResult.Matches.AsReader().FirstOrDefault()?.CatalogPackage;
+                return packagesResult.Matches.AsReader() is [MatchResult result, ..] ? result.CatalogPackage : default;
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(PackageControl)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }

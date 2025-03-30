@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading;
@@ -26,10 +27,8 @@ namespace WinGetStore
     /// </summary>
     public sealed partial class App : Application
     {
-#pragma warning disable CA1416
         [SupportedOSPlatformGuard("Windows10.0.18362.0")]
-        public static bool IsAppCapabilitySupported { get; } = ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability");
-#pragma warning restore CA1416
+        public static bool IsAppCapabilitySupported { get; } = UIHelper.IsWindows10OrGreater && ApiInformation.IsTypePresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability");
 
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -147,6 +146,10 @@ namespace WinGetStore
                 ThemeHelper.Initialize();
             }
 
+            Exception a = new("");
+            ILogger b = SettingsHelper.LogManager.CreateLogger("Test");
+            b.LogError(a, "{message} (0x{hResult:X})", a.Message, a.HResult);
+
             if (e is LaunchActivatedEventArgs args)
             {
                 if (!args.PrelaunchActivated)
@@ -218,15 +221,18 @@ namespace WinGetStore
 
         private static void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            SettingsHelper.LogManager.GetLogger("Unhandled Exception - Application").Error(e.Exception.ExceptionToMessage(), e.Exception);
+            if (e.Exception is Exception ex)
+            {
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - Application").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+            }
             e.Handled = true;
         }
 
         private static void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is Exception Exception)
+            if (e.ExceptionObject is Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger("Unhandled Exception - CurrentDomain").Error(Exception.ExceptionToMessage(), Exception);
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - CurrentDomain").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -243,7 +249,10 @@ namespace WinGetStore
 
         private static void SynchronizationContext_UnhandledException(object sender, Common.UnhandledExceptionEventArgs e)
         {
-            SettingsHelper.LogManager.GetLogger("Unhandled Exception - SynchronizationContext").Error(e.Exception.ExceptionToMessage(), e.Exception);
+            if (e.Exception is Exception ex)
+            {
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - SynchronizationContext").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+            }
             e.Handled = true;
         }
 

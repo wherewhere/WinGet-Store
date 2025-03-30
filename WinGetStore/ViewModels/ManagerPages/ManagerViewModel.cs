@@ -1,4 +1,5 @@
-﻿using Microsoft.Management.Deployment;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Management.Deployment;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -141,9 +142,9 @@ namespace WinGetStore.ViewModels.ManagerPages
                 WaitProgressText = _loader.GetString("ProcessingResults");
                 MatchResults =
                     [.. packagesResult.Matches.AsReader()
-                                              .Where((x) => x.CatalogPackage.DefaultInstallVersion != null)
+                                              .Where(x => x.CatalogPackage.DefaultInstallVersion != null)
                                               .OrderByDescending(item => item.CatalogPackage.IsUpdateAvailable)
-                                              .Select((x) => x.CatalogPackage)];
+                                              .Select(x => x.CatalogPackage)];
                 WaitProgressText = _loader.GetString("Finished");
                 IsLoading = false;
 
@@ -153,12 +154,12 @@ namespace WinGetStore.ViewModels.ManagerPages
                 }
                 catch (Exception ex)
                 {
-                    SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                    SettingsHelper.LogManager.CreateLogger<ManagerViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 }
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<ManagerViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return;
             }
@@ -192,7 +193,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<ManagerViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }
@@ -207,7 +208,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger<ManagerViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }

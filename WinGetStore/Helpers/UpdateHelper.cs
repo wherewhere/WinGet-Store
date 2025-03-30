@@ -17,9 +17,6 @@ namespace WinGetStore.Helpers
     public static class UpdateHelper
     {
 #if CANARY
-        private const string KKPP_API = "https://v2.kkpp.cc/repos/{0}/{1}/actions/artifacts";
-        private const string KKPP_RUNS_API = "https://v2.kkpp.cc/repos/{0}/{1}/actions/runs/{2}";
-
         private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/actions/artifacts";
         private const string GITHUB_RUNS_API = "https://api.github.com/repos/{0}/{1}/actions/runs/{2}";
 
@@ -104,9 +101,9 @@ namespace WinGetStore.Helpers
                             updateInfo.Assets[0].DownloadUrl = $"https://github.com/{username}/{repository}/suites/{run.CheckSuiteID}/artifacts/{artifact.ID}";
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        SettingsHelper.LogManager.GetLogger(nameof(UpdateHelper)).Warn(e.ExceptionToMessage(), e);
+                        Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(SettingsHelper.LogManager.CreateLogger(nameof(UpdateHelper)), ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                     }
 
                     return updateInfo;
@@ -124,7 +121,6 @@ namespace WinGetStore.Helpers
             return new SystemVersionInfo(major, minor, id);
         }
 #else
-        private const string KKPP_API = "https://v2.kkpp.cc/repos/{0}/{1}/releases/latest";
         private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/releases/latest";
 
         public static Task<UpdateInfo> CheckUpdateAsync(string username, string repository)

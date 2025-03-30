@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,12 +18,12 @@ namespace WinGetStore.Helpers
             try
             {
                 IEnumerable<Package> packages = manager.FindPackagesForUser("");
-                IEnumerable<Package> results = packages?.Where((x) => x.Id.FamilyName.StartsWith(PackageName));
+                IEnumerable<Package> results = packages?.Where(x => x.Id.FamilyName.StartsWith(PackageName));
                 return results ?? [];
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return [];
             }
         }
@@ -37,7 +38,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(PackageHelper)).Warn(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }

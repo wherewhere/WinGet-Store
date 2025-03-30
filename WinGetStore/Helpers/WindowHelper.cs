@@ -22,13 +22,11 @@ namespace WinGetStore.Helpers
     /// </summary>
     public static class WindowHelper
     {
-#pragma warning disable CA1416
         [SupportedOSPlatformGuard("Windows10.0.18362.0")]
-        public static bool IsAppWindowSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.WindowManagement.AppWindow");
+        public static bool IsAppWindowSupported { get; } = UIHelper.IsWindows10OrGreater && ApiInformation.IsTypePresent("Windows.UI.WindowManagement.AppWindow");
 
         [SupportedOSPlatformGuard("Windows10.0.18362.0")]
-        public static bool IsXamlRootSupported { get; } = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
-#pragma warning restore CA1416
+        public static bool IsXamlRootSupported { get; } = UIHelper.IsWindows10OrGreater && ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
 
         public static async Task<bool> CreateWindowAsync(Action<Window> launched)
         {

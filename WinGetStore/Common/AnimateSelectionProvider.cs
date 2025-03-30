@@ -287,7 +287,7 @@ namespace WinGetStore.Common
             visual.StartAnimation("Scale.Y", scaleAnim);
         }
 
-        private void PlayIndicatorNonSameLevelTopPrimaryAnimation(UIElement indicator, bool isOutgoing)
+        private static void PlayIndicatorNonSameLevelTopPrimaryAnimation(UIElement indicator, bool isOutgoing)
         {
             Visual visual = ElementCompositionPreview.GetElementVisual(indicator);
             Compositor comp = visual.Compositor;
@@ -382,7 +382,7 @@ namespace WinGetStore.Common
             m_nextIndicator = null;
         }
 
-        private void ResetElementAnimationProperties(UIElement element, float desiredOpacity)
+        private static void ResetElementAnimationProperties(UIElement element, float desiredOpacity)
         {
             if (element != null)
             {

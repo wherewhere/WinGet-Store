@@ -278,7 +278,7 @@ namespace WinGetStore.Helpers
             StorageFolder targetFolder = await folder.GetFolderAsync(NormalizePath(folderPath));
             IReadOnlyList<IStorageItem> items = await targetFolder.GetItemsAsync();
 
-            return items.Select((item) =>
+            return items.Select(item =>
             {
                 DirectoryItemType itemType = item.IsOfType(StorageItemTypes.File) ? DirectoryItemType.File
                     : item.IsOfType(StorageItemTypes.Folder) ? DirectoryItemType.Folder

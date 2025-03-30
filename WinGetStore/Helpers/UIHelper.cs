@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +13,9 @@ namespace WinGetStore.Helpers
 {
     public static class UIHelper
     {
+        [SupportedOSPlatformGuard("windows10.0.10240.0")]
+        public static bool IsWindows10OrGreater { get; } = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 10240);
+
         public static string ExceptionToMessage(this Exception ex)
         {
             StringBuilder builder = new StringBuilder().AppendLine();
@@ -126,7 +131,7 @@ namespace WinGetStore.Helpers
             }
             catch (FormatException ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(UIHelper)).Warn(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(UIHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             return false;
         }

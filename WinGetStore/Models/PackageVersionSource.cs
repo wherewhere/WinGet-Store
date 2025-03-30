@@ -1,4 +1,5 @@
-﻿using Microsoft.Management.Deployment;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Management.Deployment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace WinGetStore.Models
                 }
                 catch (Exception ex)
                 {
-                    SettingsHelper.LogManager.GetLogger(nameof(PackageVersionSource)).Warn(ex.ExceptionToMessage());
+                    SettingsHelper.LogManager.CreateLogger<PackageVersionSource>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 }
             }
 

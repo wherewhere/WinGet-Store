@@ -94,7 +94,7 @@ namespace WinGetStore.Common
                 int count = collection.Count();
                 if (count > 0)
                 {
-                    int _size = Array.FindLastIndex(array, (x) => x != null) + 1;
+                    int _size = Array.FindLastIndex(array, x => x != null) + 1;
                     if (array.Length - _size < count)
                     {
                         throw new ArgumentOutOfRangeException(nameof(source));

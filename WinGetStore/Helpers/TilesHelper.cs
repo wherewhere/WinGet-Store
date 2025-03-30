@@ -1,4 +1,5 @@
-﻿using Microsoft.Management.Deployment;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Management.Deployment;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 using WinGetStore.Common;
-using WinGetStore.ViewModels.ManagerPages;
 
 namespace WinGetStore.Helpers
 {
@@ -36,7 +36,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(TilesHelper)).Error(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -55,7 +55,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(TilesHelper)).Error(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -181,8 +181,8 @@ namespace WinGetStore.Helpers
 
                 CatalogPackage[] available =
                     [.. packagesResult.Matches.AsReader()
-                                              .Where((x) => x.CatalogPackage.DefaultInstallVersion != null && x.CatalogPackage.IsUpdateAvailable)
-                                              .Select((x) => x.CatalogPackage)];
+                                              .Where(x => x.CatalogPackage.DefaultInstallVersion != null && x.CatalogPackage.IsUpdateAvailable)
+                                              .Select(x => x.CatalogPackage)];
 
                 SetBadgeNumber((uint)available.Length);
                 available.Take(5)
@@ -191,7 +191,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return;
             }
         }
@@ -216,7 +216,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }
@@ -230,7 +230,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(ManagerViewModel)).Error(ex.ExceptionToMessage());
+                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }

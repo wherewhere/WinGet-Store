@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Common.Helpers;
-using MetroLog;
-using MetroLog.Targets;
+using Karambolo.Extensions.Logging.File;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
@@ -49,19 +48,24 @@ namespace WinGetStore.Helpers
 
     public static partial class SettingsHelper
     {
-        public static ILogManager LogManager { get; } = CreateLogManager();
+        public static ILoggerFactory LogManager { get; } = CreateLoggerFactory();
         public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper() => SetDefaultSettings();
 
-        public static ILogManager CreateLogManager()
-        {
-            string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MetroLogs");
-            if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
-            LoggingConfiguration loggingConfiguration = new();
-            loggingConfiguration.AddTarget(LogLevel.Info, LogLevel.Fatal, new StreamingFileTarget(path, 7));
-            return LogManagerFactory.CreateLogManager(loggingConfiguration);
-        }
+        public static ILoggerFactory CreateLoggerFactory() =>
+            LoggerFactory.Create(static x => x.AddFile(static x =>
+            {
+                x.RootPath = ApplicationData.Current.LocalFolder.Path;
+                x.IncludeScopes = true;
+                x.BasePath = "Logs";
+                x.Files = [
+                    new LogFileOptions()
+                    {
+                        Path = "log.txt"
+                    }
+                ];
+            }).AddDebug());
     }
 
     public class SystemTextJsonObjectSerializer : IObjectSerializer

@@ -7,6 +7,7 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using WinGetStore.Helpers;
 using ThreadPool = Windows.System.Threading.ThreadPool;
 
 namespace WinGetStore.Common
@@ -138,13 +139,11 @@ namespace WinGetStore.Common
     /// </summary>
     public static class ThreadSwitcher
     {
-#pragma warning disable CA1416
         /// <summary>
         /// Gets is <see cref="DispatcherQueue.HasThreadAccess"/> supported.
         /// </summary>
         [SupportedOSPlatformGuard("Windows10.0.18362.0")]
-        public static bool IsHasThreadAccessPropertyAvailable { get; } = ApiInformation.IsMethodPresent("Windows.System.DispatcherQueue", "HasThreadAccess");
-#pragma warning restore CA1416
+        public static bool IsHasThreadAccessPropertyAvailable { get; } = UIHelper.IsWindows10OrGreater && ApiInformation.IsMethodPresent("Windows.System.DispatcherQueue", "HasThreadAccess");
 
         /// <summary>
         /// A helper function—for use within a coroutine—that you can <see langword="await"/> to switch execution to a specific foreground thread. 

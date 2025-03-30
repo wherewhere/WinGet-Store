@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.WinUI;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,7 +48,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -69,7 +70,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -94,7 +95,7 @@ namespace WinGetStore.Common
                 new SettingsCommand(
                     "Feedback",
                     loader.GetString("Feedback"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite/issues"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite/issues"))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "LogFolder",
@@ -104,12 +105,12 @@ namespace WinGetStore.Common
                 new SettingsCommand(
                     "Translate",
                     loader.GetString("Translate"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/CoolapkLite"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/CoolapkLite"))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "Repository",
                     loader.GetString("Repository"),
-                    (handler) => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite"))));
         }
 
         private static void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
@@ -160,7 +161,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.GetLogger(nameof(SettingsPaneRegister)).Error(ex.ExceptionToMessage(), ex);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             return false;
         }
