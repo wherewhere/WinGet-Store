@@ -1,0 +1,33 @@
+﻿<Application
+    x:Class="WinGetStore.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:WinGetStore.Helpers.Converters"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:templates="using:WinGetStore.Controls.DataTemplates">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <muxc:XamlControlsResources />
+                <!--  Add resource dictionaries here  -->
+                <ResourceDictionary Source="ms-appx:///Themes/CustomStyles.xaml" />
+                <templates:PackageDataTemplates />
+            </ResourceDictionary.MergedDictionaries>
+            <!--  Add resources here  -->
+
+            <!--  Breakpoints  -->
+            <x:Double x:Key="Breakpoint640Plus">641</x:Double>
+
+            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+
+            <FontFamily x:Key="SymbolThemeFontFamily">Segoe Fluent Icons,Segoe MDL2 Assets,Segoe UI Symbol</FontFamily>
+
+            <converter:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converter:TimeSpanToolTipValueConverter x:Key="TimeSpanToolTipValueConverter" />
+
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
