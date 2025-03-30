@@ -18,4 +18,4 @@
 - [Windows UI](https://github.com/microsoft/microsoft-ui-xaml "Windows UI")
 - [Newtonsoft Json](https://www.newtonsoft.com/json "Newtonsoft Json")
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit "Windows Community Toolkit")
-- [Windows Community Toolkit](https://github.com/microsoft/winget-cli "Windows Community Toolkit")
+- [Microsoft Management Deployment](https://github.com/microsoft/winget-cli "Microsoft Management Deployment")
