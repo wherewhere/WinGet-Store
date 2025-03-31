@@ -130,7 +130,7 @@
     <value>检查更新</value>
   </data>
   <data name="CleanLogsItem.Text" xml:space="preserve">
-    <value>Clean Log Files</value>
+    <value>清理日志文件</value>
   </data>
   <data name="ConfigsSettingsHeader.Header" xml:space="preserve">
     <value>配置</value>
@@ -190,7 +190,7 @@
     <value>日志</value>
   </data>
   <data name="OpenLogFileItem.Text" xml:space="preserve">
-    <value>Open Recent Log</value>
+    <value>打开最近的日志</value>
   </data>
   <data name="OSArchitectureTextBlock.Text" xml:space="preserve">
     <value>操作系统架构</value>
