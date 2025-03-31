@@ -20,7 +20,7 @@ namespace WinGetStore.Common
             {
                 if (!IsDead)
                 {
-                    _method.Invoke(_reference.Target, [arg]);
+                    _ = _method.Invoke(_reference.Target, [arg]);
                 }
             }
 

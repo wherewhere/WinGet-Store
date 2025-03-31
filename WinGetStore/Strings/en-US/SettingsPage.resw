@@ -129,6 +129,9 @@
   <data name="CheckUpdates.Content" xml:space="preserve">
     <value>Check For Updates</value>
   </data>
+  <data name="CleanLogsItem.Text" xml:space="preserve">
+    <value>Clean Log Files</value>
+  </data>
   <data name="ConfigsSettingsHeader.Header" xml:space="preserve">
     <value>Configs</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="LogFolderLink.Content" xml:space="preserve">
     <value>Logs</value>
+  </data>
+  <data name="OpenLogFileItem.Text" xml:space="preserve">
+    <value>Open Recent Log</value>
   </data>
   <data name="OSArchitectureTextBlock.Text" xml:space="preserve">
     <value>OS Architecture</value>

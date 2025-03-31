@@ -55,7 +55,7 @@ namespace WinGetStore.Helpers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             string url = string.Format(GITHUB_API, username, repository);
             HttpResponseMessage response = await client.GetAsync(url).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
             string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             ArtifactsInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.ArtifactsInfo);
@@ -158,7 +158,7 @@ namespace WinGetStore.Helpers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             string url = string.Format(GITHUB_API, username, repository);
             HttpResponseMessage response = await client.GetAsync(url).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
             string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             UpdateInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.UpdateInfo);

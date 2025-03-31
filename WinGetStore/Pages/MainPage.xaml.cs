@@ -46,8 +46,8 @@ namespace WinGetStore.Pages
         public MainPage()
         {
             InitializeComponent();
-            SearchBoxHolder.RegisterPropertyChangedCallback(Slot.IsStretchProperty, new DependencyPropertyChangedCallback(OnIsStretchProperty));
-            NavigationView.RegisterPropertyChangedCallback(NavigationView.IsBackButtonVisibleProperty, new DependencyPropertyChangedCallback(OnIsBackButtonVisibleChanged));
+            _ = SearchBoxHolder.RegisterPropertyChangedCallback(Slot.IsStretchProperty, new DependencyPropertyChangedCallback(OnIsStretchProperty));
+            _ = NavigationView.RegisterPropertyChangedCallback(NavigationView.IsBackButtonVisibleProperty, new DependencyPropertyChangedCallback(OnIsBackButtonVisibleChanged));
             if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush")) { BackdropMaterial.SetApplyToRootOrPageBackground(this, true); }
         }
 
@@ -224,7 +224,7 @@ namespace WinGetStore.Pages
         {
             if (!string.IsNullOrWhiteSpace(sender.Text))
             {
-                NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(sender.Text, Dispatcher));
+                _ = NavigationViewFrame.Navigate(typeof(SearchingPage), new SearchingViewModel(sender.Text, Dispatcher));
             }
         }
     }

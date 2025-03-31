@@ -49,7 +49,7 @@ namespace WinGetStore.Helpers
                 SettingsPaneRegister.Register(window);
                 window.Closed += (sender, args) =>
                 {
-                    ActiveWindows.Remove(window.Dispatcher);
+                    _ = ActiveWindows.Remove(window.Dispatcher);
                     SettingsPaneRegister.Unregister(window);
                     window = null;
                 };

@@ -90,6 +90,59 @@ namespace WinGetStore.Helpers
         }
 
         /// <summary>
+        /// Extension method for <see cref="CoreDispatcher"/>. Offering an actual awaitable <see cref="Task{T}"/> with optional result that will be executed on the given dispatcher.
+        /// </summary>
+        /// <typeparam name="T">Returned data type of the function.</typeparam>
+        /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/>.</param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on the given dispatcher.</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal.</param>
+        /// <returns>An awaitable <see cref="Task{T}"/> for the operation.</returns>
+        /// <remarks>If the current thread has UI access, <paramref name="function"/> will be invoked directly.</remarks>
+        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            ArgumentNullException.ThrowIfNull(function);
+
+            // Skip the dispatch, if possible
+            if (dispatcher.HasThreadAccess)
+            {
+                try
+                {
+                    return function() is Task<T> awaitableResult
+                        ? awaitableResult
+                        : Task.FromException<T>(new InvalidOperationException("The Task returned by function cannot be null."));
+                }
+                catch (Exception e)
+                {
+                    return Task.FromException<T>(e);
+                }
+            }
+
+            TaskCompletionSource<T> taskCompletionSource = new();
+
+            _ = dispatcher.RunAsync(priority, async () =>
+            {
+                try
+                {
+                    if (function() is Task<T> awaitableResult)
+                    {
+                        T result = await awaitableResult.ConfigureAwait(false);
+                        taskCompletionSource.SetResult(result);
+                    }
+                    else
+                    {
+                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                    }
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
+            });
+
+            return taskCompletionSource.Task;
+        }
+
+        /// <summary>
         /// Returns a string representation of a version with the format 'Major.Minor.Build.Revision'.
         /// </summary>
         /// <param name="packageVersion">The <see cref="PackageVersion"/> to convert to a string</param>
@@ -131,7 +184,7 @@ namespace WinGetStore.Helpers
             }
             catch (FormatException ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(UIHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(UIHelper)).LogWarning(ex, "\"{url}\" is not a URL. {message} (0x{hResult:X})", url, ex.Message, ex.HResult);
             }
             return false;
         }

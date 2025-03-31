@@ -191,8 +191,9 @@ namespace WinGetStore.Controls
             try
             {
                 CatalogPackage package = CatalogPackage;
+                PackageControlTemplateSettings templateSettings = TemplateSettings;
 
-                if (package.DefaultInstallVersion == null)
+                if (package is { DefaultInstallVersion: null, InstalledVersion: null })
                 {
                     CatalogPackage catalogPackage = await GetPackageByIDAsync(package.Id);
                     if (catalogPackage?.DefaultInstallVersion != null)
@@ -202,22 +203,21 @@ namespace WinGetStore.Controls
                     }
                 }
 
-                PackageControlTemplateSettings templateSettings = TemplateSettings;
                 templateSettings.PackageState = package.InstalledVersion != null
                     ? package.IsUpdateAvailable ? PackageState.UpdateAvailable : PackageState.Installed
                     : PackageState.Nominal;
 
-                await ThreadSwitcher.ResumeBackgroundAsync();
-
-                InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
-                PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
-
-                if (package.DefaultInstallVersion != null)
+                if (package.DefaultInstallVersion is PackageVersionInfo version)
                 {
-                    PackageInstallerInfo installerInfo = package.DefaultInstallVersion.GetApplicableInstaller(installOptions);
+                    await ThreadSwitcher.ResumeBackgroundAsync();
+
+                    InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
+                    PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
+
+                    PackageInstallerInfo installerInfo = version.GetApplicableInstaller(installOptions);
                     await templateSettings.SetValueAsync(PackageControlTemplateSettings.InstallerTypeProperty, installerInfo.InstallerType);
 
-                    PackageCatalogInfo info = package.DefaultInstallVersion.PackageCatalog.Info;
+                    PackageCatalogInfo info = version.PackageCatalog.Info;
                     IAsyncOperationWithProgress<InstallResult, InstallProgress> InstallProgress = packageManager.GetInstallProgress(package, info);
                     if (InstallProgress != null)
                     {
@@ -241,10 +241,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
-#if DEBUG && !DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
-                if (System.Diagnostics.Debugger.IsAttached) { System.Diagnostics.Debugger.Break(); }
-#endif
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to update package info. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -281,7 +278,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to install app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -362,7 +359,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to upgrade app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -443,7 +440,7 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to uninstall app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             finally
             {
@@ -516,7 +513,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to get package. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }
@@ -589,7 +586,7 @@ namespace WinGetStore.Controls
         public string Name => value?.Name;
         public string Id => value?.Id;
         public BindablePackageVersionInfo InstalledVersion => value?.InstalledVersion;
-        public BindablePackageVersionInfo DefaultInstallVersion => value?.DefaultInstallVersion;
+        public BindablePackageVersionInfo DefaultInstallVersion => value == null ? default : value.DefaultInstallVersion ?? value.InstalledVersion;
 
         public static implicit operator CatalogPackage(BindableCatalogPackage host) => host?.value;
         public static implicit operator BindableCatalogPackage(CatalogPackage value) => value == null ? null : new(value);

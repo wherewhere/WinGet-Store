@@ -563,7 +563,7 @@ namespace WinGetStore.Helpers
 
             using IRandomAccessStream stream = await file.OpenReadAsync();
             using DataReader reader = new(stream.GetInputStreamAt(0));
-            await reader.LoadAsync((uint)stream.Size);
+            _ = await reader.LoadAsync((uint)stream.Size);
             byte[] bytes = new byte[stream.Size];
             reader.ReadBytes(bytes);
             return bytes;

@@ -36,7 +36,7 @@ namespace WinGetStore.Pages.SettingsPages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement element) { return; }
-            switch (element?.Tag.ToString())
+            switch (element.Tag?.ToString())
             {
                 case "Rate":
                     _ = Launcher.LaunchUriAsync(new Uri("http://afdian.com/@wherewhere"));
@@ -67,13 +67,29 @@ namespace WinGetStore.Pages.SettingsPages
         private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement element) { return; }
-            switch (element?.Tag.ToString())
+            switch (element.Tag?.ToString())
             {
                 case "LogFolder":
-                    _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
+                    _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists));
                     break;
                 case "WindowsColor":
                     _ = Launcher.LaunchUriAsync(new Uri("ms-settings:colors"));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement element) { return; }
+            switch (element.Tag?.ToString())
+            {
+                case "CleanLogs":
+                    _ = Provider.CleanLogsAsync();
+                    break;
+                case "OpenLogFile":
+                    _ = Provider.OpenLogFileAsync();
                     break;
                 default:
                     break;

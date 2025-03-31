@@ -23,7 +23,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "Failed to find packages. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return [];
             }
         }
@@ -38,7 +38,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(PackageHelper)).LogWarning(ex, "Failed to find package. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 return null;
             }
         }

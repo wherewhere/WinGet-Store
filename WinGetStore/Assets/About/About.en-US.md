@@ -14,8 +14,8 @@ Thanks to [Crowdin](https://crowdin.com/project/winget-store "Crowdin") translat
 - [Tangent-90](https://github.com/Tangent-90)
 
 ##### Citations and References
-- [MetroLog](https://github.com/novotnyllc/MetroLog "MetroLog")
 - [Windows UI](https://github.com/microsoft/microsoft-ui-xaml "Windows UI")
 - [Newtonsoft Json](https://www.newtonsoft.com/json "Newtonsoft Json")
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit "Windows Community Toolkit")
 - [Microsoft Management Deployment](https://github.com/microsoft/winget-cli "Microsoft Management Deployment")
+- [Karambolo.Extensions.Logging.File](https://github.com/adams85/filelogger "File Logger")
