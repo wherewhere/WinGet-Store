@@ -54,7 +54,7 @@ namespace WinGetStore.Helpers
         static SettingsHelper() => SetDefaultSettings();
 
         public static ILoggerFactory CreateLoggerFactory() =>
-            LoggerFactory.Create(static x => x.AddFile(static x =>
+            LoggerFactory.Create(static x => _ = x.AddFile(static x =>
             {
                 x.RootPath = ApplicationData.Current.LocalFolder.Path;
                 x.IncludeScopes = true;
@@ -62,7 +62,7 @@ namespace WinGetStore.Helpers
                 x.Files = [
                     new LogFileOptions()
                     {
-                        Path = "log.txt"
+                        Path = "Log - <date>.log"
                     }
                 ];
             }).AddDebug());

@@ -252,7 +252,29 @@
                                 <HyperlinkButton
                                     x:Uid="/SettingsPage/LogFolderLink"
                                     Click="HyperlinkButton_Click"
-                                    Tag="LogFolder" />
+                                    Tag="LogFolder">
+                                    <HyperlinkButton.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                x:Uid="/SettingsPage/OpenLogFileItem"
+                                                Click="MenuFlyoutItem_Click"
+                                                Tag="OpenLogFile">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7C3;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Uid="/SettingsPage/CleanLogsItem"
+                                                Click="MenuFlyoutItem_Click"
+                                                IsEnabled="{x:Bind Provider.IsCleanLogsButtonEnabled, Mode=OneWay}"
+                                                Tag="CleanLogs">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </HyperlinkButton.ContextFlyout>
+                                </HyperlinkButton>
                                 <HyperlinkButton
                                     x:Uid="/SettingsPage/TranslateLink"
                                     NavigateUri="https://crowdin.com/project/winget-store"

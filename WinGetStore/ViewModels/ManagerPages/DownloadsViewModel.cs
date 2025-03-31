@@ -145,7 +145,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "Failed to refresh downloads page. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return;
             }
@@ -168,7 +168,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "Failed to create package catalog. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }
@@ -183,7 +183,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<DownloadsViewModel>().LogError(ex, "Failed to find packages. {message} (0x{hResult:X})", ex.Message, ex.HResult);
                 SetError(_loader.GetString("SomethingWrong"), ex.Message, $"0x{ex.HResult:X}");
                 return null;
             }

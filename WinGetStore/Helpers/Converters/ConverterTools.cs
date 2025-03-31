@@ -22,7 +22,7 @@ namespace WinGetStore.Helpers.Converters
             bool parsed = false;
             if (parameter != null)
             {
-                bool.TryParse(parameter.ToString(), out parsed);
+                _ = bool.TryParse(parameter.ToString(), out parsed);
             }
 
             return parsed;

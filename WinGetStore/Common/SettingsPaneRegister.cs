@@ -36,7 +36,14 @@ namespace WinGetStore.Common
                     searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
                     searchPane.QuerySubmitted += SearchPane_QuerySubmitted;
                 }
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to register search pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+            }
 
+            try
+            {
                 if (IsSettingsPaneSupported)
                 {
                     SettingsPane searchPane = SettingsPane.GetForCurrentView();
@@ -48,7 +55,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to register settings pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -61,7 +68,14 @@ namespace WinGetStore.Common
                     SearchPane searchPane = SearchPane.GetForCurrentView();
                     searchPane.QuerySubmitted -= SearchPane_QuerySubmitted;
                 }
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to unregister search pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+            }
 
+            try
+            {
                 if (IsSettingsPaneSupported)
                 {
                     SettingsPane.GetForCurrentView().CommandsRequested -= OnCommandsRequested;
@@ -70,7 +84,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to unregister settings pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -95,22 +109,22 @@ namespace WinGetStore.Common
                 new SettingsCommand(
                     "Feedback",
                     loader.GetString("Feedback"),
-                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite/issues"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/wherewhere/WinGet-Store/issues"))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "LogFolder",
                     loader.GetString("LogFolder"),
-                    async (handler) => _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists))));
+                    async (handler) => _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "Translate",
                     loader.GetString("Translate"),
-                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/CoolapkLite"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/winget-store"))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "Repository",
                     loader.GetString("Repository"),
-                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/Coolapk-UWP/Coolapk-Lite"))));
+                    handler => _ = Launcher.LaunchUriAsync(new Uri("https://github.com/wherewhere/WinGet-Store"))));
         }
 
         private static void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
@@ -161,7 +175,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogWarning(ex, "Failed to check search pane supports. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             return false;
         }

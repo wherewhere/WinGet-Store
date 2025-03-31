@@ -138,7 +138,7 @@ namespace WinGetStore.Models
         public virtual async Task RemoveAsync(T item)
         {
             await Dispatcher.ResumeForegroundAsync();
-            Remove(item);
+            _ = Remove(item);
         }
 
         public virtual async Task ClearAsync()

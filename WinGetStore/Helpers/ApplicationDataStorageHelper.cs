@@ -294,7 +294,7 @@ namespace WinGetStore.Helpers
 
         private async Task CreateFolderAsync(StorageFolder folder, string folderPath)
         {
-            await folder.CreateFolderAsync(NormalizePath(folderPath), CreationCollisionOption.OpenIfExists);
+            _ = await folder.CreateFolderAsync(NormalizePath(folderPath), CreationCollisionOption.OpenIfExists);
         }
 
         private async Task<bool> TryDeleteItemAsync(StorageFolder folder, string itemPath)

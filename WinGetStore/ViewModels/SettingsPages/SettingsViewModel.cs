@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.WinUI;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -189,6 +191,13 @@ namespace WinGetStore.ViewModels.SettingsPages
             set => SetProperty(ref _updateStateTitle, value);
         }
 
+        private static bool _isCleanLogsButtonEnabled = true;
+        public bool IsCleanLogsButtonEnabled
+        {
+            get => _isCleanLogsButtonEnabled;
+            set => SetProperty(ref _isCleanLogsButtonEnabled, value);
+        }
+
         private static string _aboutTextBlockText;
         public string AboutTextBlockText
         {
@@ -306,6 +315,46 @@ namespace WinGetStore.ViewModels.SettingsPages
                     string markdown = await FileIO.ReadTextAsync(file);
                     AboutTextBlockText = markdown;
                 }
+            }
+        }
+
+        public async Task<bool> OpenLogFileAsync()
+        {
+            await ThreadSwitcher.ResumeBackgroundAsync();
+            StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
+            IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
+            return files is [StorageFile file, ..] && await Dispatcher.AwaitableRunAsync(() => Launcher.LaunchFileAsync(file).AsTask()).ConfigureAwait(false);
+        }
+
+        public async Task CleanLogsAsync()
+        {
+            IsCleanLogsButtonEnabled = false;
+            try
+            {
+                await ThreadSwitcher.ResumeBackgroundAsync();
+                IStorageItem item = await ApplicationData.Current.LocalFolder.TryGetItemAsync("Logs");
+                if (item is StorageFolder folder)
+                {
+                    foreach (StorageFile file in await folder.GetFilesAsync())
+                    {
+                        try
+                        {
+                            await file.DeleteAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogWarning(ex, "Failed to delete log \"{name}\", it maybe current one. (0x{hResult:X})", file.Name, ex.HResult);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogError(ex, "Failed to delete logs. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+            }
+            finally
+            {
+                IsCleanLogsButtonEnabled = true;
             }
         }
 

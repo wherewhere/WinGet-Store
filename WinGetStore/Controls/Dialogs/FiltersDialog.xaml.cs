@@ -65,7 +65,7 @@ namespace WinGetStore.Controls.Dialogs
                     break;
                 case "Delete":
                 case "DeleteItem":
-                    Provider?.Selectors.Remove(filter);
+                    _ = Provider?.Selectors.Remove(filter);
                     break;
                 default:
                     break;
@@ -87,7 +87,7 @@ namespace WinGetStore.Controls.Dialogs
                     break;
                 case "Delete":
                 case "DeleteItem":
-                    Provider?.Filters.Remove(filter);
+                    _ = Provider?.Filters.Remove(filter);
                     break;
                 default:
                     break;

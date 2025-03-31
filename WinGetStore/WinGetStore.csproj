@@ -3,7 +3,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <ApplicationEntryPoint>WinGetStore.App</ApplicationEntryPoint>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <EnableMsixTooling>True</EnableMsixTooling>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
@@ -39,4 +39,10 @@
   </ItemGroup>
 
   <Import Project="UpdateCIManifest.targets" Condition="'$(IsUpdateCIManifest)' == 'True' and Exists('UpdateCIManifest.targets')" />
+
+  <ItemGroup>
+    <PRIResource Update="Strings\en-US\SettingsPage.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+  </ItemGroup>
 </Project>

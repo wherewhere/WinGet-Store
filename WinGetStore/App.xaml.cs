@@ -146,10 +146,6 @@ namespace WinGetStore
                 ThemeHelper.Initialize();
             }
 
-            Exception a = new("");
-            ILogger b = SettingsHelper.LogManager.CreateLogger("Test");
-            b.LogError(a, "{message} (0x{hResult:X})", a.Message, a.HResult);
-
             if (e is LaunchActivatedEventArgs args)
             {
                 if (!args.PrelaunchActivated)
@@ -164,7 +160,7 @@ namespace WinGetStore
                 // 当导航堆栈尚未还原时，导航到第一页，
                 // 并通过将所需信息作为导航参数传入来配置
                 // 参数
-                rootFrame.Navigate(typeof(MainPage), e, new DrillInNavigationTransitionInfo());
+                _ = rootFrame.Navigate(typeof(MainPage), e, new DrillInNavigationTransitionInfo());
             }
 
             // 确保当前窗口处于活动状态
@@ -172,17 +168,17 @@ namespace WinGetStore
         }
 
         /// <summary>
-        /// 导航到特定页失败时调用
+        /// 导航到特定页失败时调用。
         /// </summary>
-        ///<param name="sender">导航失败的框架</param>
-        ///<param name="e">有关导航失败的详细信息</param>
+        ///<param name="sender">导航失败的框架。</param>
+        ///<param name="e">有关导航失败的详细信息。</param>
         private static void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>
-        /// 在将要挂起应用程序执行时调用。  在不知道应用程序
+        /// 在将要挂起应用程序执行时调用。在不知道应用程序
         /// 无需知道应用程序会被终止还是会恢复，
         /// 并让内存内容保持不变。
         /// </summary>
@@ -213,7 +209,7 @@ namespace WinGetStore
                     case AppCapabilityAccessStatus.DeniedByUser:
                     case AppCapabilityAccessStatus.DeniedBySystem:
                         // Do something
-                        await PackageManagement.RequestAccessAsync();
+                        _ = await PackageManagement.RequestAccessAsync();
                         break;
                 }
             }
@@ -223,7 +219,7 @@ namespace WinGetStore
         {
             if (e.Exception is Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - Application").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - Application").LogError(ex, "Unhandled exception. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             e.Handled = true;
         }
@@ -232,7 +228,7 @@ namespace WinGetStore
         {
             if (e.ExceptionObject is Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - CurrentDomain").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - CurrentDomain").LogError(ex, "Unhandled exception. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
         }
 
@@ -251,7 +247,7 @@ namespace WinGetStore
         {
             if (e.Exception is Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - SynchronizationContext").LogError(ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger("Unhandled Exception - SynchronizationContext").LogError(ex, "Unhandled exception. {message} (0x{hResult:X})", ex.Message, ex.HResult);
             }
             e.Handled = true;
         }
@@ -267,9 +263,7 @@ namespace WinGetStore
             if (status is not BackgroundAccessStatus.Unspecified
                 and not BackgroundAccessStatus.Denied
                 and not BackgroundAccessStatus.DeniedByUser)
-            {
-                RegisterLiveTileTask();
-            }
+            { RegisterLiveTileTask(); }
 
             #region LiveTileTask
 
