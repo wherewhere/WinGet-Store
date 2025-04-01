@@ -36,7 +36,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "Failed to update tile. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(TilesHelper)).LogError(ex, "Failed to update tile. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -55,7 +55,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "Failed to update tiles. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(TilesHelper)).LogError(ex, "Failed to update tiles. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -191,7 +191,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "Failed to update available package tile. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(TilesHelper)).LogError(ex, "Failed to update available package tile. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
                 return;
             }
         }
@@ -216,7 +216,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "Failed to create package catalog. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(TilesHelper)).LogError(ex, "Failed to create package catalog. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
                 return null;
             }
         }
@@ -230,7 +230,7 @@ namespace WinGetStore.Helpers
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(TilesHelper)).LogError(ex, "Failed to find packages. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(TilesHelper)).LogError(ex, "Failed to find packages. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
                 return null;
             }
         }

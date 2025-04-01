@@ -39,7 +39,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to register search pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(SettingsPaneRegister)).LogError(ex, "Failed to register search pane. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
 
             try
@@ -55,7 +55,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to register settings pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(SettingsPaneRegister)).LogError(ex, "Failed to register settings pane. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -71,7 +71,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to unregister search pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(SettingsPaneRegister)).LogError(ex, "Failed to unregister search pane. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
 
             try
@@ -84,7 +84,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogError(ex, "Failed to unregister settings pane. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(SettingsPaneRegister)).LogError(ex, "Failed to unregister settings pane. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -175,7 +175,7 @@ namespace WinGetStore.Common
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger(nameof(SettingsPaneRegister)).LogWarning(ex, "Failed to check search pane supports. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger(typeof(SettingsPaneRegister)).LogWarning(ex, "Failed to check search pane supports. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
             return false;
         }

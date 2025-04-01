@@ -350,7 +350,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogError(ex, "Failed to delete logs. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogError(ex, "Failed to delete logs. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
             finally
             {

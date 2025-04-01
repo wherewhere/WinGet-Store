@@ -39,10 +39,4 @@
   </ItemGroup>
 
   <Import Project="UpdateCIManifest.targets" Condition="'$(IsUpdateCIManifest)' == 'True' and Exists('UpdateCIManifest.targets')" />
-
-  <ItemGroup>
-    <PRIResource Update="Strings\en-US\SettingsPage.resw">
-      <SubType>Designer</SubType>
-    </PRIResource>
-  </ItemGroup>
 </Project>

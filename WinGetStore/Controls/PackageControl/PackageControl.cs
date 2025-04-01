@@ -241,7 +241,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to update package info. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to update package info. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -258,7 +258,7 @@ namespace WinGetStore.Controls
         private async Task RegisterInstallProgressAsync(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
         {
             Progress = progress;
-            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
+            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync((Action)(() => TemplateSettings.InstallProgress = args));
 
             long installOperationHr = 0L;
             string errorMessage = _loader.GetString("UnknownError");
@@ -278,7 +278,8 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to install app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to install app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -338,7 +339,7 @@ namespace WinGetStore.Controls
 
         private async Task RegisterUpgradeProgressAsync(IAsyncOperationWithProgress<InstallResult, InstallProgress> progress)
         {
-            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.InstallProgress = args);
+            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync((Action)(() => TemplateSettings.InstallProgress = args));
 
             long installOperationHr = 0L;
             string errorMessage = _loader.GetString("UnknownError");
@@ -359,7 +360,8 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to upgrade app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to upgrade app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -419,7 +421,7 @@ namespace WinGetStore.Controls
 
         private async Task RegisterUninstallProgressAsync(IAsyncOperationWithProgress<UninstallResult, UninstallProgress> progress)
         {
-            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync(() => TemplateSettings.UninstallProgress = args);
+            progress.Progress = (sender, args) => _ = Dispatcher.AwaitableRunAsync((Action)(() => TemplateSettings.UninstallProgress = args));
 
             long installOperationHr = 0L;
             string errorMessage = _loader.GetString("UnknownError");
@@ -440,7 +442,8 @@ namespace WinGetStore.Controls
                 installOperationHr = ex.HResult;
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to uninstall app. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to uninstall app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -513,7 +516,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to get package. {message} (0x{hResult:X})", ex.Message, ex.HResult);
+                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to get package \"{id}\". {message} (0x{hResult:X})", packageID, ex.GetMessage(), ex.HResult);
                 return null;
             }
         }
