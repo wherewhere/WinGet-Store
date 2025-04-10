@@ -229,7 +229,7 @@ namespace WinGetStore.Controls
                 nameof(Logo),
                 typeof(Uri),
                 typeof(PackageControlTemplateSettings),
-                null);
+                new PropertyMetadata(new Uri("ms-appx:///Assets/StoreLogo.png")));
 
         /// <summary>
         /// Gets or sets the IsIndeterminate.
@@ -345,7 +345,7 @@ namespace WinGetStore.Controls
             }
         }
 
-        private void UpdateLogo() => Logo = new Uri($"ms-appx:///Assets/Logos/{InstallerType}.svg");
+        private void UpdateLogo() => Logo = new Uri(InstallerType is PackageInstallerType.Unknown ? "ms-appx:///Assets/StoreLogo.png" : $"ms-appx:///Assets/Logos/{InstallerType}.svg");
     }
 
     public enum PackageState
