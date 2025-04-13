@@ -103,7 +103,7 @@ namespace WinGetStore.Helpers
                     }
                     catch (Exception ex)
                     {
-                        Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(SettingsHelper.LogManager.CreateLogger(nameof(UpdateHelper)), ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
+                        Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(SettingsHelper.LoggerFactory.CreateLogger(nameof(UpdateHelper)), ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                     }
 
                     return updateInfo;

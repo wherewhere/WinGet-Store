@@ -58,7 +58,7 @@ namespace WinGetStore.Models
                 }
                 catch (Exception ex)
                 {
-                    SettingsHelper.LogManager.CreateLogger<PackageVersionSource>().LogWarning(ex, "Failed to init package version list. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
+                    SettingsHelper.LoggerFactory.CreateLogger<PackageVersionSource>().LogWarning(ex, "Failed to init package version list. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
                 }
             }
 

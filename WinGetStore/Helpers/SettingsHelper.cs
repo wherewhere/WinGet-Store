@@ -48,13 +48,13 @@ namespace WinGetStore.Helpers
 
     public static partial class SettingsHelper
     {
-        public static ILoggerFactory LogManager { get; } = CreateLoggerFactory();
+        public static ILoggerFactory LoggerFactory { get; } = CreateLoggerFactory();
         public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper() => SetDefaultSettings();
 
         public static ILoggerFactory CreateLoggerFactory() =>
-            LoggerFactory.Create(static x => _ = x.AddFile(static x =>
+            Microsoft.Extensions.Logging.LoggerFactory.Create(x => _ = x.AddFile(x =>
             {
                 x.RootPath = ApplicationData.Current.LocalFolder.Path;
                 x.IncludeScopes = true;

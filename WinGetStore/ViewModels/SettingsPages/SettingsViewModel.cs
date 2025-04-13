@@ -343,14 +343,14 @@ namespace WinGetStore.ViewModels.SettingsPages
                         }
                         catch (Exception ex)
                         {
-                            SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogWarning(ex, "Failed to delete log \"{name}\", it maybe current one. (0x{hResult:X})", file.Name, ex.HResult);
+                            SettingsHelper.LoggerFactory.CreateLogger<SettingsViewModel>().LogWarning(ex, "Failed to delete log \"{name}\", it maybe current one. (0x{hResult:X})", file.Name, ex.HResult);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<SettingsViewModel>().LogError(ex, "Failed to delete logs. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<SettingsViewModel>().LogError(ex, "Failed to delete logs. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
             finally
             {

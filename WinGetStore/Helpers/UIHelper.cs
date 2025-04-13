@@ -80,7 +80,7 @@ namespace WinGetStore.Helpers
             }
             catch (FormatException ex)
             {
-                SettingsHelper.LogManager.CreateLogger(typeof(UIHelper)).LogWarning(ex, "\"{url}\" is not a URL. {message} (0x{hResult:X})", url, ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger(typeof(UIHelper)).LogWarning(ex, "\"{url}\" is not a URL. {message} (0x{hResult:X})", url, ex.GetMessage(), ex.HResult);
             }
             return false;
         }

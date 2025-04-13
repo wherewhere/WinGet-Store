@@ -241,7 +241,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to update package info. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<PackageControl>().LogError(ex, "Failed to update package info. {message} (0x{hResult:X})", ex.GetMessage(), ex.HResult);
             }
         }
 
@@ -279,7 +279,7 @@ namespace WinGetStore.Controls
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
                 string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to install app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<PackageControl>().LogWarning(ex, "Failed to install app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -361,7 +361,7 @@ namespace WinGetStore.Controls
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
                 string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to upgrade app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<PackageControl>().LogWarning(ex, "Failed to upgrade app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -443,7 +443,7 @@ namespace WinGetStore.Controls
                 // Example: "There is not enough space on the disk."
                 errorMessage = ex.Message;
                 string id = await this.GetValueAsync<BindableCatalogPackage>(CatalogPackageProperty).ContinueWith(x => x.Result.Id);
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogWarning(ex, "Failed to uninstall app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<PackageControl>().LogWarning(ex, "Failed to uninstall app \"{id}\". {message} (0x{hResult:X})", id, ex.GetMessage(), ex.HResult);
             }
             finally
             {
@@ -516,7 +516,7 @@ namespace WinGetStore.Controls
             }
             catch (Exception ex)
             {
-                SettingsHelper.LogManager.CreateLogger<PackageControl>().LogError(ex, "Failed to get package \"{id}\". {message} (0x{hResult:X})", packageID, ex.GetMessage(), ex.HResult);
+                SettingsHelper.LoggerFactory.CreateLogger<PackageControl>().LogError(ex, "Failed to get package \"{id}\". {message} (0x{hResult:X})", packageID, ex.GetMessage(), ex.HResult);
                 return null;
             }
         }
