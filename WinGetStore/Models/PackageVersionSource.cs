@@ -12,14 +12,16 @@ using WinGetStore.ViewModels;
 
 namespace WinGetStore.Models
 {
-    public partial class PackageVersionSource(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : IncrementalLoadingBase<CatalogPackageVersion>(dispatcher)
+    public sealed partial class PackageVersionSource(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : IncrementalLoadingBase<CatalogPackageVersion>(dispatcher)
     {
         private List<PackageVersionId> availableVersions;
+
+        public override bool HasMoreItems => _hasMoreItems;
 
         /// <summary>
         /// The refresh will clear current items, and re-fetch from beginning, so that we will keep a correct page number.
         /// </summary>
-        public virtual async Task Reset()
+        public async Task Reset()
         {
             //reset
             _currentPage = 1;
@@ -29,7 +31,7 @@ namespace WinGetStore.Models
             _ = await LoadMoreItemsAsync(15);
         }
 
-        public virtual async Task Refresh(bool reset = false)
+        public async Task Refresh(bool reset = false)
         {
             if (_busy) { return; }
             if (reset)
@@ -42,7 +44,7 @@ namespace WinGetStore.Models
             }
         }
 
-        protected override async Task<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken)
+        protected override async ValueTask<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
 
@@ -90,9 +92,7 @@ namespace WinGetStore.Models
             return loaded;
         }
 
-        protected override bool HasMoreItemsOverride() => _hasMoreItems;
-
-        protected int _currentPage = 1;
-        protected bool _hasMoreItems = true;
+        private int _currentPage = 1;
+        private bool _hasMoreItems = true;
     }
 }

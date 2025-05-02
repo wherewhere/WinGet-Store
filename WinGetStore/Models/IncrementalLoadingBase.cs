@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -9,6 +12,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 using WinGetStore.Common;
+using WinGetStore.Helpers;
 
 namespace WinGetStore.Models
 {
@@ -21,18 +25,18 @@ namespace WinGetStore.Models
     /// so that you can load different data in your view model, refer this blog for detail
     /// <see href="http://blogs.msdn.com/b/devosaure/archive/2012/10/15/isupportincrementalloading-loading-a-subsets-of-data.aspx"/>
     /// </summary>
-    public abstract class IncrementalLoadingBase<T>(CoreDispatcher dispatcher) : ObservableCollection<T>, ISupportIncrementalLoading
+    public abstract class IncrementalLoadingBase<T>(CoreDispatcher dispatcher) : ObservableCollection<T>, ISupportIncrementalLoading, IAsyncEnumerable<T>
     {
         #region ISupportIncrementalLoading
 
-        public bool HasMoreItems => HasMoreItemsOverride();
+        public abstract bool HasMoreItems { get; }
 
         /// <summary>
         /// Load more items, this is invoked by Controls like ListView.
         /// </summary>
         /// <param name="count">How many new items want to load.</param>
         /// <returns>Item count actually loaded.</returns>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count = 15)
         {
             if (_busy)
             {
@@ -49,11 +53,11 @@ namespace WinGetStore.Models
 
         public CoreDispatcher Dispatcher => dispatcher;
 
-        private bool any = false;
-        public bool Any
+        private bool isEmpty = false;
+        public bool IsEmpty
         {
-            get => any;
-            set => SetProperty(ref any, value);
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value);
         }
 
         private bool isLoading = false;
@@ -118,7 +122,7 @@ namespace WinGetStore.Models
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnCollectionChanged(e);
-            Any = Count > 0;
+            IsEmpty = Count > 0;
         }
 
         public delegate void EventHandler();
@@ -127,29 +131,37 @@ namespace WinGetStore.Models
         public event EventHandler LoadMoreStarted;
         public event EventHandler LoadMoreCompleted;
 
+        public Task AddAsync(T item) => Dispatcher.AwaitableRunAsync(() => Add(item));
+
+        public Task<bool> RemoveAsync(T item) => Dispatcher.AwaitableRunAsync(() => Remove(item));
+
+        public Task ClearAsync() => Dispatcher.AwaitableRunAsync(Clear);
+
+        public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+        {
+            foreach (T item in this)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                yield return item;
+            }
+            while (HasMoreItems)
+            {
+                LoadMoreItemsResult result = await LoadMoreItemsAsync().AsTask(cancellationToken);
+                int count = (int)result.Count;
+                if (count > 0)
+                {
+                    for (int i = Count - count; i < Count; i++)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        yield return this[i];
+                    }
+                }
+            }
+        }
+
         #region Overridable methods
 
-        public virtual async Task AddAsync(T item)
-        {
-            await Dispatcher.ResumeForegroundAsync();
-            Add(item);
-        }
-
-        public virtual async Task RemoveAsync(T item)
-        {
-            await Dispatcher.ResumeForegroundAsync();
-            _ = Remove(item);
-        }
-
-        public virtual async Task ClearAsync()
-        {
-            await Dispatcher.ResumeForegroundAsync();
-            Clear();
-        }
-
-        protected abstract Task<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken);
-
-        protected abstract bool HasMoreItemsOverride();
+        protected abstract ValueTask<uint> LoadMoreItemsOverrideAsync(uint count, CancellationToken cancellationToken);
 
         #endregion
 
