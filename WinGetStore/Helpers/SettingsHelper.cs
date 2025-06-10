@@ -76,7 +76,7 @@ namespace WinGetStore.Helpers
             string => JsonSerializer.Serialize(value, SourceGenerationContext.Default.String),
             ElementTheme => JsonSerializer.Serialize(value, SourceGenerationContext.Default.ElementTheme),
             DateTimeOffset => JsonSerializer.Serialize(value, SourceGenerationContext.Default.DateTimeOffset),
-            _ => default
+            _ => JsonSerializer.Serialize(value, typeof(T), SourceGenerationContext.Default)
         };
 
         public T Deserialize<T>([StringSyntax(StringSyntaxAttribute.Json)] string value)
@@ -87,8 +87,9 @@ namespace WinGetStore.Helpers
                 : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
                 : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
                 : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
-                : default;
-            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) => JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
+                : JsonSerializer.Deserialize(value, typeof(T), SourceGenerationContext.Default) is T result ? result : default;
+            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) =>
+                JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
         }
     }
 
