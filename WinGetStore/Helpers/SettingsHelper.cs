@@ -3,6 +3,7 @@ using Karambolo.Extensions.Logging.File;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
@@ -87,7 +88,8 @@ namespace WinGetStore.Helpers
                 : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
                 : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
                 : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
-                : JsonSerializer.Deserialize(value, typeof(T), SourceGenerationContext.Default) is T result ? result : default;
+                : JsonSerializer.Deserialize(value, type, SourceGenerationContext.Default) is T result ? result : default;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) =>
                 JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
         }
