@@ -66,7 +66,7 @@ namespace WinGetStore.Controls
         /// <summary>
         /// Identifies the <see cref="PreviousElement"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty LastControlProperty =
+        public static readonly DependencyProperty PreviousElementProperty =
             DependencyProperty.Register(
                 nameof(PreviousElement),
                 typeof(FrameworkElement),
@@ -75,8 +75,8 @@ namespace WinGetStore.Controls
 
         public FrameworkElement PreviousElement
         {
-            get => (FrameworkElement)GetValue(LastControlProperty);
-            set => SetValue(LastControlProperty, value);
+            get => (FrameworkElement)GetValue(PreviousElementProperty);
+            set => SetValue(PreviousElementProperty, value);
         }
 
         #endregion

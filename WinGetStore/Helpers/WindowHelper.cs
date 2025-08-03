@@ -57,26 +57,11 @@ namespace WinGetStore.Helpers
             }
         }
 
-        public static Size GetXAMLRootSize(this UIElement element) =>
-            IsXamlRootSupported && element.XamlRoot != null
-                ? element.XamlRoot.Size
-                : Window.Current is Window window
-                    ? window.Bounds.ToSize()
-                    : CoreApplication.MainView.CoreWindow.Bounds.ToSize();
-
         public static UIElement GetXAMLRoot(this UIElement element) =>
-            IsXamlRootSupported && element.XamlRoot != null
-                ? element.XamlRoot.Content
+            IsXamlRootSupported && element.XamlRoot is XamlRoot xamlRoot
+                ? xamlRoot.Content
                 : Window.Current is Window window
                     ? window.Content : null;
-
-        public static void SetXAMLRoot(this UIElement element, UIElement target)
-        {
-            if (IsXamlRootSupported)
-            {
-                element.XamlRoot = target?.XamlRoot;
-            }
-        }
 
         public static Dictionary<CoreDispatcher, Window> ActiveWindows { get; } = [];
     }
