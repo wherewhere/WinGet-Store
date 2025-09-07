@@ -2,8 +2,8 @@
     x:Class="WinGetStore.Pages.SettingsPages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clwm="using:CommunityToolkit.Labs.WinUI.MarkdownTextBlock"
     xmlns:controls="using:WinGetStore.Controls"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:globalization="using:System.Globalization"
     xmlns:helper="using:WinGetStore.Helpers"
@@ -332,14 +332,14 @@
                                 </StackPanel>
                             </controls:SettingsExpander.ActionContent>
                             <Grid>
-                                <clwm:MarkdownTextBlock
+                                <cwuc:MarkdownTextBlock
                                     x:Name="AboutMarkdown"
                                     HorizontalAlignment="Left"
                                     Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}">
-                                    <clwm:MarkdownTextBlock.Config>
-                                        <clwm:MarkdownConfig />
-                                    </clwm:MarkdownTextBlock.Config>
-                                </clwm:MarkdownTextBlock>
+                                    <cwuc:MarkdownTextBlock.Config>
+                                        <cwuc:MarkdownConfig />
+                                    </cwuc:MarkdownTextBlock.Config>
+                                </cwuc:MarkdownTextBlock>
                             </Grid>
                         </controls:SettingsExpander>
                         <muxc:InfoBar

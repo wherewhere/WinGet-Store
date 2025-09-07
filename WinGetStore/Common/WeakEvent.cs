@@ -45,7 +45,7 @@ namespace WinGetStore.Common
 
             public static implicit operator Method(Action<TEventArgs> callback) => new(callback);
 
-            public static explicit operator Action<TEventArgs>(Method method) => method.IsDead ? null : method._method.CreateDelegate(typeof(Action<TEventArgs>), method._reference.Target) as Action<TEventArgs>;
+            public static explicit operator Action<TEventArgs>(Method method) => method.IsDead ? null : method._method.CreateDelegate<Action<TEventArgs>>(method._reference.Target);
         }
 
         private readonly List<Method> _list;
