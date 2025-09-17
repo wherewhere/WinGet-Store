@@ -20,7 +20,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: WinGetStore.sln
+      Solution_Name: WinGetStore.slnx
       Project_Directory: WinGetStore
       Signing_Certificate: WinGetStore_TemporaryKey.pfx
 
