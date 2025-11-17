@@ -10,7 +10,7 @@
     <PublishAot>True</PublishAot>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <UseUwp>True</UseUwp>
     <VersionPrefix>0.0.1</VersionPrefix>
@@ -28,9 +28,9 @@
     <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.Uwp.Triggers" Version="8.2.250402" />
     <PackageReference Include="Karambolo.Extensions.Logging.File" Version="3.6.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.11.530" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.12.350" />
   </ItemGroup>
 
   <ItemGroup>
