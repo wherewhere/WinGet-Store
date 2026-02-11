@@ -51,7 +51,7 @@ jobs:
           msbuild-architecture: x64
 
       # Restore the application to populate the obj folder with RuntimeIdentifiers
-      - name: Restore the application
+      - name: Restore the application (x64)
         run: msbuild $env:Solution_Name `
           /t:Restore `
           /p:Configuration=$env:Configuration `
@@ -59,6 +59,24 @@ jobs:
         env:
           Configuration: Release
           Platform: x64
+
+      - name: Restore the application (x86)
+        run: msbuild $env:Solution_Name `
+          /t:Restore `
+          /p:Configuration=$env:Configuration `
+          /p:Platform=$env:Platform
+        env:
+          Configuration: Release
+          Platform: x86
+
+      - name: Restore the application (ARM64)
+        run: msbuild $env:Solution_Name `
+          /t:Restore `
+          /p:Configuration=$env:Configuration `
+          /p:Platform=$env:Platform
+        env:
+          Configuration: Release
+          Platform: ARM64
 
       # Create the app package by building and packaging the Windows Application Packaging project
       - name: Create the app package
@@ -81,7 +99,7 @@ jobs:
           Build_ID: ${{ github.run_number }}
           Publisher_Name: CN=where
           Appx_Bundle: Always
-          Appx_Bundle_Platforms: x64|ARM64
+          Appx_Bundle_Platforms: x64|x86|ARM64
           Appx_Package_Build_Mode: SideloadOnly
           Appx_Package_Dir: AppxPackages\
           Configuration: Release
