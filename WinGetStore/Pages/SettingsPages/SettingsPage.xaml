@@ -337,7 +337,11 @@
                                     HorizontalAlignment="Left"
                                     Text="{x:Bind Provider.AboutTextBlockText, Mode=OneWay}">
                                     <cwuc:MarkdownTextBlock.Config>
-                                        <cwuc:MarkdownConfig />
+                                        <cwuc:MarkdownConfig>
+                                            <cwuc:MarkdownConfig.Themes>
+                                                <cwuc:MarkdownThemes />
+                                            </cwuc:MarkdownConfig.Themes>
+                                        </cwuc:MarkdownConfig>
                                     </cwuc:MarkdownTextBlock.Config>
                                 </cwuc:MarkdownTextBlock>
                             </Grid>

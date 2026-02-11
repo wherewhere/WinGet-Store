@@ -20,13 +20,13 @@ namespace WinGetStore.Helpers
         private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/actions/artifacts";
         private const string GITHUB_RUNS_API = "https://api.github.com/repos/{0}/{1}/actions/runs/{2}";
 
-        public static Task<UpdateInfo> CheckUpdateAsync(string username, string repository)
+        public static ValueTask<UpdateInfo> CheckUpdateAsync(string username, string repository)
         {
             PackageVersion currentVersion = Package.Current.Id.Version;
             return CheckUpdateAsync(username, repository, currentVersion);
         }
 
-        public static async Task<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion)
+        public static async ValueTask<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -123,13 +123,13 @@ namespace WinGetStore.Helpers
 #else
         private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/releases/latest";
 
-        public static Task<UpdateInfo> CheckUpdateAsync(string username, string repository)
+        public static ValueTask<UpdateInfo> CheckUpdateAsync(string username, string repository)
         {
             PackageVersion currentVersion = Package.Current.Id.Version;
             return CheckUpdateAsync(username, repository, currentVersion);
         }
 
-        public static async Task<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion)
+        public static async ValueTask<UpdateInfo> CheckUpdateAsync(string username, string repository, PackageVersion currentVersion)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -176,19 +176,20 @@ namespace WinGetStore.Helpers
 
         private static SystemVersionInfo GetAsVersionInfo(string version)
         {
-            int[] numbs = [.. GetVersionNumbers(version).Split('.').Select(int.Parse)];
-            return numbs.Length <= 1
-                ? new SystemVersionInfo(numbs[0], 0, 0, 0)
-                : numbs.Length <= 2
-                    ? new SystemVersionInfo(numbs[0], numbs[1], 0, 0)
-                    : numbs.Length <= 3
-                        ? new SystemVersionInfo(numbs[0], numbs[1], numbs[2], 0)
-                        : new SystemVersionInfo(numbs[0], numbs[1], numbs[2], numbs[3]);
+            ReadOnlySpan<int> numbs = [.. GetVersionNumbers(version).Split('.', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse)];
+            return numbs switch
+            {
+                { Length: 0 } => new SystemVersionInfo(0, 0, 0, 0),
+                { Length: 1 } => new SystemVersionInfo(numbs[0], 0, 0, 0),
+                { Length: 2 } => new SystemVersionInfo(numbs[0], numbs[1], 0, 0),
+                { Length: 3 } => new SystemVersionInfo(numbs[0], numbs[1], numbs[2], 0),
+                { Length: >= 4 } => new SystemVersionInfo(numbs[0], numbs[1], numbs[2], numbs[3]),
+            };
         }
 
         private static string GetVersionNumbers(string version)
         {
-            string allowedChars = "01234567890.";
+            const string allowedChars = "01234567890.";
             return new string([.. version.Where(allowedChars.Contains)]);
         }
 #endif

@@ -11,7 +11,7 @@ namespace WinGetStore.Helpers
 {
     public static class PackageHelper
     {
-        public static async Task<IEnumerable<Package>> FindPackagesByNameAsync(string PackageName)
+        public static async ValueTask<IEnumerable<Package>> FindPackagesByNameAsync(string PackageName)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             PackageManager manager = new();
@@ -28,7 +28,7 @@ namespace WinGetStore.Helpers
             }
         }
 
-        public static async Task<Package> FindPackagesByFamilyNameAsync(string PackageFamilyName)
+        public static async ValueTask<Package> FindPackagesByFamilyNameAsync(string PackageFamilyName)
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
             PackageManager manager = new();

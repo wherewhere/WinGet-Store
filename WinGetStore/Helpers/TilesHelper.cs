@@ -196,7 +196,7 @@ namespace WinGetStore.Helpers
             }
         }
 
-        private static async Task<PackageCatalog> CreatePackageCatalogAsync()
+        private static async ValueTask<PackageCatalog> CreatePackageCatalogAsync()
         {
             try
             {
@@ -221,7 +221,7 @@ namespace WinGetStore.Helpers
             }
         }
 
-        private static async Task<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog)
+        private static async ValueTask<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog)
         {
             try
             {

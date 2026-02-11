@@ -3,21 +3,20 @@ name: build and package
 on:
   push:
     branches: [main]
+    paths:
+      - .github/workflows/build-and-package.yml
+      - WinGetStore**
   pull_request:
     branches: [main]
-    paths:
-      - '.github/workflows/build-and-package.yml'
-      - 'WinGetStore**'
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '10.0.x' # The .NET SDK version to use
+  DOTNET_VERSION: 10.0.x # The .NET SDK version to use
 
 jobs:
   build-and-package:
-
     name: build-and-package
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     env:
       Solution_Name: WinGetStore.slnx
@@ -25,74 +24,74 @@ jobs:
       Signing_Certificate: WinGetStore_TemporaryKey.pfx
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("$env:Certificate")
-        $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath $env:Signing_Certificate
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-      env:
-        Certificate: ${{ secrets.Base64_Encoded_Pfx }}
+      # Decode the base 64 encoded pfx and save the Signing_Certificate
+      - name: Decode the pfx
+        run: |
+          $pfx_cert_byte = [System.Convert]::FromBase64String($env:Certificate)
+          $certificatePath = Join-Path -Path $env:Project_Directory -ChildPath $env:Signing_Certificate
+          [IO.File]::WriteAllBytes($certificatePath, $pfx_cert_byte)
+        env:
+          Certificate: ${{ secrets.Base64_Encoded_Pfx }}
 
-    # Install the .NET Core App workload
-    - name: Install .NET Core App
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      # Install the .NET Core App workload
+      - name: Install .NET Core App
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
-      with:
-        msbuild-architecture: x64
+      # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name `
-        /t:Restore `
-        /p:Configuration=$env:Configuration `
-        /p:Platform=$env:Platform
-      env:
-        Configuration: Release
-        Platform: 'x64'
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild $env:Solution_Name `
+          /t:Restore `
+          /p:Configuration=$env:Configuration `
+          /p:Platform=$env:Platform
+        env:
+          Configuration: Release
+          Platform: x64
 
-    # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the app package
-      run: msbuild $env:Solution_Name `
-        /p:IsUpdateCIManifest=True `
-        /p:CIBuildID="$env:Build_ID" `
-        /p:PublisherName="$env:Publisher_Name" `
-        /p:AppxBundlePlatforms="$env:Appx_Bundle_Platforms" `
-        /p:Configuration=$env:Configuration `
-        /p:Platform=$env:Platform `
-        /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode `
-        /p:AppxBundle=$env:Appx_Bundle `
-        /p:AppxPackageDir="$env:Appx_Package_Dir" `
-        /p:GenerateAppxPackageOnBuild=true `
-        /p:AppxPackageSigningEnabled=true `
-        /p:PackageCertificateThumbprint="$env:Thumbprint" `
-        /p:PackageCertificateKeyFile=$env:Signing_Certificate `
-        /p:PackageCertificatePassword="$env:Password"
-      env:
-        Build_ID: ${{ github.run_number }}
-        Publisher_Name: CN=where
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x64|ARM64
-        Appx_Package_Build_Mode: SideloadOnly
-        Appx_Package_Dir: AppxPackages\
-        Configuration: Release
-        Platform: 'x64'
-        Thumbprint: 0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25
-        Password: ${{ secrets.Password }}
+      # Create the app package by building and packaging the Windows Application Packaging project
+      - name: Create the app package
+        run: msbuild $env:Solution_Name `
+          /p:IsUpdateCIManifest=True `
+          /p:CIBuildID=$env:Build_ID `
+          /p:PublisherName=$env:Publisher_Name `
+          /p:AppxBundlePlatforms=$env:Appx_Bundle_Platforms `
+          /p:Configuration=$env:Configuration `
+          /p:Platform=$env:Platform `
+          /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode `
+          /p:AppxBundle=$env:Appx_Bundle `
+          /p:AppxPackageDir=$env:Appx_Package_Dir `
+          /p:GenerateAppxPackageOnBuild=true `
+          /p:AppxPackageSigningEnabled=true `
+          /p:PackageCertificateThumbprint=$env:Thumbprint `
+          /p:PackageCertificateKeyFile=$env:Signing_Certificate `
+          /p:PackageCertificatePassword=$env:Password
+        env:
+          Build_ID: ${{ github.run_number }}
+          Publisher_Name: CN=where
+          Appx_Bundle: Always
+          Appx_Bundle_Platforms: x64|ARM64
+          Appx_Package_Build_Mode: SideloadOnly
+          Appx_Package_Dir: AppxPackages\
+          Configuration: Release
+          Platform: x64
+          Thumbprint: 0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25
+          Password: ${{ secrets.Password }}
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: MSIX Package
-        path: WinGetStore/AppxPackages/**
+      # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MSIX Package
+          path: WinGetStore/AppxPackages/**

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Numerics;
 using Windows.ApplicationModel;
 
 namespace WinGetStore.Models
 {
-    public readonly record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IComparable, IComparable<SystemVersionInfo>, IFormattable
+    public readonly record struct SystemVersionInfo(int Major, int Minor, int Build, int Revision = 0) : IComparable, IComparable<SystemVersionInfo>, IFormattable, IComparisonOperators<SystemVersionInfo, SystemVersionInfo, bool>
     {
         public override int GetHashCode() => (Major, Minor, Build, Revision).GetHashCode();
 
@@ -18,7 +19,7 @@ namespace WinGetStore.Models
                             ? Revision.CompareTo(other.Revision)
                             : 0;
 
-        public int CompareTo(object obj) => obj is SystemVersionInfo other ? CompareTo(other) : throw new ArgumentException();
+        public int CompareTo(object obj) => obj is SystemVersionInfo other ? CompareTo(other) : throw new ArgumentException(null, nameof(obj));
 
         public static bool operator <(SystemVersionInfo left, SystemVersionInfo right) => left.CompareTo(right) < 0;
 

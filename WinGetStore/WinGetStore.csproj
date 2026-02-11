@@ -22,15 +22,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.251008-build.2333" />
-    <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock" Version="0.1.251008-build.2333" />
-    <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.Uwp.Triggers" Version="8.2.250402" />
-    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="3.6.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.260109-build.2471" />
+    <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock" Version="0.1.260116-build.2514" />
+    <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.2.251219" />
+    <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.2.251219" />
+    <PackageReference Include="CommunityToolkit.Uwp.Triggers" Version="8.2.251219" />
+    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.3" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.12.350" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.12.440" />
   </ItemGroup>
 
   <ItemGroup>

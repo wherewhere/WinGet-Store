@@ -1,7 +1,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
     xmlns:contract14NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,14)"
     xmlns:contract14Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,14)"
     xmlns:controls="using:WinGetStore.Controls"
@@ -418,6 +417,14 @@
         <Setter Property="WrapNoIconThreshold" Value="{StaticResource ListViewItemContentWrapNoIconThreshold}" />
     </Style>
 
+    <ItemsPanelTemplate x:Key="ListViewSettingsCardItemsPanelTemplate">
+        <StackPanel
+            contract14NotPresent:Spacing="3"
+            contract14Present:Margin="-3,-1"
+            contract14Present:Spacing="1"
+            Orientation="Vertical" />
+    </ItemsPanelTemplate>
+
     <contract14Present:Style x:Key="ListViewItemSettingsCardStyle" TargetType="ListViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -448,30 +455,26 @@
                         x:Name="Root"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        contract13Present:CheckBoxBorderBrush="{ThemeResource ListViewItemCheckBoxBorderBrush}"
-                        contract13Present:CheckBoxCornerRadius="{ThemeResource ListViewItemCheckBoxCornerRadius}"
-                        contract13Present:CheckBoxDisabledBorderBrush="{ThemeResource ListViewItemCheckBoxDisabledBorderBrush}"
-                        contract13Present:CheckBoxDisabledBrush="{ThemeResource ListViewItemCheckBoxDisabledBrush}"
-                        contract13Present:CheckBoxPointerOverBorderBrush="{ThemeResource ListViewItemCheckBoxPointerOverBorderBrush}"
-                        contract13Present:CheckBoxPointerOverBrush="{ThemeResource ListViewItemCheckBoxPointerOverBrush}"
-                        contract13Present:CheckBoxPressedBorderBrush="{ThemeResource ListViewItemCheckBoxPressedBorderBrush}"
-                        contract13Present:CheckBoxPressedBrush="{ThemeResource ListViewItemCheckBoxPressedBrush}"
-                        contract13Present:CheckBoxSelectedBrush="{ThemeResource ListViewItemCheckBoxSelectedBrush}"
-                        contract13Present:CheckBoxSelectedDisabledBrush="{ThemeResource ListViewItemCheckBoxSelectedDisabledBrush}"
-                        contract13Present:CheckBoxSelectedPointerOverBrush="{ThemeResource ListViewItemCheckBoxSelectedPointerOverBrush}"
-                        contract13Present:CheckBoxSelectedPressedBrush="{ThemeResource ListViewItemCheckBoxSelectedPressedBrush}"
-                        contract13Present:CheckDisabledBrush="{ThemeResource ListViewItemCheckDisabledBrush}"
-                        contract13Present:CheckPressedBrush="{ThemeResource ListViewItemCheckPressedBrush}"
-                        contract13Present:SelectedDisabledBackground="{ThemeResource ListViewItemBackgroundSelectedDisabled}"
-                        contract13Present:SelectionIndicatorBrush="{ThemeResource ListViewItemSelectionIndicatorBrush}"
-                        contract13Present:SelectionIndicatorCornerRadius="{ThemeResource ListViewItemSelectionIndicatorCornerRadius}"
-                        contract13Present:SelectionIndicatorDisabledBrush="{ThemeResource ListViewItemSelectionIndicatorDisabledBrush}"
-                        contract13Present:SelectionIndicatorPointerOverBrush="{ThemeResource ListViewItemSelectionIndicatorPointerOverBrush}"
-                        contract13Present:SelectionIndicatorPressedBrush="{ThemeResource ListViewItemSelectionIndicatorPressedBrush}"
-                        contract13Present:SelectionIndicatorVisualEnabled="{ThemeResource ListViewItemSelectionIndicatorVisualEnabled}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CheckBoxBorderBrush="{ThemeResource ListViewItemCheckBoxBorderBrush}"
                         CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                        CheckBoxCornerRadius="{ThemeResource ListViewItemCheckBoxCornerRadius}"
+                        CheckBoxDisabledBorderBrush="{ThemeResource ListViewItemCheckBoxDisabledBorderBrush}"
+                        CheckBoxDisabledBrush="{ThemeResource ListViewItemCheckBoxDisabledBrush}"
+                        CheckBoxPointerOverBorderBrush="{ThemeResource ListViewItemCheckBoxPointerOverBorderBrush}"
+                        CheckBoxPointerOverBrush="{ThemeResource ListViewItemCheckBoxPointerOverBrush}"
+                        CheckBoxPressedBorderBrush="{ThemeResource ListViewItemCheckBoxPressedBorderBrush}"
+                        CheckBoxPressedBrush="{ThemeResource ListViewItemCheckBoxPressedBrush}"
+                        CheckBoxSelectedBrush="{ThemeResource ListViewItemCheckBoxSelectedBrush}"
+                        CheckBoxSelectedDisabledBrush="{ThemeResource ListViewItemCheckBoxSelectedDisabledBrush}"
+                        CheckBoxSelectedPointerOverBrush="{ThemeResource ListViewItemCheckBoxSelectedPointerOverBrush}"
+                        CheckBoxSelectedPressedBrush="{ThemeResource ListViewItemCheckBoxSelectedPressedBrush}"
                         CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                        CheckDisabledBrush="{ThemeResource ListViewItemCheckDisabledBrush}"
                         CheckMode="{ThemeResource ListViewItemCheckMode}"
+                        CheckPressedBrush="{ThemeResource ListViewItemCheckPressedBrush}"
                         ContentMargin="{TemplateBinding Padding}"
                         ContentTransitions="{TemplateBinding ContentTransitions}"
                         Control.IsTemplateFocusTarget="True"
@@ -487,16 +490,27 @@
                         FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
                         FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                        Foreground="{TemplateBinding Foreground}"
                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                         PointerOverBackground="{ThemeResource SettingsCardBackgroundPointerOver}"
+                        PointerOverBorderBrush="{ThemeResource SettingsCardBorderBrushPointerOver}"
                         PointerOverForeground="{ThemeResource SettingsCardForegroundPointerOver}"
                         PressedBackground="{ThemeResource SettingsCardBackgroundPressed}"
                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                         SelectedBackground="{ThemeResource SettingsCardBackground}"
+                        SelectedBorderBrush="{TemplateBinding BorderBrush}"
+                        SelectedDisabledBackground="{ThemeResource ListViewItemBackgroundSelectedDisabled}"
                         SelectedForeground="{ThemeResource SettingsCardForeground}"
                         SelectedPointerOverBackground="{ThemeResource SettingsCardBackgroundPointerOver}"
                         SelectedPressedBackground="{ThemeResource SettingsCardBackgroundPressed}"
-                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}" />
+                        SelectedPressedBorderBrush="{ThemeResource SettingsCardBorderBrushPressed}"
+                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                        SelectionIndicatorBrush="{ThemeResource ListViewItemSelectionIndicatorBrush}"
+                        SelectionIndicatorCornerRadius="{ThemeResource ListViewItemSelectionIndicatorCornerRadius}"
+                        SelectionIndicatorDisabledBrush="{ThemeResource ListViewItemSelectionIndicatorDisabledBrush}"
+                        SelectionIndicatorPointerOverBrush="{ThemeResource ListViewItemSelectionIndicatorPointerOverBrush}"
+                        SelectionIndicatorPressedBrush="{ThemeResource ListViewItemSelectionIndicatorPressedBrush}"
+                        SelectionIndicatorVisualEnabled="{ThemeResource ListViewItemSelectionIndicatorVisualEnabled}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -172,7 +172,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        private async Task<PackageCatalog> CreatePackageCatalogAsync()
+        private async ValueTask<PackageCatalog> CreatePackageCatalogAsync()
         {
             try
             {
@@ -205,7 +205,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        private async Task<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog, string packageId)
+        private async ValueTask<FindPackagesResult> TryFindPackageInCatalogAsync(PackageCatalog catalog, string packageId)
         {
             try
             {

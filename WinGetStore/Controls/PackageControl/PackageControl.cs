@@ -493,7 +493,7 @@ namespace WinGetStore.Controls
             return packageManager.UninstallPackageAsync(package, uninstallOptions);
         }
 
-        private static async Task<CatalogPackage> GetPackageByIDAsync(string packageID)
+        private static async ValueTask<CatalogPackage> GetPackageByIDAsync(string packageID)
         {
             try
             {
