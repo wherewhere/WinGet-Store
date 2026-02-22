@@ -17,8 +17,7 @@ namespace WinGetStore.Helpers
     public static class UpdateHelper
     {
 #if CANARY
-        private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/actions/artifacts";
-        private const string GITHUB_RUNS_API = "https://api.github.com/repos/{0}/{1}/actions/runs/{2}";
+        private const string GITHUB_API = "https://api.github.com/repos/{0}/{1}/actions/runs";
 
         public static ValueTask<UpdateInfo> CheckUpdateAsync(string username, string repository)
         {
@@ -58,55 +57,51 @@ namespace WinGetStore.Helpers
             _ = response.EnsureSuccessStatusCode();
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
             string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            ArtifactsInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.ArtifactsInfo);
+            WorkflowRunsInfo result = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.WorkflowRunsInfo);
 
             if (result != null)
             {
-                Artifact artifact = result.Artifacts.FirstOrDefault(x => x.WorkflowRun.HeadBranch == "main");
-
-                if (artifact != null)
+                WorkflowRun run = result.WorkflowRuns.FirstOrDefault(x => x is { HeadBranch: "main", Event: "push", Conclusion: "success" });
+                if (run != null)
                 {
-                    UpdateInfo updateInfo = new()
-                    {
-                        CreatedAt = artifact.CreatedAt,
-                        PublishedAt = artifact.UpdatedAt,
-                        Assets =
-                        [
-                            new Asset
-                            {
-                                Url = artifact.Url,
-                                Name = artifact.Name,
-                                Size = artifact.SizeInBytes,
-                                CreatedAt = artifact.CreatedAt,
-                                UpdatedAt = artifact.UpdatedAt,
-                                ExpiresAt = artifact.ExpiresAt,
-                                DownloadUrl = artifact.ArchiveDownloadUrl
-                            }
-                        ]
-                    };
-
                     try
                     {
-                        url = string.Format(GITHUB_RUNS_API, username, repository, artifact.WorkflowRun.ID);
-                        response = await client.GetAsync(url).ConfigureAwait(false);
+                        response = await client.GetAsync(run.ArtifactsUrl).ConfigureAwait(false);
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
                             responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            RunInfo run = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.RunInfo);
-
-                            SystemVersionInfo newVersionInfo = GetAsVersionInfo(artifact.CreatedAt, (int)run.RunNumber);
-                            updateInfo.ReleaseUrl = run.HTMLUrl;
-                            updateInfo.IsExistNewVersion = newVersionInfo > currentVersion;
-                            updateInfo.Version = newVersionInfo;
-                            updateInfo.Assets[0].DownloadUrl = $"https://github.com/{username}/{repository}/suites/{run.CheckSuiteID}/artifacts/{artifact.ID}";
+                            ArtifactsInfo artifacts = JsonSerializer.Deserialize(responseBody, SourceGenerationContext.Default.ArtifactsInfo);
+                            if (artifacts != null)
+                            {
+                                SystemVersionInfo newVersionInfo = GetAsVersionInfo(run.CreatedAt, run.RunNumber);
+                                return new UpdateInfo()
+                                {
+                                    ReleaseUrl = run.HTMLUrl,
+                                    CreatedAt = run.CreatedAt,
+                                    PublishedAt = run.UpdatedAt,
+                                    Assets =
+                                    [
+                                        .. artifacts.Artifacts.Select(artifact => new Asset
+                                        {
+                                            Url = artifact.Url,
+                                            Name = artifact.Name,
+                                            Size = artifact.SizeInBytes,
+                                            CreatedAt = artifact.CreatedAt,
+                                            UpdatedAt = artifact.UpdatedAt,
+                                            ExpiresAt = artifact.ExpiresAt,
+                                            DownloadUrl = $"https://github.com/{username}/{repository}/suites/{run.CheckSuiteID}/artifacts/{artifact.ID}"
+                                        })
+                                    ],
+                                    IsExistNewVersion = newVersionInfo > currentVersion,
+                                    Version = newVersionInfo
+                                };
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
                         Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(SettingsHelper.LoggerFactory.CreateLogger(nameof(UpdateHelper)), ex, "{message} (0x{hResult:X})", ex.Message, ex.HResult);
                     }
-
-                    return updateInfo;
                 }
             }
 

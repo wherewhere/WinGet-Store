@@ -148,31 +148,15 @@ namespace WinGetStore.Controls
         {
             base.OnApplyTemplate();
 
-            if (ActionButton != null)
-            {
-                ActionButton.Click -= ActionButton_Click;
-            }
-
-            if (InstallProgressControl != null)
-            {
-                InstallProgressControl.Click -= ActionButton_Click;
-            }
-
+            ActionButton?.Click -= ActionButton_Click;
+            InstallProgressControl?.Click -= ActionButton_Click;
             TemplateSettings.ShouldUpdatePackage -= TemplateSettings_ShouldUpdatePackage;
 
             ActionButton = GetTemplateChild(ActionButtonName) as ButtonBase;
             InstallProgressControl = GetTemplateChild(InstallProgressControlName) as ButtonBase;
 
-            if (ActionButton != null)
-            {
-                ActionButton.Click += ActionButton_Click;
-            }
-
-            if (InstallProgressControl != null)
-            {
-                InstallProgressControl.Click += ActionButton_Click;
-            }
-
+            ActionButton?.Click += ActionButton_Click;
+            InstallProgressControl?.Click += ActionButton_Click;
             TemplateSettings.ShouldUpdatePackage += TemplateSettings_ShouldUpdatePackage;
         }
 
@@ -214,7 +198,7 @@ namespace WinGetStore.Controls
                     InstallOptions installOptions = WinGetProjectionFactory.TryCreateInstallOptions();
                     PackageManager packageManager = WinGetProjectionFactory.TryCreatePackageManager();
 
-                    PackageInstallerInfo installerInfo = version.GetApplicableInstaller(installOptions);
+                    if (version.GetApplicableInstaller(installOptions) is not PackageInstallerInfo installerInfo) { return; }
                     await templateSettings.SetValueAsync(PackageControlTemplateSettings.InstallerTypeProperty, installerInfo.InstallerType);
 
                     PackageCatalogInfo info = version.PackageCatalog.Info;

@@ -101,7 +101,7 @@ namespace WinGetStore.Helpers
     [JsonSerializable(typeof(DateTimeOffset))]
 #if CANARY
     [JsonSerializable(typeof(ArtifactsInfo))]
-    [JsonSerializable(typeof(RunInfo))]
+    [JsonSerializable(typeof(WorkflowRunsInfo))]
 #else
     [JsonSerializable(typeof(UpdateInfo))]
 #endif

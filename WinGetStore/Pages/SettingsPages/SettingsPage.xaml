@@ -362,6 +362,7 @@
                                     HorizontalAlignment="Right"
                                     Click="GotoUpdate_Click"
                                     Tag="{x:Bind Provider.GotoUpdateTag, Mode=OneWay}"
+                                    ToolTipService.ToolTip="{Binding Tag, RelativeSource={RelativeSource Mode=Self}}"
                                     Visibility="{x:Bind Provider.GotoUpdateVisibility, Mode=OneWay}" />
                             </muxc:InfoBar.ActionButton>
                         </muxc:InfoBar>
