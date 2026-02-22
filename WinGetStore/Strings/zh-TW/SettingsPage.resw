@@ -258,4 +258,7 @@
   <data name="WinGetVersionSettings.Header" xml:space="preserve">
     <value>WinGet 版本</value>
   </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>未安裝</value>
+  </data>
 </root>
