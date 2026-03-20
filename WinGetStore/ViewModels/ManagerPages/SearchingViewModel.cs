@@ -88,7 +88,6 @@ namespace WinGetStore.ViewModels.ManagerPages
             set => SetProperty(ref filters, value);
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)

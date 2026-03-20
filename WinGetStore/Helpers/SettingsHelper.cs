@@ -90,8 +90,11 @@ namespace WinGetStore.Helpers
                 : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
                 : JsonSerializer.Deserialize(value, type, SourceGenerationContext.Default) is T result ? result : default;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo) =>
-                JsonSerializer.Deserialize(json, jsonTypeInfo) is T value ? value : default;
+            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo)
+            {
+                TValue value = JsonSerializer.Deserialize(json, jsonTypeInfo);
+                return Unsafe.As<TValue, T>(ref value);
+            }
         }
     }
 

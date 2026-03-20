@@ -30,7 +30,7 @@
     <PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.3" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.12.440" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.28.190" />
   </ItemGroup>
 
   <ItemGroup>
