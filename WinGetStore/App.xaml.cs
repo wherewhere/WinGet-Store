@@ -278,23 +278,13 @@ namespace WinGetStore
                     return;
                 }
 
-                // If background task is already registered, do nothing
-                if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(LiveTileTask)))
-                { return; }
-
                 // Register (Single Process)
-                BackgroundTaskRegistration _LiveTileTask = BackgroundTaskHelper.Register(LiveTileTask, new TimeTrigger(time, false), true);
+                _ = BackgroundTaskHelper.Register(LiveTileTask, new TimeTrigger(time, false));
             }
 
-            static void UnregisterLiveTileTask()
-            {
-                // If background task is not registered, do nothing
-                if (!BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(LiveTileTask)))
-                { return; }
-
+            static void UnregisterLiveTileTask() =>
                 // Unregister (Single Process)
                 BackgroundTaskHelper.Unregister(LiveTileTask);
-            }
 
             #endregion
         }
@@ -302,20 +292,23 @@ namespace WinGetStore
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
-
-            BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
-
-            switch (args.TaskInstance.Task.Name)
+            IBackgroundTaskInstance instance = args.TaskInstance;
+            BackgroundTaskDeferral deferral = instance.GetDeferral();
+            try
             {
-                case "LiveTileTask":
-                    await TilesHelper.UpdateAvailablePackageAsync();
-                    break;
-
-                default:
-                    break;
+                switch (instance.Task.Name)
+                {
+                    case "LiveTileTask":
+                        await TilesHelper.UpdateAvailablePackageAsync();
+                        break;
+                    default:
+                        break;
+                }
             }
-
-            deferral.Complete();
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         private bool isLoaded;

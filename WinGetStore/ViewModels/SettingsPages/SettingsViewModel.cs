@@ -249,12 +249,11 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async Task UpdateWinGetVersionAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            bool isWinGetInstalled = WinGetProjectionFactory.IsWinGetInstalled;
-            bool isWinGetDevInstalled = WinGetProjectionFactory.IsWinGetDevInstalled;
-            IsWinGetInstalled = isWinGetInstalled;
-            IsWinGetDevInstalled = isWinGetDevInstalled;
-            IEnumerable<Package> packages = await PackageHelper.FindPackagesByNameAsync("Microsoft.DesktopAppInstaller");
-            WinGetVersion = packages?.Any() == true ? packages.FirstOrDefault().Id.Version.ToFormattedString() : _loader.GetString("NotInstalled");
+            bool isWinGetInstalled = IsWinGetInstalled = WinGetProjectionFactory.IsWinGetInstalled;
+            bool isWinGetDevInstalled = IsWinGetDevInstalled = WinGetProjectionFactory.IsWinGetDevInstalled;
+            if (isWinGetInstalled) { WinGetProjectionFactory.IsUseDev = false; }
+            else if (isWinGetDevInstalled) { WinGetProjectionFactory.IsUseDev = true; }
+            WinGetVersion = ((isWinGetInstalled || isWinGetDevInstalled) && WinGetProjectionFactory.TryCreatePackageManager()?.Version is { Length: > 0 } version) ? version : _loader.GetString("NotInstalled");
         }
 
         public async void CheckUpdate()
