@@ -121,7 +121,7 @@
     <value>一個基於 UWP 平臺的 winget GUI 應用管理工具</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>Get Package</value>
+    <value>Get 套件管理</value>
   </data>
   <data name="ExceptionThrown" xml:space="preserve">
     <value>程式出現了錯誤......</value>
