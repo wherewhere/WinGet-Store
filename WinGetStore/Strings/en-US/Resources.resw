@@ -121,7 +121,7 @@
     <value>A GUI tool of winget for manage apps based on UWP</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>Get Package</value>
+    <value>WinGet Store</value>
   </data>
   <data name="ExceptionThrown" xml:space="preserve">
     <value>There was an error with the program…</value>
