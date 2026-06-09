@@ -144,11 +144,12 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+                        <!-- The MinWidth and MinHeight have been replaced with Width and Height for fixed the header icon size. -->
                         <Viewbox
                             x:Name="PART_HeaderIconPresenterHolder"
                             Grid.RowSpan="1"
-                            MaxWidth="{ThemeResource SettingsCardHeaderIconMaxSize}"
-                            MaxHeight="{ThemeResource SettingsCardHeaderIconMaxSize}"
+                            Width="{ThemeResource SettingsCardHeaderIconMaxSize}"
+                            Height="{ThemeResource SettingsCardHeaderIconMaxSize}"
                             Margin="{ThemeResource SettingsCardHeaderIconMargin}">
                             <ContentPresenter
                                 x:Name="PART_HeaderIconPresenter"

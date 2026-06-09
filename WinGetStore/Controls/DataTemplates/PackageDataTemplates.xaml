@@ -9,6 +9,7 @@
     xmlns:deployment="using:Microsoft.Management.Deployment"
     xmlns:local="using:WinGetStore.Controls.DataTemplates"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:WinGetStore.ViewModels"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
@@ -198,6 +199,9 @@
                                 IsClickEnabled="{x:Bind Url, Converter={StaticResource StringToBoolConverter}}"
                                 Style="{StaticResource ClickableSettingsExpanderItemStyle}"
                                 Tag="{x:Bind Url}">
+                                <controls:SettingsCard.HeaderIcon>
+                                    <muxc:ImageIcon Source="{x:Bind Url}" />
+                                </controls:SettingsCard.HeaderIcon>
                                 <controls:SettingsCard.Description>
                                     <TextBlock IsTextSelectionEnabled="True">
                                         <Run Text="{x:Bind Theme}" />

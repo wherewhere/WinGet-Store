@@ -22,15 +22,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.260515-build.2617" />
-    <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock" Version="0.1.260515-build.2617" />
+    <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.260529-build.2632" />
+    <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock" Version="0.1.260529-build.2632" />
     <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.3.260211-preview1" />
     <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.3.260211-preview1" />
     <PackageReference Include="CommunityToolkit.Uwp.Triggers" Version="8.3.260211-preview1" />
-    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.0" />
+    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.8" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.28.220" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.28.240" />
   </ItemGroup>
 
   <ItemGroup>
