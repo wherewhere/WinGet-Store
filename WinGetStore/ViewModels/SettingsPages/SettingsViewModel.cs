@@ -322,7 +322,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         public async Task<bool> OpenLogFileAsync()
         {
             await ThreadSwitcher.ResumeBackgroundAsync();
-            StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
+            StorageFolder folder = await SettingsHelper.LocalObject.Folder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
             IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
             return files is [StorageFile file, ..] && await Dispatcher.AwaitableRunAsync(() => Launcher.LaunchFileAsync(file).AsTask()).ConfigureAwait(false);
         }
@@ -333,7 +333,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             try
             {
                 await ThreadSwitcher.ResumeBackgroundAsync();
-                IStorageItem item = await ApplicationData.Current.LocalFolder.TryGetItemAsync("Logs");
+                IStorageItem item = await SettingsHelper.LocalObject.Folder.TryGetItemAsync("Logs");
                 if (item is StorageFolder folder)
                 {
                     foreach (StorageFile file in await folder.GetFilesAsync())

@@ -8,7 +8,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using WinGetStore.Models;
 
@@ -49,15 +48,15 @@ namespace WinGetStore.Helpers
 
     public static partial class SettingsHelper
     {
+        public static ApplicationDataStorageHelper LocalObject { get; } = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
         public static ILoggerFactory LoggerFactory { get; } = CreateLoggerFactory();
-        public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper() => SetDefaultSettings();
 
         public static ILoggerFactory CreateLoggerFactory() =>
             Microsoft.Extensions.Logging.LoggerFactory.Create(x => _ = x.AddFile(x =>
             {
-                x.RootPath = ApplicationData.Current.LocalFolder.Path;
+                x.RootPath = LocalObject.Folder.Path;
                 x.IncludeScopes = true;
                 x.BasePath = "Logs";
                 x.Files = [

@@ -114,7 +114,7 @@ namespace WinGetStore.Common
                 new SettingsCommand(
                     "LogFolder",
                     loader.GetString("LogFolder"),
-                    async (handler) => _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists))));
+                    async (handler) => _ = Launcher.LaunchFolderAsync(await SettingsHelper.LocalObject.Folder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists))));
             args.Request.ApplicationCommands.Add(
                 new SettingsCommand(
                     "Translate",

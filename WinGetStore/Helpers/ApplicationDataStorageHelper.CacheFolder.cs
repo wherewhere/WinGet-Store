@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Common.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -10,7 +11,7 @@ using Windows.Storage;
 namespace WinGetStore.Helpers
 {
     /// <summary>
-    /// An extension of ApplicationDataStorageHelper with additional features for interop with the LocalCacheFolder.
+    /// An extension of <see cref="ApplicationDataStorageHelper"/> with additional features for interop with the LocalCacheFolder.
     /// </summary>
     public partial class ApplicationDataStorageHelper
     {
@@ -60,7 +61,7 @@ namespace WinGetStore.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFolderAsync(string folderPath)
         {
-            return CreateFolderAsync(CacheFolder, folderPath);
+            return CreateFolderAsync(CacheFolder, folderPath).AsTask();
         }
 
         /// <summary>

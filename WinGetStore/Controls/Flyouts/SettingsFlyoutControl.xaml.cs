@@ -72,7 +72,7 @@ namespace WinGetStore.Controls
             switch (element.Tag?.ToString())
             {
                 case "LogFolder":
-                    _ = Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists));
+                    _ = Launcher.LaunchFolderAsync(await SettingsHelper.LocalObject.Folder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists));
                     break;
                 case "WindowsColor":
                     _ = Launcher.LaunchUriAsync(new Uri("ms-settings:colors"));
