@@ -297,29 +297,19 @@
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal" />
                                                 <VisualState x:Name="PointerOver">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource PivotNextButtonBackgroundPointerOver}" />
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource PivotNextButtonBorderBrushPointerOver}" />
+                                                        <Setter Target="Arrow.Foreground" Value="{ThemeResource PivotNextButtonForegroundPointerOver}" />
+                                                    </VisualState.Setters>
                                                 </VisualState>
                                                 <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource PivotNextButtonBackgroundPressed}" />
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource PivotNextButtonBorderBrushPressed}" />
+                                                        <Setter Target="Arrow.Foreground" Value="{ThemeResource PivotNextButtonForegroundPressed}" />
+                                                    </VisualState.Setters>
                                                     <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
                                                         <DoubleAnimationUsingKeyFrames
                                                             RepeatBehavior="Forever"
                                                             Storyboard.TargetName="Arrow"
@@ -366,29 +356,19 @@
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal" />
                                                 <VisualState x:Name="PointerOver">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPointerOver}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource PivotPreviousButtonBackgroundPointerOver}" />
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource PivotPreviousButtonBorderBrushPointerOver}" />
+                                                        <Setter Target="Arrow.Foreground" Value="{ThemeResource PivotPreviousButtonForegroundPointerOver}" />
+                                                    </VisualState.Setters>
                                                 </VisualState>
                                                 <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="Root.Background" Value="{ThemeResource PivotPreviousButtonBackgroundPressed}" />
+                                                        <Setter Target="Root.BorderBrush" Value="{ThemeResource PivotPreviousButtonBorderBrushPressed}" />
+                                                        <Setter Target="Arrow.Foreground" Value="{ThemeResource PivotPreviousButtonForegroundPressed}" />
+                                                    </VisualState.Setters>
                                                     <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPressed}" />
-                                                        </ObjectAnimationUsingKeyFrames>
                                                         <DoubleAnimationUsingKeyFrames
                                                             RepeatBehavior="Forever"
                                                             Storyboard.TargetName="Arrow"
@@ -529,78 +509,48 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="Orientation">
                                 <VisualState x:Name="Portrait">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="TitleContentControl.Margin" Value="{ThemeResource PivotPortraitThemePadding}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Landscape">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="TitleContentControl.Margin" Value="{ThemeResource PivotLandscapeThemePadding}" />
+                                    </VisualState.Setters>
                                 </VisualState>
 
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="NavigationButtonsVisibility">
                                 <VisualState x:Name="NavigationButtonsHidden" />
                                 <VisualState x:Name="NavigationButtonsVisible">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="NextButton.Opacity" Value="1" />
+                                        <Setter Target="NextButton.IsEnabled" Value="True" />
+                                        <Setter Target="PreviousButton.Opacity" Value="1" />
+                                        <Setter Target="PreviousButton.IsEnabled" Value="True" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PreviousButtonVisible">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="PreviousButton.Opacity" Value="1" />
+                                        <Setter Target="PreviousButton.IsEnabled" Value="True" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="NextButtonVisible">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="IsEnabled">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="NextButton.Opacity" Value="1" />
+                                        <Setter Target="NextButton.IsEnabled" Value="True" />
+                                    </VisualState.Setters>
                                 </VisualState>
 
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="HeaderStates">
                                 <VisualState x:Name="HeaderDynamic" />
                                 <VisualState x:Name="HeaderStatic">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Header" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="StaticHeader" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="Header.Visibility" Value="Collapsed" />
+                                        <Setter Target="StaticHeader.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
                                 </VisualState>
 
                             </VisualStateGroup>
@@ -729,16 +679,9 @@
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
                                         <Setter Target="SelectedPipe.Opacity" Value="0" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundDisabled}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundDisabled}" />
                                     </VisualState.Setters>
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unselected">
                                     <VisualState.Setters>
@@ -748,82 +691,42 @@
                                 <VisualState x:Name="UnselectedLocked">
                                     <VisualState.Setters>
                                         <Setter Target="SelectedPipe.Opacity" Value="0" />
+                                        <Setter Target="ContentPresenterTranslateTransform.X" Value="{ThemeResource PivotHeaderItemLockedTranslation}" />
+                                        <Setter Target="ContentPresenter.(UIElement.Opacity)" Value="0" />
                                     </VisualState.Setters>
-
-                                    <Storyboard>
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="ContentPresenterTranslateTransform"
-                                            Storyboard.TargetProperty="X"
-                                            To="{ThemeResource PivotHeaderItemLockedTranslation}"
-                                            Duration="0" />
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="ContentPresenter"
-                                            Storyboard.TargetProperty="(UIElement.Opacity)"
-                                            To="0"
-                                            Duration="0" />
-                                    </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Selected">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundSelected}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundSelected}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundSelected}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundSelected}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="UnselectedPointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="SelectedPipe.Opacity" Value="0" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundUnselectedPointerOver}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPointerOver}" />
                                     </VisualState.Setters>
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundUnselectedPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedPointerOver">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundSelectedPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundSelectedPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundSelectedPointerOver}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundSelectedPointerOver}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="UnselectedPressed">
                                     <VisualState.Setters>
                                         <Setter Target="SelectedPipe.Opacity" Value="0" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundUnselectedPressed}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPressed}" />
                                     </VisualState.Setters>
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundUnselectedPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedPressed">
-
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemForegroundSelectedPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotHeaderItemBackgroundSelectedPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PivotHeaderItemForegroundSelectedPressed}" />
+                                        <Setter Target="Grid.Background" Value="{ThemeResource PivotHeaderItemBackgroundSelectedPressed}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
 

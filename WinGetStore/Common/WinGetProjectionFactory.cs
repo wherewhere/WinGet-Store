@@ -167,13 +167,13 @@ namespace WinGetStore.Common
             {
                 Marshal.ThrowExceptionForHR(hresult);
             }
-            return Marshaler<T>.FromAbi(result);
+            return MarshalInspectable<T>.FromAbi(result);
         }
 
         public static T TryCreateInstance<T>(Guid rclsid, uint dwClsContext = 0x1) where T : class
         {
             int hresult = CoCreateInstance(rclsid, 0, dwClsContext, CLSID_IUnknown, out nint result);
-            return hresult < 0 ? null : Marshaler<T>.FromAbi(result);
+            return hresult < 0 ? null : MarshalInspectable<T>.FromAbi(result);
         }
 
         [LibraryImport("api-ms-win-core-com-l1-1-0.dll")]

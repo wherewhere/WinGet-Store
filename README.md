@@ -74,6 +74,3 @@ A GUI tool of winget for manage apps based on UWP
 ## 鸣谢
 - 所有为 WinGet Store 做出贡献的同志们
 - **铺路尚未成功，同志仍需努力！**
-
-## Star 数量统计
-[![Star 数量统计](https://starchart.cc/wherewhere/WinGet-Store.svg?variant=adaptive)](https://github.com/wherewhere/WinGet-Store/stargazers "Star 数量统计")
