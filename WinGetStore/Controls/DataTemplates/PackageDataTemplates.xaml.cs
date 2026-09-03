@@ -13,7 +13,7 @@ using WinGetStore.Helpers;
 
 namespace WinGetStore.Controls.DataTemplates
 {
-    public partial class PackageDataTemplates : ResourceDictionary
+    public sealed partial class PackageDataTemplates : ResourceDictionary
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("VersionsDialog");
 

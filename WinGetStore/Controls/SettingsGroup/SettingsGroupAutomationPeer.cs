@@ -2,7 +2,7 @@
 
 namespace WinGetStore.Controls
 {
-    public partial class SettingsGroupAutomationPeer : ItemsControlAutomationPeer
+    public sealed partial class SettingsGroupAutomationPeer : ItemsControlAutomationPeer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsGroup"/> class.

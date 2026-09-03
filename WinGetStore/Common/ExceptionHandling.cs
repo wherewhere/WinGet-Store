@@ -36,7 +36,7 @@ namespace WinGetStore.Common
     /// }
     /// </code>
     /// </example>
-    public class ExceptionHandlingSynchronizationContext(SynchronizationContext syncContext) : SynchronizationContext
+    public sealed class ExceptionHandlingSynchronizationContext(SynchronizationContext syncContext) : SynchronizationContext
     {
         /// <summary>
         /// Registration method. Call this from OnLaunched and OnActivated inside the App.xaml.cs.
@@ -169,7 +169,7 @@ namespace WinGetStore.Common
     /// Provides data for the UnhandledException event.
     /// </summary>
     /// <param name="exception">The exception that was not handled.</param>
-    public class UnhandledExceptionEventArgs(Exception exception) : EventArgs
+    public sealed class UnhandledExceptionEventArgs(Exception exception) : EventArgs
     {
         /// <summary>
         /// Gets or sets a value that indicates whether the exception is handled.

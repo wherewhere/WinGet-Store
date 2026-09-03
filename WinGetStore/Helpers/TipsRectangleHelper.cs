@@ -4,7 +4,7 @@ using WinGetStore.Common;
 
 namespace WinGetStore.Helpers
 {
-    public class TipsRectangleHelper : DependencyObject
+    public sealed class TipsRectangleHelper : DependencyObject
     {
         #region IsEnable
 

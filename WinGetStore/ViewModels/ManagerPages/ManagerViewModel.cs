@@ -14,7 +14,7 @@ using WinGetStore.Helpers;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public partial class ManagerViewModel(CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public sealed partial class ManagerViewModel(CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 
@@ -71,7 +71,7 @@ namespace WinGetStore.ViewModels.ManagerPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        private async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
             if (name != null)
             {
@@ -80,7 +80,7 @@ namespace WinGetStore.ViewModels.ManagerPages
             }
         }
 
-        protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
+        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
         {
             if (property == null ? value != null : !property.Equals(value))
             {

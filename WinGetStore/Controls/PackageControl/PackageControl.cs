@@ -14,7 +14,7 @@ using WinRT;
 
 namespace WinGetStore.Controls
 {
-    public partial class PackageControl : Control
+    public sealed partial class PackageControl : Control
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
 

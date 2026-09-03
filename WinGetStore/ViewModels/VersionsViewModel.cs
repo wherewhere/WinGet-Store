@@ -8,7 +8,7 @@ using WinGetStore.Models;
 
 namespace WinGetStore.ViewModels
 {
-    public partial class VersionsViewModel(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public sealed partial class VersionsViewModel(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         public CoreDispatcher Dispatcher => dispatcher;
 
@@ -21,7 +21,7 @@ namespace WinGetStore.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        private async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
             if (name != null)
             {
@@ -30,7 +30,7 @@ namespace WinGetStore.ViewModels
             }
         }
 
-        protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
+        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
         {
             if (property == null ? value != null : !property.Equals(value))
             {
@@ -42,5 +42,5 @@ namespace WinGetStore.ViewModels
         public Task Refresh(bool reset = false) => PackageVersions.Refresh(reset);
     }
 
-    public record CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);
+    public sealed record CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);
 }

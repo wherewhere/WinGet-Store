@@ -7,7 +7,7 @@ using WinGetStore.Helpers;
 
 namespace WinGetStore.Controls
 {
-    public partial class Slot : Panel
+    public sealed partial class Slot : Panel
     {
         private FrameworkElement RootElement;
 

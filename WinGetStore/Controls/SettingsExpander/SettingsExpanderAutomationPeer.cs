@@ -5,7 +5,7 @@ namespace WinGetStore.Controls
     /// <summary>
     /// AutomationPeer for <see cref="SettingsExpander"/>
     /// </summary>
-    public partial class SettingsExpanderAutomationPeer : ItemsControlAutomationPeer
+    public sealed partial class SettingsExpanderAutomationPeer : ItemsControlAutomationPeer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsExpander"/> class.

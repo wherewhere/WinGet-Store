@@ -26,7 +26,7 @@ using WinRT;
 
 namespace WinGetStore.ViewModels.SettingsPages
 {
-    public partial class SettingsViewModel : INotifyPropertyChanged
+    public sealed partial class SettingsViewModel : INotifyPropertyChanged
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
 
@@ -208,7 +208,7 @@ namespace WinGetStore.ViewModels.SettingsPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected static async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        private static async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
             if (name != null)
             {
@@ -220,7 +220,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
         }
 
-        protected static async void RaisePropertyChangedEvent(params string[] names)
+        private static async void RaisePropertyChangedEvent(params string[] names)
         {
             if (names?.Length > 0)
             {
@@ -233,7 +233,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         }
 
         [SuppressMessage("Performance", "CA1822:将成员标记为 static", Justification = "<挂起>")]
-        protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
+        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
         {
             if (property == null ? value != null : !property.Equals(value))
             {

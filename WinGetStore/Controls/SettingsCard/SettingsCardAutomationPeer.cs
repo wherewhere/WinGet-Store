@@ -5,7 +5,7 @@ namespace WinGetStore.Controls
     /// <summary>
     /// AutomationPeer for <see cref="SettingsCard"/>
     /// </summary>
-    public partial class SettingsCardAutomationPeer : ButtonBaseAutomationPeer
+    public sealed partial class SettingsCardAutomationPeer : ButtonBaseAutomationPeer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsCard"/> class.

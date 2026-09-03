@@ -22,7 +22,7 @@ namespace WinGetStore.Controls
     [TemplateVisualState(Name = DisabledState, GroupName = CommonStates)]
     [TemplateVisualState(Name = ActionIconVisibleState, GroupName = ActionIconVisibilityGroup)]
     [TemplateVisualState(Name = ActionIconCollapsedState, GroupName = ActionIconVisibilityGroup)]
-    public partial class SettingsCard : ButtonBase
+    public sealed partial class SettingsCard : ButtonBase
     {
         private const string CommonStates = "CommonStates";
         private const string NormalState = "Normal";

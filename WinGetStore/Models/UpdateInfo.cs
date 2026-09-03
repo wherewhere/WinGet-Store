@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace WinGetStore.Models
 {
 #if CANARY
-    public class WorkflowRunsInfo
+    public sealed class WorkflowRunsInfo
     {
         [JsonPropertyName("total_count")]
         public long TotalCount { get; init; }
@@ -12,7 +12,7 @@ namespace WinGetStore.Models
         public WorkflowRun[] WorkflowRuns { get; init; }
     }
 
-    public class WorkflowRun
+    public sealed class WorkflowRun
     {
         [JsonPropertyName("id")]
         public long ID { get; init; }
@@ -56,7 +56,7 @@ namespace WinGetStore.Models
         public string ArtifactsUrl { get; init; }
     }
 
-    public class ArtifactsInfo
+    public sealed class ArtifactsInfo
     {
         [JsonPropertyName("total_count")]
         public long TotalCount { get; init; }
@@ -64,7 +64,7 @@ namespace WinGetStore.Models
         public Artifact[] Artifacts { get; init; }
     }
 
-    public class Artifact
+    public sealed class Artifact
     {
         [JsonPropertyName("id")]
         public long ID { get; init; }
@@ -88,7 +88,7 @@ namespace WinGetStore.Models
         public DateTimeOffset ExpiresAt { get; init; }
     }
 
-    public class UpdateInfo
+    public sealed class UpdateInfo
     {
         public string ReleaseUrl { get; init; }
         public DateTimeOffset CreatedAt { get; init; }
@@ -98,7 +98,7 @@ namespace WinGetStore.Models
         public SystemVersionInfo Version { get; init; }
     }
 
-    public class Asset
+    public sealed class Asset
     {
         public string Url { get; init; }
         public string Name { get; init; }
@@ -109,7 +109,7 @@ namespace WinGetStore.Models
         public string DownloadUrl { get; init; }
     }
 #else
-    public class UpdateInfo
+    public sealed class UpdateInfo
     {
         [JsonPropertyName("url")]
         public string ApiUrl { get; init; }
@@ -133,7 +133,7 @@ namespace WinGetStore.Models
         public SystemVersionInfo Version { get; set; }
     }
 
-    public class Asset
+    public sealed class Asset
     {
         [JsonPropertyName("url")]
         public string Url { get; init; }

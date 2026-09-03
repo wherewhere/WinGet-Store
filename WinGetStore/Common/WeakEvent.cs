@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace WinGetStore.Common
 {
-    public partial class WeakEvent<TEventArgs> : IList<Action<TEventArgs>>
+    public sealed partial class WeakEvent<TEventArgs> : IList<Action<TEventArgs>>
     {
-        private class Method(Action<TEventArgs> callback) : IEquatable<Method>, IEquatable<Action<TEventArgs>>
+        private sealed class Method(Action<TEventArgs> callback) : IEquatable<Method>, IEquatable<Action<TEventArgs>>
         {
             private readonly bool _isStatic = callback.Target == null;
             private readonly WeakReference _reference = new(callback.Target);

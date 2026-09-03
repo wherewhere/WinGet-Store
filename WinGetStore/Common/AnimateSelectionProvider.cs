@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace WinGetStore.Common
 {
-    public class AnimateSelectionProvider : DependencyObject
+    public sealed class AnimateSelectionProvider : DependencyObject
     {
         private static readonly Vector2 c_frame1point1 = new(0.9f, 0.1f);
         private static readonly Vector2 c_frame1point2 = new(1.0f, 0.2f);

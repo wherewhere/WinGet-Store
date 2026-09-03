@@ -10,7 +10,7 @@ namespace WinGetStore.Controls
     /// <summary>
     /// The <see cref="SettingsExpander"/> is a collapsable control to host multiple SettingsCards.
     /// </summary>
-    public partial class SettingsExpander : ItemsControl
+    public sealed partial class SettingsExpander : ItemsControl
     {
         /// <summary>
         /// Creates a new instance of the <see cref="SettingsExpander"/> class.

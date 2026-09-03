@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 
 namespace WinGetStore.Controls
 {
-    public class PackageControlTemplateSettings : DependencyObject
+    public sealed class PackageControlTemplateSettings : DependencyObject
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("PackageControl");
 

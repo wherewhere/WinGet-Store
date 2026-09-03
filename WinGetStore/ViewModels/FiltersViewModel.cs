@@ -16,7 +16,7 @@ namespace WinGetStore.ViewModels
         Both = Selector | Filter
     }
 
-    public partial class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters, CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public sealed partial class FiltersViewModel(IList<PackageMatchFilter> selectors, IList<PackageMatchFilter> filters, CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         public static FilterType[] FilterTypes { get; } = Enum.GetValues<FilterType>();
         public static List<PackageMatchField> PackageMatchFields { get; } = [.. Enum.GetValues<PackageMatchField>()];
@@ -69,7 +69,7 @@ namespace WinGetStore.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
+        private async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
         {
             if (name != null)
             {
@@ -78,7 +78,7 @@ namespace WinGetStore.ViewModels
             }
         }
 
-        protected void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
+        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
         {
             if (property == null ? value != null : !property.Equals(value))
             {
