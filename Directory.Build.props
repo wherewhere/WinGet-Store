@@ -5,22 +5,22 @@
     <Description>UWP running on .NET Core App</Description>
     <LangVersion>latest</LangVersion>
     <RepositoryType>git</RepositoryType>
-    <PublishRepositoryUrl>True</PublishRepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/wherewhere/CoreAppUWP</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>false</AppxAutoIncrementPackageRevision>
     <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>x86|x64|ARM64</AppxBundlePlatforms>
     <AppxPackageDir>AppPackages</AppxPackageDir>
-    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxPackageSigningTimestampServerUrl>http://timestamp.digicert.com</AppxPackageSigningTimestampServerUrl>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxSymbolPackageEnabled>true</AppxSymbolPackageEnabled>
+    <GenerateAppInstallerFile>false</GenerateAppInstallerFile>
+    <GenerateTemporaryStoreCertificate>true</GenerateTemporaryStoreCertificate>
+    <GenerateTestArtifacts>true</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 

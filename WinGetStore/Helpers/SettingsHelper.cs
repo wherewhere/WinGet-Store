@@ -70,29 +70,48 @@ namespace WinGetStore.Helpers
 
     public sealed class SystemTextJsonObjectSerializer : IObjectSerializer
     {
-        public string Serialize<T>(T value) => value switch
+        public string Serialize<T>(T value)
         {
-            uint => JsonSerializer.Serialize(value, SourceGenerationContext.Default.UInt32),
-            string => JsonSerializer.Serialize(value, SourceGenerationContext.Default.String),
-            ElementTheme => JsonSerializer.Serialize(value, SourceGenerationContext.Default.ElementTheme),
-            DateTimeOffset => JsonSerializer.Serialize(value, SourceGenerationContext.Default.DateTimeOffset),
-            _ => JsonSerializer.Serialize(value, typeof(T), SourceGenerationContext.Default)
-        };
+            try
+            {
+                return value switch
+                {
+                    uint => JsonSerializer.Serialize(value, SourceGenerationContext.Default.UInt32),
+                    string => JsonSerializer.Serialize(value, SourceGenerationContext.Default.String),
+                    ElementTheme => JsonSerializer.Serialize(value, SourceGenerationContext.Default.ElementTheme),
+                    DateTimeOffset => JsonSerializer.Serialize(value, SourceGenerationContext.Default.DateTimeOffset),
+                    _ => JsonSerializer.Serialize(value, typeof(T), SourceGenerationContext.Default)
+                };
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LoggerFactory.CreateLogger<SystemTextJsonObjectSerializer>().LogError(ex, "Failed to serialize object of type {type}. {message} (0x{hResult:X})", typeof(T), ex.GetMessage(), ex.HResult);
+                return string.Empty;
+            }
+        }
 
         public T Deserialize<T>([StringSyntax(StringSyntaxAttribute.Json)] string value)
         {
             if (string.IsNullOrEmpty(value)) { return default; }
             Type type = typeof(T);
-            return type == typeof(uint) ? Deserialize(value, SourceGenerationContext.Default.UInt32)
-                : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
-                : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
-                : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
-                : JsonSerializer.Deserialize(value, type, SourceGenerationContext.Default) is T result ? result : default;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo)
+            try
             {
-                TValue value = JsonSerializer.Deserialize(json, jsonTypeInfo);
-                return Unsafe.As<TValue, T>(ref value);
+                return type == typeof(uint) ? Deserialize(value, SourceGenerationContext.Default.UInt32)
+                    : type == typeof(string) ? Deserialize(value, SourceGenerationContext.Default.String)
+                    : type == typeof(ElementTheme) ? Deserialize(value, SourceGenerationContext.Default.ElementTheme)
+                    : type == typeof(DateTimeOffset) ? Deserialize(value, SourceGenerationContext.Default.DateTimeOffset)
+                    : JsonSerializer.Deserialize(value, type, SourceGenerationContext.Default) is T result ? result : default;
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                static T Deserialize<TValue>([StringSyntax(StringSyntaxAttribute.Json)] string json, JsonTypeInfo<TValue> jsonTypeInfo)
+                {
+                    TValue value = JsonSerializer.Deserialize(json, jsonTypeInfo);
+                    return Unsafe.As<TValue, T>(ref value);
+                }
+            }
+            catch (Exception ex)
+            {
+                SettingsHelper.LoggerFactory.CreateLogger<SystemTextJsonObjectSerializer>().LogError(ex, "Failed to deserialize object of type {type}. {message} (0x{hResult:X})", type, ex.GetMessage(), ex.HResult);
+                return default;
             }
         }
     }
