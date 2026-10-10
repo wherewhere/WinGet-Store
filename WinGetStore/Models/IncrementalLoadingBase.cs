@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -53,19 +52,16 @@ namespace WinGetStore.Models
 
         public CoreDispatcher Dispatcher => dispatcher;
 
-        private bool isEmpty = false;
         public bool IsEmpty
         {
-            get => isEmpty;
-            set => SetProperty(ref isEmpty, value);
-        }
-
-        private bool isLoading = false;
+            get;
+            set => SetProperty(ref field, value);
+        } = false;
         public bool IsLoading
         {
-            get => isLoading;
-            set => SetProperty(ref isLoading, value);
-        }
+            get;
+            set => SetProperty(ref field, value);
+        } = false;
 
         protected override event PropertyChangedEventHandler PropertyChanged;
 

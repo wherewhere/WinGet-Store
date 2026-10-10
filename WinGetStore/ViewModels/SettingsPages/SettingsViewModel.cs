@@ -3,12 +3,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
@@ -26,11 +24,9 @@ using WinRT;
 
 namespace WinGetStore.ViewModels.SettingsPages
 {
-    public sealed partial class SettingsViewModel : INotifyPropertyChanged
+    public sealed partial class SettingsViewModel(CoreDispatcher dispatcher) : CachedViewModelBase<SettingsViewModel>(dispatcher)
     {
         private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SettingsPage");
-
-        public static ConditionalWeakTable<CoreDispatcher, SettingsViewModel> Caches { get; } = [];
 
         public static string SDKVersion { get; } = Assembly.GetAssembly(typeof(PackageSignatureKind)).GetName().Version.ToString();
 
@@ -41,8 +37,6 @@ namespace WinGetStore.ViewModels.SettingsPages
         public static string ToolkitVersion { get; } = Assembly.GetAssembly(typeof(ScrollItemPlacement)).GetName().Version.ToString(3);
 
         public static string VersionTextBlockText { get; } = $"{ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? Package.Current.DisplayName} v{Package.Current.Id.Version.ToFormattedString(3)}";
-
-        public CoreDispatcher Dispatcher { get; }
 
         public string Title { get; } = _loader.GetString("Title");
 
@@ -73,6 +67,7 @@ namespace WinGetStore.ViewModels.SettingsPages
         }
 
         private static CultureInfo _currentLanguage;
+        [SuppressMessage("Performance", "CA1822:将成员标记为 static", Justification = "<挂起>")]
         public CultureInfo CurrentLanguage
         {
             get
@@ -204,46 +199,6 @@ namespace WinGetStore.ViewModels.SettingsPages
         {
             get => _aboutTextBlockText;
             set => SetProperty(ref _aboutTextBlockText, value);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private static void RaisePropertyChangedEvent([CallerMemberName] string name = null)
-        {
-            if (name != null)
-            {
-                foreach (KeyValuePair<CoreDispatcher, SettingsViewModel> cache in Caches)
-                {
-                    _ = cache.Key.AwaitableRunAsync(() => cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name)));
-                }
-            }
-        }
-
-        private static void RaisePropertyChangedEvent(params string[] names)
-        {
-            if (names?.Length > 0)
-            {
-                foreach (KeyValuePair<CoreDispatcher, SettingsViewModel> cache in Caches)
-                {
-                    _ = cache.Key.AwaitableRunAsync(() => names.ForEach(name => cache.Value.PropertyChanged?.Invoke(cache.Value, new PropertyChangedEventArgs(name))));
-                }
-            }
-        }
-
-        [SuppressMessage("Performance", "CA1822:将成员标记为 static", Justification = "<挂起>")]
-        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
-        {
-            if (!property?.Equals(value) ?? (value != null))
-            {
-                property = value;
-                RaisePropertyChangedEvent(name);
-            }
-        }
-
-        public SettingsViewModel(CoreDispatcher dispatcher)
-        {
-            Dispatcher = dispatcher;
-            Caches.AddOrUpdate(dispatcher, this);
         }
 
         public async Task UpdateWinGetVersionAsync()
@@ -396,7 +351,7 @@ namespace WinGetStore.ViewModels.SettingsPages
             }
         }
 
-        public async Task Refresh(bool reset)
+        public override async Task Refresh(bool reset)
         {
             if (reset)
             {

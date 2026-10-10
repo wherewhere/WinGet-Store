@@ -90,7 +90,7 @@
                     x:Load="{x:Bind Provider.ErrorLongDescription, Converter={StaticResource StringToBoolConverter}, Mode=OneWay}"
                     FontWeight="SemiBold"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{x:Bind Provider.ErrorLongDescription}"
+                    Text="{x:Bind Provider.ErrorLongDescription, Mode=OneWay}"
                     TextAlignment="Center" />
                 <StackPanel
                     x:Name="ButtonContainer"

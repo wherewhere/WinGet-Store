@@ -10,11 +10,10 @@ namespace WinGetStore.Common
     {
         private sealed class Method(Action<TEventArgs> callback) : IEquatable<Method>, IEquatable<Action<TEventArgs>>
         {
-            private readonly bool _isStatic = callback.Target == null;
             private readonly WeakReference _reference = new(callback.Target);
             private readonly MethodInfo _method = callback.GetMethodInfo();
 
-            public bool IsDead => !(_isStatic || _reference.IsAlive);
+            public bool IsDead { get => !(field || _reference.IsAlive); } = callback.Target == null;
 
             public void Invoke(TEventArgs arg)
             {

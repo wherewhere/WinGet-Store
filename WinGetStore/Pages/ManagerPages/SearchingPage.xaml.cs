@@ -118,7 +118,7 @@ namespace WinGetStore.Pages.ManagerPages
         {
             if (e?.Handled == true) { return; }
             _ = Provider?.Refresh();
-            if (e != null) { e.Handled = true; }
+            e?.Handled = true;
         }
 
         private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args) => _ = Provider?.Refresh();

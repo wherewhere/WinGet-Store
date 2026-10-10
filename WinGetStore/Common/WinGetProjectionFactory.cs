@@ -17,10 +17,7 @@ namespace WinGetStore.Common
         private static readonly Guid CLSID_InstallOptions = new(0x1095f097, 0xEB96, 0x453B, 0xB4, 0xE6, 0x16, 0x13, 0x63, 0x7F, 0x3B, 0x14);                        //1095F097-EB96-453B-B4E6-1613637F3B14
         private static readonly Guid CLSID_UninstallOptions = new(0xE1D9A11E, 0x9F85, 0x4D87, 0x9C, 0x17, 0x2B, 0x93, 0x14, 0x3A, 0xDB, 0x8D);                      //E1D9A11E-9F85-4D87-9C17-2B93143ADB8D
         private static readonly Guid CLSID_PackageMatchFilter = new(0xD02C9DAF, 0x99DC, 0x429C, 0xB5, 0x03, 0x4E, 0x50, 0x4E, 0x4A, 0xB0, 0x00);                    //D02C9DAF-99DC-429C-B503-4E504E4AB000
-        private static readonly Guid CLSID_ConfigurationStaticFunctions = new(0x73D763B7, 0x2937, 0x432F, 0xA9, 0x7A, 0xD9, 0x8A, 0x4A, 0x59, 0x61, 0x26);          //73D763B7-2937-432F-A97A-D98A4A596126
-        private static readonly Guid CLSID_DownloadOptions = new(0x4288DF96, 0xFDC9, 0x4B68, 0xB4, 0x03, 0x19, 0x3D, 0xBB, 0xF5, 0x6A, 0x24);                       //4288DF96-FDC9-4B68-B403-193DBBF56A24
-
-        private static readonly Guid CLSID_PackageManagerSettings = new(0x80CF9D63, 0x5505, 0x4342, 0xB9, 0xB4, 0xBB, 0x87, 0x89, 0x5C, 0xA8, 0xBB);                //80CF9D63-5505-4342-B9B4-BB87895CA8BB
+        private static readonly Guid CLSID_DownloadOptions = new(0x4CBABE76, 0x7322, 0x4BE4, 0x9C, 0xEA, 0x25, 0x89, 0xA8, 0x06, 0x82, 0xDC);                       //4CBABE76-7322-4BE4-9CEA-2589A80682DC
 
         // CLSIDs for WinGetDev package
         private static readonly Guid CLSID_PackageManager_Dev = new(0x74CB3139, 0xB7C5, 0x4B9E, 0x93, 0x88, 0xE6, 0x61, 0x6D, 0xEA, 0x28, 0x8C);                        //74CB3139-B7C5-4B9E-9388-E6616DEA288C
@@ -29,7 +26,6 @@ namespace WinGetStore.Common
         private static readonly Guid CLSID_InstallOptions_Dev = new(0x44FE0580, 0x62F7, 0x44D4, 0x9E, 0x91, 0xAA, 0x96, 0x14, 0xAB, 0x3E, 0x86);                        //44FE0580-62F7-44D4-9E91-AA9614AB3E86
         private static readonly Guid CLSID_UninstallOptions_Dev = new(0xAA2A5C04, 0x1AD9, 0x46C4, 0xB7, 0x4F, 0x6B, 0x33, 0x4A, 0xD7, 0xEB, 0x8C);                      //AA2A5C04-1AD9-46C4-B74F-6B334AD7EB8C
         private static readonly Guid CLSID_PackageMatchFilter_Dev = new(0x3F85B9F4, 0x487A, 0x4C48, 0x90, 0x35, 0x29, 0x03, 0xF8, 0xA6, 0xD9, 0xE8);                    //3F85B9F4-487A-4C48-9035-2903F8A6D9E8
-        private static readonly Guid CLSID_ConfigurationStaticFunctions_Dev = new(0xC9ED7917, 0x66AB, 0x4E31, 0xA9, 0x2A, 0xF6, 0x5F, 0x18, 0xEF, 0x79, 0x33);          //C9ED7917-66AB-4E31-A92A-F65F18EF7933
         private static readonly Guid CLSID_DownloadOptions_Dev = new(0x8EF324ED, 0x367C, 0x4880, 0x83, 0xE5, 0xBB, 0x2A, 0xBD, 0x0B, 0x72, 0xF6);                       //8EF324ED-367C-4880-83E5-BB2ABD0B72F6
 
         public static bool IsUseDev { get; set; }
@@ -101,11 +97,6 @@ namespace WinGetStore.Common
                 : CreateInstance<DownloadOptions>(CLSID_DownloadOptions, CLSCTX_ALL);
         }
 
-        public static PackageManagerSettings CreatePackageManagerSettings()
-        {
-            return CreateInstance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
-        }
-
         public static PackageManager TryCreatePackageManager()
         {
             return IsUseDev
@@ -153,11 +144,6 @@ namespace WinGetStore.Common
             return IsUseDev
                 ? TryCreateInstance<DownloadOptions>(CLSID_DownloadOptions_Dev, CLSCTX_ALL)
                 : TryCreateInstance<DownloadOptions>(CLSID_DownloadOptions, CLSCTX_ALL);
-        }
-
-        public static PackageManagerSettings TryCreatePackageManagerSettings()
-        {
-            return TryCreateInstance<PackageManagerSettings>(CLSID_PackageManagerSettings, CLSCTX_ALL);
         }
 
         public static T CreateInstance<T>(Guid rclsid, uint dwClsContext = CLSCTX_ALL)

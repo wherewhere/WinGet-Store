@@ -129,16 +129,15 @@ namespace WinGetStore.Controls
 
         #endregion
 
-        private IAsyncInfo progress;
         public IAsyncInfo Progress
         {
-            get => progress;
+            get;
             set
             {
-                if (progress != value)
+                if (field != value)
                 {
-                    progress = value;
-                    _ = this.SetValueAsync(IsProcessingProperty, progress != null);
+                    field = value;
+                    _ = this.SetValueAsync(IsProcessingProperty, field != null);
                 }
             }
         }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.Versioning;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using WinGetStore.Common;
 

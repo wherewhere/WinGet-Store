@@ -20,7 +20,7 @@ namespace WinGetStore.Controls
         public SettingsFlyoutControl()
         {
             InitializeComponent();
-            Provider = SettingsViewModel.Caches.TryGetValue(Dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(Dispatcher);
+            Provider = SettingsViewModel.TryGetCache(Dispatcher, out SettingsViewModel provider) ? provider : new SettingsViewModel(Dispatcher);
             ResourceDictionary ThemeResources = new() { Source = new Uri("ms-appx:///Styles/SettingsFlyout.xaml") };
             Style = (Style)ThemeResources["DefaultSettingsFlyoutStyle"];
         }

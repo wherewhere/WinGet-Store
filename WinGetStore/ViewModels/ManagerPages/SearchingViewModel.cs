@@ -2,134 +2,21 @@
 using Microsoft.Management.Deployment;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 using Windows.UI.Core;
 using WinGetStore.Common;
 using WinGetStore.Helpers;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public sealed partial class SearchingViewModel(string keyword, CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public sealed partial class SearchingViewModel(string keyword, CoreDispatcher dispatcher) : ManagerViewModelBase(dispatcher)
     {
-        private static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
+        public string Title { get => keyword; set => SetProperty(ref keyword, value); }
+        public IList<PackageMatchFilter> Selectors { get; set => SetProperty(ref field, value); } = [];
+        public IList<PackageMatchFilter> Filters { get; set => SetProperty(ref field, value); } = [];
 
-        public CoreDispatcher Dispatcher => dispatcher;
-        public string Title
-        {
-            get => keyword;
-            set => SetProperty(ref keyword, value);
-        }
-
-        private bool isLoading;
-        public bool IsLoading
-        {
-            get => isLoading;
-            set => SetProperty(ref isLoading, value);
-        }
-
-        private string waitProgressText = _loader.GetString("Searching");
-        public string WaitProgressText
-        {
-            get => waitProgressText;
-            set => SetProperty(ref waitProgressText, value);
-        }
-
-        private bool isError = false;
-        public bool IsError
-        {
-            get => isError;
-            set => SetProperty(ref isError, value);
-        }
-
-        private string errorDescription;
-        public string ErrorDescription
-        {
-            get => errorDescription;
-            set => SetProperty(ref errorDescription, value);
-        }
-
-        private string errorLongDescription;
-        public string ErrorLongDescription
-        {
-            get => errorLongDescription;
-            set => SetProperty(ref errorLongDescription, value);
-        }
-
-        private string errorCode;
-        public string ErrorCode
-        {
-            get => errorCode;
-            set => SetProperty(ref errorCode, value);
-        }
-
-        private ObservableCollection<CatalogPackage> matchResults = [];
-        public ObservableCollection<CatalogPackage> MatchResults
-        {
-            get => matchResults;
-            set => SetProperty(ref matchResults, value);
-        }
-
-        private IList<PackageMatchFilter> selectors = [];
-        public IList<PackageMatchFilter> Selectors
-        {
-            get => selectors;
-            set => SetProperty(ref selectors, value);
-        }
-
-        private IList<PackageMatchFilter> filters = [];
-        public IList<PackageMatchFilter> Filters
-        {
-            get => filters;
-            set => SetProperty(ref filters, value);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
-        {
-            if (name != null)
-            {
-                await Dispatcher.ResumeForegroundAsync();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
-        {
-            if (!property?.Equals(value) ?? (value != null))
-            {
-                property = value;
-                RaisePropertyChangedEvent(name);
-            }
-        }
-
-        private async void SetError(string title, string description, string code = "")
-        {
-            if (isError) { return; }
-            IsError = true;
-            IsLoading = false;
-            ErrorDescription = title;
-            ErrorLongDescription = description;
-            ErrorCode = code;
-            await Dispatcher.ResumeForegroundAsync();
-            matchResults.Clear();
-        }
-
-        private void RemoveError()
-        {
-            if (!isError) { return; }
-            IsError = false;
-            ErrorDescription = string.Empty;
-            ErrorLongDescription = string.Empty;
-            ErrorCode = string.Empty;
-        }
-
-        public async Task Refresh()
+        public override async Task Refresh(bool reset = true)
         {
             try
             {
@@ -210,10 +97,10 @@ namespace WinGetStore.ViewModels.ManagerPages
             {
                 FindPackagesOptions findPackagesOptions = WinGetProjectionFactory.TryCreateFindPackagesOptions();
 
-                if (selectors?.Count > 0 || filters?.Count > 0)
+                if (Selectors?.Count > 0 || Filters?.Count > 0)
                 {
-                    findPackagesOptions.Selectors.AddRange(selectors ?? []);
-                    findPackagesOptions.Filters.AddRange(filters ?? []);
+                    findPackagesOptions.Selectors.AddRange(Selectors ?? []);
+                    findPackagesOptions.Filters.AddRange(Filters ?? []);
                 }
                 else
                 {

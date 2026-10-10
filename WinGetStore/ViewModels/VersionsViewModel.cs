@@ -1,45 +1,14 @@
 ﻿using Microsoft.Management.Deployment;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Core;
-using WinGetStore.Common;
 using WinGetStore.Models;
 
 namespace WinGetStore.ViewModels
 {
-    public sealed partial class VersionsViewModel(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public sealed partial class VersionsViewModel(CatalogPackage catalogPackage, CoreDispatcher dispatcher) : ViewModelBase(dispatcher)
     {
-        public CoreDispatcher Dispatcher => dispatcher;
-
-        private PackageVersionSource packageVersions = new(catalogPackage, dispatcher);
-        public PackageVersionSource PackageVersions
-        {
-            get => packageVersions;
-            set => SetProperty(ref packageVersions, value);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private async void RaisePropertyChangedEvent([CallerMemberName] string name = null)
-        {
-            if (name != null)
-            {
-                await Dispatcher.ResumeForegroundAsync();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        private void SetProperty<TProperty>(ref TProperty property, TProperty value, [CallerMemberName] string name = null)
-        {
-            if (!property?.Equals(value) ?? (value != null))
-            {
-                property = value;
-                RaisePropertyChangedEvent(name);
-            }
-        }
-
-        public Task Refresh(bool reset = false) => PackageVersions.Refresh(reset);
+        public PackageVersionSource PackageVersions { get; set => SetProperty(ref field, value); } = new(catalogPackage, dispatcher);
+        public override Task Refresh(bool reset = false) => PackageVersions.Refresh(reset);
     }
 
     public sealed record CatalogPackageVersion(string Version, CatalogPackageMetadata PackageMetadata);

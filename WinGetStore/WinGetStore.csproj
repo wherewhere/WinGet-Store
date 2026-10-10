@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationEntryPoint>WinGetStore.App</ApplicationEntryPoint>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <EnableMsixTooling>True</EnableMsixTooling>
+    <EnableMsixTooling>true</EnableMsixTooling>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
-    <PublishAot>True</PublishAot>
+    <PublishAot>true</PublishAot>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <UseUwp>True</UseUwp>
+    <UseUwp>true</UseUwp>
     <VersionPrefix>0.0.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
     <AppxManifestName Condition="'$(AppxManifestName)' == ''">Package.appxmanifest</AppxManifestName>
-    <DefineConstants Condition="'$(IsUpdateCIManifest)' == 'True'">$(DefineConstants);CANARY</DefineConstants>
+    <DefineConstants Condition="'$(IsUpdateCIManifest)' == 'true'">$(DefineConstants);CANARY</DefineConstants>
+    <MicrosoftManagementDeployment-FactoryLinkage>none</MicrosoftManagementDeployment-FactoryLinkage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +31,7 @@
     <PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.29.360" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.ComInterop" Version="1.29.380" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,5 +39,5 @@
     <None Remove="BundleArtifacts\**" />
   </ItemGroup>
 
-  <Import Project="Properties\UpdateCIManifest.targets" Condition="'$(IsUpdateCIManifest)' == 'True' and Exists('Properties\UpdateCIManifest.targets')" />
+  <Import Project="Properties\UpdateCIManifest.targets" Condition="'$(IsUpdateCIManifest)' == 'true' and Exists('Properties\UpdateCIManifest.targets')" />
 </Project>
