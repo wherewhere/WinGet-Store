@@ -1,10 +1,5 @@
 <Project>
   <PropertyGroup>
-    <MicrosoftWindowsSDKBuildToolsPackageVersion>*</MicrosoftWindowsSDKBuildToolsPackageVersion>
-    <MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>*</MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Authors>wherewhere</Authors>
     <Copyright>Copyright © 2017 - 2026 wherewhere. All Rights Reserved.</Copyright>
     <Description>UWP running on .NET Core App</Description>

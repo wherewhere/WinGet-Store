@@ -1,5 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <MicrosoftWindowsSDKBuildToolsPackageVersion>*</MicrosoftWindowsSDKBuildToolsPackageVersion>
+    <MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>*</MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationEntryPoint>WinGetStore.App</ApplicationEntryPoint>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
