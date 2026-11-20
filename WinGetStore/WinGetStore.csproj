@@ -1,10 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MicrosoftWindowsSDKBuildToolsPackageVersion>*</MicrosoftWindowsSDKBuildToolsPackageVersion>
-    <MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>*</MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationEntryPoint>WinGetStore.App</ApplicationEntryPoint>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
@@ -12,7 +7,6 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
-    <AppxSymbolPackageEnabled Condition="'$(Platform)' == 'ARM64'">false</AppxSymbolPackageEnabled>
     <PublishAot>true</PublishAot>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
@@ -26,16 +20,9 @@
     <AppxManifestName Condition="'$(AppxManifestName)' == ''">Package.appxmanifest</AppxManifestName>
     <DefineConstants Condition="'$(IsUpdateCIManifest)' == 'true'">$(DefineConstants);CANARY</DefineConstants>
     <MicrosoftManagementDeployment-FactoryLinkage>none</MicrosoftManagementDeployment-FactoryLinkage>
+    <MicrosoftWindowsSDKBuildToolsPackageVersion>*</MicrosoftWindowsSDKBuildToolsPackageVersion>
+    <MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>*</MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(GenerateAppxPackageOnBuild)' == 'true'">
-    <_AdditionalOptimizedPublishTargets>$(_AdditionalOptimizedPublishTargets);PrepareForRun</_AdditionalOptimizedPublishTargets>
-  </PropertyGroup>
-
-  <Target Name="ResolveReferencesBeforeXamlCompile"
-          BeforeTargets="MarkupCompilePass1"
-          DependsOnTargets="ResolveReferences"
-          Condition="'$(GenerateAppxPackageOnBuild)' == 'true'" />
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.261027-build.2704" />
