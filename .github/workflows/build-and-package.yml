@@ -66,7 +66,7 @@ jobs:
       # Create the app package by building and packaging the Windows Application Packaging project
       - name: Create the app package
         run: msbuild $env:Solution_Name /m `
-          /p:IsUpdateCIManifest=True `
+          /p:IsUpdateCIManifest=true `
           /p:CIBuildID=$env:Build_ID `
           /p:PublisherName=$env:Publisher_Name `
           /p:AppxBundlePlatforms=$env:Appx_Bundle_Platforms `

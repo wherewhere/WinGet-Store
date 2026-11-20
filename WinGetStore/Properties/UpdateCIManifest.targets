@@ -73,7 +73,7 @@
   <Target
     Name="UpdateCIPackageManifest"
     AfterTargets="BeforeBuild"
-    Condition="'$(IsUpdateCIManifest)' == 'True'">
+    Condition="'$(IsUpdateCIManifest)' == 'true'">
     <Message Importance="high" Text="UpdateCIPackageManifest" />
     <Message Importance="high" Text="Current Build ID: $(CIBuildID)" />
     <Message Importance="high" Text="Publisher Name: $(PublisherName)" Condition="$(PublisherName) != ''" />

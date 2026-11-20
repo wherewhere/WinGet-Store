@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Core;
@@ -44,7 +45,7 @@ namespace WinGetStore.ViewModels
         public abstract Task Refresh(bool reset = false);
     }
 
-    public closed partial class CachedViewModelBase<TSelf> : ViewModelBase where TSelf : CachedViewModelBase<TSelf>
+    public closed partial class CachedViewModelBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TSelf> : ViewModelBase where TSelf : CachedViewModelBase<TSelf>
     {
         protected static readonly ConditionalWeakTable<CoreDispatcher, TSelf> _caches = [];
 
