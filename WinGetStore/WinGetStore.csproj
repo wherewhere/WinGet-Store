@@ -23,6 +23,15 @@
     <MicrosoftManagementDeployment-FactoryLinkage>none</MicrosoftManagementDeployment-FactoryLinkage>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(GenerateAppxPackageOnBuild)' == 'true'">
+    <_AdditionalOptimizedPublishTargets>$(_AdditionalOptimizedPublishTargets);PrepareForRun</_AdditionalOptimizedPublishTargets>
+  </PropertyGroup>
+
+  <Target Name="ResolveReferencesBeforeXamlCompile"
+          BeforeTargets="MarkupCompilePass1"
+          DependsOnTargets="ResolveReferences"
+          Condition="'$(GenerateAppxPackageOnBuild)' == 'true'" />
+
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.Notifications" Version="0.1.261027-build.2704" />
     <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock" Version="0.1.261027-build.2704" />
