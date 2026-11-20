@@ -24,7 +24,7 @@ namespace WinGetStore.Models
     /// so that you can load different data in your view model, refer this blog for detail
     /// <see href="http://blogs.msdn.com/b/devosaure/archive/2012/10/15/isupportincrementalloading-loading-a-subsets-of-data.aspx"/>
     /// </summary>
-    public abstract class IncrementalLoadingBase<T>(CoreDispatcher dispatcher) : ObservableCollection<T>, ISupportIncrementalLoading, IAsyncEnumerable<T>
+    public closed class IncrementalLoadingBase<T>(CoreDispatcher dispatcher) : ObservableCollection<T>, ISupportIncrementalLoading, IAsyncEnumerable<T>
     {
         #region ISupportIncrementalLoading
 

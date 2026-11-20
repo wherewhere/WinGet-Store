@@ -53,7 +53,7 @@ namespace WinGetStore.Common
 
         public WeakEvent(IEnumerable<Action<TEventArgs>> collection) => _list = [.. collection.Select<Action<TEventArgs>, Method>(x => x)];
 
-        public WeakEvent(int capacity) => _list = new List<Method>(capacity);
+        public WeakEvent(int capacity) => _list = [with(capacity)];
 
         public WeakEvent(ReadOnlySpan<Action<TEventArgs>> callbacks) => _list = [.. callbacks];
 

@@ -19,7 +19,7 @@ namespace WinGetStore.ViewModels
         public static FilterType[] FilterTypes { get; } = Enum.GetValues<FilterType>();
         public static List<PackageMatchField> PackageMatchFields { get; } = [.. Enum.GetValues<PackageMatchField>()];
         public static List<PackageFieldMatchOption> PackageFieldMatchOptions { get; } = [.. Enum.GetValues<PackageFieldMatchOption>()];
-        
+
         public ObservableCollection<PackageMatchFilter> Selectors { get; set => SetProperty(ref field, value); } = [.. selectors];
         public ObservableCollection<PackageMatchFilter> Filters { get; set => SetProperty(ref field, value); } = [.. filters];
         public FilterType FilterType { get; set => SetProperty(ref field, value); } = FilterType.Both;

@@ -6,7 +6,7 @@ using WinGetStore.Common;
 
 namespace WinGetStore.ViewModels.ManagerPages
 {
-    public abstract partial class ManagerViewModelBase(CoreDispatcher dispatcher) : ViewModelBase(dispatcher)
+    public closed partial class ManagerViewModelBase(CoreDispatcher dispatcher) : ViewModelBase(dispatcher)
     {
         protected static readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("MainPage");
 

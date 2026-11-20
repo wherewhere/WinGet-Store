@@ -8,7 +8,7 @@ using WinGetStore.Helpers;
 
 namespace WinGetStore.ViewModels
 {
-    public abstract partial class DispatcherNotifyPropertyChanged(CoreDispatcher dispatcher) : INotifyPropertyChanged
+    public closed partial class DispatcherNotifyPropertyChanged(CoreDispatcher dispatcher) : INotifyPropertyChanged
     {
         public CoreDispatcher Dispatcher => dispatcher;
 
@@ -44,7 +44,7 @@ namespace WinGetStore.ViewModels
         public abstract Task Refresh(bool reset = false);
     }
 
-    public abstract partial class CachedViewModelBase<TSelf> : ViewModelBase where TSelf : CachedViewModelBase<TSelf>
+    public closed partial class CachedViewModelBase<TSelf> : ViewModelBase where TSelf : CachedViewModelBase<TSelf>
     {
         protected static readonly ConditionalWeakTable<CoreDispatcher, TSelf> _caches = [];
 

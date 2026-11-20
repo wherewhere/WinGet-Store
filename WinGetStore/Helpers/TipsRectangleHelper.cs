@@ -34,7 +34,7 @@ namespace WinGetStore.Helpers
             {
                 AnimateSelectionProvider provider = new()
                 {
-                    ItemsControls = [itemsControl],
+                    ItemsControls = (ItemsControl[])[itemsControl],
                     IndicatorName = GetIndicatorName(itemsControl),
                     Orientation = GetOrientation(itemsControl)
                 };

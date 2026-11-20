@@ -52,7 +52,7 @@ namespace WinGetStore.Models
             {
                 try
                 {
-                    availableVersions = new List<PackageVersionId>(catalogPackage.AvailableVersions.Count);
+                    availableVersions = [with(catalogPackage.AvailableVersions.Count)];
                     for (int i = 0; i < catalogPackage.AvailableVersions.Count; i++)
                     {
                         availableVersions.Add(catalogPackage.AvailableVersions[i]);
