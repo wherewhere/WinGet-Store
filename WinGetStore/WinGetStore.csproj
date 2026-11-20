@@ -20,6 +20,8 @@
     <AppxManifestName Condition="'$(AppxManifestName)' == ''">Package.appxmanifest</AppxManifestName>
     <DefineConstants Condition="'$(IsUpdateCIManifest)' == 'true'">$(DefineConstants);CANARY</DefineConstants>
     <MicrosoftManagementDeployment-FactoryLinkage>none</MicrosoftManagementDeployment-FactoryLinkage>
+    <MicrosoftWindowsSDKBuildToolsPackageVersion>*</MicrosoftWindowsSDKBuildToolsPackageVersion>
+    <MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>*</MicrosoftWindowsSDKBuildToolsMSIXPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
